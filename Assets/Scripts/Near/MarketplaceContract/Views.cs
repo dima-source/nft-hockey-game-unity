@@ -1,8 +1,9 @@
 using System.Dynamic;
 using System.Threading.Tasks;
 using NearClientUnity;
+using Newtonsoft.Json.Linq;
 
-namespace Near.Marketplace
+namespace Near.MarketplaceContract
 {
     public static class Views
     {
@@ -13,7 +14,9 @@ namespace Near.Marketplace
             args.from_index = fromIndex;
             args.limit = 50;
 
-            return gameContract.View("nft_tokens", args).result;
+            dynamic cards = await gameContract.View("nft_tokens", args);
+            dynamic res = JObject.Parse(cards);
+            return cards.result;
         }
     }
 }
