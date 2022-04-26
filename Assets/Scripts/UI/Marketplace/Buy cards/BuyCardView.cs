@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace UI.Marketplace.Buy_cards
 {
-    public class BuyNftCardView : MonoBehaviour, ICardLoader
+    public class BuyCardView : MonoBehaviour, ICardLoader
     {
         [SerializeField] private Transform cardTileContent;
         [SerializeField] private Transform cardDescriptionContent;
