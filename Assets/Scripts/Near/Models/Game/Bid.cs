@@ -1,4 +1,4 @@
-namespace Near.Models
+namespace Near.Models.Game
 {
     public class Bid
     {
