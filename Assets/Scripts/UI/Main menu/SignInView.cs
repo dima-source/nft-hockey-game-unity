@@ -13,21 +13,21 @@ namespace UI.Main_menu
         {
             Application.deepLinkActivated += url => CompleteSignIn(url);
         }
-
-        public async void RequestSignIn()
-        {
-            await NearPersistentManager.Instance.SignIn();
-        }
         
         public async void CompleteSignIn(string url)
         {
-            await NearPersistentManager.Instance.WalletAccount.CompleteSignIn(url);
+            await NearPersistentManager.Instance.WalletAccount.CompleteSignIn(inputUri.text);
             if(NearPersistentManager.Instance.WalletAccount.IsSignedIn())
             {
                 gameObject.SetActive(false);
                 mainMenuView.gameObject.SetActive(true);
                 mainMenuView.LoadAccountId();
             }   
+        }
+        
+        public async void RequestSignIn()
+        {
+            await NearPersistentManager.Instance.SignIn();
         }
     }
 }

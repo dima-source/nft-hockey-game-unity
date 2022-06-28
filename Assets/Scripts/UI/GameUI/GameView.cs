@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Near;
 using Near.Models.Game.Bid;
 using Runtime;
 using UI.GameUI.EventsUI;
@@ -11,6 +12,8 @@ namespace UI.GameUI
 {
     public class GameView : MonoBehaviour
     {
+        [SerializeField] private FiveView fiveView;
+        
         [SerializeField] private Text iceTimePriority;
         [SerializeField] private Slider iceTimePrioritySlider;
 
@@ -18,7 +21,7 @@ namespace UI.GameUI
         
         [SerializeField] private Text ownScoreText;
         [SerializeField] private Text opponentScoreText;
-        [SerializeField] private Text opponentIdText;
+        [SerializeField] private Text opponentNameText;
         [SerializeField] private Text periodText;
         
         [SerializeField] private Transform eventsContent;
@@ -47,9 +50,11 @@ namespace UI.GameUI
             numberOfRenderedEvents = 0;
             isEndOfGame = false;
             
-//            opponentIdText.text = availableGame.PlayerIds.Item1 == NearPersistentManager.Instance.GetAccountId()
- //               ? availableGame.PlayerIds.Item1 : availableGame.PlayerIds.Item2;
+            string opponentId = availableGame.PlayerIds.Item1 == NearPersistentManager.Instance.GetAccountId()
+                ? availableGame.PlayerIds.Item1 : availableGame.PlayerIds.Item2;
 
+            opponentNameText.text = opponentId.Split(".")[0];
+            
             StartCoroutine(GenerateEvents());
         }
 
@@ -84,7 +89,8 @@ namespace UI.GameUI
                 scrollView.verticalNormalizedPosition = 0;
                 
                 Event data = controller.Events[i];
-
+                UpdateStats(data);
+                
                 int myId = data.my_team.goalie.user_id;
 
                 uint ownScore = data.my_team.score;
@@ -152,6 +158,7 @@ namespace UI.GameUI
         
         private void UpdateStats(Event data)
         {
+            fiveView.UpdateStats(data);
         }
         
         public void ChangeIceTimePriority()

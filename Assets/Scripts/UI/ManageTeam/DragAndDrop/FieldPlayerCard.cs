@@ -1,7 +1,9 @@
 using Near.Models.Extras;
+using Near.Models.Game.Team;
 using Near.Models.Team.Team;
 using UnityEngine;
 using UnityEngine.UI;
+using Event = Near.Models.Game.Event;
 
 namespace UI.ManageTeam.DragAndDrop
 {
@@ -38,6 +40,23 @@ namespace UI.ManageTeam.DragAndDrop
             strength.text = goalieExtra.Stats.Strength.ToString();
             iq.text = goalieExtra.Stats.IQ.ToString();
             morale.text = goalieExtra.Stats.Morale.ToString();
+        }
+
+        public void SetData(FieldPlayer data)
+        {
+            playerName.text = data.name; 
+            
+            number.text = data.number.ToString();
+            role.text = data.role;
+            position.text = Utils.Utils.ConvertPosition(data.position);
+
+            skating.text = data.stats.Skating.ToString();
+            shooting.text = data.stats.Shooting.ToString();
+            strength.text = data.stats.Strength.ToString();
+            iq.text = data.stats.IQ.ToString();
+            morale.text = data.stats.Morale.ToString();
+            
+            gameObject.SetActive(true);
         }
     }
 }

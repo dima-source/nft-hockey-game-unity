@@ -1,4 +1,5 @@
 using Near.Models.Extras;
+using Near.Models.Game.Team;
 using Near.Models.Team.Team;
 using UnityEngine;
 using UnityEngine.UI;
@@ -38,6 +39,23 @@ namespace UI.ManageTeam.DragAndDrop
             stand.text = goalieExtra.Stats.Stand.ToString();
             stretch.text = goalieExtra.Stats.Stretch.ToString();
             morale.text = goalieExtra.Stats.Morale.ToString();
+        }
+
+        public void SetData(Goalie data)
+        {
+            playerName.text = data.name; 
+            
+            number.text = data.number.ToString();
+            role.text = data.role;
+            position.text = Utils.Utils.ConvertPosition("G");
+
+            gloveAndBlocker.text = data.stats.GloveAndBlocker.ToString();
+            pads.text = data.stats.Pads.ToString();
+            stand.text = data.stats.Stand.ToString();
+            stretch.text = data.stats.Stretch.ToString();
+            morale.text = data.stats.Morale.ToString();
+            
+            gameObject.SetActive(true);
         }
     }
 }
