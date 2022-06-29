@@ -16,6 +16,8 @@ namespace UI.Main_menu
         
         public async void CompleteSignIn(string url)
         {
+            Application.deepLinkActivated -= CompleteSignIn;
+            
             await NearPersistentManager.Instance.WalletAccount.CompleteSignIn(inputUri.text);
             if(NearPersistentManager.Instance.WalletAccount.IsSignedIn())
             {

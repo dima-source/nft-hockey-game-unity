@@ -43,6 +43,8 @@ namespace UI.ManageTeam.DragAndDrop
 
         public void SetData(Goalie data)
         {
+            StartCoroutine(Utils.Utils.LoadImage(playerImg, data.img));
+            
             playerName.text = data.name; 
             
             number.text = data.number.ToString();

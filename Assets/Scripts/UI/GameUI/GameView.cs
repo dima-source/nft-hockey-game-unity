@@ -50,7 +50,7 @@ namespace UI.GameUI
             numberOfRenderedEvents = 0;
             isEndOfGame = false;
             
-            string opponentId = availableGame.PlayerIds.Item1 == NearPersistentManager.Instance.GetAccountId()
+            string opponentId = availableGame.PlayerIds.Item2 == NearPersistentManager.Instance.GetAccountId()
                 ? availableGame.PlayerIds.Item1 : availableGame.PlayerIds.Item2;
 
             opponentNameText.text = opponentId.Split(".")[0];
