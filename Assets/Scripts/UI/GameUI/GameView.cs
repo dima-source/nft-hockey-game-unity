@@ -93,12 +93,6 @@ namespace UI.GameUI
                 
                 int myId = data.my_team.goalie.user_id;
 
-                uint ownScore = data.my_team.score;
-                uint opponentScore = data.opponent_team.score;
-
-                ownScoreText.text = ownScore < 10 ? "0" + ownScore : ownScore.ToString();
-                opponentScoreText.text = opponentScore < 10 ? "0" + opponentScore : opponentScore.ToString();
-                
                 switch (data.action)
                 {
                     case "EndOfPeriod":
@@ -116,15 +110,29 @@ namespace UI.GameUI
                         continue;
                     case "Goal":
                         GoalEvent goalEvent = Instantiate(Game.AssetRoot.gameAsset.goalEvent, eventsContent);
-                        goalEvent.ShowEvent(data); 
-                        
+                        goalEvent.ShowEvent(data);
+
+                        if (data.player_with_puck.user_id == data.my_team.goalie.user_id)
+                        {
+                            int ownScore = int.Parse(ownScoreText.text);
+                            ownScore++;
+                            ownScoreText.text = ownScore < 10 ? "0" + ownScore : ownScore.ToString();
+                        }
+                        else
+                        {
+                            int opponentScore = int.Parse(opponentScoreText.text);
+                            opponentScore++;
+                            opponentScoreText.text = opponentScore < 10 ? "0" + opponentScore : opponentScore.ToString();
+                        }
+
                         continue;
                     case "GameFinished":
                         DefaultEvent gameFinish = Instantiate(Game.AssetRoot.gameAsset.defaultEvent, eventsContent); 
                         gameFinish.ShowEvent(data); 
                         
                         isEndOfGame = true;
-                        resultView.ShowResult(ownScore, opponentScore);
+                        resultView.ShowResult(uint.Parse(ownScoreText.text),
+                            uint.Parse(opponentScoreText.text));
                         
                         yield break;
                 }

@@ -13,6 +13,8 @@ namespace UI.ManageTeam.DragAndDrop
         [SerializeField] private Text stand;
         [SerializeField] private Text stretch;
         [SerializeField] private Text morale;
+
+        private bool _isInit = false;
         
         public override void SetData(NFTMetadata nftMetadata)
         {
@@ -43,7 +45,14 @@ namespace UI.ManageTeam.DragAndDrop
 
         public void SetData(Goalie data)
         {
-            StartCoroutine(Utils.Utils.LoadImage(playerImg, data.img));
+            gameObject.SetActive(true);
+            
+            if (!_isInit && data.img != "")
+            {
+                StartCoroutine(Utils.Utils.LoadImage(playerImg, data.img));
+            }
+
+            _isInit = true;
             
             playerName.text = data.name; 
             
@@ -56,8 +65,6 @@ namespace UI.ManageTeam.DragAndDrop
             stand.text = data.stats.Stand.ToString();
             stretch.text = data.stats.Stretch.ToString();
             morale.text = data.stats.Morale.ToString();
-            
-            gameObject.SetActive(true);
         }
     }
 }
