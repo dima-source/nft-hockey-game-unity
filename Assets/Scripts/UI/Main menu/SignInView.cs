@@ -18,7 +18,7 @@ namespace UI.Main_menu
         {
             Application.deepLinkActivated -= CompleteSignIn;
             
-            await NearPersistentManager.Instance.WalletAccount.CompleteSignIn(url);
+            await NearPersistentManager.Instance.WalletAccount.CompleteSignIn(inputUri.text);
             if(NearPersistentManager.Instance.WalletAccount.IsSignedIn())
             {
                 gameObject.SetActive(false);
