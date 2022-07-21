@@ -13,6 +13,7 @@ namespace Near.MarketplaceContract.Parsers
 
             return new FieldPlayerExtra()
             {
+                /*
                 Number = uint.Parse(data["number"].ToString()),
                 Position = data["position"] != null ? data["position"].ToString() : data["player_position"].ToString(),
                 Role = data["role"] != null ? data["role"].ToString() : data["player_role"].ToString(),
@@ -26,6 +27,7 @@ namespace Near.MarketplaceContract.Parsers
                     Strength = stats[3],
                     IQ = stats[4]
                 }
+                */
             };
         }
     }
