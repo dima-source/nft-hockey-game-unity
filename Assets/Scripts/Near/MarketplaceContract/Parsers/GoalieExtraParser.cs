@@ -13,7 +13,7 @@ namespace Near.MarketplaceContract.Parsers
             uint[] stats = JsonConvert.DeserializeObject<uint[]>(data["stats"].ToString());
 
             return new GoalieExtra()
-            {
+            { /*
                 Number = uint.Parse(data["number"].ToString()),
                 Position = data["position"] != null ? data["position"].ToString() : data["player_position"].ToString(),
                 Role = data["role"] != null ? data["role"].ToString() : data["player_role"].ToString(),
@@ -27,6 +27,7 @@ namespace Near.MarketplaceContract.Parsers
                     Stand = stats[3],
                     Stretch = stats[4]
                 }
+                */
             };
         }
     }
