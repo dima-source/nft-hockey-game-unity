@@ -4,8 +4,6 @@ namespace Near.Models.Extras
 {
     public class GoalieStats
     {
-        // Reflexes
-        
         [JsonProperty("angles")]
         public uint Angles { get; set; }
         
@@ -27,7 +25,10 @@ namespace Near.Models.Extras
         [JsonProperty("stick_side_low")]
         public uint StickSideLow { get; set; }
 
-        // Puck control
+        public uint Reflexes => (
+            Angles + Breakaway + FiveHole + GloveSideHigh + GloveSideLow + StickSideHigh + StickSideLow
+        ) / 7;
+
         
         [JsonProperty("passing")]
         public uint Passing { get; set; }
@@ -45,9 +46,12 @@ namespace Near.Models.Extras
         public uint ReboundControl { get; set; }
         
         [JsonProperty("recover")]
-        public uint Recover { get; set; } 
+        public uint Recover { get; set; }
+
+        public uint PuckControl => (
+            Passing + Poise + PokeCheck + PuckPlaying + ReboundControl + Recover
+        ) / 6;
         
-        // Strength
         
         [JsonProperty("aggressiveness")] 
         public uint Aggressiveness { get; set; }
@@ -69,5 +73,14 @@ namespace Near.Models.Extras
         
         [JsonProperty("morale")] 
         public uint Morale { get; set; }
+
+        public uint Strength => (
+            Aggressiveness + Agility + Durability + Endurance + Speed + Vision + Morale
+        ) / 7;
+        
+        private uint GetAverageStats()
+        {
+            return (Reflexes + PuckControl + Strength) / 3;
+        }
     }
 }

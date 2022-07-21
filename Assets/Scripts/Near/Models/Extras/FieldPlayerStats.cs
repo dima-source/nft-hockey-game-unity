@@ -21,6 +21,8 @@ namespace Near.Models.Extras
         [JsonProperty("speed")]
         public uint Speed { get; set; }
         
+        public uint Skating => (Acceleration + Agility + Balance + Endurance + Speed) / 5;
+        
         // Shooting
         
         [JsonProperty("slap_shot_accuracy")]
@@ -34,6 +36,8 @@ namespace Near.Models.Extras
         
         [JsonProperty("wrist_shot_power")]
         public uint WristShotPower { get; set; }
+
+        public uint Shooting => (SlapShotAccuracy + SlapShotPower + WristShotAccuracy + WristShotPower) / 4; 
         
         // StickHandling
         
@@ -48,6 +52,8 @@ namespace Near.Models.Extras
         
         [JsonProperty("puck_control")] 
         public uint PuckControl { get; set; }
+
+        public uint StickHandling => (Deking + HandEye + Passing + PuckControl) / 4;
         
         // Strength
         
@@ -65,6 +71,8 @@ namespace Near.Models.Extras
         
         [JsonProperty("strength")]
         public uint Strength { get; set; }
+
+        public uint StrengthAvg => (Aggressiveness + BodyChecking + Durability + FightingSkill + Strength) / 5;
         
         // IQ
         
@@ -79,6 +87,8 @@ namespace Near.Models.Extras
         
         [JsonProperty("morale")] 
         public uint Morale { get; set; }
+
+        public uint Iq => (Discipline + Offensive + Poise + Morale) / 4;
         
         // Defense
         
@@ -93,5 +103,12 @@ namespace Near.Models.Extras
         
         [JsonProperty("stick_checking")] 
         public uint StickChecking { get; set; }
+
+        public uint Defense => (DefensiveAwareness + FaceOffs + ShotBlocking + StickChecking) / 4;
+
+        public uint GetAverageStats()
+        {
+            return (Skating + Shooting + StickHandling + StrengthAvg + Iq + Defense) / 6;
+        }
     }
 }
