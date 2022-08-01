@@ -14,6 +14,8 @@ namespace UI.ManageTeam.DragAndDrop
         [SerializeField] private Text strength;
         [SerializeField] private Text iq;
         [SerializeField] private Text morale;
+
+        private bool _isInit = false;
         
         public override void SetData(NFTMetadata nftMetadata)
         {
@@ -44,6 +46,15 @@ namespace UI.ManageTeam.DragAndDrop
 
         public void SetData(FieldPlayer data)
         {
+            gameObject.SetActive(true);
+            
+            if (!_isInit && data.img != "")
+            {
+                StartCoroutine(Utils.Utils.LoadImage(playerImg, data.img));
+            }
+
+            _isInit = true;
+            
             playerName.text = data.name; 
             
             number.text = data.number.ToString();
@@ -55,8 +66,6 @@ namespace UI.ManageTeam.DragAndDrop
             strength.text = data.stats.Strength.ToString();
             iq.text = data.stats.IQ.ToString();
             morale.text = data.stats.Morale.ToString();
-            
-            gameObject.SetActive(true);
         }
     }
 }

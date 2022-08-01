@@ -61,9 +61,9 @@ namespace UI.Marketplace.NftCardsUI.FieldPlayer
         {
             dynamic fieldPlayer = new ExpandoObject();
             
-            fieldPlayer.type = "FieldPlayer";
-            fieldPlayer.position = _position;
-            fieldPlayer.role = _role;
+            fieldPlayer.player_type = "FieldPlayer";
+            fieldPlayer.player_position = _position;
+            fieldPlayer.player_role = _role;
             fieldPlayer.hand = hand.isOn ? "Right" : "Left";
             fieldPlayer.number = int.Parse(number.text);
             fieldPlayer.stats = new []

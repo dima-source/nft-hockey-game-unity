@@ -46,7 +46,6 @@ namespace NearClientUnity
             _failUri = failUri;
             _appUri = appUri;
 
-           
             if (_authStorage.HasKey(_authDataKey))
             {
                 _authData = JObject.Parse(_authStorage.GetValue(_authDataKey));
@@ -107,7 +106,7 @@ namespace NearClientUnity
             url.Query = new FormUrlEncodedContent(new Dictionary<string, string>()
             {
                 { "title", title },
-                { "contract_id", contractId },
+                //{ "contract_id", contractId },
                 { "success_url", _successUri.AbsoluteUri },
                 { "failure_url", _failUri.AbsoluteUri },
                 { "app_url", _appUri.AbsoluteUri},

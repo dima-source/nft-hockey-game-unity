@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44402242, g: 0.49316543, b: 0.5722324, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1755,7 +1755,6 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    serializedVersion: 2
     m_TransformParent: {fileID: 2016288328}
     m_Modifications:
     - target: {fileID: 5747035105250464142, guid: a10d6db70298d06478bbe53f4953e61e, type: 3}
@@ -1859,7 +1858,6 @@ PrefabInstance:
       value: 234.98
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: a10d6db70298d06478bbe53f4953e61e, type: 3}
 --- !u!224 &278293622 stripped
 RectTransform:
@@ -4239,7 +4237,6 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
-  m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -5359,12 +5356,31 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    serializedVersion: 2
     m_TransformParent: {fileID: 2016288328}
     m_Modifications:
     - target: {fileID: 1493743981794307384, guid: d1fc25c2b78bf664fbaddb3ae228305e, type: 3}
       propertyPath: m_Name
       value: Sorting dropdown
+      objectReference: {fileID: 0}
+    - target: {fileID: 1493743981794307386, guid: d1fc25c2b78bf664fbaddb3ae228305e, type: 3}
+      propertyPath: m_Options.m_Options.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1493743981794307386, guid: d1fc25c2b78bf664fbaddb3ae228305e, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[0].m_Text
+      value: Sort
+      objectReference: {fileID: 0}
+    - target: {fileID: 1493743981794307386, guid: d1fc25c2b78bf664fbaddb3ae228305e, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[1].m_Text
+      value: Forwards
+      objectReference: {fileID: 0}
+    - target: {fileID: 1493743981794307386, guid: d1fc25c2b78bf664fbaddb3ae228305e, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[2].m_Text
+      value: Defenders
+      objectReference: {fileID: 0}
+    - target: {fileID: 1493743981794307386, guid: d1fc25c2b78bf664fbaddb3ae228305e, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[3].m_Text
+      value: Goalies
       objectReference: {fileID: 0}
     - target: {fileID: 1493743981794307387, guid: d1fc25c2b78bf664fbaddb3ae228305e, type: 3}
       propertyPath: m_Pivot.x
@@ -5376,7 +5392,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1493743981794307387, guid: d1fc25c2b78bf664fbaddb3ae228305e, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1493743981794307387, guid: d1fc25c2b78bf664fbaddb3ae228305e, type: 3}
       propertyPath: m_AnchorMax.x
@@ -5451,7 +5467,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: d1fc25c2b78bf664fbaddb3ae228305e, type: 3}
 --- !u!224 &1504273746 stripped
 RectTransform:
@@ -6754,7 +6769,6 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    serializedVersion: 2
     m_TransformParent: {fileID: 192167209}
     m_Modifications:
     - target: {fileID: 5700369718395824579, guid: 1cd74595b9af43a21a718a20cae9a62f, type: 3}
@@ -6858,5 +6872,4 @@ PrefabInstance:
       value: Left Wing
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 1cd74595b9af43a21a718a20cae9a62f, type: 3}

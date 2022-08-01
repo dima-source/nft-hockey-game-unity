@@ -41,9 +41,9 @@ namespace UI.Marketplace.NftCardsUI.Goalie
         {
             dynamic goalie = new ExpandoObject();
 
-            goalie.type = "Goalie";
-            goalie.position = "GoaliePos";
-            goalie.role = _role;
+            goalie.player_type = "Goalie";
+            goalie.player_position = "GoaliePos";
+            goalie.player_role = _role;
             goalie.hand = hand.isOn ? "Right" : "Left";
             goalie.number = int.Parse(number.text);
             goalie.stats = new []
