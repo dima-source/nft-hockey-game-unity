@@ -24,6 +24,7 @@ namespace Near
         
         private async void Awake()
         {
+            await Near.MarketplaceContract.ContractMethods.Views.GetUserNFT();
             var dirName = Application.persistentDataPath + "KeyStore";
             
             if (Instance == null)

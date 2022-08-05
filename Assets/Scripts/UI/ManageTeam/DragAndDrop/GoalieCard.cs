@@ -33,14 +33,16 @@ namespace UI.ManageTeam.DragAndDrop
 
             GoalieExtra goalieExtra =  (GoalieExtra)nftMetadata.Metadata.extra.GetExtra();
             number.text = goalieExtra.Number.ToString();
-            role.text = goalieExtra.Role;
-            position.text = Utils.Utils.ConvertPosition(goalieExtra.Position);
+            //role.text = goalieExtra.Role;
+            //position.text = Utils.Utils.ConvertPosition(goalieExtra.Position);
 
-            gloveAndBlocker.text = goalieExtra.Stats.GloveAndBlocker.ToString();
+            //gloveAndBlocker.text = goalieExtra.Stats.GloveAndBlocker.ToString();
+            /*
             pads.text = goalieExtra.Stats.Pads.ToString();
             stand.text = goalieExtra.Stats.Stand.ToString();
             stretch.text = goalieExtra.Stats.Stretch.ToString();
             morale.text = goalieExtra.Stats.Morale.ToString();
+            */
         }
 
         public void SetData(Goalie data)
@@ -59,12 +61,13 @@ namespace UI.ManageTeam.DragAndDrop
             number.text = data.number.ToString();
             role.text = data.role;
             position.text = Utils.Utils.ConvertPosition("G");
-
+/*
             gloveAndBlocker.text = data.stats.GloveAndBlocker.ToString();
             pads.text = data.stats.Pads.ToString();
             stand.text = data.stats.Stand.ToString();
             stretch.text = data.stats.Stretch.ToString();
             morale.text = data.stats.Morale.ToString();
+            */
         }
     }
 }

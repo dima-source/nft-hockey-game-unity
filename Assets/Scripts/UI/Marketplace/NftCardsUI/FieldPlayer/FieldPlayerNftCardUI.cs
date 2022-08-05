@@ -44,6 +44,7 @@ namespace UI.Marketplace.NftCardsUI.FieldPlayer
 
             fieldPlayer.LoadImage(_nftSaleInfo.NFT.metadata.media);
             fieldPlayer.Number.text = extra.Number.ToString();
+            /*
             fieldPlayer.Position.text = Utils.Utils.ConvertPosition(extra.Position);
             fieldPlayer.Role.text = extra.Role;
             
@@ -51,6 +52,7 @@ namespace UI.Marketplace.NftCardsUI.FieldPlayer
             fieldPlayer.Shooting.text = extra.Stats.Shooting.ToString();
             fieldPlayer.Strength.text = extra.Stats.Strength.ToString();
             fieldPlayer.Iq.text = extra.Stats.IQ.ToString();
+            */
             fieldPlayer.Morale.text = extra.Stats.Morale.ToString();
             
             return fieldPlayer;
@@ -72,7 +74,7 @@ namespace UI.Marketplace.NftCardsUI.FieldPlayer
             }
             
             cardDescription.Name.text = _nftSaleInfo.NFT.metadata.title;
-            
+            /*
             cardDescription.Position.text = "Position: " + extra.Position;
             cardDescription.Role.text = "Role: " + extra.Role;
 
@@ -80,6 +82,7 @@ namespace UI.Marketplace.NftCardsUI.FieldPlayer
             cardDescription.Shooting.text = "shooting: " + extra.Stats.Shooting;
             cardDescription.Strength.text = "strength: " + extra.Stats.Shooting;
             cardDescription.Iq.text = "IQ: " + extra.Stats.IQ;
+            */
             cardDescription.Morale.text = "morale: " + extra.Stats.Morale;
 
             return cardDescription;

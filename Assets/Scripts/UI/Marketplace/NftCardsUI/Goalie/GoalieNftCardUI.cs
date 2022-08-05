@@ -45,6 +45,7 @@ namespace UI.Marketplace.NftCardsUI.Goalie
             
             goalie.Number.text = extra.Number.ToString();
             goalie.LoadImage(_nftSaleInfo.NFT.metadata.media);
+            /*
             goalie.Position.text = Utils.Utils.ConvertPosition(extra.Position);
             goalie.Role.text = extra.Role;
 
@@ -53,6 +54,7 @@ namespace UI.Marketplace.NftCardsUI.Goalie
             goalie.Stretch.text = extra.Stats.Stretch.ToString();
             goalie.Stand.text = extra.Stats.Stand.ToString();
             goalie.Morale.text = extra.Stats.Morale.ToString();
+            */
             
             return goalie;
         }
@@ -75,6 +77,7 @@ namespace UI.Marketplace.NftCardsUI.Goalie
             GoalieExtra extra = (GoalieExtra)_nftSaleInfo.NFT.metadata.extra.GetExtra();
 
             cardDescription.Name.text = _nftSaleInfo.NFT.metadata.title;
+            /*
             cardDescription.Position.text = "Position: " + extra.Position;
             cardDescription.Role.text = "Role: " + extra.Role;
             
@@ -82,6 +85,7 @@ namespace UI.Marketplace.NftCardsUI.Goalie
             cardDescription.Pads.text = "pads: " + extra.Stats.Pads;
             cardDescription.Stretch.text = "stretch: " + extra.Stats.Stretch;
             cardDescription.Stand.text = "stand: " + extra.Stats.Stand;
+            */
             cardDescription.Morale.text = "morale: " + extra.Stats.Morale;
             
             return cardDescription;

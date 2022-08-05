@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using Near.Models;
 using Near.Models.Game.Bid;
@@ -9,11 +12,14 @@ using NearClientUnity;
 using NearClientUnity.Utilities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using UnityEngine;
 
 namespace Near.MarketplaceContract.ContractMethods
 {
     public static class Views
     {
+        public const string Url = "https://api.thegraph.com/subgraphs/name/nft-hockey/marketplace";
+        
         private static List<NFT> DynamicNFTsToList(dynamic dynamicNFTs)
         {
             IEnumerable<dynamic> listDynamicNFT = JsonConvert
@@ -86,8 +92,42 @@ namespace Near.MarketplaceContract.ContractMethods
                 royalty = dynamicNFT.royalty,
                 token_type = dynamicNFT.token_type,
             };
+            
         }
-        
+
+        public static async Task GotJSONQuery(string json)
+        {
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response;
+                HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                response = await client.PostAsync(Url, content);
+                //string jsonString = await response.Content.ReadAsStringAsync();
+                //Debug.Log(jsonString);
+            } 
+            
+        }
+
+        public static async Task GetUserNFT()
+        {
+            string accountId = NearPersistentManager.Instance.WalletAccount.GetAccountId();
+            string json = "{\"query\": \"{tokens(where:{ownerId: "+"\""+accountId+"\""+"})" +
+                          "{id title media extra issued_at tokenId owner ownerId perpetual_royalties marketplace_data}}\"}";
+            GotJSONQuery(json);
+        }
+
+        public static async Task GetNFTtoBuy()
+        {
+            string accountId = NearPersistentManager.Instance.WalletAccount.GetAccountId();
+            string json = "{\"query\": \"{marketplaceTokens(where: {token_:{ownerId_not: "+"\""+accountId+"\""+"}})" +
+                        "{id price token {id media title extra issued_at perpetual_royalties tokenId owner { id } }" +
+                        " isAuction offers { price user { id} }}}\"}";
+            
+            GotJSONQuery(json);
+        }
         private static Sale ParseSale(dynamic sale)
         {
             return new Sale()

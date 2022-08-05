@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace Near.Models.Extras
 {
-    public class GoalieStats
+    public class GoalieStats : Stats
     {
         [JsonProperty("angles")]
         public uint Angles { get; set; }
@@ -81,6 +81,10 @@ namespace Near.Models.Extras
         private uint GetAverageStats()
         {
             return (Reflexes + PuckControl + Strength) / 3;
+        }
+        public override Stats GetStats()
+        {
+            return this;
         }
     }
 }
