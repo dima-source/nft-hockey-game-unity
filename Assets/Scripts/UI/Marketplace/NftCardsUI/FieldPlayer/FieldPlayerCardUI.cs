@@ -36,6 +36,7 @@ namespace UI.Marketplace.NftCardsUI.FieldPlayer
             FieldPlayerExtra extra = (FieldPlayerExtra)nftSaleInfo.NFT.metadata.extra.GetExtra();
 
             Number.text = extra.Number.ToString();
+            /*
             Position.text = Utils.Utils.ConvertPosition(extra.Position);
             Role.text = extra.Role;
 
@@ -43,6 +44,7 @@ namespace UI.Marketplace.NftCardsUI.FieldPlayer
             Shooting.text = extra.Stats.Shooting.ToString();
             Strength.text = extra.Stats.Strength.ToString();
             IQ.text = extra.Stats.IQ.ToString();
+            */
             Morale.text = extra.Stats.Morale.ToString();
         }
     }

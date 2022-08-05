@@ -5,11 +5,16 @@ using Newtonsoft.Json.Linq;
 
 namespace Near.MarketplaceContract.Parsers
 {
-    public class FieldPlayerExtraParser : IExtraParser
+    public class FieldPlayerStatsParser : IStatsParser
     {
-        public Extra ParseExtra(JObject data)
+        public Stats ParseStats(JObject data)
         {
-            return JsonConvert.DeserializeObject<FieldPlayerExtra>(data.ToString());
+            return JsonConvert.DeserializeObject<FieldPlayerStats>(data.ToString());
+        }
+
+        public Stats ParseExtra(JObject data)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -3,9 +3,8 @@ using Newtonsoft.Json.Linq;
 
 namespace Near.MarketplaceContract.Parsers
 {
-    
-    public interface IExtraParser
+    public interface IStatsParser
     {
-        public Extra ParseExtra(JObject data);
+        public Stats ParseExtra(JObject data);
     }
 }

@@ -34,13 +34,13 @@ namespace UI.ManageTeam.DragAndDrop
             
             FieldPlayerExtra goalieExtra =  (FieldPlayerExtra)nftMetadata.Metadata.extra.GetExtra();
             number.text = goalieExtra.Number.ToString();
-            role.text = goalieExtra.Role;
-            position.text = Utils.Utils.ConvertPosition(goalieExtra.Position);
+            //role.text = goalieExtra.Role;
+            //position.text = Utils.Utils.ConvertPosition(goalieExtra.Position);
 
             skating.text = goalieExtra.Stats.Skating.ToString();
             shooting.text = goalieExtra.Stats.Shooting.ToString();
             strength.text = goalieExtra.Stats.Strength.ToString();
-            iq.text = goalieExtra.Stats.IQ.ToString();
+            //iq.text = goalieExtra.Stats.IQ.ToString();
             morale.text = goalieExtra.Stats.Morale.ToString();
         }
 
@@ -64,7 +64,7 @@ namespace UI.ManageTeam.DragAndDrop
             skating.text = data.stats.Skating.ToString();
             shooting.text = data.stats.Shooting.ToString();
             strength.text = data.stats.Strength.ToString();
-            iq.text = data.stats.IQ.ToString();
+           // iq.text = data.stats.IQ.ToString();
             morale.text = data.stats.Morale.ToString();
         }
     }

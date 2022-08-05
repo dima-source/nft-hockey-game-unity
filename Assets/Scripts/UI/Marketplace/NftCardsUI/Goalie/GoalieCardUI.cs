@@ -33,6 +33,7 @@ namespace UI.Marketplace.NftCardsUI.Goalie
             GoalieExtra extra = (GoalieExtra)nftSaleInfo.NFT.metadata.extra.GetExtra();
 
             Number.text = extra.Number.ToString();
+            /*
             Position.text = Utils.Utils.ConvertPosition(extra.Position);
             Role.text = extra.Role;
 
@@ -41,6 +42,7 @@ namespace UI.Marketplace.NftCardsUI.Goalie
             Stand.text = extra.Stats.Stand.ToString();
             Stretch.text = extra.Stats.Stretch.ToString();
             Morale.text = extra.Stats.Morale.ToString();
+            */
         }
     }
 }
