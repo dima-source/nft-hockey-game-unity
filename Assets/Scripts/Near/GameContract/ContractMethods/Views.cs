@@ -252,8 +252,8 @@ namespace Near.GameContract.ContractMethods
                 expires_at = card["expires_at"].ToString(),
                 starts_at = card["starts_at"].ToString(),
                 updated_at = card["updated_at"].ToString(),
-                extra = JsonConvert.DeserializeObject<Extra>(
-                    card["extra"].ToString(), new ExtraConverter())
+               // extra = JsonConvert.DeserializeObject<Extra>(
+                 //   card["extra"].ToString(), new ExtraConverter())
             };
         }
         

@@ -1,12 +1,13 @@
 using System;
+using Newtonsoft.Json;
 using Near.MarketplaceContract.Parsers;
 using Near.Models;
-using Newtonsoft.Json;
+using Near.Models.Marketplace;
 using Newtonsoft.Json.Linq;
 
 namespace Near.MarketplaceContract
 {
-    public class ExtraConverter : JsonConverter
+    public class PlayerConverter : JsonConverter
     {
         public override bool CanWrite => false;
 
@@ -17,26 +18,26 @@ namespace Near.MarketplaceContract
         
         public override bool CanConvert(Type objectType)
         {
-            return (objectType == typeof(Extra));
+            return (objectType == typeof(Token));
         }
 
-        private IExtraParser MapDataToParser(JObject data)
+        private IPlayerParser MapDataToParser(JObject data)
         {
-            string type = data["type"] != null ? data["type"].ToString() : data["player_type"].ToString();
+            string type = data["player_type"].ToString();
             
             return type switch
             {
-               // "Goalie" => new GoalieExtraParser(),
-               // "FieldPlayer" => new FieldPlayerExtraParser(),
-                //_ => throw new Exception("Extra type not found")
+                "Goalie" => new GoalieParser(),
+                "FieldPlayer" => new FieldPlayerParser(),
+                _ => throw new Exception("Extra type not found")
             };
         }
         
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            var extra = JObject.Load(reader);
-            IExtraParser parser = MapDataToParser(extra);
-            return parser.ParseExtra(extra);
+            var player = JObject.Load(reader);
+            IPlayerParser parser = MapDataToParser(player);
+            return parser.ParsePlayer(player);
         }
     }
 }

@@ -7,12 +7,15 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Near.Models;
+using Near.Models.Extras;
 using Near.Models.Game.Bid;
+using Near.Models.Marketplace;
 using NearClientUnity;
 using NearClientUnity.Utilities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
+using Goalie = Near.Models.Game.Team.Goalie;
 
 namespace Near.MarketplaceContract.ContractMethods
 {
@@ -39,7 +42,7 @@ namespace Near.MarketplaceContract.ContractMethods
                     expires_at = o.metadata.expires_at,
                     starts_at = o.metadata.starts_at,
                     updated_at = o.metadata.updated_at,
-                    stats = JsonConvert.DeserializeObject<Stats>(o.metadata.extra.ToString(), new StatsConverter())
+                    //stats = JsonConvert.DeserializeObject<Stats>(o.metadata.extra.ToString(), new StatsConverter())
                 },
                 approved_accounts_ids = o.approved_accounts_ids,
                 royalty = JsonConvert.DeserializeObject<Dictionary<string, double>>(o.royalty.ToString()),
@@ -86,7 +89,7 @@ namespace Near.MarketplaceContract.ContractMethods
                     expires_at = dynamicNFT.metadata.expires_at,
                     starts_at = dynamicNFT.metadata.starts_at,
                     updated_at = dynamicNFT.metadata.updated_at,
-                    stats = JsonConvert.DeserializeObject<Stats>(dynamicNFT.metadata.extra.ToString(), new StatsConverter())
+                    //stats = JsonConvert.DeserializeObject<Stats>(dynamicNFT.metadata.extra.ToString(), new StatsConverter())
                 },
                 approved_accounts_ids = dynamicNFT.approved_accounts_ids,
                 royalty = dynamicNFT.royalty,
@@ -112,11 +115,39 @@ namespace Near.MarketplaceContract.ContractMethods
 
         public static async Task GetUserNFT()
         {
+            // TODO: fixed request
             string accountId = NearPersistentManager.Instance.WalletAccount.GetAccountId();
-            string json = "{\"query\": \"{tokens(where:{ownerId: "+"\""+accountId+"\""+"})" +
-                          "{id title media extra issued_at tokenId owner ownerId perpetual_royalties " +
+            string json = "{\"query\": \"{tokens" +
+                          "{title media reality stats nationality birthday number hand " + 
+                          "player_role native_position player_type rarity issued_at tokenId owner ownerId perpetual_royalties " +
                           "marketplace_data{price token isAuction offers}}}\"}";
             string responseJson = await GetJSONQuery(json);
+            var players = JsonConvert.DeserializeObject<List<Token>>(responseJson, new TokensConverter());
+
+            if (players == null)
+            {
+                return;
+            }
+            
+            List<FieldPlayer> fieldPlayers = new List<FieldPlayer>();
+            foreach (var player in players)
+            {
+                if (player.TokeType == "FieldPlayer")
+                {
+                    FieldPlayer fieldPlayer = (FieldPlayer)player.GetData();
+                    fieldPlayers.Add(fieldPlayer);
+                }
+            }
+
+            List<Near.Models.Marketplace.Goalie> goalies = new List<Near.Models.Marketplace.Goalie>();
+            foreach (var player in players)
+            {
+                if (player.TokeType == "Goalie")
+                {
+                    Near.Models.Marketplace.Goalie goalie= (Near.Models.Marketplace.Goalie)player.GetData();
+                    goalies.Add(goalie);
+                }
+            }
         }
 
         public static async Task GetNFTtoBuy()
@@ -126,6 +157,7 @@ namespace Near.MarketplaceContract.ContractMethods
                         "{id price token {id media title extra issued_at perpetual_royalties tokenId owner { id } }" +
                         " isAuction offers { price user { id} }}}\"}";
             string responseJson = await GetJSONQuery(json);
+            
         }
         private static Sale ParseSale(dynamic sale)
         {

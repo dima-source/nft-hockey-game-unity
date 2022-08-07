@@ -1,28 +1,39 @@
-using System;
-using NearClientUnity.Utilities;
+using Newtonsoft.Json;
 
-namespace Near.Models
+namespace Near.Models.Marketplace
 {
-    public class Token
+    public abstract class Token
     {
-        public int Id { get; set; }
-        public string Title { get; set; }
+        [JsonProperty("player_type")]
+        public string TokeType { get; set; }
+        
+        [JsonProperty("title")]
+        public string Name { get; set; }
+        
+        [JsonProperty("media")]
         public string Media { get; set; }
-        public string Extra { get; set; }
-        public bool Reality { get; set; }
-        public string Stats { get; set; }
-        public int Number { get; set; }
-        public string Hand { get; set; }
-        public string Player_role { get; set; }
-        public string Native_position { get; set; }
-        public string Player_type { get; set; }
+        
+        [JsonProperty("rarity")]
         public string Rarity { get; set; }
-        public DateTime Birthday { get; set; }
-        public UInt128 Issued_at { get; set; }
+        
+        [JsonProperty("issued_at")]
+        public string IssuedAt { get; set; } // UInt128
+        
+        [JsonProperty("tokenId")]
         public string TokenId { get; set; }
+        
+        [JsonProperty("owner")]
         public User Owner { get; set; }
+        
+        [JsonProperty("ownerId")]
         public string OwnerId { get; set; }
-        public string Perpetual_royalties { get; set; }
+        
+        [JsonProperty("perpetual_royalties")]
+        public string PerpetualRoyalties { get; set; }
+        
+        [JsonProperty("marketplace_data")] 
         public MarketplaceToken MarketplaceData { get; set; }
+
+        public abstract Token GetData();
     }
 }

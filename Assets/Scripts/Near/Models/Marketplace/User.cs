@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Near.Models.Marketplace;
 
 namespace Near.Models
 {

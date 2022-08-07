@@ -24,7 +24,6 @@ namespace Near
         
         private async void Awake()
         {
-            await Near.MarketplaceContract.ContractMethods.Views.GetUserNFT();
             var dirName = Application.persistentDataPath + "KeyStore";
             
             if (Instance == null)
@@ -55,6 +54,8 @@ namespace Near
                 new Uri("nfthockey://testnet.near.org/success"),
                 new Uri("nfthockey://testnet.near.org/fail"),
                 new Uri("nfthockey://testnet.near.org/"));
+
+            await Near.MarketplaceContract.ContractMethods.Views.GetUserNFT();
         }
 
         public async Task<ContractNear> GetGameContract()
