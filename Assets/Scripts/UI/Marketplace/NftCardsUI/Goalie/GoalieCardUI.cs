@@ -15,7 +15,13 @@ namespace UI.Marketplace.NftCardsUI.Goalie
         [SerializeField] private Text stand;
         [SerializeField] private Text stretch;
         [SerializeField] private Text morale;
+        [SerializeField] private Text reflexes;
+        [SerializeField] private Text puckControl;
+        [SerializeField] private Text strength;
 
+        public Text Reflexes => reflexes;
+        public Text Strength => strength;
+        public Text PuckControl => puckControl;
         public Text Position => position;
         public Text Number => number;
         public Text Role => role;

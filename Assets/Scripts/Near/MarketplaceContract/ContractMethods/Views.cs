@@ -39,7 +39,7 @@ namespace Near.MarketplaceContract.ContractMethods
                     expires_at = o.metadata.expires_at,
                     starts_at = o.metadata.starts_at,
                     updated_at = o.metadata.updated_at,
-                    extra = JsonConvert.DeserializeObject<Extra>(o.metadata.extra.ToString(), new ExtraConverter())
+                    stats = JsonConvert.DeserializeObject<Stats>(o.metadata.extra.ToString(), new StatsConverter())
                 },
                 approved_accounts_ids = o.approved_accounts_ids,
                 royalty = JsonConvert.DeserializeObject<Dictionary<string, double>>(o.royalty.ToString()),
@@ -86,7 +86,7 @@ namespace Near.MarketplaceContract.ContractMethods
                     expires_at = dynamicNFT.metadata.expires_at,
                     starts_at = dynamicNFT.metadata.starts_at,
                     updated_at = dynamicNFT.metadata.updated_at,
-                    extra = JsonConvert.DeserializeObject<Extra>(dynamicNFT.metadata.extra.ToString(), new ExtraConverter())
+                    stats = JsonConvert.DeserializeObject<Stats>(dynamicNFT.metadata.extra.ToString(), new StatsConverter())
                 },
                 approved_accounts_ids = dynamicNFT.approved_accounts_ids,
                 royalty = dynamicNFT.royalty,
@@ -95,7 +95,7 @@ namespace Near.MarketplaceContract.ContractMethods
             
         }
 
-        public static async Task GotJSONQuery(string json)
+        public static async Task<string> GetJSONQuery(string json)
         {
             using (var client = new HttpClient())
             {
@@ -105,18 +105,18 @@ namespace Near.MarketplaceContract.ContractMethods
                 HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
                 response = await client.PostAsync(Url, content);
-                //string jsonString = await response.Content.ReadAsStringAsync();
-                //Debug.Log(jsonString);
-            } 
-            
+             
+                return await response.Content.ReadAsStringAsync(); 
+            }
         }
 
         public static async Task GetUserNFT()
         {
             string accountId = NearPersistentManager.Instance.WalletAccount.GetAccountId();
             string json = "{\"query\": \"{tokens(where:{ownerId: "+"\""+accountId+"\""+"})" +
-                          "{id title media extra issued_at tokenId owner ownerId perpetual_royalties marketplace_data}}\"}";
-            GotJSONQuery(json);
+                          "{id title media extra issued_at tokenId owner ownerId perpetual_royalties " +
+                          "marketplace_data{price token isAuction offers}}}\"}";
+            string responseJson = await GetJSONQuery(json);
         }
 
         public static async Task GetNFTtoBuy()
@@ -125,8 +125,7 @@ namespace Near.MarketplaceContract.ContractMethods
             string json = "{\"query\": \"{marketplaceTokens(where: {token_:{ownerId_not: "+"\""+accountId+"\""+"}})" +
                         "{id price token {id media title extra issued_at perpetual_royalties tokenId owner { id } }" +
                         " isAuction offers { price user { id} }}}\"}";
-            
-            GotJSONQuery(json);
+            string responseJson = await GetJSONQuery(json);
         }
         private static Sale ParseSale(dynamic sale)
         {

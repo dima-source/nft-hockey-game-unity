@@ -11,5 +11,7 @@ namespace Near.Models
         public string starts_at { get; set; }
         public string updated_at { get; set; }
         public Extra extra { get; set; }
+        
+        public Stats stats { get; set; }
     }
 }

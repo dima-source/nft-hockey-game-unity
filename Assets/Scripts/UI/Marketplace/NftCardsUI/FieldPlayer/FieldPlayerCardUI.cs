@@ -10,17 +10,19 @@ namespace UI.Marketplace.NftCardsUI.FieldPlayer
         [SerializeField] private Text position;
         [SerializeField] private Text number;
         [SerializeField] private Text role;
-
+        [SerializeField] private Text stickHandling;
         [SerializeField] private Text skating;
         [SerializeField] private Text shooting;
         [SerializeField] private Text strength;
         [SerializeField] private Text iQ;
         [SerializeField] private Text morale;
-
+        [SerializeField] private Text defence;
+        
         public Text Position => position;
+        public Text Defence => defence;
         public Text Number => number;
         public Text Role => role;
-        
+        public Text StickHandling => stickHandling;
         public Text Skating => skating;
         public Text Shooting => shooting;
         public Text Strength => strength;
