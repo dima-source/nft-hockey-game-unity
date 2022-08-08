@@ -1,10 +1,10 @@
-﻿using Near.Models.Game.Team;
+﻿using Near.Models.Tokens.Players.FieldPlayer;
 
 namespace Near.Models.Game
 {
     public class Event
     {
-        public Team.Team my_team { get; set; }
+        public Team.Team  my_team { get; set; }
         
         public Team.Team opponent_team { get; set; }
         

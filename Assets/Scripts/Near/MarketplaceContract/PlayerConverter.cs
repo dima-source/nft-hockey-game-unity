@@ -1,8 +1,7 @@
 using System;
 using Newtonsoft.Json;
 using Near.MarketplaceContract.Parsers;
-using Near.Models;
-using Near.Models.Marketplace;
+using Near.Models.Tokens;
 using Newtonsoft.Json.Linq;
 
 namespace Near.MarketplaceContract
@@ -18,7 +17,7 @@ namespace Near.MarketplaceContract
         
         public override bool CanConvert(Type objectType)
         {
-            return (objectType == typeof(Token));
+            return (objectType == typeof(NFT));
         }
 
         private IPlayerParser MapDataToParser(JObject data)

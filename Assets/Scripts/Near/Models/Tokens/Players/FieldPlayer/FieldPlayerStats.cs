@@ -1,8 +1,8 @@
 using Newtonsoft.Json;
 
-namespace Near.Models.Extras
+namespace Near.Models.Tokens.Players.FieldPlayer
 {
-    public class FieldPlayerStats : Stats
+    public class FieldPlayerStats
     {
         // Skating 
         
@@ -109,11 +109,6 @@ namespace Near.Models.Extras
         public uint GetAverageStats()
         {
             return (Skating + Shooting + StickHandling + StrengthAvg + Iq + Defense) / 6;
-        }
-
-        public override Stats GetStats()
-        {
-            return this;
         }
     }
 }

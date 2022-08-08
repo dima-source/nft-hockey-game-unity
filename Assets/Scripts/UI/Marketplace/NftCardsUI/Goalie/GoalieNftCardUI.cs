@@ -1,6 +1,5 @@
 using Near;
-using Near.Models;
-using Near.Models.Extras;
+using Near.Models.Tokens;
 using NearClientUnity.Utilities;
 using Runtime;
 using UnityEngine;
@@ -10,41 +9,40 @@ namespace UI.Marketplace.NftCardsUI.Goalie
 {
     class GoalieRenderer : ICardRenderer
     {
-        private readonly NFTSaleInfo _nftSaleInfo;
+        private readonly NFT _nft;
         
-        public GoalieRenderer(NFTSaleInfo nftSaleInfo)
+        public GoalieRenderer(NFT nft)
         {
-            _nftSaleInfo = nftSaleInfo;
+            _nft = nft;
         }
         
         public NftCardUI RenderCardTile(Transform content)
         {
-            GoalieNftCardUI goalie =
+            GoalieNftCardUI goalieNftCardUI =
                 Object.Instantiate(Game.AssetRoot.marketplaceAsset.goalieNftCardUI, content);
 
-            goalie.Name.text = _nftSaleInfo.NFT.metadata.title;
+            goalieNftCardUI.Name.text = _nft.Name;
             
-            goalie.OwnerId.text = _nftSaleInfo.NFT.owner_id != NearPersistentManager.Instance.GetAccountId() ? "Owner: " + _nftSaleInfo.NFT.owner_id : "You are the owner";
-            
-            
-            if (_nftSaleInfo.Sale != null && _nftSaleInfo.Sale.is_auction)
+            goalieNftCardUI.OwnerId.text = _nft.OwnerId != NearPersistentManager.Instance.GetAccountId() ? "Owner: " + _nft.Owner.Id : "You are the owner";
+
+
+            if (_nft.MarketplaceData == null)
             {
-                goalie.Cost.text = "Auction";
-            }
-            else if (_nftSaleInfo.Sale != null && _nftSaleInfo.Sale.sale_conditions.ContainsKey("near"))
+                goalieNftCardUI.Price.gameObject.SetActive(false);
+            } 
+            else if (_nft.MarketplaceData.Offers != null && _nft.MarketplaceData.IsAuction)
             {
-                goalie.Cost.text = "Price: " + NearUtils.FormatNearAmount(UInt128.Parse(_nftSaleInfo.Sale.sale_conditions["near"]));
+                goalieNftCardUI.Cost.text = "Auction";
             }
-            else
+            else 
             {
-                goalie.Price.gameObject.SetActive(false);
+                goalieNftCardUI.Cost.text = "Price: " + NearUtils.FormatNearAmount(UInt128.Parse(_nft.MarketplaceData.Price));
             }
+
+            Near.Models.Tokens.Players.Goalie.Goalie goalie = (Near.Models.Tokens.Players.Goalie.Goalie)_nft;
             
-            
-            GoalieExtra extra = (GoalieExtra)_nftSaleInfo.NFT.metadata.extra.GetExtra();
-            
-            goalie.Number.text = extra.Number.ToString();
-            goalie.LoadImage(_nftSaleInfo.NFT.metadata.media);
+            goalieNftCardUI.Number.text = goalie.Number.ToString();
+            goalieNftCardUI.LoadImage(_nft.Media);
             /*
             goalie.Position.text = Utils.Utils.ConvertPosition(extra.Position);
             goalie.Role.text = extra.Role;
@@ -56,7 +54,7 @@ namespace UI.Marketplace.NftCardsUI.Goalie
             goalie.Morale.text = extra.Stats.Morale.ToString();
             */
             
-            return goalie;
+            return goalieNftCardUI;
         }
 
         public NftCardDescriptionUI RenderCardDescription(Transform content)
@@ -64,19 +62,22 @@ namespace UI.Marketplace.NftCardsUI.Goalie
             GoalieDescriptionUI cardDescription =
                 Object.Instantiate(Game.AssetRoot.marketplaceAsset.goalieDescriptionUI, content);
             
-            cardDescription.OwnerId.text =  _nftSaleInfo.NFT.owner_id != NearPersistentManager.Instance.GetAccountId() 
-                ? "Owner: " + _nftSaleInfo.NFT.owner_id : "You are the owner";
+            cardDescription.OwnerId.text =  _nft.OwnerId != NearPersistentManager.Instance.GetAccountId() 
+                ? "Owner: " + _nft.OwnerId : "You are the owner";
 
-            cardDescription.Name.text = _nftSaleInfo.NFT.metadata.title;
+            cardDescription.Name.text = _nft.Name;
 
-            foreach (var royalty in _nftSaleInfo.NFT.royalty)
+            // TODO: parse royalties
+            /*
+            foreach (var royalty in _nft.PerpetualRoyalties)
             {
                 cardDescription.Royalty.text = royalty.Value / 100 + "% - " + royalty.Key;
             }
+            */
 
-            GoalieExtra extra = (GoalieExtra)_nftSaleInfo.NFT.metadata.extra.GetExtra();
+            Near.Models.Tokens.Players.Goalie.Goalie goalie = (Near.Models.Tokens.Players.Goalie.Goalie)_nft;
 
-            cardDescription.Name.text = _nftSaleInfo.NFT.metadata.title;
+            cardDescription.Name.text = goalie.Name;
             /*
             cardDescription.Position.text = "Position: " + extra.Position;
             cardDescription.Role.text = "Role: " + extra.Role;
@@ -86,7 +87,7 @@ namespace UI.Marketplace.NftCardsUI.Goalie
             cardDescription.Stretch.text = "stretch: " + extra.Stats.Stretch;
             cardDescription.Stand.text = "stand: " + extra.Stats.Stand;
             */
-            cardDescription.Morale.text = "morale: " + extra.Stats.Morale;
+            cardDescription.Morale.text = "morale: " + goalie.Stats.Morale;
             
             return cardDescription;
         }
@@ -116,7 +117,7 @@ namespace UI.Marketplace.NftCardsUI.Goalie
         
         protected override ICardRenderer GetCardRenderer()
         {
-            return new GoalieRenderer(NftSaleInfo);
+            return new GoalieRenderer(NFT);
         }
     }
 }

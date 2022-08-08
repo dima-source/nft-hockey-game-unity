@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Near.Models.Team.TeamIds
+namespace Near.Models.Game.TeamIds
 {
     public class FiveIds
     {

@@ -1,9 +1,11 @@
-﻿namespace Near.Models.Game.Team
+using System.Collections.Generic;
+using Near.Models.Tokens.Players.Goalie;
+
+namespace Near.Models.Game.Team
 {
     public class Team
     {
-        public Five five { get; set; }
-        public Goalie goalie { get; set; }
-        public uint score { get; set; }
+        public Dictionary<string, Five> Fives;
+        public Dictionary<string, Goalie> Goalies;
     }
 }

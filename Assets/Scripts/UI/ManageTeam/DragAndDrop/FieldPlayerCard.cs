@@ -1,6 +1,6 @@
-using Near.Models.Extras;
 using Near.Models.Game.Team;
-using Near.Models.Team.Team;
+using Near.Models.Tokens;
+using Near.Models.Tokens.Players.FieldPlayer;
 using UnityEngine;
 using UnityEngine.UI;
 using Event = Near.Models.Game.Event;
@@ -16,56 +16,56 @@ namespace UI.ManageTeam.DragAndDrop
         [SerializeField] private Text morale;
 
         private bool _isInit = false;
-        
-        public override void SetData(NFTMetadata nftMetadata)
+
+        public override void SetData(NFT nft)
         {
-            CardData = nftMetadata;
-            
-            playerName.text = nftMetadata.Metadata.title;
-            
-            if (!string.IsNullOrEmpty(nftMetadata.Metadata.media))
+            CardData = nft;
+
+            playerName.text = nft.Name;
+
+            if (!string.IsNullOrEmpty(nft.Media))
             {
-                StartCoroutine(Utils.Utils.LoadImage(playerImg, nftMetadata.Metadata.media));
+                StartCoroutine(Utils.Utils.LoadImage(playerImg, nft.Media));
             }
             else
             {
                 silverStroke.gameObject.SetActive(true);
             }
-            
-            FieldPlayerExtra goalieExtra =  (FieldPlayerExtra)nftMetadata.Metadata.extra.GetExtra();
-            number.text = goalieExtra.Number.ToString();
+
+            FieldPlayer fieldPlayer = (FieldPlayer)nft;
+            number.text = fieldPlayer.Number.ToString();
             //role.text = goalieExtra.Role;
             //position.text = Utils.Utils.ConvertPosition(goalieExtra.Position);
 
-            skating.text = goalieExtra.Stats.Skating.ToString();
-            shooting.text = goalieExtra.Stats.Shooting.ToString();
-            strength.text = goalieExtra.Stats.Strength.ToString();
+            skating.text = fieldPlayer.Stats.Skating.ToString();
+            shooting.text = fieldPlayer.Stats.Shooting.ToString();
+            strength.text = fieldPlayer.Stats.Strength.ToString();
             //iq.text = goalieExtra.Stats.IQ.ToString();
-            morale.text = goalieExtra.Stats.Morale.ToString();
+            morale.text = fieldPlayer.Stats.Morale.ToString();
         }
 
         public void SetData(FieldPlayer data)
         {
             gameObject.SetActive(true);
-            
-            if (!_isInit && data.img != "")
+
+            if (!_isInit && data.Media != "")
             {
-                StartCoroutine(Utils.Utils.LoadImage(playerImg, data.img));
+                StartCoroutine(Utils.Utils.LoadImage(playerImg, data.Media));
             }
 
             _isInit = true;
-            
-            playerName.text = data.name; 
-            
-            number.text = data.number.ToString();
-            role.text = data.role;
-            position.text = Utils.Utils.ConvertPosition(data.position);
 
-            skating.text = data.stats.Skating.ToString();
-            shooting.text = data.stats.Shooting.ToString();
-            strength.text = data.stats.Strength.ToString();
-           // iq.text = data.stats.IQ.ToString();
-            morale.text = data.stats.Morale.ToString();
+            playerName.text = data.Name;
+
+            number.text = data.Number.ToString();
+            role.text = data.PlayerRole;
+            position.text = Utils.Utils.ConvertPosition(data.NativePosition);
+
+            skating.text = data.Stats.Skating.ToString();
+            shooting.text = data.Stats.Shooting.ToString();
+            strength.text = data.Stats.Strength.ToString();
+            // iq.text = data.stats.IQ.ToString();
+            morale.text = data.Stats.Morale.ToString();
         }
     }
 }

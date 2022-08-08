@@ -1,9 +1,13 @@
-namespace Near.Models.Marketplace
+using Newtonsoft.Json;
+
+namespace Near.Models.Tokens
 {
     public class Offer
     {
-        public int Id { get; set; }
+        [JsonProperty("price")]
         public string Price { get; set; } // UInt128
+        
+        [JsonProperty("user")]
         public User User { get; set; }
     }
 }

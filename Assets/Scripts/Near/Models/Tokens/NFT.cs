@@ -1,11 +1,11 @@
 using Newtonsoft.Json;
 
-namespace Near.Models.Marketplace
+namespace Near.Models.Tokens
 {
-    public abstract class Token
+    public abstract class NFT
     {
         [JsonProperty("player_type")]
-        public string TokeType { get; set; }
+        public string TokenType { get; set; }
         
         [JsonProperty("title")]
         public string Name { get; set; }
@@ -33,7 +33,5 @@ namespace Near.Models.Marketplace
         
         [JsonProperty("marketplace_data")] 
         public MarketplaceToken MarketplaceData { get; set; }
-
-        public abstract Token GetData();
     }
 }

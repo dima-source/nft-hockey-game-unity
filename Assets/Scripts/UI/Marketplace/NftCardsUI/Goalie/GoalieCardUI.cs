@@ -1,5 +1,5 @@
 ﻿using Near.Models;
-using Near.Models.Extras;
+using Near.Models.Tokens;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -31,14 +31,14 @@ namespace UI.Marketplace.NftCardsUI.Goalie
         public Text Stretch => stretch;
         public Text Morale => morale;
         
-        public override void SetData(NFTSaleInfo nftSaleInfo)
+        public override void SetData(NFT nft)
         {
-            CardName.text = nftSaleInfo.NFT.metadata.title;
-            StartCoroutine(Utils.Utils.LoadImage(Image, nftSaleInfo.NFT.metadata.media));
-            
-            GoalieExtra extra = (GoalieExtra)nftSaleInfo.NFT.metadata.extra.GetExtra();
+            CardName.text = nft.Name;
+            StartCoroutine(Utils.Utils.LoadImage(Image, nft.Media));
 
-            Number.text = extra.Number.ToString();
+            Near.Models.Tokens.Players.Goalie.Goalie goalie = (Near.Models.Tokens.Players.Goalie.Goalie)nft;
+
+            Number.text = goalie.Number.ToString();
             /*
             Position.text = Utils.Utils.ConvertPosition(extra.Position);
             Role.text = extra.Role;

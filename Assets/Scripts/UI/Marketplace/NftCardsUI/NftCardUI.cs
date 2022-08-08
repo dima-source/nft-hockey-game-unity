@@ -1,4 +1,5 @@
 using Near.Models;
+using Near.Models.Tokens;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,7 +14,7 @@ namespace UI.Marketplace.NftCardsUI
         [SerializeField] protected Transform price;
         [SerializeField] protected Button chooseButton;
 
-        protected NFTSaleInfo NftSaleInfo;
+        protected NFT NFT;
         
         private ICardLoader _cardLoader;
         
@@ -24,11 +25,11 @@ namespace UI.Marketplace.NftCardsUI
         
         protected abstract ICardRenderer GetCardRenderer();
         
-        public void PrepareNftCard(ICardLoader cardLoader, NFTSaleInfo nftSaleInfo, Transform content)
+        public void PrepareNftCard(ICardLoader cardLoader, NFT nft, Transform content)
         {
             _cardLoader = cardLoader;
             
-            NftSaleInfo = nftSaleInfo;
+            NFT = nft;
             
             ICardRenderer cardRenderer = GetCardRenderer();
             var cardTile = cardRenderer.RenderCardTile(content);
@@ -38,7 +39,7 @@ namespace UI.Marketplace.NftCardsUI
         
         private void OnClick()
         {
-            _cardLoader.LoadCard(GetCardRenderer(), NftSaleInfo);
+            _cardLoader.LoadCard(GetCardRenderer(), NFT);
         }
         
         public void LoadImage(string url)

@@ -12,7 +12,7 @@ namespace UI.GameUI.EventsUI
         {
             transform.SetAsLastSibling();
 
-            eventText.color = data.player_with_puck.user_id != data.my_team.goalie.user_id ? Color.red : Color.blue;
+            //eventText.color = data.player_with_puck.user_id != data.my_team.goalie.user_id ? Color.red : Color.blue;
         }
     }
 }

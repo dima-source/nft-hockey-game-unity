@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Near.Models.Marketplace;
+using Near.Models.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -15,7 +15,7 @@ namespace Near.MarketplaceContract
 
         public override bool CanConvert(Type objectType)
         {
-            return (objectType == typeof(List<Token>));
+            return (objectType == typeof(List<NFT>));
         }
         
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
@@ -23,7 +23,7 @@ namespace Near.MarketplaceContract
             var data = JObject.Load(reader);
             var tokens = data["data"]?["tokens"];
 
-            List<Token> result = new List<Token>();
+            List<NFT> result = new List<NFT>();
 
             if (tokens == null)
             {
@@ -33,7 +33,7 @@ namespace Near.MarketplaceContract
             foreach (var jToken in tokens)
             {
                 var json = jToken.ToString();
-                var token = JsonConvert.DeserializeObject<Token>(json, new PlayerConverter());
+                var token = JsonConvert.DeserializeObject<NFT>(json, new PlayerConverter());
                 result.Add(token);
             }
 

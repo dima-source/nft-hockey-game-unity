@@ -3,8 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Near.GameContract.ContractMethods;
 using Near.Models;
-using Near.Models.ManageTeam.Team;
-using Near.Models.Team.Team;
+using Near.Models.Game.Team;
+using Near.Models.Tokens;
 
 namespace UI.ManageTeam
 {
@@ -15,15 +15,15 @@ namespace UI.ManageTeam
             return await Views.LoadUserTeam();
         }
 
-        public async Task<List<NFTMetadata>> LoadUserNFTs()
+        public async Task<List<NFT>> LoadUserNFTs()
         {
-            List<NFTSaleInfo> userNFTs = await Near.MarketplaceContract.ContractMethods.Views.LoadUserNFTs();
-
-            return userNFTs.Select(x => new NFTMetadata()
+            var tokes = await Near.MarketplaceContract.ContractMethods.Views.GetUserNFTs();
+            if (tokes == null)
             {
-                Metadata = x.NFT.metadata,
-                Id = x.NFT.token_id
-            }).ToList();
+                return new List<NFT>();
+            }
+
+            return tokes;
         }
 
         public void ChangeLineups(Team team)

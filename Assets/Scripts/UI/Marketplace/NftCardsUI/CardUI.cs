@@ -1,4 +1,4 @@
-﻿using Near.Models;
+﻿using Near.Models.Tokens;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +12,6 @@ namespace UI.Marketplace.NftCardsUI
         public Image Image => image;
         public Text CardName => cardName;
 
-        public abstract void SetData(NFTSaleInfo nftSaleInfo);
+        public abstract void SetData(NFT nft);
     }
 }

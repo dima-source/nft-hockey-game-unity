@@ -1,6 +1,6 @@
-using Near.Models.Extras;
 using Near.Models.Game.Team;
-using Near.Models.Team.Team;
+using Near.Models.Tokens;
+using Near.Models.Tokens.Players.Goalie;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,23 +16,23 @@ namespace UI.ManageTeam.DragAndDrop
 
         private bool _isInit = false;
         
-        public override void SetData(NFTMetadata nftMetadata)
+        public override void SetData(NFT nft)
         {
-            CardData = nftMetadata;
-            
-            playerName.text = nftMetadata.Metadata.title;
+            CardData = nft;
 
-            if (!string.IsNullOrEmpty(nftMetadata.Metadata.media))
+            playerName.text = nft.Name;
+
+            if (!string.IsNullOrEmpty(nft.Media))
             {
-                StartCoroutine(Utils.Utils.LoadImage(playerImg, nftMetadata.Metadata.media));
+                StartCoroutine(Utils.Utils.LoadImage(playerImg, nft.Media));
             }
             else
             {
                 silverStroke.gameObject.SetActive(true);
             }
 
-            GoalieExtra goalieExtra =  (GoalieExtra)nftMetadata.Metadata.extra.GetExtra();
-            number.text = goalieExtra.Number.ToString();
+            Goalie goalie =  (Goalie)nft;
+            number.text = goalie.Number.ToString();
             //role.text = goalieExtra.Role;
             //position.text = Utils.Utils.ConvertPosition(goalieExtra.Position);
 
@@ -49,17 +49,17 @@ namespace UI.ManageTeam.DragAndDrop
         {
             gameObject.SetActive(true);
             
-            if (!_isInit && data.img != "")
+            if (!_isInit && data.Media != "")
             {
-                StartCoroutine(Utils.Utils.LoadImage(playerImg, data.img));
+                StartCoroutine(Utils.Utils.LoadImage(playerImg, data.Media));
             }
 
             _isInit = true;
             
-            playerName.text = data.name; 
+            playerName.text = data.Name; 
             
-            number.text = data.number.ToString();
-            role.text = data.role;
+            number.text = data.Number.ToString();
+            role.text = data.PlayerRole;
             position.text = Utils.Utils.ConvertPosition("G");
 /*
             gloveAndBlocker.text = data.stats.GloveAndBlocker.ToString();

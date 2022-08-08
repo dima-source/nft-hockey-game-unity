@@ -1,5 +1,4 @@
-﻿using Near.Models;
-using Near.Models.Extras;
+﻿using Near.Models.Tokens;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,14 +29,15 @@ namespace UI.Marketplace.NftCardsUI.FieldPlayer
         public Text Morale => morale;
 
 
-        public override void SetData(NFTSaleInfo nftSaleInfo)
+        public override void SetData(NFT nft)
         {
-            CardName.text = nftSaleInfo.NFT.metadata.title;
-            StartCoroutine(Utils.Utils.LoadImage(Image, nftSaleInfo.NFT.metadata.media));
-            
-            FieldPlayerExtra extra = (FieldPlayerExtra)nftSaleInfo.NFT.metadata.extra.GetExtra();
+            CardName.text = nft.Name;
+            StartCoroutine(Utils.Utils.LoadImage(Image, nft.Media));
 
-            Number.text = extra.Number.ToString();
+            Near.Models.Tokens.Players.FieldPlayer.FieldPlayer fieldPlayer =
+                (Near.Models.Tokens.Players.FieldPlayer.FieldPlayer)nft;
+
+            Number.text = fieldPlayer.Number.ToString();
             /*
             Position.text = Utils.Utils.ConvertPosition(extra.Position);
             Role.text = extra.Role;
@@ -47,7 +47,7 @@ namespace UI.Marketplace.NftCardsUI.FieldPlayer
             Strength.text = extra.Stats.Strength.ToString();
             IQ.text = extra.Stats.IQ.ToString();
             */
-            Morale.text = extra.Stats.Morale.ToString();
+            Morale.text = fieldPlayer.Stats.Morale.ToString();
         }
     }
 }

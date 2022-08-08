@@ -1,6 +1,6 @@
 using System;
-using Near.Models.Extras;
-using Near.Models.Marketplace;
+using Near.Models.Tokens;
+using Near.Models.Tokens.Players.Goalie;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -8,7 +8,7 @@ namespace Near.MarketplaceContract.Parsers
 {
     public class GoalieParser : IPlayerParser
     {
-        public Token ParsePlayer(JObject data)
+        public NFT ParsePlayer(JObject data)
         {
             Goalie goalie = JsonConvert.DeserializeObject<Goalie>(data.ToString());
             if (goalie == null)

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Threading.Tasks;
 using Near.Models.Game;
-using Near.Models.ManageTeam.Team;
-using Near.Models.Team.Team;
+using Near.Models.Game.Team;
+using Near.Models.Tokens;
+using Near.Models.Tokens.Players.FieldPlayer;
+using Near.Models.Tokens.Players.Goalie;
 using NearClientUnity;
 using Newtonsoft.Json;
 
@@ -142,30 +144,30 @@ namespace Near.GameContract.ContractMethods
             return result;
         }
 
-        private static List<List<string>> ConvertFieldPlayers(Dictionary<string, NFTMetadata> fieldPlayers)
+        private static List<List<string>> ConvertFieldPlayers(Dictionary<string, FieldPlayer> fieldPlayers)
         {
             List<List<string>> result = new List<List<string>>();
                 
             foreach (var fieldPlayer in fieldPlayers)
             {
-                if (fieldPlayer.Value.Id != "-1")
+                if (fieldPlayer.Value.TokenId != "-1")
                 {
-                    result.Add(new List<string> { fieldPlayer.Key, fieldPlayer.Value.Id });
+                    result.Add(new List<string> { fieldPlayer.Key, fieldPlayer.Value.TokenId });
                 }
             }
 
             return result;
         }
 
-        private static List<List<string>> ConvertGoalies(Dictionary<string, NFTMetadata> goalies)
+        private static List<List<string>> ConvertGoalies(Dictionary<string, Goalie> goalies)
         {
             List<List<string>> result = new List<List<string>>();
 
             foreach (var goalie in goalies)
             {
-                if (goalie.Value.Id != "-1")
+                if (goalie.Value.TokenId != "-1")
                 {
-                    result.Add(new List<string> { goalie.Key, goalie.Value.Id });
+                    result.Add(new List<string> { goalie.Key, goalie.Value.TokenId });
                 }
             }
 

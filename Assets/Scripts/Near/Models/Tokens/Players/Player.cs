@@ -1,9 +1,8 @@
-using System;
 using Newtonsoft.Json;
 
-namespace Near.Models.Marketplace
+namespace Near.Models.Tokens.Players
 {
-    public abstract class Player : Token
+    public abstract class Player : NFT
     {
         [JsonProperty("reality")]
         public bool Reality { get; set; }
@@ -20,7 +19,6 @@ namespace Near.Models.Marketplace
         [JsonProperty("native_position")]
         public string NativePosition { get; set; }
 
-        
         [JsonProperty("birthday")]
         public string Birthday { get; set; } // timestamp
     }

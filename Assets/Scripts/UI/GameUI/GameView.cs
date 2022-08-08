@@ -75,6 +75,8 @@ namespace UI.GameUI
 
         private IEnumerator RenderEvents()
         {
+            /*
+             
             if (numberOfRenderedEvents == controller.NumberOfGeneratedEvents)
             {
                 yield break;
@@ -153,6 +155,8 @@ namespace UI.GameUI
             numberOfRenderedEvents = numberOfGeneratedEvents;
 
             isRenders = false;
+            */
+            yield break;
         }
 
         private void ChangePeriod()
