@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using Near.Models;
+using Near.Models.Tokens;
 using NearClientUnity.Utilities;
-using UI.Marketplace.Buy_cards;
 using UI.Marketplace.NftCardsUI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,13 +20,13 @@ namespace UI.Marketplace.Sell_cards
 
         private NftCardUI _cardTile;
         private NftCardDescriptionUI _cardDescription;
-        private NFTSaleInfo _nftSaleInfo;
+        private Token _token;
         private string _marketStoragePaid;
         
         [SerializeField] private Toggle isAuction;
         [SerializeField] private InputField price;
 
-        public void LoadCard(ICardRenderer cardRenderer, NFTSaleInfo nftSaleInfo)
+        public void LoadCard(ICardRenderer cardRenderer, Token token)
         {
             viewInteractor.ChangeView(gameObject.transform);
 
@@ -41,35 +40,11 @@ namespace UI.Marketplace.Sell_cards
                 Destroy(_cardDescription.gameObject);
             }
 
-            _nftSaleInfo = nftSaleInfo;
+            _token = token;
 
-            StartCoroutine(Utils.Utils.LoadImage(cardImage, nftSaleInfo.NFT.metadata.media));
+            StartCoroutine(Utils.Utils.LoadImage(cardImage, token.media));
             
             _cardDescription = cardRenderer.RenderCardDescription(cardDescriptionContent);
-
-            CheckMarketStoragePaid();
-        }
-
-        private async void CheckMarketStoragePaid()
-        {
-            _marketStoragePaid = await viewInteractor.MarketplaceController.GetMarketStoragePaid();
-
-            if (_marketStoragePaid == "0")
-            {
-                sellView.gameObject.SetActive(false);
-                marketStoragePaidView.gameObject.SetActive(true);
-            }
-            else
-            {
-                sellView.gameObject.SetActive(true);
-                marketStoragePaidView.gameObject.SetActive(false);
-            }
-        }
-        
-        public void RegisterStorage()
-        {
-            viewInteractor.MarketplaceController.RegisterStorage("10");
-            CheckMarketStoragePaid();
         }
 
         public void UpdatePrice()
@@ -79,7 +54,7 @@ namespace UI.Marketplace.Sell_cards
 
             Application.deepLinkActivated += OnSellCard;
             
-            viewInteractor.MarketplaceController.SaleUpdate(newSaleConditions, _nftSaleInfo.NFT.token_id, isAuction.isOn);
+            viewInteractor.MarketplaceController.SaleUpdate(newSaleConditions, _token.tokenId, isAuction.isOn);
         }
 
         private void OnSellCard(string url)

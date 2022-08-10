@@ -1,49 +1,32 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Near;
 using Near.MarketplaceContract.ContractMethods;
-using Near.Models;
-using NearClientUnity.Utilities;
+using Near.Models.Tokens;
+using Near.Models.Tokens.Filters;
 
 namespace UI.Marketplace
 {
     public class MarketplaceController
     {
-        private List<NFTSaleInfo> _nftSalesInfo;
-        private List<NFTSaleInfo> _userNFTs;
+        private List<Token> _nftSalesInfo;
+        private List<Token> _userNFTs;
 
-        public async Task<List<NFTSaleInfo>> GetSales()
+        public async Task<List<Token>> GetUserNFTsToBuy()
         {
-            _nftSalesInfo ??= await Views.LoadSales();
+            _nftSalesInfo ??= await Views.GetNFTsToBuy();
             
             return _nftSalesInfo;
         }
 
-        public async Task<List<NFTSaleInfo>> GetUserNFTs()
+        public async Task<List<Token>> GetUserNFTs(PlayerFiler filer, Pagination pagination)
         {
-            _userNFTs ??= await Views.LoadUserNFTs();
             
-            return _userNFTs.Where(x => x.Sale == null).ToList();
+            return await Views.GetTokens(filer, pagination);
         }
 
-        public async Task<List<NFTSaleInfo>> GetFreeAgents()
+        public async Task<List<Token>> GetUserNFTsOnSale()
         {
-            _userNFTs ??= await Views.LoadUserNFTs();
-            
-            return _userNFTs.Where(x => x.Sale != null).ToList();
-        }
-
-        public async Task<string> GetMarketStoragePaid()
-        {
-            UInt128 amountUInt128 = await Views.GetPriceForSpot();
-            
-            return NearUtils.FormatNearAmount(amountUInt128).ToString();
-        }
-
-        public void RegisterStorage(string amount)
-        {
-            Actions.RegisterStorage(UInt128.Parse(amount));
+            return await Views.GetUserNFTsOnSale();
         }
 
         public void SaleUpdate(Dictionary<string, string> newSaleConditions, string tokenId, bool isAuction)

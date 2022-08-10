@@ -22,6 +22,7 @@ namespace UI.GameUI
 
         public void UpdateStats(Event data)
         {
+            /*
             switch (data.my_team.five.number)
             {
                 case "First":
@@ -44,6 +45,7 @@ namespace UI.GameUI
             leftDefender.SetData(data.my_team.five.field_players["LeftDefender"]);
             rightDefender.SetData(data.my_team.five.field_players["RightDefender"]);
             goalie.SetData(data.my_team.goalie);
+            */
         }
     }
 }

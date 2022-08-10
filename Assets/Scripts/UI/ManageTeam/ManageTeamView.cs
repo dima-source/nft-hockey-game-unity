@@ -1,8 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Near.Models.ManageTeam.Team;
-using Near.Models.Team.Team;
+using Near.Models.Game.Team;
+using Near.Models.Tokens;
+using Near.Models.Tokens.Filters;
+using Near.Models.Tokens.Players;
+using Near.Models.Tokens.Players.FieldPlayer;
+using Near.Models.Tokens.Players.Goalie;
 using Runtime;
 using UI.ManageTeam.DragAndDrop;
 using UnityEngine;
@@ -18,7 +22,7 @@ namespace UI.ManageTeam
         [SerializeField] private List<UISlot> goalies;
         private List<UISlot> _benchPlayers;
 
-        private List<NFTMetadata> _userNFTs;
+        private List<Token> _userNFTs;
 
         [SerializeField] private Transform canvasContent;
         [SerializeField] private Transform benchContent;
@@ -41,7 +45,9 @@ namespace UI.ManageTeam
         private async void Start()
         {
             _team = await _controller.LoadUserTeam();
-            _userNFTs = await _controller.LoadUserNFTs();
+            PlayerFiler filer = new PlayerFiler();
+            Pagination pagination = new Pagination();
+            _userNFTs = await _controller.LoadUserNFTs(filer, pagination);
             
             lineNumber = "First";
 
@@ -134,32 +140,31 @@ namespace UI.ManageTeam
                 _ => "GoaliePos"
             };
 
-            List<NFTMetadata> benchPlayers = type switch
+            List<Token> benchPlayers = type switch
             {
-                "GoaliePos" => _userNFTs.Where(x => x.Metadata.extra.Type != type && x.Metadata.extra.Type != "Goalie")
+                "GoaliePos" => _userNFTs.Where(x => x.player_type != type && x.player_type != "Goalie")
                     .ToList(),
-                _ => _userNFTs.Where(x => x.Metadata.extra.Type != type).ToList()
+                _ => _userNFTs.Where(x => x.player_type != type).ToList()
             };
 
             int slotId = 0;
             
-            foreach (NFTMetadata playerMetadata in benchPlayers)
+            foreach (Token nft in benchPlayers)
             {
                 UISlot benchSlot = Instantiate(Game.AssetRoot.manageTeamAsset.uiSlot, benchContent);
                 benchSlot.slotPosition = SlotPositionEnum.Bench;
                 
-                UIPlayer uiPlayer = playerMetadata.Metadata.extra.Type switch
+                UIPlayer uiPlayer = nft.player_type switch
                 {
                     "FieldPlayer" => Instantiate(Game.AssetRoot.manageTeamAsset.fieldPlayer, benchSlot.transform),
                     "Goalie" => Instantiate(Game.AssetRoot.manageTeamAsset.goalie, benchSlot.transform),
-                    "GoaliePos" => Instantiate(Game.AssetRoot.manageTeamAsset.goalie, benchSlot.transform),
                     _ => throw new Exception("Extra type not found")
                 };
 
                 benchSlot.uiPlayer = uiPlayer;
                 uiPlayer.uiSlot = benchSlot;
                 
-                uiPlayer.SetData(playerMetadata);
+                uiPlayer.SetData(nft);
                 uiPlayer.transform.localPosition = Vector3.zero;
                 uiPlayer.canvasContent = canvasContent;
 
@@ -180,16 +185,16 @@ namespace UI.ManageTeam
                     return;
                 }
                 
-                _team.Goalies["MainGoalkeeper"] = goalies[0].uiPlayer.CardData ;
-                _team.Goalies["SubstituteGoalkeeper"] = goalies[1].uiPlayer.CardData;
+                _team.Goalies["MainGoalkeeper"] = (Goalie)goalies[0].uiPlayer.CardData ;
+                _team.Goalies["SubstituteGoalkeeper"] = (Goalie)goalies[1].uiPlayer.CardData;
             }
             else
             {
-                _team.Fives[line].FieldPlayers["LeftWing"] = fives[0].uiPlayer.CardData;
-                _team.Fives[line].FieldPlayers["Center"] = fives[1].uiPlayer.CardData;
-                _team.Fives[line].FieldPlayers["RightWing"] = fives[2].uiPlayer.CardData;
-                _team.Fives[line].FieldPlayers["LeftDefender"] = fives[3].uiPlayer.CardData;
-                _team.Fives[line].FieldPlayers["RightDefender"] = fives[4].uiPlayer.CardData;
+                _team.Fives[line].FieldPlayers["LeftWing"] = (FieldPlayer)fives[0].uiPlayer.CardData;
+                _team.Fives[line].FieldPlayers["Center"] = (FieldPlayer)fives[1].uiPlayer.CardData;
+                _team.Fives[line].FieldPlayers["RightWing"] = (FieldPlayer)fives[2].uiPlayer.CardData;
+                _team.Fives[line].FieldPlayers["LeftDefender"] = (FieldPlayer)fives[3].uiPlayer.CardData;
+                _team.Fives[line].FieldPlayers["RightDefender"] = (FieldPlayer)fives[4].uiPlayer.CardData;
             }
         }
         

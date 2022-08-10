@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Near.Models;
+using Near.Models.Tokens;
 using Runtime;
 using UI.Marketplace.NftCardsUI;
 using UnityEngine;
@@ -29,11 +29,11 @@ namespace UI.Marketplace.Buy_cards
                 return;
             }
             
-            List<NFTSaleInfo> nftSalesInfo = await viewInteractor.MarketplaceController.GetSales();
+            List<Token> nFTs = await viewInteractor.MarketplaceController.GetUserNFTsToBuy();
 
-            foreach (NFTSaleInfo nftSaleInfo in nftSalesInfo)
+            foreach (Token nft in nFTs)
             {
-                NftCardUI card = nftSaleInfo.NFT.metadata.extra.Type switch
+                NftCardUI card = nft.player_type switch
                 {
                     "FieldPlayer" => Instantiate(Game.AssetRoot.marketplaceAsset.fieldPlayerCardTile),
                     "Goalie" => Instantiate(Game.AssetRoot.marketplaceAsset.goalieNftCardUI),
@@ -41,7 +41,7 @@ namespace UI.Marketplace.Buy_cards
                     _ => throw new Exception("Extra type not found")
                 };
 
-                card.PrepareNftCard(buyNftCardView, nftSaleInfo, content);
+                card.PrepareNftCard(buyNftCardView, nft, content);
             }
 
             _isLoaded = true;

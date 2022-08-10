@@ -12,6 +12,7 @@ namespace UI.GameUI.EventsUI
 
         public void ShowEvent(Event data)
         {
+            /*
             eventText.text = data.action;
             ownNumberText.text = data.player_with_puck.number.ToString();
             
@@ -28,6 +29,7 @@ namespace UI.GameUI.EventsUI
             
             string pos = data.player_with_puck.position;
             opponentPlayerNumber.text = data.my_team.five.field_players[pos].number.ToString();
+            */
         }
     }
 }
