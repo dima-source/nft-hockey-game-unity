@@ -12,6 +12,6 @@ namespace UI.Marketplace.NftCardsUI
         public Image Image => image;
         public Text CardName => cardName;
 
-        public abstract void SetData(NFT nft);
+        public abstract void SetData(Token token);
     }
 }

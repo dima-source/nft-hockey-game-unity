@@ -29,15 +29,15 @@ namespace UI.Marketplace.NftCardsUI.FieldPlayer
         public Text Morale => morale;
 
 
-        public override void SetData(NFT nft)
+        public override void SetData(Token token)
         {
-            CardName.text = nft.Name;
-            StartCoroutine(Utils.Utils.LoadImage(Image, nft.Media));
+            CardName.text = token.title;
+            StartCoroutine(Utils.Utils.LoadImage(Image, token.media));
 
             Near.Models.Tokens.Players.FieldPlayer.FieldPlayer fieldPlayer =
-                (Near.Models.Tokens.Players.FieldPlayer.FieldPlayer)nft;
+                (Near.Models.Tokens.Players.FieldPlayer.FieldPlayer)token;
 
-            Number.text = fieldPlayer.Number.ToString();
+            Number.text = fieldPlayer.number.ToString();
             /*
             Position.text = Utils.Utils.ConvertPosition(extra.Position);
             Role.text = extra.Role;

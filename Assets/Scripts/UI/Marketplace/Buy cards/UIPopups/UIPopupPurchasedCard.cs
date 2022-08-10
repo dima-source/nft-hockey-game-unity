@@ -13,9 +13,9 @@ namespace UI.Marketplace.Buy_cards.UIPopups
     {
         [SerializeField] private Text price;
         
-        public void SetData(NFT nft, Transform content)
+        public void SetData(Token token, Transform content)
         {
-            CardUI card = nft.TokenType switch
+            CardUI card = token.player_type switch
             {
                 "FieldPlayer" => Instantiate(Game.AssetRoot.marketplaceAsset.fieldPlayerCardUI, content),
                 "Goalie" => Instantiate(Game.AssetRoot.marketplaceAsset.goalieCardUI, content),
@@ -23,9 +23,9 @@ namespace UI.Marketplace.Buy_cards.UIPopups
                 _ => throw new Exception("Extra type not found")
             };
             
-            card.SetData(nft);
+            card.SetData(token);
             
-            price.text = NearUtils.FormatNearAmount(UInt128.Parse(nft.MarketplaceData.Price)).ToString();
+            price.text = NearUtils.FormatNearAmount(UInt128.Parse(token.marketplace_data.price)).ToString();
         }
     }
 }

@@ -31,14 +31,14 @@ namespace UI.Marketplace.NftCardsUI.Goalie
         public Text Stretch => stretch;
         public Text Morale => morale;
         
-        public override void SetData(NFT nft)
+        public override void SetData(Token token)
         {
-            CardName.text = nft.Name;
-            StartCoroutine(Utils.Utils.LoadImage(Image, nft.Media));
+            CardName.text = token.title;
+            StartCoroutine(Utils.Utils.LoadImage(Image, token.media));
 
-            Near.Models.Tokens.Players.Goalie.Goalie goalie = (Near.Models.Tokens.Players.Goalie.Goalie)nft;
+            Near.Models.Tokens.Players.Goalie.Goalie goalie = (Near.Models.Tokens.Players.Goalie.Goalie)token;
 
-            Number.text = goalie.Number.ToString();
+            Number.text = goalie.number.ToString();
             /*
             Position.text = Utils.Utils.ConvertPosition(extra.Position);
             Role.text = extra.Role;

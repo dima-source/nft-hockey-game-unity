@@ -38,12 +38,12 @@ namespace UI.Marketplace.FreeAgents
 
         private NftCardUI _cardTile;
         private NftCardDescriptionUI _cardDescription;
-        private NFT _nft;
+        private Token _token;
 
         private string _price;
         private string _bidToAccept;
         
-        public void LoadCard(ICardRenderer cardRenderer, NFT nft)
+        public void LoadCard(ICardRenderer cardRenderer, Token token)
         {
             viewInteractor.ChangeView(gameObject.transform);
             
@@ -68,22 +68,22 @@ namespace UI.Marketplace.FreeAgents
                 Destroy(_cardDescription.gameObject);
             }
 
-            StartCoroutine(Utils.Utils.LoadImage(cardImage, nft.Media));
+            StartCoroutine(Utils.Utils.LoadImage(cardImage, token.media));
             
             _cardDescription = cardRenderer.RenderCardDescription(cardDescriptionContent);
-            _nft = nft;
+            _token = token;
 
-            if (nft.MarketplaceData == null)
+            if (token.marketplace_data == null)
             {
                 return;
             }
             
-            if (nft.MarketplaceData.Offers == null || nft.MarketplaceData.Offers.Count == 0)
+            if (token.marketplace_data.offers == null || token.marketplace_data.offers.Count == 0)
             {
                 buyImmediatelyView.gameObject.SetActive(true);
                 bidsView.gameObject.SetActive(false);
 
-                _price = NearUtils.FormatNearAmount(UInt128.Parse(nft.MarketplaceData.Price)).ToString();
+                _price = NearUtils.FormatNearAmount(UInt128.Parse(token.marketplace_data.price)).ToString();
                 price.text = "Price: " + _price;
                 currentSaleConditions.text = _price;
             }
@@ -94,7 +94,7 @@ namespace UI.Marketplace.FreeAgents
                 
                 BidText saleConditionText = Instantiate(Game.AssetRoot.marketplaceAsset.bid, bidContent);
 
-                saleConditionText.bid.text = "Sale conditions" + ":  " + NearUtils.FormatNearAmount(UInt128.Parse(_nft.MarketplaceData.Price));
+                saleConditionText.bid.text = "Sale conditions" + ":  " + NearUtils.FormatNearAmount(UInt128.Parse(_token.marketplace_data.price));
 
                 currentSaleConditions.text = saleConditionText.bid.text;
 
@@ -103,12 +103,12 @@ namespace UI.Marketplace.FreeAgents
                 // TODO: 
                 //_bidToAccept = nftSaleInfo.Sale.bids["near"][0].price;
                 
-                foreach (Offer offer in _nft.MarketplaceData.Offers)
+                foreach (Offer offer in _token.marketplace_data.offers)
                 {
                     BidText bidText = Instantiate(Game.AssetRoot.marketplaceAsset.bid, bidContent);
 
-                    string ownerId = offer.User.Id != NearPersistentManager.Instance.GetAccountId() ? offer.User.Id: "Your bid";
-                    bidText.bid.text = ownerId + ":  " + NearUtils.FormatNearAmount(UInt128.Parse(offer.Price));
+                    string ownerId = offer.user.id != NearPersistentManager.Instance.GetAccountId() ? offer.user.id: "Your bid";
+                    bidText.bid.text = ownerId + ":  " + NearUtils.FormatNearAmount(UInt128.Parse(offer.price));
                     
                     _bidTexts.Add(bidText);
                 }
@@ -118,7 +118,7 @@ namespace UI.Marketplace.FreeAgents
         public void AcceptOffer()
         {
             Application.deepLinkActivated += OnAcceptOffer;
-            viewInteractor.MarketplaceController.AcceptOffer(_nft.TokenId);
+            viewInteractor.MarketplaceController.AcceptOffer(_token.tokenId);
         }
 
         private void OnAcceptOffer(string url)
@@ -148,7 +148,7 @@ namespace UI.Marketplace.FreeAgents
 
             Application.deepLinkActivated += OnUpdatePrice;
             
-            viewInteractor.MarketplaceController.SaleUpdate(newSale, _nft.TokenId, _nft.MarketplaceData.IsAuction);
+            viewInteractor.MarketplaceController.SaleUpdate(newSale, _token.tokenId, _token.marketplace_data.isAuction);
             
             CloseSetNewPriceView();
         }
@@ -164,7 +164,7 @@ namespace UI.Marketplace.FreeAgents
         public void RemoveSale()
         {
             Application.deepLinkActivated += OnRemoveSale;
-            viewInteractor.MarketplaceController.RemoveSale(_nft.TokenId);
+            viewInteractor.MarketplaceController.RemoveSale(_token.tokenId);
         }
 
         private void OnRemoveSale(string url)

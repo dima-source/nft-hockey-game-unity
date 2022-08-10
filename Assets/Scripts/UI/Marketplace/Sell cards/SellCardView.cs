@@ -20,13 +20,13 @@ namespace UI.Marketplace.Sell_cards
 
         private NftCardUI _cardTile;
         private NftCardDescriptionUI _cardDescription;
-        private NFT _nft;
+        private Token _token;
         private string _marketStoragePaid;
         
         [SerializeField] private Toggle isAuction;
         [SerializeField] private InputField price;
 
-        public void LoadCard(ICardRenderer cardRenderer, NFT nft)
+        public void LoadCard(ICardRenderer cardRenderer, Token token)
         {
             viewInteractor.ChangeView(gameObject.transform);
 
@@ -40,9 +40,9 @@ namespace UI.Marketplace.Sell_cards
                 Destroy(_cardDescription.gameObject);
             }
 
-            _nft = nft;
+            _token = token;
 
-            StartCoroutine(Utils.Utils.LoadImage(cardImage, nft.Media));
+            StartCoroutine(Utils.Utils.LoadImage(cardImage, token.media));
             
             _cardDescription = cardRenderer.RenderCardDescription(cardDescriptionContent);
         }
@@ -54,7 +54,7 @@ namespace UI.Marketplace.Sell_cards
 
             Application.deepLinkActivated += OnSellCard;
             
-            viewInteractor.MarketplaceController.SaleUpdate(newSaleConditions, _nft.TokenId, isAuction.isOn);
+            viewInteractor.MarketplaceController.SaleUpdate(newSaleConditions, _token.tokenId, isAuction.isOn);
         }
 
         private void OnSellCard(string url)

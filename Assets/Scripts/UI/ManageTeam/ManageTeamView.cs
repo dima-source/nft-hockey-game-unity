@@ -20,7 +20,7 @@ namespace UI.ManageTeam
         [SerializeField] private List<UISlot> goalies;
         private List<UISlot> _benchPlayers;
 
-        private List<NFT> _userNFTs;
+        private List<Token> _userNFTs;
 
         [SerializeField] private Transform canvasContent;
         [SerializeField] private Transform benchContent;
@@ -136,21 +136,21 @@ namespace UI.ManageTeam
                 _ => "GoaliePos"
             };
 
-            List<NFT> benchPlayers = type switch
+            List<Token> benchPlayers = type switch
             {
-                "GoaliePos" => _userNFTs.Where(x => x.TokenType != type && x.TokenType != "Goalie")
+                "GoaliePos" => _userNFTs.Where(x => x.player_type != type && x.player_type != "Goalie")
                     .ToList(),
-                _ => _userNFTs.Where(x => x.TokenType != type).ToList()
+                _ => _userNFTs.Where(x => x.player_type != type).ToList()
             };
 
             int slotId = 0;
             
-            foreach (NFT nft in benchPlayers)
+            foreach (Token nft in benchPlayers)
             {
                 UISlot benchSlot = Instantiate(Game.AssetRoot.manageTeamAsset.uiSlot, benchContent);
                 benchSlot.slotPosition = SlotPositionEnum.Bench;
                 
-                UIPlayer uiPlayer = nft.TokenType switch
+                UIPlayer uiPlayer = nft.player_type switch
                 {
                     "FieldPlayer" => Instantiate(Game.AssetRoot.manageTeamAsset.fieldPlayer, benchSlot.transform),
                     "Goalie" => Instantiate(Game.AssetRoot.manageTeamAsset.goalie, benchSlot.transform),

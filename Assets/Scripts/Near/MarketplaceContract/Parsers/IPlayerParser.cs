@@ -5,6 +5,6 @@ namespace Near.MarketplaceContract.Parsers
 {
     public interface IPlayerParser
     {
-        public NFT ParsePlayer(JObject data);
+        public Token ParsePlayer(JObject data);
     }
 }

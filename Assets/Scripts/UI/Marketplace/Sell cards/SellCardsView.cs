@@ -29,11 +29,11 @@ namespace UI.Marketplace.Sell_cards
                 return;
             }
 
-            List<NFT> nFTs = await viewInteractor.MarketplaceController.GetUserNFTs();
+            List<Token> nFTs = await viewInteractor.MarketplaceController.GetUserNFTs();
 
-            foreach (NFT nft in nFTs)
+            foreach (Token nft in nFTs)
             {
-                NftCardUI card = nft.TokenType switch
+                NftCardUI card = nft.player_type switch
                 {
                     "FieldPlayer" => Instantiate(Game.AssetRoot.marketplaceAsset.fieldPlayerCardTile),
                     "Goalie" => Instantiate(Game.AssetRoot.marketplaceAsset.goalieNftCardUI),

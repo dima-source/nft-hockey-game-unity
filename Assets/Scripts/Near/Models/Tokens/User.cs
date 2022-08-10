@@ -4,7 +4,7 @@ namespace Near.Models.Tokens
 {
     public class User
     {
-        public string Id { get; set; }
-        public List<NFT> Tokens { get; set; }
+        public string id { get; set; }
+        public List<string> tokens { get; set; }
     }
 }

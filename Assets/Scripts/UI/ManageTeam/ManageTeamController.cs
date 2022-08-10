@@ -15,12 +15,12 @@ namespace UI.ManageTeam
             return await Views.LoadUserTeam();
         }
 
-        public async Task<List<NFT>> LoadUserNFTs()
+        public async Task<List<Token>> LoadUserNFTs()
         {
             var tokes = await Near.MarketplaceContract.ContractMethods.Views.GetUserNFTs();
             if (tokes == null)
             {
-                return new List<NFT>();
+                return new List<Token>();
             }
 
             return tokes;

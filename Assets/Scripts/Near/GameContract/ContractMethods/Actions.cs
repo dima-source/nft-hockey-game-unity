@@ -150,9 +150,9 @@ namespace Near.GameContract.ContractMethods
                 
             foreach (var fieldPlayer in fieldPlayers)
             {
-                if (fieldPlayer.Value.TokenId != "-1")
+                if (fieldPlayer.Value.tokenId != "-1")
                 {
-                    result.Add(new List<string> { fieldPlayer.Key, fieldPlayer.Value.TokenId });
+                    result.Add(new List<string> { fieldPlayer.Key, fieldPlayer.Value.tokenId });
                 }
             }
 
@@ -165,9 +165,9 @@ namespace Near.GameContract.ContractMethods
 
             foreach (var goalie in goalies)
             {
-                if (goalie.Value.TokenId != "-1")
+                if (goalie.Value.tokenId != "-1")
                 {
-                    result.Add(new List<string> { goalie.Key, goalie.Value.TokenId });
+                    result.Add(new List<string> { goalie.Key, goalie.Value.tokenId });
                 }
             }
 

@@ -8,7 +8,7 @@ namespace Near.MarketplaceContract.Parsers
 {
     public class FieldPlayerParser : IPlayerParser
     {
-        public NFT ParsePlayer(JObject data)
+        public Token ParsePlayer(JObject data)
         {
             FieldPlayer fieldPlayer = JsonConvert.DeserializeObject<FieldPlayer>(data.ToString());
             if (fieldPlayer == null)

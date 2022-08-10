@@ -1,11 +1,16 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
+using GraphQL.Query.Builder;
 using Near.Models.Tokens;
+using Near.Models.Tokens.Filters;
+using Near.Models.Tokens.Players;
 using Near.Models.Tokens.Players.FieldPlayer;
 using Newtonsoft.Json;
+using UnityEngine;
 
 
 namespace Near.MarketplaceContract.ContractMethods
@@ -16,6 +21,8 @@ namespace Near.MarketplaceContract.ContractMethods
         
         public static async Task<string> GetJSONQuery(string json)
         {
+            json = "{\"query\": \"{" + json.Replace("\"", "\\\"") + "}\"}";
+            
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -29,26 +36,55 @@ namespace Near.MarketplaceContract.ContractMethods
             }
         }
 
-        public static async Task<List<NFT>> GetUserNFTs()
+        public static async Task<List<Token>> GetUserNFTs()
         {
             // TODO: fixed request
-            string accountId = NearPersistentManager.Instance.WalletAccount.GetAccountId();
-            string json = "{\"query\": \"{tokens" +
-                          "{title media reality stats nationality birthday number hand " + 
-                          "player_role native_position player_type rarity issued_at tokenId owner ownerId perpetual_royalties " +
-                          "marketplace_data{price token isAuction offers}}}\"}";
-            string responseJson = await GetJSONQuery(json);
-            var tokens = JsonConvert.DeserializeObject<List<NFT>>(responseJson, new TokensConverter());
+            // string accountId = NearPersistentManager.Instance.WalletAccount.GetAccountId();
+            string accountId = "parh.testnet";
+
+            PlayerFiler filer = new PlayerFiler();
+            filer.ownerId = "parh.testnet";
+            filer.player_type = "FieldPlayer";
+            filer.hand = "L";
+            filer.rarity_in = new List<string> { "super rare", "exclusive"};
+
+            IQuery<Player> query = new Query<Player>("tokens", new QueryOptions())
+                .AddArguments(new { where = filer })
+                .AddField(p => p.title)
+                .AddField(p => p.player_type)
+                .AddField(p => p.media)
+                .AddField(p => p.rarity)
+                .AddField(p => p.issued_at)
+                .AddField(p => p.tokenId)
+                .AddField(p => p.owner,
+                    sq => sq
+                        .AddField(p => p.id)
+                        .AddField(p => p.tokens))
+                .AddField(p => p.ownerId)
+                .AddField(p => p.perpetual_royalties)
+                .AddField(p => p.reality)
+                .AddField(p => p.number)
+                .AddField(p => p.hand)
+                .AddField(p => p.player_role)
+                .AddField(p => p.native_position)
+                .AddField(p => p.birthday)
+                .AddField(p => p.stats);
+
+            string responseJson = await GetJSONQuery(query.Build());
+            
+            Debug.Log(responseJson);
+            
+            var tokens = JsonConvert.DeserializeObject<List<Token>>(responseJson, new TokensConverter());
             
             if (tokens == null)
             {
-                return new List<NFT>();
+                return new List<Token>();
             }
 
             return tokens;
         }
 
-        public static async Task<List<NFT>> GetNFTsToBuy()
+        public static async Task<List<Token>> GetNFTsToBuy()
         {
             string accountId = NearPersistentManager.Instance.WalletAccount.GetAccountId();
             string json = "{\"query\": \"{marketplaceTokens(where: {token_:{ownerId_not: "+"\""+accountId+"\""+"}})" +
@@ -57,10 +93,10 @@ namespace Near.MarketplaceContract.ContractMethods
             string responseJson = await GetJSONQuery(json);
             // TODO: parse response
             
-            return new List<NFT>();
+            return new List<Token>();
         }
 
-        public static async Task<List<NFT>> GetUserNFTsOnSale()
+        public static async Task<List<Token>> GetUserNFTsOnSale()
         {
             throw new System.NotImplementedException();
         }

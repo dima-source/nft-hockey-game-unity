@@ -8,7 +8,7 @@ namespace Near.MarketplaceContract.Parsers
 {
     public class GoalieParser : IPlayerParser
     {
-        public NFT ParsePlayer(JObject data)
+        public Token ParsePlayer(JObject data)
         {
             Goalie goalie = JsonConvert.DeserializeObject<Goalie>(data.ToString());
             if (goalie == null)

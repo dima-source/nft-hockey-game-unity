@@ -17,7 +17,7 @@ namespace Near.MarketplaceContract
         
         public override bool CanConvert(Type objectType)
         {
-            return (objectType == typeof(NFT));
+            return (objectType == typeof(Token));
         }
 
         private IPlayerParser MapDataToParser(JObject data)

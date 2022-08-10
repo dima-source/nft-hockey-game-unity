@@ -6,6 +6,7 @@ using Runtime;
 using UI.Marketplace.NftCardsUI;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
+using Token = Near.Models.Tokens.Token;
 
 namespace UI.Marketplace.FreeAgents
 {
@@ -31,11 +32,11 @@ namespace UI.Marketplace.FreeAgents
                 return;
             }
             
-            List<NFT> nFTs = await viewInteractor.MarketplaceController.GetUserNFTsOnSale();
+            List<Token> nFTs = await viewInteractor.MarketplaceController.GetUserNFTsOnSale();
 
-            foreach (NFT nft in nFTs)
+            foreach (Token nft in nFTs)
             {
-                NftCardUI card = nft.TokenType switch
+                NftCardUI card = nft.player_type switch
                 {
                     "FieldPlayer" => Instantiate(Game.AssetRoot.marketplaceAsset.fieldPlayerCardTile),
                     "Goalie" => Instantiate(Game.AssetRoot.marketplaceAsset.goalieNftCardUI),

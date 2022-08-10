@@ -21,7 +21,7 @@ namespace UI.ManageTeam.DragAndDrop
 
         public Transform canvasContent;
 
-        public NFT CardData;
+        public Token CardData;
         public UISlot uiSlot;
         
         protected void Start()
@@ -56,6 +56,6 @@ namespace UI.ManageTeam.DragAndDrop
             _canvasGroup.blocksRaycasts = true;
         }
 
-        public abstract void SetData(NFT nft);
+        public abstract void SetData(Token token);
     }
 }

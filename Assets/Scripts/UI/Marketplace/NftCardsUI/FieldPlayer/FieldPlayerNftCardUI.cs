@@ -11,11 +11,11 @@ namespace UI.Marketplace.NftCardsUI.FieldPlayer
 {
     class FieldPlayerRenderer : ICardRenderer
     {
-        private readonly NFT _nft;
+        private readonly Token _token;
         
-        public FieldPlayerRenderer(NFT nft)
+        public FieldPlayerRenderer(Token token)
         {
-            _nft = nft;
+            _token = token;
         }
         
         public NftCardUI RenderCardTile(Transform content)
@@ -23,29 +23,29 @@ namespace UI.Marketplace.NftCardsUI.FieldPlayer
             FieldPlayerNftCardUI fieldPlayerNftCardUI =
                 Object.Instantiate(Game.AssetRoot.marketplaceAsset.fieldPlayerCardTile, content);
             
-            fieldPlayerNftCardUI.Name.text = _nft.Name;
-            fieldPlayerNftCardUI.OwnerId.text = _nft.OwnerId!= NearPersistentManager.Instance.GetAccountId() 
-                ? "Owner: " + _nft.OwnerId: "You are the owner";
+            fieldPlayerNftCardUI.Name.text = _token.title;
+            fieldPlayerNftCardUI.OwnerId.text = _token.ownerId!= NearPersistentManager.Instance.GetAccountId() 
+                ? "Owner: " + _token.ownerId: "You are the owner";
             
-            if (_nft.MarketplaceData == null)
+            if (_token.marketplace_data == null)
             {
                 fieldPlayerNftCardUI.Price.gameObject.SetActive(false);
             } 
-            else if (_nft.MarketplaceData.Offers != null && _nft.MarketplaceData.IsAuction)
+            else if (_token.marketplace_data.offers != null && _token.marketplace_data.isAuction)
             {
                 fieldPlayerNftCardUI.Cost.text = "Auction";
             }
             else 
             {
-                fieldPlayerNftCardUI.Cost.text = "Price: " + NearUtils.FormatNearAmount(UInt128.Parse(_nft.MarketplaceData.Price));
+                fieldPlayerNftCardUI.Cost.text = "Price: " + NearUtils.FormatNearAmount(UInt128.Parse(_token.marketplace_data.price));
             }
 
             Near.Models.Tokens.Players.FieldPlayer.FieldPlayer fieldPlayer =
-                (Near.Models.Tokens.Players.FieldPlayer.FieldPlayer)_nft;
+                (Near.Models.Tokens.Players.FieldPlayer.FieldPlayer)_token;
             
 
-            fieldPlayerNftCardUI.LoadImage(_nft.Media);
-            fieldPlayerNftCardUI.Number.text = fieldPlayer.Number.ToString();
+            fieldPlayerNftCardUI.LoadImage(_token.media);
+            fieldPlayerNftCardUI.Number.text = fieldPlayer.number.ToString();
             /*
             fieldPlayer.Position.text = Utils.Utils.ConvertPosition(extra.Position);
             fieldPlayer.Role.text = extra.Role;
@@ -66,10 +66,10 @@ namespace UI.Marketplace.NftCardsUI.FieldPlayer
                 Object.Instantiate(Game.AssetRoot.marketplaceAsset.fieldPlayerCardDescription, content);
 
             Near.Models.Tokens.Players.FieldPlayer.FieldPlayer fieldPlayer =
-                (Near.Models.Tokens.Players.FieldPlayer.FieldPlayer)_nft;
+                (Near.Models.Tokens.Players.FieldPlayer.FieldPlayer)_token;
             
-            cardDescription.OwnerId.text =  _nft.OwnerId != NearPersistentManager.Instance.GetAccountId() 
-                ? "Owner: " + _nft.OwnerId : "You are the owner";
+            cardDescription.OwnerId.text =  _token.ownerId != NearPersistentManager.Instance.GetAccountId() 
+                ? "Owner: " + _token.ownerId : "You are the owner";
             
             // TODO: parse royalty 
             /*
@@ -79,7 +79,7 @@ namespace UI.Marketplace.NftCardsUI.FieldPlayer
             }
             */
             
-            cardDescription.Name.text = _nft.Name;
+            cardDescription.Name.text = _token.title;
             /*
             cardDescription.Position.text = "Position: " + extra.Position;
             cardDescription.Role.text = "Role: " + extra.Role;
@@ -119,7 +119,7 @@ namespace UI.Marketplace.NftCardsUI.FieldPlayer
         
         protected override ICardRenderer GetCardRenderer()
         {
-            return new FieldPlayerRenderer(NFT);
+            return new FieldPlayerRenderer(token);
         }
     }
 }

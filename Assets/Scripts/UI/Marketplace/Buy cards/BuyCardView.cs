@@ -40,11 +40,11 @@ namespace UI.Marketplace.Buy_cards
 
         private NftCardUI _cardTile;
         private NftCardDescriptionUI _cardDescription;
-        private NFT _nft;
+        private Token _token;
 
         private string _price;
 
-        public void LoadCard(ICardRenderer cardRenderer, NFT nft)
+        public void LoadCard(ICardRenderer cardRenderer, Token token)
         {
             viewInteractor.ChangeView(gameObject.transform);
 
@@ -68,29 +68,29 @@ namespace UI.Marketplace.Buy_cards
                 Destroy(_cardDescription.gameObject);
             }
 
-            StartCoroutine(Utils.Utils.LoadImage(cardImage, nft.Media));
+            StartCoroutine(Utils.Utils.LoadImage(cardImage, token.media));
             
             _cardDescription = cardRenderer.RenderCardDescription(cardDescriptionContent);
-            _nft = nft;
+            _token = token;
             
-            if (nft.OwnerId == NearPersistentManager.Instance.GetAccountId())
+            if (token.ownerId == NearPersistentManager.Instance.GetAccountId())
             {
                 buyButton.gameObject.SetActive(false);
                 return;
             }
 
-            if (nft.MarketplaceData == null)
+            if (token.marketplace_data == null)
             {
                 return;
             }
             
-            if (!nft.MarketplaceData.IsAuction)
+            if (!token.marketplace_data.isAuction)
             {
                 buyImmediatelyView.gameObject.SetActive(true);
                 setBidView.gameObject.SetActive(false);
                 buyButtonText.text = "Buy";
 
-                _price = NearUtils.FormatNearAmount(UInt128.Parse(nft.MarketplaceData.Price)).ToString();
+                _price = NearUtils.FormatNearAmount(UInt128.Parse(token.marketplace_data.price)).ToString();
                 price.text = "Price: " + _price;
             }
             else
@@ -101,16 +101,16 @@ namespace UI.Marketplace.Buy_cards
                 
                 BidText saleConditionText = Instantiate(Game.AssetRoot.marketplaceAsset.bid, bidContent);
                 
-                saleConditionText.bid.text = "Sale conditions" + ":  " + NearUtils.FormatNearAmount(UInt128.Parse(nft.MarketplaceData.Price));
+                saleConditionText.bid.text = "Sale conditions" + ":  " + NearUtils.FormatNearAmount(UInt128.Parse(token.marketplace_data.price));
                 
                 _bidTexts.Add(saleConditionText);
                 
-                foreach (Offer offer in nft.MarketplaceData.Offers)
+                foreach (Offer offer in token.marketplace_data.offers)
                 {
                     BidText bidText = Instantiate(Game.AssetRoot.marketplaceAsset.bid, bidContent);
 
-                    string ownerId = offer.User.Id != NearPersistentManager.Instance.GetAccountId() ? offer.User.Id : "Your bid";
-                    bidText.bid.text = ownerId + ":  " + NearUtils.FormatNearAmount(UInt128.Parse(offer.Price));
+                    string ownerId = offer.user.id != NearPersistentManager.Instance.GetAccountId() ? offer.user.id : "Your bid";
+                    bidText.bid.text = ownerId + ":  " + NearUtils.FormatNearAmount(UInt128.Parse(offer.price));
                     
                     _bidTexts.Add(bidText);
                 }
@@ -119,7 +119,7 @@ namespace UI.Marketplace.Buy_cards
 
         public void BuyCard()
         {
-            if (_nft.MarketplaceData.IsAuction)
+            if (_token.marketplace_data.isAuction)
             {
                 _price = bid.text;
                 Application.deepLinkActivated += OnSetBid;
@@ -129,14 +129,14 @@ namespace UI.Marketplace.Buy_cards
                 Application.deepLinkActivated += OnBuyCard;
             }
             
-            viewInteractor.MarketplaceController.Offer(_nft.TokenId, "near", _price);
+            viewInteractor.MarketplaceController.Offer(_token.tokenId, "near", _price);
         }
 
         private void OnBuyCard(string url)
         {
             Application.deepLinkActivated -= OnBuyCard;
             uiPopupPurchasedCard.Show();
-            uiPopupPurchasedCard.SetData(_nft, popupContent);
+            uiPopupPurchasedCard.SetData(_token, popupContent);
         }
 
         private void OnSetBid(string url)

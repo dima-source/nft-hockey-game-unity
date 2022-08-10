@@ -17,23 +17,23 @@ namespace UI.ManageTeam.DragAndDrop
 
         private bool _isInit = false;
 
-        public override void SetData(NFT nft)
+        public override void SetData(Token token)
         {
-            CardData = nft;
+            CardData = token;
 
-            playerName.text = nft.Name;
+            playerName.text = token.title;
 
-            if (!string.IsNullOrEmpty(nft.Media))
+            if (!string.IsNullOrEmpty(token.media))
             {
-                StartCoroutine(Utils.Utils.LoadImage(playerImg, nft.Media));
+                StartCoroutine(Utils.Utils.LoadImage(playerImg, token.media));
             }
             else
             {
                 silverStroke.gameObject.SetActive(true);
             }
 
-            FieldPlayer fieldPlayer = (FieldPlayer)nft;
-            number.text = fieldPlayer.Number.ToString();
+            FieldPlayer fieldPlayer = (FieldPlayer)token;
+            number.text = fieldPlayer.number.ToString();
             //role.text = goalieExtra.Role;
             //position.text = Utils.Utils.ConvertPosition(goalieExtra.Position);
 
@@ -48,18 +48,18 @@ namespace UI.ManageTeam.DragAndDrop
         {
             gameObject.SetActive(true);
 
-            if (!_isInit && data.Media != "")
+            if (!_isInit && data.media != "")
             {
-                StartCoroutine(Utils.Utils.LoadImage(playerImg, data.Media));
+                StartCoroutine(Utils.Utils.LoadImage(playerImg, data.media));
             }
 
             _isInit = true;
 
-            playerName.text = data.Name;
+            playerName.text = data.title;
 
-            number.text = data.Number.ToString();
-            role.text = data.PlayerRole;
-            position.text = Utils.Utils.ConvertPosition(data.NativePosition);
+            number.text = data.number.ToString();
+            role.text = data.player_role;
+            position.text = Utils.Utils.ConvertPosition(data.native_position);
 
             skating.text = data.Stats.Skating.ToString();
             shooting.text = data.Stats.Shooting.ToString();

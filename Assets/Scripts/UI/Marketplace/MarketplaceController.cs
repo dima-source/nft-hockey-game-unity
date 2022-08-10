@@ -7,22 +7,22 @@ namespace UI.Marketplace
 {
     public class MarketplaceController
     {
-        private List<NFT> _nftSalesInfo;
-        private List<NFT> _userNFTs;
+        private List<Token> _nftSalesInfo;
+        private List<Token> _userNFTs;
 
-        public async Task<List<NFT>> GetUserNFTsToBuy()
+        public async Task<List<Token>> GetUserNFTsToBuy()
         {
             _nftSalesInfo ??= await Views.GetNFTsToBuy();
             
             return _nftSalesInfo;
         }
 
-        public async Task<List<NFT>> GetUserNFTs()
+        public async Task<List<Token>> GetUserNFTs()
         {
             return await Views.GetUserNFTs();
         }
 
-        public async Task<List<NFT>> GetUserNFTsOnSale()
+        public async Task<List<Token>> GetUserNFTsOnSale()
         {
             return await Views.GetUserNFTsOnSale();
         }

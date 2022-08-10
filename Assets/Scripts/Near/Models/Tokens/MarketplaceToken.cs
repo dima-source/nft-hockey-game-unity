@@ -1,23 +1,14 @@
 using System.Collections.Generic;
-using Newtonsoft.Json;
 
 namespace Near.Models.Tokens
 {
     public class MarketplaceToken
     {
-        [JsonProperty("id")]
-        public int Id { get; set; }
+        public int id { get; set; }
+        public string price { get; set; } // UInt128
         
-        [JsonProperty("price")]
-        public string Price { get; set; } // UInt128
-        
-        [JsonProperty("token")]
-        public NFT NFT { get; set; }
-        
-        [JsonProperty("isAuction")]
-        public bool IsAuction { get; set; }
-        
-        [JsonProperty("offers")]
-        public List<Offer> Offers { get; set; }
+        public Token token { get; set; }
+        public bool isAuction { get; set; }
+        public List<Offer> offers { get; set; }
     }
 }
