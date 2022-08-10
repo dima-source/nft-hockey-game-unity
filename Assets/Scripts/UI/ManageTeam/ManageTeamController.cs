@@ -5,6 +5,7 @@ using Near.GameContract.ContractMethods;
 using Near.Models;
 using Near.Models.Game.Team;
 using Near.Models.Tokens;
+using Near.Models.Tokens.Filters;
 
 namespace UI.ManageTeam
 {
@@ -15,9 +16,9 @@ namespace UI.ManageTeam
             return await Views.LoadUserTeam();
         }
 
-        public async Task<List<Token>> LoadUserNFTs()
+        public async Task<List<Token>> LoadUserNFTs(PlayerFiler filer, Pagination pagination)
         {
-            var tokes = await Near.MarketplaceContract.ContractMethods.Views.GetUserNFTs();
+            var tokes = await Near.MarketplaceContract.ContractMethods.Views.GetTokens(filer, pagination);
             if (tokes == null)
             {
                 return new List<Token>();

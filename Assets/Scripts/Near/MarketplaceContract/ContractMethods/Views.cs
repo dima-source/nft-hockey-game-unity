@@ -1,14 +1,12 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
 using GraphQL.Query.Builder;
 using Near.Models.Tokens;
 using Near.Models.Tokens.Filters;
 using Near.Models.Tokens.Players;
-using Near.Models.Tokens.Players.FieldPlayer;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -36,20 +34,8 @@ namespace Near.MarketplaceContract.ContractMethods
             }
         }
 
-        public static async Task<List<Token>> GetUserNFTs()
+        public static async Task<List<Token>> GetTokens(PlayerFiler filer, Pagination pagination)
         {
-            // TODO: fixed request
-            // string accountId = NearPersistentManager.Instance.WalletAccount.GetAccountId();
-            string accountId = "parh.testnet";
-
-            Pagination pagination = new Pagination();
-
-            PlayerFiler filer = new PlayerFiler();
-            filer.ownerId = "parh.testnet";
-            filer.player_type = "FieldPlayer";
-            filer.hand = "L";
-            filer.rarity_in = new List<string> { "super rare", "exclusive"};
-
             IQuery<Player> query = new Query<Player>("tokens", new QueryOptions())
                 .AddArguments(new { where = filer })
                 .AddArguments(pagination)

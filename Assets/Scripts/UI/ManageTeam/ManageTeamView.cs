@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Near.Models.Game.Team;
 using Near.Models.Tokens;
+using Near.Models.Tokens.Filters;
+using Near.Models.Tokens.Players;
 using Near.Models.Tokens.Players.FieldPlayer;
 using Near.Models.Tokens.Players.Goalie;
 using Runtime;
@@ -43,7 +45,9 @@ namespace UI.ManageTeam
         private async void Start()
         {
             _team = await _controller.LoadUserTeam();
-            _userNFTs = await _controller.LoadUserNFTs();
+            PlayerFiler filer = new PlayerFiler();
+            Pagination pagination = new Pagination();
+            _userNFTs = await _controller.LoadUserNFTs(filer, pagination);
             
             lineNumber = "First";
 

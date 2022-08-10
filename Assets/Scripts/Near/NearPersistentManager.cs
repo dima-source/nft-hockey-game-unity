@@ -54,8 +54,6 @@ namespace Near
                 new Uri("nfthockey://testnet.near.org/success"),
                 new Uri("nfthockey://testnet.near.org/fail"),
                 new Uri("nfthockey://testnet.near.org/"));
-
-            await Near.MarketplaceContract.ContractMethods.Views.GetUserNFTs();
         }
 
         public async Task<ContractNear> GetGameContract()

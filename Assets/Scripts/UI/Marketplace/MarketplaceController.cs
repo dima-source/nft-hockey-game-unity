@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Near.MarketplaceContract.ContractMethods;
 using Near.Models.Tokens;
+using Near.Models.Tokens.Filters;
 
 namespace UI.Marketplace
 {
@@ -17,9 +18,10 @@ namespace UI.Marketplace
             return _nftSalesInfo;
         }
 
-        public async Task<List<Token>> GetUserNFTs()
+        public async Task<List<Token>> GetUserNFTs(PlayerFiler filer, Pagination pagination)
         {
-            return await Views.GetUserNFTs();
+            
+            return await Views.GetTokens(filer, pagination);
         }
 
         public async Task<List<Token>> GetUserNFTsOnSale()
