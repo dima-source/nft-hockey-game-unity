@@ -4,6 +4,7 @@ namespace Near.Models.Tokens.Players
 {
     public abstract class Player : Token
     {
+        public string nationality { get; set; }
         public bool reality { get; set; }
         public int number { get; set; }
         public string hand { get; set; }

@@ -42,6 +42,8 @@ namespace Near.MarketplaceContract.ContractMethods
             // string accountId = NearPersistentManager.Instance.WalletAccount.GetAccountId();
             string accountId = "parh.testnet";
 
+            Pagination pagination = new Pagination();
+
             PlayerFiler filer = new PlayerFiler();
             filer.ownerId = "parh.testnet";
             filer.player_type = "FieldPlayer";
@@ -50,7 +52,9 @@ namespace Near.MarketplaceContract.ContractMethods
 
             IQuery<Player> query = new Query<Player>("tokens", new QueryOptions())
                 .AddArguments(new { where = filer })
+                .AddArguments(pagination)
                 .AddField(p => p.title)
+                .AddField(p => p.nationality)
                 .AddField(p => p.player_type)
                 .AddField(p => p.media)
                 .AddField(p => p.rarity)
