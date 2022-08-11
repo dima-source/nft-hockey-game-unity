@@ -1,6 +1,7 @@
 ﻿using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace UI.Scripts
@@ -24,13 +25,12 @@ namespace UI.Scripts
             base.OnAwake();
             _button.onClick.AddListener(() =>
             {
-                OnClick();
                 AudioController.LoadClip(Configurations.MusicFolderPath + DefaultSound);
                 AudioController.source.Play();
             });
         }
 
-        protected virtual void OnClick() { }
+        public void AddOnClickListener(UnityAction action) => _button.onClick.AddListener(action);
 
     }
 }

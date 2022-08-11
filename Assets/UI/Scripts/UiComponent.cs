@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace UI.Scripts
 {
+    [ExecuteInEditMode]
     public abstract class UiComponent : MonoBehaviour
     {
         protected abstract void Initialize();
@@ -21,18 +22,13 @@ namespace UI.Scripts
         private void OnValidate()
         {
             Initialize();
-            OnUpdate();
-        }
-#else
-        // TODO: Check if it works in the build
-        private void Update()
-        {
-            if (Application.isPlaying)
-            {
-                OnUpdate();
-            }
         }
 #endif
+        
+        private void Update()
+        {
+            OnUpdate();
+        }
         
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -13,7 +14,7 @@ namespace UI.Scripts
         
         public static T FindChild<T>(Transform parent, string childName)
         {
-            Transform[] children = parent.GetComponentsInChildren<Transform>()
+            Transform[] children = parent.GetComponentsInChildren<Transform>(true)
                 .Where(t => t.name == childName)
                 .ToArray();
             
