@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8972485545045227416}
   - component: {fileID: 3366699419652855902}
   m_Layer: 0
-  m_Name: Placeholder
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -345,7 +345,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f12525fb04c74b4cb7333d19346aacb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _text: {fileID: 8972485545045227416}
   text: 0.0 <sprite=0>
   fontStyle: 0
   oneLined: 1
@@ -357,7 +356,7 @@ MonoBehaviour:
   characterLimit: 18
   contentType: 2
   caretWidth: 3
-  after: <sprite=0>
+  suffix: <sprite=0>
   integerLimit: 5
   fractionalLimit: 2
 --- !u!1 &7589499900639522290
@@ -425,7 +424,7 @@ GameObject:
   - component: {fileID: 9140750510411325492}
   - component: {fileID: 3364314509554176627}
   m_Layer: 0
-  m_Name: Text
+  m_Name: Input
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

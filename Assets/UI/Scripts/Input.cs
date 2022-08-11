@@ -28,7 +28,7 @@ namespace UI.Scripts
             _inputField.placeholder = _text;
             RectTransform textArea = Utils.FindChild<RectTransform>(transform, "TextArea");
             _inputField.textViewport = textArea;
-            _inputField.textComponent = Utils.FindChild<TextMeshProUGUI>(textArea, "Text");
+            _inputField.textComponent = Utils.FindChild<TextMeshProUGUI>(textArea, "Input");
             
             _inputField.onValueChanged.AddListener(OnValueChanged);
             _inputField.onSubmit.AddListener(OnSubmit);

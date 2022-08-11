@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -12,13 +13,22 @@ namespace UI.Scripts
         
         public static T FindChild<T>(Transform parent, string childName)
         {
-            Transform child = parent.Find(childName);
-            if (child == null)
+            Transform[] children = parent.GetComponentsInChildren<Transform>()
+                .Where(t => t.name == childName)
+                .ToArray();
+            
+            if (children == null || children.Length == 0)
             {
                 throw new ApplicationException($"Child with name '{childName}' does not exist");
             }
+
+            // TODO: think if we should allow to have multiple children with the same name
+            if (children.Length > 1)
+            {
+                throw new ApplicationException($"Multiple children with the same name '{childName}' found");
+            }
             
-            T component = child.GetComponent<T>();
+            T component = children[0].GetComponent<T>();
 
             if (component == null)
             {

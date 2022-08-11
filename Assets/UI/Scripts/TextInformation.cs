@@ -27,10 +27,6 @@ namespace UI.Scripts
             AccentBackgroundCold
         }
 
-        [Header("Dependencies")] 
-        [SerializeField]
-        public TextMeshProUGUI _text;
-        
         [Header("Text")]
         public string text;
         public FontStyles fontStyle;
@@ -47,7 +43,8 @@ namespace UI.Scripts
         
         [Range(0.0f, 1.0f)] 
         public float alpha = 1.0f;
-        
+
+        protected TextMeshProUGUI _text;
         
         private Sprite _backgroundSprite;
         private Material _backgroundMaterial;
@@ -56,6 +53,7 @@ namespace UI.Scripts
 
         protected override void Initialize()
         {
+            _text = Utils.FindChild<TextMeshProUGUI>(transform, "Text");
             _background = gameObject.GetComponent<Image>();
             _backgroundSprite = Utils.LoadSprite(ConvertToPath(type));
             _backgroundMaterial = Utils.LoadResource<Material>(ConvertToPath(material));
