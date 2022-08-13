@@ -4,6 +4,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using GraphQL.Query.Builder;
+using Near.MarketplaceContract.Parsers;
 using Near.Models.Game;
 using Near.Models.Tokens;
 using Near.Models.Tokens.Filters;
@@ -85,10 +86,16 @@ namespace Near.MarketplaceContract.ContractMethods
                 .AddField(p => p.reward)
                 .AddField(p => p.winner_index)
                 .AddField(p => p.zone_number)
-                .AddField(p => p.player_with_puck)
-                .AddField(p => p.user1)
-                .AddField(p => p.user2)
-                .AddField(p => p.turns);
+                .AddField(p => p.turns)
+                .AddField(p=>p.player_with_puck,
+                    sq => sq
+                        .AddField(p => p.id))
+                .AddField(p=>p.user1,
+                    sq => sq
+                        .AddField(p => p.id))
+                .AddField(p=>p.user2,
+                    sq => sq
+                        .AddField(p => p.id));
               
                 
 
@@ -96,7 +103,7 @@ namespace Near.MarketplaceContract.ContractMethods
             
             Debug.Log(responseJson);
             
-            var GameDatas = JsonConvert.DeserializeObject<List<GameData>>(responseJson, new TokensConverter());
+            var GameDatas = JsonConvert.DeserializeObject<List<GameData>>(responseJson, new GameDataConverter());
             
             if (GameDatas == null)
             {
@@ -120,7 +127,7 @@ namespace Near.MarketplaceContract.ContractMethods
             
             Debug.Log(responseJson);
             
-            var GetUsers = JsonConvert.DeserializeObject<List<User>>(responseJson, new TokensConverter());
+            var GetUsers = JsonConvert.DeserializeObject<List<User>>(responseJson, new UserConverter());
             
             if (GetUsers == null)
             {

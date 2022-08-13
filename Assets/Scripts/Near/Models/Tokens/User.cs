@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+/*
+ * 
 
 namespace Near.Models.Tokens
 {
@@ -7,4 +9,6 @@ namespace Near.Models.Tokens
         public string id { get; set; }
         public List<string> tokens { get; set; }
     }
+    
 }
+ */

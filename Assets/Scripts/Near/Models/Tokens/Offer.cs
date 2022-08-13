@@ -1,3 +1,5 @@
+using Near.Models.Game;
+
 namespace Near.Models.Tokens
 {
     public class Offer

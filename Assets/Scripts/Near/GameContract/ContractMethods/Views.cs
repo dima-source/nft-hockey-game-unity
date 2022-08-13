@@ -2,12 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Security.Policy;
+using System.Text;
 using System.Threading.Tasks;
+using GraphQL.Query.Builder;
+using Near.MarketplaceContract;
+using Near.Models.Game;
 using Near.Models.Game.Bid;
 using Near.Models.Game.Team;
 using Near.Models.Game.TeamIds;
 using NearClientUnity;
 using Newtonsoft.Json;
+using UnityEngine;
 
 namespace Near.GameContract.ContractMethods
 {
@@ -102,7 +110,51 @@ namespace Near.GameContract.ContractMethods
             
             return result; 
         }
-        
+        public const string Url = "https://api.thegraph.com/subgraphs/name/nft-hockey/marketplace";
+        public static async Task<string> GetJSONQuery(string json)
+        {
+            json = "{\"query\": \"{" + json.Replace("\"", "\\\"") + "}\"}";
+            
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response;
+                HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                response = await client.PostAsync(Url, content);
+             
+                return await response.Content.ReadAsStringAsync(); 
+            }
+        }
+        public static async Task<List<User>> GetUser(UserFilter filter)
+        {
+            IQuery<User> query = new Query<User>("GetUsers")
+                .AddArguments(new { where = filter })
+                .AddField(p=>p.team,
+                    sq=>sq
+                        .AddField(p=>p.id)
+                        .AddField(p=>p.active_five)
+                        .AddField(p=>p.active_goalie)
+                        .AddField(p=>p.score))
+                .AddField(p=>p.gameDatas,
+                    sq => sq
+                        .AddField(p => p.id))
+                .AddField(p => p.id);
+
+            string responseJson = await GetJSONQuery(query.Build());
+            
+            Debug.Log(responseJson);
+            
+            var GetUsers = JsonConvert.DeserializeObject<List<User>>(responseJson, new UserGameContractConverter());
+            
+            if (GetUsers == null)
+            {
+                return new List<User>();
+            }
+
+            return GetUsers;
+        }
         public static async Task<bool> IsAlreadyInTheList()
         {
             ContractNear gameContract = await NearPersistentManager.Instance.GetGameContract();

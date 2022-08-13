@@ -4,9 +4,11 @@ namespace Near.Models.Game
 {
     public class User
     {
-        public int id { get; set; }
+        public string id { get; set; }
         public bool is_available { get; set; }
         public UserStatistics statistics { get; set; }
+        public Team.Team team { get; set; }
+        public List<string> tokens { get; set; }
         public List<GameData> gameDatas { get; set; }
     }
 }
