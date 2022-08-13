@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Near.Models.Tokens.Filters
 {
-    public class PlayerFiler
+    public class PlayerFilter
     {
         public string title { get; set; }
         public string ownerId { get; set; }

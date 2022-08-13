@@ -22,6 +22,7 @@ namespace Near.MarketplaceContract
         {
             var data = JObject.Load(reader);
             var tokens = data["data"]?["tokens"];
+            //var token = JsonConvert.DeserializeObject<Token>(json, new PlayerConverter());
 
             List<Token> result = new List<Token>();
 

@@ -45,9 +45,9 @@ namespace UI.ManageTeam
         private async void Start()
         {
             _team = await _controller.LoadUserTeam();
-            PlayerFiler filer = new PlayerFiler();
+            PlayerFilter filter = new PlayerFilter();
             Pagination pagination = new Pagination();
-            _userNFTs = await _controller.LoadUserNFTs(filer, pagination);
+            _userNFTs = await _controller.LoadUserNFTs(filter, pagination);
             
             lineNumber = "First";
 

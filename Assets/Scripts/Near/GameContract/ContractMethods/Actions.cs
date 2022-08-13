@@ -51,9 +51,12 @@ namespace Near.GameContract.ContractMethods
             ContractNear gameContract = await NearPersistentManager.Instance.GetGameContract();
                 
             dynamic args = new ExpandoObject();
+            /*
+             * 
+             
             args.number_of_rendered_events = numberOfRenderedEvents;
             args.game_id = gameId;
-            
+            */
 
             var results = await gameContract.Change("generate_event", args, NearUtils.GasMove);
             List<Event> events = JsonConvert.DeserializeObject<List<Event>>(results);
@@ -66,7 +69,7 @@ namespace Near.GameContract.ContractMethods
             ContractNear gameContract = await NearPersistentManager.Instance.GetGameContract();
                 
             dynamic args = new ExpandoObject();
-            args.game_id = gameId;
+            //args.game_id = gameId;
             
             await gameContract.Change("take_to", args, NearUtils.GasMove);
         }
@@ -76,7 +79,7 @@ namespace Near.GameContract.ContractMethods
             ContractNear gameContract = await NearPersistentManager.Instance.GetGameContract();
                 
             dynamic args = new ExpandoObject();
-            args.game_id = gameId;
+            //args.game_id = gameId;
             
             await gameContract.Change("coach_speech", args, NearUtils.GasMove);
         }
@@ -86,7 +89,7 @@ namespace Near.GameContract.ContractMethods
             ContractNear gameContract = await NearPersistentManager.Instance.GetGameContract();
                 
             dynamic args = new ExpandoObject();
-            args.game_id = gameId;
+            //args.game_id = gameId;
             
             await gameContract.Change("coach_speech", args, NearUtils.GasMove);
         } 
@@ -96,7 +99,7 @@ namespace Near.GameContract.ContractMethods
             ContractNear gameContract = await NearPersistentManager.Instance.GetGameContract();
                 
             dynamic args = new ExpandoObject();
-            args.game_id = gameId;
+            //args.game_id = gameId;
             
             await gameContract.Change("goalie_back", args, NearUtils.GasMove);
         } 

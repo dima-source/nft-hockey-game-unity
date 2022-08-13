@@ -16,9 +16,9 @@ namespace UI.ManageTeam
             return await Views.LoadUserTeam();
         }
 
-        public async Task<List<Token>> LoadUserNFTs(PlayerFiler filer, Pagination pagination)
+        public async Task<List<Token>> LoadUserNFTs(PlayerFilter filter, Pagination pagination)
         {
-            var tokes = await Near.MarketplaceContract.ContractMethods.Views.GetTokens(filer, pagination);
+            var tokes = await Near.MarketplaceContract.ContractMethods.Views.GetTokens(filter, pagination);
             if (tokes == null)
             {
                 return new List<Token>();

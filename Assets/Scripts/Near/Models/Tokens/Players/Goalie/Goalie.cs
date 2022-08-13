@@ -6,5 +6,6 @@ namespace Near.Models.Tokens.Players.Goalie
     {
         [JsonIgnore]
         public GoalieStats Stats { get; set; }
+        public string goalie_number { get; set; }
     }
 }

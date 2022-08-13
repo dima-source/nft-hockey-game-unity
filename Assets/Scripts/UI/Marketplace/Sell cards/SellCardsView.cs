@@ -30,7 +30,7 @@ namespace UI.Marketplace.Sell_cards
                 return;
             }
 
-            List<Token> nFTs = await viewInteractor.MarketplaceController.GetUserNFTs(new PlayerFiler(), new Pagination());
+            List<Token> nFTs = await viewInteractor.MarketplaceController.GetUserNFTs(new PlayerFilter(), new Pagination());
 
             foreach (Token nft in nFTs)
             {

@@ -4,11 +4,13 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using GraphQL.Query.Builder;
+using Near.Models.Game;
 using Near.Models.Tokens;
 using Near.Models.Tokens.Filters;
 using Near.Models.Tokens.Players;
 using Newtonsoft.Json;
 using UnityEngine;
+using User = Near.Models.Game.User;
 
 
 namespace Near.MarketplaceContract.ContractMethods
@@ -33,11 +35,12 @@ namespace Near.MarketplaceContract.ContractMethods
                 return await response.Content.ReadAsStringAsync(); 
             }
         }
+        
 
-        public static async Task<List<Token>> GetTokens(PlayerFiler filer, Pagination pagination)
+        public static async Task<List<Token>> GetTokens(PlayerFilter filter, Pagination pagination)
         {
-            IQuery<Player> query = new Query<Player>("tokens", new QueryOptions())
-                .AddArguments(new { where = filer })
+            IQuery<Player> query = new Query<Player>("tokens")
+                .AddArguments(new { where = filter })
                 .AddArguments(pagination)
                 .AddField(p => p.title)
                 .AddField(p => p.nationality)
@@ -72,6 +75,59 @@ namespace Near.MarketplaceContract.ContractMethods
             }
 
             return tokens;
+        }
+        
+        public static async Task<List<GameData>> GetGame(GameDataFilter filter)
+        {
+            IQuery<GameData> query = new Query<GameData>("GetData")
+                .AddArguments(new { where = filter })
+                .AddField(p => p.last_event_generation_time)
+                .AddField(p => p.reward)
+                .AddField(p => p.winner_index)
+                .AddField(p => p.zone_number)
+                .AddField(p => p.player_with_puck)
+                .AddField(p => p.user1)
+                .AddField(p => p.user2)
+                .AddField(p => p.turns);
+              
+                
+
+            string responseJson = await GetJSONQuery(query.Build());
+            
+            Debug.Log(responseJson);
+            
+            var GameDatas = JsonConvert.DeserializeObject<List<GameData>>(responseJson, new TokensConverter());
+            
+            if (GameDatas == null)
+            {
+                return new List<GameData>();
+            }
+
+            return GameDatas;
+        }
+        public static async Task<List<User>> GetUser(UserFilter filter)
+        {
+            IQuery<User> query = new Query<User>("GetUsers")
+                .AddArguments(new { where = filter })
+                .AddField(p=>p.gameDatas,
+                sq => sq
+                    .AddField(p => p.id))
+                .AddField(p => p.id);
+            
+                
+
+            string responseJson = await GetJSONQuery(query.Build());
+            
+            Debug.Log(responseJson);
+            
+            var GetUsers = JsonConvert.DeserializeObject<List<User>>(responseJson, new TokensConverter());
+            
+            if (GetUsers == null)
+            {
+                return new List<User>();
+            }
+
+            return GetUsers;
         }
 
         public static async Task<List<Token>> GetNFTsToBuy()

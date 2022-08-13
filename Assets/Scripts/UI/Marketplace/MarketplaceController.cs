@@ -18,10 +18,10 @@ namespace UI.Marketplace
             return _nftSalesInfo;
         }
 
-        public async Task<List<Token>> GetUserNFTs(PlayerFiler filer, Pagination pagination)
+        public async Task<List<Token>> GetUserNFTs(PlayerFilter filter, Pagination pagination)
         {
             
-            return await Views.GetTokens(filer, pagination);
+            return await Views.GetTokens(filter, pagination);
         }
 
         public async Task<List<Token>> GetUserNFTsOnSale()
