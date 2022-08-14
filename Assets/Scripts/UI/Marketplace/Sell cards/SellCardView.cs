@@ -5,6 +5,7 @@ using UI.Marketplace.Buy_cards;
 using UI.Marketplace.NftCardsUI;
 using UnityEngine;
 using UnityEngine.UI;
+using Toggle = UI.Scripts.Toggle;
 
 namespace UI.Marketplace.Sell_cards
 {

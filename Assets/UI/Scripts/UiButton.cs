@@ -1,36 +1,28 @@
 ﻿using System;
-using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace UI.Scripts
 {
-    [RequireComponent(typeof(Button))]
-    public class UiButton : TextInformation
+    [RequireComponent(typeof(Image))]
+    public class UiButton : TextInformation, IPointerClickHandler
     {
-        private Button _button;
-
-        private const string DefaultSound = "click v1";
+        public Action onClick { get; set; }
         
+        private const string DefaultSound = "click v1";
+
         protected override void Initialize()
         {
             base.Initialize();
-            _button = gameObject.GetComponent<Button>();
-            _button.targetGraphic = gameObject.GetComponent<Image>();
+            onClick = () => { };
         }
 
-        protected sealed override void OnAwake()
+        public void OnPointerClick(PointerEventData eventData)
         {
-            base.OnAwake();
-            _button.onClick.AddListener(() =>
-            {
-                AudioController.LoadClip(Configurations.MusicFolderPath + DefaultSound);
-                AudioController.source.Play();
-            });
+            AudioController.LoadClip(Configurations.MusicFolderPath + DefaultSound);
+            AudioController.source.Play();
+            onClick();
         }
-
-        public void AddOnClickListener(UnityAction action) => _button.onClick.AddListener(action);
-
     }
 }

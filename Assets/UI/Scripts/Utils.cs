@@ -66,35 +66,37 @@ namespace UI.Scripts
             Sprite sprite = null;
             try
             {
-                
                 // Firstly trying normal loader
                 sprite = LoadResource<Sprite>(path);
             }
             catch (ApplicationException e)
             {
-                // If sprite is in a SpriteSheet
+                // If sprite is in a SpriteSheet or it doesn't exist
                 // From documentation: All asset names and paths in Unity use forward slashes
                 int last = path.LastIndexOf('/');
                 string spriteSheetName = path.Substring(0, last);
                 string spriteName = path.Substring(last + 1);
                 Sprite[] sprites = Resources.LoadAll<Sprite>(spriteSheetName);
-
+                
                 if (sprites == null || sprites.Length == 0)
                 {
-                    throw;
+                    throw new ApplicationException(e.Message);
                 }
                 
                 // TODO: should we load all sprites from a SpriteSheet first time this function called?
                 foreach (Sprite value in sprites)
                 {
-                    resourcesCache.Add(spriteSheetName + '/' + value.name, value);
+                    if (!resourcesCache.ContainsKey(spriteSheetName + '/' + value.name))
+                    {
+                        resourcesCache.Add(spriteSheetName + '/' + value.name, value);   
+                    }
                     if (value.name == spriteName)
                     {
                         sprite = value;
                     }
                 }
                 
-                if (sprite == null) { throw; }
+                if (sprite == null) {  throw new ApplicationException(e.Message); }
                 
             }
 

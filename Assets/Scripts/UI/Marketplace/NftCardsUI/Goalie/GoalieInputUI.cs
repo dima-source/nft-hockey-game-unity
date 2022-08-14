@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Runtime;
 using UnityEngine;
 using UnityEngine.UI;
+using Toggle = UI.Scripts.Toggle;
 
 namespace UI.Marketplace.NftCardsUI.Goalie
 {

@@ -8,7 +8,7 @@ namespace UI.Scripts
 {
     public class Popup : UiComponent
     {
-        private enum ButtonType
+        public enum ButtonType
         {
             Positive,
             Neutral,
@@ -16,10 +16,18 @@ namespace UI.Scripts
         }
 
         [Serializable]
-        private class ButtonView
+        public class ButtonView
         {
             public ButtonType type;
             public string text;
+
+            public ButtonView() { }
+            
+            public ButtonView(ButtonType type, string text)
+            {
+                this.type = type;
+                this.text = text;
+            }
         }
         
         
@@ -28,9 +36,8 @@ namespace UI.Scripts
         private string titleText;
         [SerializeField]
         private string messageText;
-
-        [SerializeField]
-        private ButtonView[] buttons = new ButtonView[0];
+        
+        public ButtonView[] buttons = new ButtonView[0];
 
         private UiButton[] _uiButtons;
 
@@ -42,13 +49,16 @@ namespace UI.Scripts
         private TextInformation _message;
         private Transform _buttonsContainer;
         private InputNear _input;
+        
+        public Action onClose;
 
         protected override void Initialize()
         {
             _title = Utils.FindChild<TextInformation>(transform, "Title");
             _message = Utils.FindChild<TextInformation>(transform, "Message");
             Button background = Utils.FindChild<Button>(transform, "Background");
-            background.onClick.AddListener(OnCLose);
+            background.onClick.RemoveAllListeners();
+            background.onClick.AddListener(Close);
             _buttonsContainer = Utils.FindChild<Transform>(transform, "ButtonsContainer");
             foreach (Transform child in _buttonsContainer)
             {
@@ -80,13 +90,13 @@ namespace UI.Scripts
             titleText = value;
         }
 
-        public void AddButtonClickListener(int buttonIndex, UnityAction action)
+        public void OnButtonClick(int buttonIndex, Action action)
         {
             if (buttonIndex < 0 || buttonIndex >= buttons.Length)
             {
                 throw new ApplicationException("ButtonIndex was out of range");
             }
-            _uiButtons[buttonIndex].AddOnClickListener(action);
+            _uiButtons[buttonIndex].onClick = action;
         }
         
         public void SetMessage(string value)
@@ -94,14 +104,15 @@ namespace UI.Scripts
             messageText = value;
         }
 
-        private void OnCLose()
-        {
-            gameObject.SetActive(false);
-        }
-
         public void Show()
         {
             gameObject.SetActive(true);
+        }
+
+        public void Close()
+        {
+            onClose();
+            gameObject.SetActive(false);
         }
 
         public double GetInputValue()
@@ -124,13 +135,12 @@ namespace UI.Scripts
             
             for (int i = 0; i < _uiButtons.Length; i++)
             {
-                GameObject buttonObject = _buttonsContainer.GetChild(i).gameObject;
+                GameObject buttonObject = _uiButtons[i].gameObject;
                 buttonObject.SetActive(i < buttons.Length);
                 if (i < buttons.Length)
                 {
-                    UiButton button = buttonObject.GetComponent<UiButton>();
-                    SetButtonBackground(button, buttons[i].type);
-                    button.text = buttons[i].text;
+                    SetButtonBackground(_uiButtons[i], buttons[i].type);
+                    _uiButtons[i].text = buttons[i].text;
                 }
             }
         }
@@ -140,7 +150,7 @@ namespace UI.Scripts
             button.material = type switch
             {
                 ButtonType.Positive => TextInformation.BackgroundMaterial.AccentBackground1,
-                ButtonType.Neutral => TextInformation.BackgroundMaterial.SecondaryBackground,
+                ButtonType.Neutral => TextInformation.BackgroundMaterial.PrimaryBackground,
                 ButtonType.Negative => TextInformation.BackgroundMaterial.AccentBackground2,
                 _ => throw new ApplicationException("Unsupported type")
             };
