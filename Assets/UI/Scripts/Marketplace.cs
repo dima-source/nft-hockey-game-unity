@@ -2,6 +2,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 namespace UI.Scripts
@@ -25,26 +26,26 @@ namespace UI.Scripts
         private Dictionary<string, Transform> _pages;
         private TopBar _topBar;
         
-        private TextInformation _userWalletName;
-        private TextInformation _userWalletBalance;
-        private TextInformation _breadcrumbs;
+        private TextMeshProUGUI _userWalletName;
+        private TextMeshProUGUI _userWalletBalance;
+        private TextMeshProUGUI _breadcrumbs;
         
         protected override void Initialize()
         {
             _popup = Utils.FindChild<Popup>(transform, "Popup");
             _topBar = Utils.FindChild<TopBar>(transform, "TopBar");
-            _userWalletName = Utils.FindChild<TextInformation>(transform, "Wallet");
-            _userWalletBalance = Utils.FindChild<TextInformation>(transform, "Balance");
-            _breadcrumbs = Utils.FindChild<TextInformation>(transform, "Breadcrumbs");
+            _userWalletName = Utils.FindChild<TextMeshProUGUI>(transform, "Wallet");
+            _userWalletBalance = Utils.FindChild<TextMeshProUGUI>(transform, "Balance");
+            _breadcrumbs = Utils.FindChild<TextMeshProUGUI>(transform, "Breadcrumbs");
             InitializePages();
         }
 
         protected override void OnAwake()
         {
             _topBar.Bind("BuyPacks", () => SwitchPage("BuyPacks"));
-            _topBar.Bind("BuyCards", () => SwitchPage("Statistics"));
-            
-            
+            _topBar.Bind("BuyCards", () => SwitchPage("FilterCards"));
+            _topBar.Bind("SellCards", () => SwitchPage("FilterCards"));
+            _topBar.Bind("OnSale", () => SwitchPage("FilterCards"));
             _topBar.Bind("Draft", () => ShowOnDevelopmentPopup("Draft"));
             _topBar.Bind("Objects", () => ShowOnDevelopmentPopup("Objects"));
         }
@@ -88,14 +89,15 @@ namespace UI.Scripts
             Transform pagesContainer = Utils.FindChild<Transform>(transform, "Main");
             _pages["BuyPacks"] = Utils.FindChild<Transform>(pagesContainer, "BuyPacks");
             _pages["Statistics"] = Utils.FindChild<Transform>(pagesContainer, "Statistics");
+            _pages["FilterCards"] = Utils.FindChild<Transform>(pagesContainer, "FilterCards");
         }
 
         protected override void OnUpdate()
         {
             _userWalletName.text = userWallet.name;
             string pattern = "{0:0." + new String('0', balanceFractionalDisplay) + "}";
-            _userWalletBalance.text = String.Format(pattern, userWallet.balance) + " <sprite=0>";
-            _breadcrumbs.text = "Marketplace <sprite=1> " + _topBar.SelectedFormatted;
+            _userWalletBalance.text = String.Format(pattern, userWallet.balance) + " <sprite name=NearLogo>";
+            _breadcrumbs.text = "Marketplace <sprite name=RightArrow> " + _topBar.SelectedFormatted;
         }
     }
 }

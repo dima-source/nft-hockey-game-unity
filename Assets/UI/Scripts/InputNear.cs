@@ -23,8 +23,8 @@ namespace UI.Scripts
         {
             get
             {
-                int length = Math.Max(0, InputText.Length - suffix.Length);
-                string textValue = InputText.Substring(length);
+                int length = Math.Max(0, textView.text.Length - suffix.Length);
+                string textValue = textView.text.Substring(length);
                 if (Double.TryParse(textValue, out double value))
                 {
                     return value;
@@ -53,65 +53,65 @@ namespace UI.Scripts
 
         protected override void OnValueChanged(string value)
         {
-            int index = InputText.IndexOf(suffix, StringComparison.Ordinal);
+            int index = textView.text.IndexOf(suffix, StringComparison.Ordinal);
 
             if (index != -1)
             {
-                InputText = InputText.Substring(0, index + suffix.Length);
+                textView.text = textView.text.Substring(0, index + suffix.Length);
             }
             
             // Adds Near sign to the end
             if (index == -1)
             {
-               InputText = value + suffix;
+                textView.text = value + suffix;
             }
             else if (index != value.Length - suffix.Length)
             {
-                InputText = InputText.Remove(index, suffix.Length) + suffix;
+                textView.text = textView.text.Remove(index, suffix.Length) + suffix;
             }
 
             // Updates separator
-            int realLength = InputText.Length - suffix.Length;
-            string modifiedText = InputText.Replace(SEPARATOR, "");
+            int realLength = textView.text.Length - suffix.Length;
+            string modifiedText = textView.text.Replace(SEPARATOR, "");
             if (realLength > integerLimit)
             {
                 modifiedText = modifiedText.Insert(integerLimit, SEPARATOR);
             }
 
-            InputText = modifiedText;
+            textView.text = modifiedText;
         }
 
         protected override void OnSubmit(string value)
         {
             if (value.Contains(suffix) && value.Length == suffix.Length)
             {
-                InputText = String.Empty;
+                textView.text = String.Empty;
                 return;
             }
             
-            int realLength = InputText.Length - suffix.Length;
-            double dValue = Double.Parse(InputText.Substring(0, realLength));
+            int realLength = textView.text.Length - suffix.Length;
+            double dValue = Double.Parse(textView.text.Substring(0, realLength));
             string format = "{0:F" + fractionalLimit + "}";
             string toDisplay = String.Format(format, dValue) + suffix;
-            InputText = toDisplay;
+            textView.text = toDisplay;
         }
         
         private void UpdateLimits()
         {
-            contentType = TMP_InputField.ContentType.IntegerNumber;
+            inputView.contentType = TMP_InputField.ContentType.IntegerNumber;
             int limit;
             if (fractionalLimit == 0)
             {
-                text = "0 " + suffix; 
+                textView.text = "0 " + suffix; 
                 limit = integerLimit;
             }
             else
             {
-                text = "0.0 " + suffix; 
+                textView.text = "0.0 " + suffix; 
                 limit = integerLimit + fractionalLimit + 1;
             }
             
-            characterLimit = limit + suffix.Length;
+            inputView.characterLimit = limit + suffix.Length;
         }
     }
 }

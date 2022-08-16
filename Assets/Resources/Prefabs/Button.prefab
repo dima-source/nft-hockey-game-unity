@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5814027538081820401}
   - component: {fileID: 5814027538081820406}
   - component: {fileID: 5814027538081820407}
-  - component: {fileID: 5814027538081820404}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -38,7 +37,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -50.615, y: 417.66}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 331.718, y: 70.066}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5814027538081820401
@@ -123,27 +122,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &5814027538081820404
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5814027538081820410}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd04b78f35f54d9189bdc9e78d24b60d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _text: {fileID: 5814027538333052683}
-  text: Okay
-  fontStyle: 16
-  oneLined: 1
-  displayed: 1
-  type: 0
-  borderRadius: 20
-  material: 1
-  alpha: 1
 --- !u!1 &5814027538333052681
 GameObject:
   m_ObjectHideFlags: 0
@@ -210,7 +188,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Okay
+  m_text: Button
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f59e0cc64ede8c743bbcf3e6e4d29979, type: 2}
   m_sharedMaterial: {fileID: 4386329128483912490, guid: f59e0cc64ede8c743bbcf3e6e4d29979, type: 2}
@@ -237,12 +215,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30
+  m_fontSize: 39.9
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 10
-  m_fontSizeMax: 30
+  m_fontSizeMin: 9
+  m_fontSizeMax: 40
   m_fontStyle: 16
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512

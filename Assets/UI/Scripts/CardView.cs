@@ -65,7 +65,7 @@ namespace UI.Scripts
         private TextMeshProUGUI _numberText;
         private Image _avatar;
         private TextMeshProUGUI _playerRoleText;
-        private TextInformation _background;
+        private Image _background;
 
 
         protected override void Initialize()
@@ -77,7 +77,7 @@ namespace UI.Scripts
             _numberText = Utils.FindChild<TextMeshProUGUI>(transform, "NumberText");
             _avatar = Utils.FindChild<Image>(transform, "Icon");
             _playerRoleText = Utils.FindChild<TextMeshProUGUI>(transform, "RoleText");
-            _background = Utils.FindChild<TextInformation>(transform, "Background");
+            _background = Utils.FindChild<Image>(transform, "Background");
             
             _statisticsContainer = Utils.FindChild<Transform>(transform, "BottomRow");
             _statisticViews = new TextMeshProUGUI[_statisticsContainer.childCount];
@@ -97,7 +97,7 @@ namespace UI.Scripts
             _numberText.text = playerNumber.ToString();
             _avatar.sprite = Utils.LoadSprite(Configurations.SpritesFolderPath + avatarImagePath);
             _playerRoleText.text = RoleToString(playerRole);
-            _background.material = RarenessToMaterial(rareness);
+            _background.GetComponent<Image>().material = RarenessToMaterial(rareness);
             UpdateStatistics();
         }
 
@@ -141,16 +141,17 @@ namespace UI.Scripts
         }
         
         // TODO: change colors
-        private static TextInformation.BackgroundMaterial RarenessToMaterial(Rareness rareness)
+        private static Material RarenessToMaterial(Rareness rareness)
         {
-            return rareness switch
+            string path = rareness switch
             {
-                Rareness.Usual => TextInformation.BackgroundMaterial.AccentBackgroundCold,
-                Rareness.Rare => TextInformation.BackgroundMaterial.AccentBackgroundHot,
-                Rareness.Epic => TextInformation.BackgroundMaterial.AccentBackground1,
-                Rareness.Legendary => TextInformation.BackgroundMaterial.AccentBackground2,
+                Rareness.Usual => Configurations.MaterialsFolderPath + "AccentBackgroundCold",
+                Rareness.Rare => Configurations.MaterialsFolderPath + "AccentBackgroundHot",
+                Rareness.Epic => Configurations.MaterialsFolderPath + "AccentBackground1",
+                Rareness.Legendary => Configurations.MaterialsFolderPath + "AccentBackground2",
                 _ => throw new ApplicationException("Unsupported rareness")
             };
+            return Utils.LoadResource<Material>(path);
         }
         
     }

@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -37,44 +38,35 @@ namespace UI.Scripts
         [SerializeField]
         private string messageText;
         
-        public ButtonView[] buttons = new ButtonView[0];
-
-        private UiButton[] _uiButtons;
-
-        [Header("Input")] 
-        [SerializeField]
-        private bool input;
+        public ButtonView[] buttons;
+        private Button[] _sceneButtons;
         
-        private TextInformation _title;
-        private TextInformation _message;
+        private TextMeshProUGUI _title;
+        private TextMeshProUGUI _message;
         private Transform _buttonsContainer;
-        private InputNear _input;
-        
         public Action onClose;
 
         protected override void Initialize()
         {
-            _title = Utils.FindChild<TextInformation>(transform, "Title");
-            _message = Utils.FindChild<TextInformation>(transform, "Message");
+            _title = Utils.FindChild<TextMeshProUGUI>(transform, "TitleText");
+            _message = Utils.FindChild<TextMeshProUGUI>(transform, "MessageText");
             Button background = Utils.FindChild<Button>(transform, "Background");
             background.onClick.RemoveAllListeners();
             background.onClick.AddListener(Close);
             _buttonsContainer = Utils.FindChild<Transform>(transform, "ButtonsContainer");
             foreach (Transform child in _buttonsContainer)
             {
-                if (child.GetComponent<UiButton>() == null)
+                if (child.GetComponent<Button>() == null)
                 {
                     throw new ApplicationException($"Invalid child '{child.name}'");
                 }
             }
 
-            _uiButtons = new UiButton[_buttonsContainer.childCount];
+            _sceneButtons = new Button[_buttonsContainer.childCount];
             for (int i = 0; i < _buttonsContainer.childCount; i++)
             {
-                _uiButtons[i] = _buttonsContainer.GetChild(i).GetComponent<UiButton>();
+                _sceneButtons[i] = _buttonsContainer.GetChild(i).GetComponent<Button>();
             }
-            
-            _input = Utils.FindChild<InputNear>(transform, "InputNear");
         }
         
         protected override void OnUpdate()
@@ -82,7 +74,6 @@ namespace UI.Scripts
             _title.text = titleText;
             _message.text = messageText;
             UpdateButtons();
-            _input.gameObject.SetActive(input);   
         }
 
         public void SetTitle(string value)
@@ -90,13 +81,19 @@ namespace UI.Scripts
             titleText = value;
         }
 
-        public void OnButtonClick(int buttonIndex, Action action)
+        public void OnButtonClick(int buttonIndex, UnityAction action)
         {
             if (buttonIndex < 0 || buttonIndex >= buttons.Length)
             {
                 throw new ApplicationException("ButtonIndex was out of range");
             }
-            _uiButtons[buttonIndex].onClick = action;
+            _sceneButtons[buttonIndex].onClick.RemoveAllListeners();
+            _sceneButtons[buttonIndex].onClick.AddListener(() =>
+            {
+                AudioController.LoadClip(Configurations.DefaultButtonSoundPath);
+                AudioController.source.Play();
+                action?.Invoke();
+            });
         }
         
         public void SetMessage(string value)
@@ -115,45 +112,38 @@ namespace UI.Scripts
             gameObject.SetActive(false);
         }
 
-        public double GetInputValue()
-        {
-            if (!input)
-            {
-                throw new ApplicationException("Input is disabled");
-            }
-
-            return _input.Value;
-        }
-
-
         private void UpdateButtons()
         {
-            if (buttons.Length > _uiButtons.Length)
+            if (buttons.Length > _sceneButtons.Length)
             {
-                buttons = buttons.Take(_uiButtons.Length).ToArray();
+                buttons = buttons.Take(_sceneButtons.Length).ToArray();
             }
             
-            for (int i = 0; i < _uiButtons.Length; i++)
+            for (int i = 0; i < _sceneButtons.Length; i++)
             {
-                GameObject buttonObject = _uiButtons[i].gameObject;
+                GameObject buttonObject = _sceneButtons[i].gameObject;
                 buttonObject.SetActive(i < buttons.Length);
                 if (i < buttons.Length)
                 {
-                    SetButtonBackground(_uiButtons[i], buttons[i].type);
-                    _uiButtons[i].text = buttons[i].text;
+                    SetButtonBackground(_sceneButtons[i], buttons[i].type);
+                    TextMeshProUGUI textMesh = _sceneButtons[i].GetComponentInChildren<TextMeshProUGUI>();
+                    textMesh.text = buttons[i].text;
                 }
             }
         }
 
-        private void SetButtonBackground(UiButton button, ButtonType type)
+        private static void SetButtonBackground(Button button, ButtonType type)
         {
-            button.material = type switch
+            string path = type switch
             {
-                ButtonType.Positive => TextInformation.BackgroundMaterial.AccentBackground1,
-                ButtonType.Neutral => TextInformation.BackgroundMaterial.PrimaryBackground,
-                ButtonType.Negative => TextInformation.BackgroundMaterial.AccentBackground2,
+                ButtonType.Positive => Configurations.MaterialsFolderPath + "AccentBackground1",
+                ButtonType.Neutral => Configurations.MaterialsFolderPath + "PrimaryBackground",
+                ButtonType.Negative => Configurations.MaterialsFolderPath + "AccentBackground2",
                 _ => throw new ApplicationException("Unsupported type")
-            };
+            }; 
+            
+            Image image = button.GetComponentInChildren<Image>();
+            image.material = Utils.LoadResource<Material>(path);
         }
 
     }

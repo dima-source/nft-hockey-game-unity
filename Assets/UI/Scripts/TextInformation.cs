@@ -11,82 +11,130 @@ namespace UI.Scripts
 
         private const float MIN_BORDER_RANGE = 0.01f;
         private const float MAX_BORDER_RANGE = 20.0f;
-        
+
         public enum BackgroundType
         {
-            Rectangle,
-            RoundedCorners,
-            LeafCorners
+            Square,
+            Circle,
+            Leaf
         }
-        
-        public enum BackgroundMaterial
+
+        [Serializable]
+        public class TextView
         {
-            PrimaryBackground,
-            SecondaryBackground,
-            AccentBackgroundHot,
-            AccentBackgroundCold,
-            AccentBackground1,
-            AccentBackground2
+            [Header("Basic")]
+            public string text = "";
+            public TMP_FontAsset fontAsset;
+            public FontStyles fontStyle;
+            public TextAlignmentOptions alignmentOptions;
+            
+            public float size;
+            public bool autoSize;
+            public float minSize, maxSize;
+            
+            [Header("Additional")]
+            public bool oneLined;
+            [Range(0.0f, 1.0f)]
+            public float alpha = 1.0f;
+
+            public void CopyValues(TMP_Text textMeshPro)
+            {
+                textMeshPro.font = fontAsset;
+                textMeshPro.text = text;
+                textMeshPro.fontSize = size;
+                textMeshPro.fontSizeMin = minSize;
+                textMeshPro.fontSizeMax = maxSize;
+                textMeshPro.enableAutoSizing = autoSize;
+                textMeshPro.spriteAsset = Utils.LoadResource<TMP_SpriteAsset>(Configurations.SpritesFolderPath + "SpriteAsset");
+                textMeshPro.alignment = alignmentOptions;
+                textMeshPro.fontStyle = fontStyle;
+                textMeshPro.enableWordWrapping = !oneLined;
+                SetAlpha(textMeshPro, alpha);
+            }
         }
-
-        [Header("Text")]
-        public string text;
-        public FontStyles fontStyle;
-        public bool oneLined;
         
-        [Header("Background")] 
-        public bool displayed;
-        public BackgroundType type = BackgroundType.Rectangle;
-
-        [Range(MIN_BORDER_RANGE, MAX_BORDER_RANGE)]
-        public float borderRadius = MAX_BORDER_RANGE;
+        [Serializable]
+        public class BackgroundView
+        {
+            public bool displayed;
+            public BackgroundType type;
+            [Range(MIN_BORDER_RANGE, MAX_BORDER_RANGE)]
+            public float borderRadius = MAX_BORDER_RANGE;
+            public Material material;
+            [Range(0.0f, 1.0f)]
+            public float alpha = 1.0f;
+            
+            public void CopyValues(Image image)
+            {
+                image.enabled = displayed;
+                image.sprite = Utils.LoadSprite(ConvertToPath(type));
+                image.material = material;
+                SetAlpha(image, alpha);
+                image.pixelsPerUnitMultiplier = MAX_BORDER_RANGE / borderRadius;
+            }
+            
+            private static string ConvertToPath(BackgroundType type)
+            {
+                return Configurations.SpritesFolderPath + "SpriteSheet/" + type;
+            }
+        }
         
-        public BackgroundMaterial material = BackgroundMaterial.PrimaryBackground;
+        [SerializeField]
+        private TextView _textView;
+        [SerializeField]
+        private BackgroundView _backgroundView;
+
+        public TextView textView => _textView;
+        public BackgroundView backgroundView => _backgroundView;
         
-        [Range(0.0f, 1.0f)] 
-        public float alpha = 1.0f;
+        public bool useGlobalAlpha = false;
+        [Range(0.0f, 1.0f)]
+        public float globalAlpha = 1.0f;
 
-        protected TextMeshProUGUI _text;
-
+        protected TextMeshProUGUI _textMeshPro;
         private Image _background;
 
         protected override void Initialize()
         {
-            _text = Utils.FindChild<TextMeshProUGUI>(transform, "Text");
+            _textMeshPro = Utils.FindChild<TextMeshProUGUI>(transform, "Text");
             _background = gameObject.GetComponent<Image>();
             _background.type = Image.Type.Sliced;
         }
 
         protected override void OnUpdate()
         {
-            _text.text = text;
-            _text.fontStyle = fontStyle;
-            _text.enableWordWrapping = !oneLined;
-            _background.enabled = displayed;
-            _background.sprite = Utils.LoadSprite(ConvertToPath(type));
-            _background.material = Utils.LoadResource<Material>(ConvertToPath(material));
-
-            Color color = _background.color;
-            color.a = alpha;
-            _background.color = color;
-            
-            _background.pixelsPerUnitMultiplier = MAX_BORDER_RANGE / borderRadius;
-        }
-
-        private static string ConvertToPath(BackgroundType type)
-        {
-            return type switch
+            if (useGlobalAlpha)
             {
-                BackgroundType.Rectangle => Configurations.SpritesFolderPath + "SpriteSheet/Square",
-                BackgroundType.RoundedCorners => Configurations.SpritesFolderPath + "SpriteSheet/Circle",
-                BackgroundType.LeafCorners => Configurations.SpritesFolderPath + "SpriteSheet/Leaf",
-                _ => throw new ApplicationException("Unsupported type")
-            };
+                backgroundView.alpha = textView.alpha = globalAlpha;   
+            }
+            textView.CopyValues(_textMeshPro);
+            backgroundView.CopyValues(_background);
         }
-        
-        private static string ConvertToPath(BackgroundMaterial material)
+
+        private static void SetAlpha(Graphic graphic, float alpha)
         {
-            return Configurations.MaterialsFolderPath + material;
+            if (alpha < 0.0f || alpha > 1.0f)
+            {
+                throw new ApplicationException("Invalid alpha value");
+            }
+            
+            Color color = graphic.color;
+            color.a = alpha;
+            graphic.color = color;
         }
+
+        public virtual void SetEnabled(bool value)
+        {
+            if (!value)
+            {
+                useGlobalAlpha = true;
+                globalAlpha = 0.3f;
+            }
+            else
+            {
+                globalAlpha = 1.0f;
+            }
+        }
+
     }
 }

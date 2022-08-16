@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -8,24 +9,25 @@ namespace UI.Scripts
     {
         private TMP_InputField _inputField;
 
-        [Header("Input")] 
-        [Range(0, 100)]
-        public int characterLimit = 0;
-        public TMP_InputField.ContentType contentType;
-        [Range(1, 10)]
-        public int caretWidth = 1;
-        
-        public string InputText
+        [Serializable]
+        public sealed class InputView
         {
-            get => _inputField.text;
-            set => _inputField.SetTextWithoutNotify(value);
+            [Range(0, 100)]
+            public int characterLimit;
+            public TMP_InputField.ContentType contentType;
+            public int caretWidth = 3;
         }
 
+        [SerializeField]
+        private InputView _inputView;
+        
+        public InputView inputView => _inputView;
+        
         protected override void Initialize()
         {
             base.Initialize();
             _inputField = gameObject.GetComponent<TMP_InputField>();
-            _inputField.placeholder = _text;
+            _inputField.placeholder = _textMeshPro;
             RectTransform textArea = Utils.FindChild<RectTransform>(transform, "TextArea");
             _inputField.textViewport = textArea;
             _inputField.textComponent = Utils.FindChild<TextMeshProUGUI>(textArea, "Input");
@@ -37,9 +39,11 @@ namespace UI.Scripts
         protected override void OnUpdate()
         {
             base.OnUpdate();
-            _inputField.characterLimit = characterLimit;
-            _inputField.caretWidth = caretWidth;
-            _inputField.contentType = contentType;
+            textView.CopyValues(_inputField.textComponent);
+            _inputField.textComponent.color = Color.white;
+            _inputField.characterLimit = inputView.characterLimit;
+            _inputField.caretWidth = inputView.caretWidth;
+            _inputField.contentType = inputView.contentType;
         }
 
         protected virtual void OnValueChanged(string value) { }

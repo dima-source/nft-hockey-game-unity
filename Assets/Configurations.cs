@@ -10,5 +10,7 @@ public static class Configurations
     public static string SpritesFolderPath = "Sprites/";
     public static string MaterialsFolderPath = "Materials/";
     public static string PrefabsFolderPath = "Prefabs/";
+    
+    public static string DefaultButtonSoundPath = MusicFolderPath + "click v1";
 
 }
