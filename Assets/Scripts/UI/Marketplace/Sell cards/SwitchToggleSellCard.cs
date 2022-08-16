@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Toggle = UI.Scripts.Toggle;
 
 namespace UI.Marketplace.Sell_cards
 {
@@ -25,7 +26,7 @@ namespace UI.Marketplace.Sell_cards
             _toggle = GetComponent<Toggle>();
             _handlePosition = uiHandleRectTransform.anchoredPosition;
 
-            _toggle.onValueChanged.AddListener(OnSwitch);
+            //_toggle.onValueChanged.AddListener(OnSwitch);
 
             if (_toggle.isOn)
             {
@@ -59,7 +60,7 @@ namespace UI.Marketplace.Sell_cards
 
         private void OnDestroy()
         {
-            _toggle.onValueChanged.RemoveListener(OnSwitch);
+            //_toggle.onValueChanged.RemoveListener(OnSwitch);
         }
     }
 }

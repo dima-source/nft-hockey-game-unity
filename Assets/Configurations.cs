@@ -9,5 +9,6 @@ public static class Configurations
     public static string MusicFolderPath = "Music/";
     public static string SpritesFolderPath = "Sprites/";
     public static string MaterialsFolderPath = "Materials/";
+    public static string PrefabsFolderPath = "Prefabs/";
 
 }

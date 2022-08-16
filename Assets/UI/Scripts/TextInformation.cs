@@ -24,13 +24,11 @@ namespace UI.Scripts
             PrimaryBackground,
             SecondaryBackground,
             AccentBackgroundHot,
-            AccentBackgroundCold
+            AccentBackgroundCold,
+            AccentBackground1,
+            AccentBackground2
         }
 
-        [Header("Dependencies")] 
-        [SerializeField]
-        public TextMeshProUGUI _text;
-        
         [Header("Text")]
         public string text;
         public FontStyles fontStyle;
@@ -47,18 +45,15 @@ namespace UI.Scripts
         
         [Range(0.0f, 1.0f)] 
         public float alpha = 1.0f;
-        
-        
-        private Sprite _backgroundSprite;
-        private Material _backgroundMaterial;
-        
+
+        protected TextMeshProUGUI _text;
+
         private Image _background;
 
         protected override void Initialize()
         {
+            _text = Utils.FindChild<TextMeshProUGUI>(transform, "Text");
             _background = gameObject.GetComponent<Image>();
-            _backgroundSprite = Utils.LoadSprite(ConvertToPath(type));
-            _backgroundMaterial = Utils.LoadResource<Material>(ConvertToPath(material));
             _background.type = Image.Type.Sliced;
         }
 
@@ -68,8 +63,8 @@ namespace UI.Scripts
             _text.fontStyle = fontStyle;
             _text.enableWordWrapping = !oneLined;
             _background.enabled = displayed;
-            _background.sprite = _backgroundSprite;
-            _background.material = _backgroundMaterial;
+            _background.sprite = Utils.LoadSprite(ConvertToPath(type));
+            _background.material = Utils.LoadResource<Material>(ConvertToPath(material));
 
             Color color = _background.color;
             color.a = alpha;
@@ -91,14 +86,7 @@ namespace UI.Scripts
         
         private static string ConvertToPath(BackgroundMaterial material)
         {
-            return material switch
-            {
-                BackgroundMaterial.PrimaryBackground => Configurations.MaterialsFolderPath + "PrimaryBackground",
-                BackgroundMaterial.SecondaryBackground => Configurations.MaterialsFolderPath + "SecondaryBackground",
-                BackgroundMaterial.AccentBackgroundHot => Configurations.MaterialsFolderPath + "AccentBackgroundHot",
-                BackgroundMaterial.AccentBackgroundCold => Configurations.MaterialsFolderPath + "AccentBackgroundCold",
-                _ => throw new ApplicationException("Unsupported material")
-            };
+            return Configurations.MaterialsFolderPath + material;
         }
     }
 }
