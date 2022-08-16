@@ -1,8 +1,6 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Near.GameContract.ContractMethods;
-using Near.Models;
 using Near.Models.Game.Team;
 using Near.Models.Tokens;
 using Near.Models.Tokens.Filters;
