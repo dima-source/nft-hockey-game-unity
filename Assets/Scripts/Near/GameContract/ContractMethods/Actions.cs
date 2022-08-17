@@ -108,6 +108,7 @@ namespace Near.GameContract.ContractMethods
         {
             ContractNear nftContract = await NearPersistentManager.Instance.GetNftContract();
 
+            /*
             List<dynamic> fives = ConvertFives(team.Fives);
 
             if (fives.Count != 0)
@@ -127,6 +128,7 @@ namespace Near.GameContract.ContractMethods
                 
                 await nftContract.Change("insert_nft_goalies", args, NearUtils.GasMakeAvailable);
             }
+            */
         }
 
         private static List<dynamic> ConvertFives(Dictionary<string, Five> fives)
@@ -135,6 +137,7 @@ namespace Near.GameContract.ContractMethods
 
             foreach (var five in fives)
             {
+                /*
                 List<List<string>> fiveArgs = ConvertFieldPlayers(five.Value.FieldPlayers);
 
                 if (fiveArgs.Count != 0)
@@ -142,6 +145,7 @@ namespace Near.GameContract.ContractMethods
                     List<dynamic> fiveTuple = new List<dynamic>() { five.Key, fiveArgs }; 
                     result.Add(fiveTuple);
                 }
+                */
             }
 
             return result;

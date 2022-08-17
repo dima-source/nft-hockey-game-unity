@@ -64,7 +64,7 @@ namespace UI.ManageTeam
                     Destroy(fieldPlayer.uiPlayer.gameObject);
                 }
             }
-            
+            /*
             Five selectedFive = _team.Fives[number];
             
             lineText.text = selectedFive.Number + " line";
@@ -92,6 +92,7 @@ namespace UI.ManageTeam
                 RectTransform rectTransformUIPlayer = uiPlayer.GetComponent<RectTransform>();
                 rectTransformUIPlayer.localScale = Vector3.one;
             }
+            */
         }
         
         private void ShowGoalies()
@@ -112,7 +113,7 @@ namespace UI.ManageTeam
                 UISlot goalieSlot = goalies[goalieNumber];
                 UIPlayer player = Instantiate(Game.AssetRoot.manageTeamAsset.goalie, goalieSlot.transform);
                 
-                player.SetData(goalieNftMetadata.Value);
+                //player.SetData(goalieNftMetadata.Value);
 
                 player.canvasContent = canvasContent;
 
@@ -178,6 +179,7 @@ namespace UI.ManageTeam
 
         private void SetLineDataToTeam(string line)
         {
+            /*
             if (line == "Goalies")
             {
                 if (goalies[0].uiPlayer == null || goalies[1] == null)
@@ -196,6 +198,7 @@ namespace UI.ManageTeam
                 _team.Fives[line].FieldPlayers["LeftDefender"] = (FieldPlayer)fives[3].uiPlayer.CardData;
                 _team.Fives[line].FieldPlayers["RightDefender"] = (FieldPlayer)fives[4].uiPlayer.CardData;
             }
+            */
         }
         
         public void SwitchLine(string line)

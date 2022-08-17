@@ -7,8 +7,8 @@ namespace Near.Models.Game.Team
     public class Team
     {
         public int id { get; set; }
-        public Dictionary<string,Five> Fives;
-        public Dictionary<string,Goalie> Goalies;
+        public List<Five> Fives;
+        public List<Goalie> Goalies;
         public int score { get; set; }
         public List<FieldPlayer> FieldPlayers;
         public string active_five { get; set; }
