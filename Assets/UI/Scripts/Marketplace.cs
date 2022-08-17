@@ -88,7 +88,7 @@ namespace UI.Scripts
             _pages = new();
             Transform pagesContainer = Utils.FindChild<Transform>(transform, "Main");
             _pages["BuyPacks"] = Utils.FindChild<Transform>(pagesContainer, "BuyPacks");
-            _pages["Statistics"] = Utils.FindChild<Transform>(pagesContainer, "Statistics");
+            _pages["CardDisplay"] = Utils.FindChild<Transform>(pagesContainer, "CardDisplay");
             _pages["FilterCards"] = Utils.FindChild<Transform>(pagesContainer, "FilterCards");
         }
 

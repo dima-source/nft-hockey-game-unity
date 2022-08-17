@@ -39,8 +39,9 @@ namespace UI.Scripts
         {
             Usual,
             Rare,
-            Epic,
-            Legendary
+            SuperRare,
+            Myth,
+            Exclusive
         }
 
         [Header("Main")]
@@ -48,24 +49,31 @@ namespace UI.Scripts
         public int year;
         public Position position;
 
-        [Header("Personal")] public string playerName = "";
+        [Header("Personal")] 
+        [Range(1, 20)]
+        public int nameSpacing;
+        public string playerName = "";
         public string playerSurname = "";
         public int playerNumber;
         public PlayerRole playerRole;
         public Rareness rareness;
-        
-        public int[] statistics;
 
-        private Transform _statisticsContainer;
-        private TextMeshProUGUI[] _statisticViews;
+        [Range(1, 20)]
+        public int statisticsSpacing;
+        public int[] statistics;
+        
+
+        private TextMeshProUGUI _statistics;
         private TextMeshProUGUI _year;
         private TextMeshProUGUI _position;
         private TextMeshProUGUI _nameText;
-        private TextMeshProUGUI _surnameText;
         private TextMeshProUGUI _numberText;
         private Image _avatar;
         private TextMeshProUGUI _playerRoleText;
         private Image _background;
+
+        private RectTransform _transform;
+        public RectTransform RectTransform => _transform;
 
 
         protected override void Initialize()
@@ -73,50 +81,48 @@ namespace UI.Scripts
             _year = Utils.FindChild<TextMeshProUGUI>(transform, "Year");
             _position = Utils.FindChild<TextMeshProUGUI>(transform, "Position");
             _nameText = Utils.FindChild<TextMeshProUGUI>(transform, "NameText");
-            _surnameText = Utils.FindChild<TextMeshProUGUI>(transform, "SurnameText");
             _numberText = Utils.FindChild<TextMeshProUGUI>(transform, "NumberText");
             _avatar = Utils.FindChild<Image>(transform, "Icon");
             _playerRoleText = Utils.FindChild<TextMeshProUGUI>(transform, "RoleText");
             _background = Utils.FindChild<Image>(transform, "Background");
             
-            _statisticsContainer = Utils.FindChild<Transform>(transform, "BottomRow");
-            _statisticViews = new TextMeshProUGUI[_statisticsContainer.childCount];
-            for (int i = 0; i < _statisticsContainer.childCount; i++)
-            {
-                _statisticViews[i] = _statisticsContainer.GetChild(i).GetComponent<TextMeshProUGUI>();
-            }
-
+            _statistics = Utils.FindChild<TextMeshProUGUI>(transform, "Statistics");
+            _transform = GetComponent<RectTransform>();
         }
 
         protected override void OnUpdate()
         {
             _year.text = year.ToString();
             _position.text = position.ToString();
-            _nameText.text = playerName;
-            _surnameText.text = playerSurname;
             _numberText.text = playerNumber.ToString();
+            UpdateName();
             _avatar.sprite = Utils.LoadSprite(Configurations.SpritesFolderPath + avatarImagePath);
             _playerRoleText.text = RoleToString(playerRole);
             _background.GetComponent<Image>().material = RarenessToMaterial(rareness);
             UpdateStatistics();
         }
 
+        private void UpdateName()
+        {
+            _nameText.text = playerName.ToLower() + new String(' ', nameSpacing) + 
+                             "<color=\"red\">" + playerSurname.ToUpper() + "</color>";
+        }
+
         private void UpdateStatistics()
         {
-            if (statistics.Length > _statisticsContainer.childCount)
+            string space = new String(' ', statisticsSpacing);
+            string[] toDisplay = new string[statistics.Length];
+            for (int i = 0; i < statistics.Length; i++)
             {
-                statistics = statistics.Take(_statisticsContainer.childCount).ToArray();   
-            }
-            
-            for (int i = 0; i < _statisticViews.Length; i++)
-            {
-                GameObject statisticsObject = _statisticViews[i].gameObject;
-                statisticsObject.SetActive(i < statistics.Length);
-                if (i < statistics.Length)
+                string value = statistics[i].ToString();
+                if (i % 2 == 0)
                 {
-                    _statisticViews[i].text = statistics[i].ToString();   
+                    value = "<color=\"red\">" + value + "</color>";
                 }
+
+                toDisplay[i] = value;
             }
+            _statistics.text = String.Join(space, toDisplay);
         }
 
         private static string RoleToString(PlayerRole role)
@@ -147,11 +153,21 @@ namespace UI.Scripts
             {
                 Rareness.Usual => Configurations.MaterialsFolderPath + "AccentBackgroundCold",
                 Rareness.Rare => Configurations.MaterialsFolderPath + "AccentBackgroundHot",
-                Rareness.Epic => Configurations.MaterialsFolderPath + "AccentBackground1",
-                Rareness.Legendary => Configurations.MaterialsFolderPath + "AccentBackground2",
+                Rareness.SuperRare => Configurations.MaterialsFolderPath + "AccentBackground1",
+                Rareness.Myth => Configurations.MaterialsFolderPath + "AccentBackground2",
+                Rareness.Exclusive => Configurations.MaterialsFolderPath + "AccentBackground2",
                 _ => throw new ApplicationException("Unsupported rareness")
             };
             return Utils.LoadResource<Material>(path);
+        }
+
+        public void Enable(bool value)
+        {
+            MonoBehaviour[] comps = GetComponentsInChildren<MonoBehaviour>();
+            foreach(MonoBehaviour c in comps)
+            {
+                c.enabled = value;
+            }
         }
         
     }
