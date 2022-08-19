@@ -19,7 +19,6 @@ namespace UI.Main_menu
 
         [SerializeField] private List<Transform> popups;
 
-        [SerializeField] private Transform mintNFTButton;
 
         public MainMenuController MainMenuController;
 
@@ -36,8 +35,6 @@ namespace UI.Main_menu
 
             AccountState accountState = await NearPersistentManager.Instance.GetAccountState();
             balance.text = "Your balance: " + NearUtils.FormatNearAmount(UInt128.Parse(accountState.Amount)) + " NEAR";
-
-            mintNFTButton.gameObject.SetActive(accountID == NearPersistentManager.Instance.MarketplaceContactId);
         }
 
         public void TradeCards()
