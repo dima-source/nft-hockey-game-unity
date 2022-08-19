@@ -1,23 +1,32 @@
+using System;
+using System.IO;
 using Near.Models.Tokens;
+using UI.Scripts;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace UI.ManageTeam.DragAndDrop
 {
-    public abstract class UIPlayer : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
+    public abstract class UIPlayer : CardView, IDragHandler, IBeginDragHandler, IEndDragHandler
     {
-        [SerializeField] protected Text playerName;
-        [SerializeField] protected Text position;
-        [SerializeField] protected Text number;
-        [SerializeField] protected Text role;
-        [SerializeField] protected Image silverStroke;
+
+        protected void setPlayerName(string name)
+        {
+            string[] splittedName = name.Split(" ", 2);
+            if (splittedName.Length != 2)
+            {
+                throw new ApplicationException("Name is incorrect. Must be \"Name Surname\", got \"" + name + "\"");
+            }
+            playerName = splittedName[0];
+            playerSurname = splittedName[1];
+        }
 
         public Image playerImg;
         
         private CanvasGroup _canvasGroup;
         private Canvas _mainCanvas;
-        private RectTransform _rectTransform;
+        public RectTransform RectTransform;
 
         public Transform canvasContent;
 
@@ -26,21 +35,21 @@ namespace UI.ManageTeam.DragAndDrop
         
         protected void Start()
         {
-            _rectTransform = GetComponent<RectTransform>();
+            RectTransform = GetComponent<RectTransform>();
             _mainCanvas = GetComponentInParent<Canvas>();
             _canvasGroup = GetComponent<CanvasGroup>();
         }
 
         public void OnBeginDrag(PointerEventData eventData)
         {
-            _rectTransform.SetParent(canvasContent);
+            RectTransform.SetParent(canvasContent);
             _canvasGroup.blocksRaycasts = false;
         }
 
         public void OnDrag(PointerEventData eventData)
         {
             var scaleFactor = _mainCanvas.scaleFactor;
-            _rectTransform.anchoredPosition += eventData.delta / scaleFactor;
+            RectTransform.anchoredPosition += eventData.delta / scaleFactor;
         }
 
         public void OnEndDrag(PointerEventData eventData)
@@ -57,5 +66,32 @@ namespace UI.ManageTeam.DragAndDrop
         }
 
         public abstract void SetData(Token token);
+
+        public static Position StringToPosition(string position)
+        {
+            Position.TryParse(position, out Position parsedPosition);
+            return parsedPosition;
+        }
+
+        public static PlayerRole StringToRole(string roleString)
+        {
+            return roleString switch
+            {
+                "Playmaker" => PlayerRole.Playmaker,
+                "Enforcer" => PlayerRole.Enforcer,
+                "Shooter" => PlayerRole.Shooter,
+                "Try-harder" => PlayerRole.TryHarder,
+                "Defensive forward" => PlayerRole.DefensiveForward,
+                "Grinder" => PlayerRole.Grinder,
+                "Defensive defenceman" => PlayerRole.DefensiveDefenceman,
+                "Offensive defenceman" => PlayerRole.OffensiveDefenceman,
+                "Two-way defencemen" => PlayerRole.TwoWayDefencemen,
+                "Tough guy" => PlayerRole.ToughGuy,
+                "Standup" => PlayerRole.StandUp,
+                "Butterfly" => PlayerRole.Butterfly,
+                "Hybrid" => PlayerRole.Hybrid,
+                _ => throw new ApplicationException("Unsupported role")
+            };
+        }
     }
 }

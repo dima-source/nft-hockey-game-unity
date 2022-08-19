@@ -11,18 +11,14 @@ namespace UI.ManageTeam
     {
         public async Task<Team> LoadUserTeam()
         {
-            return await Views.LoadUserTeam();
+            // return await Views.LoadUserTeam();
+            return new Team();
         }
 
         public async Task<List<Token>> LoadUserNFTs(PlayerFilter filter, Pagination pagination)
         {
-            var tokes = await Near.MarketplaceContract.ContractMethods.Views.GetTokens(filter, pagination);
-            if (tokes == null)
-            {
-                return new List<Token>();
-            }
-
-            return tokes;
+            var tokens = await Near.MarketplaceContract.ContractMethods.Views.GetTokens(filter, pagination);
+            return tokens;
         }
 
         public void ChangeLineups(Team team)

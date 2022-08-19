@@ -36,7 +36,8 @@ namespace Near.MarketplaceContract.ContractMethods
                 return await response.Content.ReadAsStringAsync(); 
             }
         }
-        
+
+        // public static async Task<Team> GetTeam();
 
         public static async Task<List<Token>> GetTokens(PlayerFilter filter, Pagination pagination)
         {

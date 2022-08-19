@@ -9,39 +9,46 @@ namespace UI.ManageTeam.DragAndDrop
 {
     public class FieldPlayerCard : UIPlayer
     {
-        [SerializeField] private Text skating;
-        [SerializeField] private Text shooting;
-        [SerializeField] private Text strength;
-        [SerializeField] private Text iq;
-        [SerializeField] private Text morale;
+        // [SerializeField] private Text skating;
+        // [SerializeField] private Text shooting;
+        // [SerializeField] private Text strength;
+        // [SerializeField] private Text iq;
+        // [SerializeField] private Text morale;
 
         private bool _isInit = false;
 
         public override void SetData(Token token)
         {
             CardData = token;
-
-            playerName.text = token.title;
+            
+            setPlayerName(token.title);
 
             if (!string.IsNullOrEmpty(token.media))
             {
                 StartCoroutine(Utils.Utils.LoadImage(playerImg, token.media));
             }
-            else
-            {
-                silverStroke.gameObject.SetActive(true);
-            }
+            // else
+            // {
+            //     silverStroke.gameObject.SetActive(true);
+            // }
 
             FieldPlayer fieldPlayer = (FieldPlayer)token;
-            number.text = fieldPlayer.number.ToString();
+            playerNumber = fieldPlayer.number;
             //role.text = goalieExtra.Role;
             //position.text = Utils.Utils.ConvertPosition(goalieExtra.Position);
 
-            skating.text = fieldPlayer.Stats.Skating.ToString();
-            shooting.text = fieldPlayer.Stats.Shooting.ToString();
-            strength.text = fieldPlayer.Stats.Strength.ToString();
+            // skating.text = ;
+            // shooting.text = ;
+            // strength.text = ;
             //iq.text = goalieExtra.Stats.IQ.ToString();
-            morale.text = fieldPlayer.Stats.Morale.ToString();
+            // morale.text = ;
+            statistics = new[]
+            {
+                int.Parse(fieldPlayer.Stats.Skating.ToString()),
+                int.Parse(fieldPlayer.Stats.Shooting.ToString()),
+                int.Parse(fieldPlayer.Stats.Strength.ToString()),
+                int.Parse(fieldPlayer.Stats.Morale.ToString())
+            };
         }
 
         public void SetData(FieldPlayer data)
@@ -55,17 +62,24 @@ namespace UI.ManageTeam.DragAndDrop
 
             _isInit = true;
 
-            playerName.text = data.title;
+            setPlayerName(data.title);
 
-            number.text = data.number.ToString();
-            role.text = data.player_role;
-            position.text = Utils.Utils.ConvertPosition(data.native_position);
+            playerNumber = data.number;
+            playerRole = StringToRole(data.player_role);
+            position = StringToPosition(data.native_position);
 
-            skating.text = data.Stats.Skating.ToString();
-            shooting.text = data.Stats.Shooting.ToString();
-            strength.text = data.Stats.Strength.ToString();
+            // skating.text = data.Stats.Skating.ToString();
+            // shooting.text = data.Stats.Shooting.ToString();
+            // strength.text = data.Stats.Strength.ToString();
             // iq.text = data.stats.IQ.ToString();
-            morale.text = data.Stats.Morale.ToString();
+            // morale.text = data.Stats.Morale.ToString();
+            statistics = new[]
+            {
+                int.Parse(data.Stats.Skating.ToString()),
+                int.Parse(data.Stats.Shooting.ToString()),
+                int.Parse(data.Stats.Strength.ToString()),
+                int.Parse(data.Stats.Morale.ToString())
+            };
         }
     }
 }

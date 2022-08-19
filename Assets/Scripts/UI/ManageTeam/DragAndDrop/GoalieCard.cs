@@ -8,11 +8,11 @@ namespace UI.ManageTeam.DragAndDrop
 {
     public class GoalieCard : UIPlayer
     {
-        [SerializeField] private Text gloveAndBlocker;
-        [SerializeField] private Text pads;
-        [SerializeField] private Text stand;
-        [SerializeField] private Text stretch;
-        [SerializeField] private Text morale;
+        // [SerializeField] private Text gloveAndBlocker;
+        // [SerializeField] private Text pads;
+        // [SerializeField] private Text stand;
+        // [SerializeField] private Text stretch;
+        // [SerializeField] private Text morale;
 
         private bool _isInit = false;
         
@@ -20,19 +20,20 @@ namespace UI.ManageTeam.DragAndDrop
         {
             CardData = token;
 
-            playerName.text = token.title;
+            setPlayerName(token.title);
 
             if (!string.IsNullOrEmpty(token.media))
             {
                 StartCoroutine(Utils.Utils.LoadImage(playerImg, token.media));
             }
-            else
-            {
-                silverStroke.gameObject.SetActive(true);
-            }
+            // else
+            // {
+            //     silverStroke.gameObject.SetActive(true);
+            // }
 
             Goalie goalie =  (Goalie)token;
-            number.text = goalie.number.ToString();
+            // number.text = goalie.number.ToString();
+            playerNumber = goalie.number;
             //role.text = goalieExtra.Role;
             //position.text = Utils.Utils.ConvertPosition(goalieExtra.Position);
 
@@ -56,11 +57,11 @@ namespace UI.ManageTeam.DragAndDrop
 
             _isInit = true;
             
-            playerName.text = data.title; 
+            setPlayerName(data.title);
             
-            number.text = data.number.ToString();
-            role.text = data.player_role;
-            position.text = Utils.Utils.ConvertPosition("G");
+            playerNumber = data.number;
+            playerRole = StringToRole(data.player_role);
+            position = Position.G;
 /*
             gloveAndBlocker.text = data.stats.GloveAndBlocker.ToString();
             pads.text = data.stats.Pads.ToString();

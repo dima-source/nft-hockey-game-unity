@@ -32,7 +32,8 @@ namespace UI.Scripts
             LW,
             RD,
             LD,
-            C
+            C,
+            G
         }
         
         public enum Rareness 

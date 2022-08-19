@@ -27,7 +27,7 @@ namespace UI.ManageTeam
         [SerializeField] private Transform canvasContent;
         [SerializeField] private Transform benchContent;
 
-        [SerializeField] private Text lineText;
+        // [SerializeField] private Text lineText;
         [SerializeField] private Text iceTimePriority;
         [SerializeField] private Slider iceTimePrioritySlider;
 
@@ -51,7 +51,7 @@ namespace UI.ManageTeam
             
             lineNumber = "First";
 
-            ShowFive(lineNumber);
+            // ShowFive(lineNumber);
             ShowBench(lineNumber);
         }
         
@@ -105,7 +105,7 @@ namespace UI.ManageTeam
                 }
             }
             
-            lineText.text = "Goalies";
+            // lineText.text = "Goalies";
 
             int goalieNumber = 0;
             foreach (var goalieNftMetadata in  _team.Goalies)
@@ -161,6 +161,9 @@ namespace UI.ManageTeam
                     "Goalie" => Instantiate(Game.AssetRoot.manageTeamAsset.goalie, benchSlot.transform),
                     _ => throw new Exception("Extra type not found")
                 };
+
+                uiPlayer.RectTransform.sizeDelta = new Vector2(150, 225);
+
 
                 benchSlot.uiPlayer = uiPlayer;
                 uiPlayer.uiSlot = benchSlot;
