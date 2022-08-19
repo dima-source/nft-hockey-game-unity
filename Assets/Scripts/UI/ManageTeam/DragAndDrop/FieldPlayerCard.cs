@@ -1,8 +1,10 @@
+using System;
 using Near.Models.Game.Team;
 using Near.Models.Tokens;
 using Near.Models.Tokens.Players.FieldPlayer;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils;
 using Event = Near.Models.Game.Event;
 
 namespace UI.ManageTeam.DragAndDrop
@@ -17,6 +19,12 @@ namespace UI.ManageTeam.DragAndDrop
 
         private bool _isInit = false;
 
+        protected override void Initialize()
+        {
+            base.Initialize();
+            updateAvatar = false;
+        }
+
         public override void SetData(Token token)
         {
             CardData = token;
@@ -25,7 +33,10 @@ namespace UI.ManageTeam.DragAndDrop
 
             if (!string.IsNullOrEmpty(token.media))
             {
-                StartCoroutine(Utils.Utils.LoadImage(playerImg, token.media));
+                try
+                {
+                    StartCoroutine(ImageLoader.LoadImage(_avatar, token.media));
+                } catch (ApplicationException) {}
             }
             // else
             // {
@@ -53,36 +64,36 @@ namespace UI.ManageTeam.DragAndDrop
             };
         }
 
-        public void SetData(FieldPlayer data)
-        {
-            gameObject.SetActive(true);
-
-            if (!_isInit && data.media != "")
-            {
-                StartCoroutine(Utils.Utils.LoadImage(playerImg, data.media));
-            }
-
-            _isInit = true;
-
-            setPlayerName(data.title);
-
-            playerNumber = data.number;
-            playerRole = StringToRole(data.player_role);
-            position = StringToPosition(data.native_position);
-
-
-            // skating.text = data.Stats.Skating.ToString();
-            // shooting.text = data.Stats.Shooting.ToString();
-            // strength.text = data.Stats.Strength.ToString();
-            // iq.text = data.stats.IQ.ToString();
-            // morale.text = data.Stats.Morale.ToString();
-            statistics = new[]
-            {
-                int.Parse(data.Stats.Skating.ToString()),
-                int.Parse(data.Stats.Shooting.ToString()),
-                int.Parse(data.Stats.Strength.ToString()),
-                int.Parse(data.Stats.Morale.ToString())
-            };
-        }
+        // public void SetData(FieldPlayer data)
+        // {
+        //     gameObject.SetActive(true);
+        //
+        //     if (!_isInit && data.media != "")
+        //     {
+        //         StartCoroutine(Utils.Utils.LoadImage(playerImg, data.media));
+        //     }
+        //
+        //     _isInit = true;
+        //
+        //     setPlayerName(data.title);
+        //
+        //     playerNumber = data.number;
+        //     playerRole = StringToRole(data.player_role);
+        //     position = StringToPosition(data.native_position);
+        //
+        //
+        //     // skating.text = data.Stats.Skating.ToString();
+        //     // shooting.text = data.Stats.Shooting.ToString();
+        //     // strength.text = data.Stats.Strength.ToString();
+        //     // iq.text = data.stats.IQ.ToString();
+        //     // morale.text = data.Stats.Morale.ToString();
+        //     statistics = new[]
+        //     {
+        //         int.Parse(data.Stats.Skating.ToString()),
+        //         int.Parse(data.Stats.Shooting.ToString()),
+        //         int.Parse(data.Stats.Strength.ToString()),
+        //         int.Parse(data.Stats.Morale.ToString())
+        //     };
+        // }
     }
 }

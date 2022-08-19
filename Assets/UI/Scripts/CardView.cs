@@ -3,12 +3,15 @@ using System.Data;
 using System.Linq;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace UI.Scripts
 {
     public class CardView : UiComponent
     {
+        protected bool updateAvatar = true;
+
         public enum PlayerRole
         {
             Playmaker,
@@ -64,7 +67,7 @@ namespace UI.Scripts
         private TextMeshProUGUI _nameText;
         private TextMeshProUGUI _surnameText;
         private TextMeshProUGUI _numberText;
-        private Image _avatar;
+        protected Image _avatar;
         private TextMeshProUGUI _playerRoleText;
         private TextInformation _background;
 
@@ -96,7 +99,15 @@ namespace UI.Scripts
             _nameText.text = playerName;
             _surnameText.text = playerSurname;
             _numberText.text = playerNumber.ToString();
-            _avatar.sprite = Utils.LoadSprite(Configurations.SpritesFolderPath + avatarImagePath);
+            if (updateAvatar) 
+                _avatar.sprite = Utils.LoadSprite(Configurations.SpritesFolderPath + avatarImagePath);
+            else
+            {
+                if (_avatar.sprite.IsUnityNull())
+                {
+                    _avatar.sprite = Utils.LoadSprite(Configurations.SpritesFolderPath + avatarImagePath);
+                }
+            }
             _playerRoleText.text = RoleToString(playerRole);
             _background.material = RarenessToMaterial(rareness);
             UpdateStatistics();

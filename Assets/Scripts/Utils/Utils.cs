@@ -1,10 +1,89 @@
+using System;
 using System.Collections;
+using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
 namespace Utils
 {
+    public static class ImageLoader
+    {
+        private static string _path = $"{Application.persistentDataPath}{Path.DirectorySeparatorChar.ToString()}Images";
+
+        // retrieves the filename of url without GET params
+        private static string GetFilenameFromUrl(string url)
+        {
+            return url.Split("/").Last().Split("&").First();
+        }
+
+        static ImageLoader()
+        {
+            Directory.CreateDirectory(_path);
+        }
+
+        private static string GetPathWithinFilename(string filename)
+        {
+            return $"{_path}{Path.DirectorySeparatorChar.ToString()}{filename}";
+        }
+        
+        private static void SaveTexture2D(Texture2D texture2D, string path)
+        {
+            File.WriteAllBytes(path, texture2D.EncodeToPNG());
+        }
+
+        private static string SaveImage(Image image, string filename)
+        {
+            string path = GetPathWithinFilename(filename);
+            SaveTexture2D(image.sprite.texture, path);
+            return path;
+        }
+
+        private static Texture2D LoadTexture2D(string path)
+        {
+            if (!File.Exists(path))
+                throw new FileNotFoundException($"No file {path} was found");
+            byte[] fileData = File.ReadAllBytes(path);
+            Texture2D texture2D = new Texture2D(1, 1);
+            texture2D.LoadImage(fileData);
+            return texture2D;
+        }
+
+        private static IEnumerator DownloadTexture2D(string url)
+        {
+            UnityWebRequest request = UnityWebRequestTexture.GetTexture(url);
+            yield return request.SendWebRequest();
+
+            try
+            {
+                Texture texture = ((DownloadHandlerTexture) request.downloadHandler).texture;
+                SaveTexture2D((Texture2D) texture, GetPathWithinFilename(GetFilenameFromUrl(url)));
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e.Message);
+                throw new ApplicationException($"Invalid link {url}");
+            }
+        }
+
+        public static IEnumerator LoadImage(Image image, string url)
+        {
+            string path = GetPathWithinFilename(GetFilenameFromUrl(url));
+            if (File.Exists(path))
+            {
+                Texture2D texture = LoadTexture2D(path);
+                image.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
+            }
+            else
+            {
+                yield return DownloadTexture2D(url);
+                Texture2D texture = LoadTexture2D(path);
+                image.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
+            }
+        }
+    }
+    
     public static class Utils 
     {
         public static IEnumerator LoadImage(Image image, string url)

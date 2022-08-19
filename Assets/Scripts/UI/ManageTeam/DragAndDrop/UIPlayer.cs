@@ -23,7 +23,7 @@ namespace UI.ManageTeam.DragAndDrop
         }
 
         public Image playerImg;
-        
+
         private CanvasGroup _canvasGroup;
         private Canvas _mainCanvas;
         public RectTransform RectTransform;
