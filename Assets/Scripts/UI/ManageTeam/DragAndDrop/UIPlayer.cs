@@ -75,23 +75,25 @@ namespace UI.ManageTeam.DragAndDrop
 
         public static PlayerRole StringToRole(string roleString)
         {
-            return roleString switch
-            {
-                "Playmaker" => PlayerRole.Playmaker,
-                "Enforcer" => PlayerRole.Enforcer,
-                "Shooter" => PlayerRole.Shooter,
-                "Try-harder" => PlayerRole.TryHarder,
-                "Defensive forward" => PlayerRole.DefensiveForward,
-                "Grinder" => PlayerRole.Grinder,
-                "Defensive defenceman" => PlayerRole.DefensiveDefenceman,
-                "Offensive defenceman" => PlayerRole.OffensiveDefenceman,
-                "Two-way defencemen" => PlayerRole.TwoWayDefencemen,
-                "Tough guy" => PlayerRole.ToughGuy,
-                "Standup" => PlayerRole.StandUp,
-                "Butterfly" => PlayerRole.Butterfly,
-                "Hybrid" => PlayerRole.Hybrid,
-                _ => throw new ApplicationException("Unsupported role")
-            };
+            PlayerRole.TryParse(roleString, out PlayerRole parsedRole);
+            return parsedRole;
+            // return roleString switch
+            // {
+            //     "Playmaker" => PlayerRole.Playmaker,
+            //     "Enforcer" => PlayerRole.Enforcer,
+            //     "Shooter" => PlayerRole.Shooter,
+            //     "Try-harder" => PlayerRole.TryHarder,
+            //     "Defensive forward" => PlayerRole.DefensiveForward,
+            //     "Grinder" => PlayerRole.Grinder,
+            //     "Defensive defenceman" => PlayerRole.DefensiveDefenceman,
+            //     "Offensive defenceman" => PlayerRole.OffensiveDefenceman,
+            //     "Two-way defencemen" => PlayerRole.TwoWayDefencemen,
+            //     "Tough guy" => PlayerRole.ToughGuy,
+            //     "Standup" => PlayerRole.StandUp,
+            //     "Butterfly" => PlayerRole.Butterfly,
+            //     "Hybrid" => PlayerRole.Hybrid,
+            //     _ => throw new ApplicationException("Unsupported role " + roleString)
+            // };
         }
     }
 }

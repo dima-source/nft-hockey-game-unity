@@ -34,6 +34,8 @@ namespace UI.ManageTeam.DragAndDrop
 
             FieldPlayer fieldPlayer = (FieldPlayer)token;
             playerNumber = fieldPlayer.number;
+            playerRole = StringToRole(fieldPlayer.player_role);
+            position = StringToPosition(fieldPlayer.native_position);
             //role.text = goalieExtra.Role;
             //position.text = Utils.Utils.ConvertPosition(goalieExtra.Position);
 
@@ -67,6 +69,7 @@ namespace UI.ManageTeam.DragAndDrop
             playerNumber = data.number;
             playerRole = StringToRole(data.player_role);
             position = StringToPosition(data.native_position);
+
 
             // skating.text = data.Stats.Skating.ToString();
             // shooting.text = data.Stats.Shooting.ToString();
