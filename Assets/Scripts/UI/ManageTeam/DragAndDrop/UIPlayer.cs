@@ -29,6 +29,8 @@ namespace UI.ManageTeam.DragAndDrop
         public RectTransform RectTransform;
 
         public Transform canvasContent;
+        public Transform forwardsContent;
+        public Transform defendersContent;
 
         public Token CardData;
         public UISlot uiSlot;
@@ -57,8 +59,9 @@ namespace UI.ManageTeam.DragAndDrop
             Transform itemTransform = eventData.pointerDrag.transform;
             if (itemTransform.parent == canvasContent)
             {
-                itemTransform.SetParent(uiSlot.transform);
-                itemTransform.localPosition = Vector3.zero;
+                uiSlot.OnDrop(eventData);
+                // itemTransform.SetParent(uiSlot.transform);
+                // itemTransform.localPosition = Vector3.zero;
             }
             
             transform.localPosition = Vector3.zero;

@@ -9,12 +9,12 @@ namespace UI.GameUI
     public class FiveView : MonoBehaviour
     {
         [SerializeField] private List<LineButton> buttons;
-        [SerializeField] private FieldPlayerCard leftWing;
-        [SerializeField] private FieldPlayerCard center;
-        [SerializeField] private FieldPlayerCard rightWing;
+        [SerializeField] private PlayerCard leftWing;
+        [SerializeField] private PlayerCard center;
+        [SerializeField] private PlayerCard rightWing;
 
-        [SerializeField] private FieldPlayerCard leftDefender;
-        [SerializeField] private FieldPlayerCard rightDefender;
+        [SerializeField] private PlayerCard leftDefender;
+        [SerializeField] private PlayerCard rightDefender;
 
         [SerializeField] private GoalieCard goalie;
 

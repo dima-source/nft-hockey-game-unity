@@ -18,6 +18,9 @@ namespace UI.ManageTeam
     {
         private ManageTeamController _controller;
 
+        public Transform forwardsCanvasContent;
+        public Transform defendersCanvasContent;
+        
         [SerializeField] private List<UISlot> fives; 
         [SerializeField] private List<UISlot> goalies;
         private List<UISlot> _benchPlayers;
@@ -116,6 +119,8 @@ namespace UI.ManageTeam
                 //player.SetData(goalieNftMetadata.Value);
 
                 player.canvasContent = canvasContent;
+                player.forwardsContent = forwardsCanvasContent;
+                player.defendersContent = defendersCanvasContent;
 
                 goalies[goalieNumber].uiPlayer = player;
                 player.uiSlot = goalies[goalieNumber];
@@ -153,6 +158,7 @@ namespace UI.ManageTeam
             foreach (Token nft in benchPlayers)
             {
                 UISlot benchSlot = Instantiate(Game.AssetRoot.manageTeamAsset.uiSlot, benchContent);
+                benchSlot.GetComponent<Image>().color = new Color(255f, 255f, 255f, 0f);
                 benchSlot.slotPosition = SlotPositionEnum.Bench;
                 
                 UIPlayer uiPlayer = nft.player_type switch
@@ -171,6 +177,8 @@ namespace UI.ManageTeam
                 uiPlayer.SetData(nft);
                 uiPlayer.transform.localPosition = Vector3.zero;
                 uiPlayer.canvasContent = canvasContent;
+                uiPlayer.forwardsContent = forwardsCanvasContent;
+                uiPlayer.defendersContent = defendersCanvasContent;
 
                 benchSlot.manageTeamView = this;
                 benchSlot.slotId = slotId;
