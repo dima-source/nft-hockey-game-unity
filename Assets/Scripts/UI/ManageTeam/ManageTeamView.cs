@@ -28,7 +28,7 @@ namespace UI.ManageTeam
         private List<Token> _userNFTs;
 
         [SerializeField] private Transform canvasContent;
-        [SerializeField] private Transform benchContent;
+        [SerializeField] public Transform benchContent;
 
         // [SerializeField] private Text lineText;
         [SerializeField] private Text iceTimePriority;
@@ -160,6 +160,7 @@ namespace UI.ManageTeam
                 UISlot benchSlot = Instantiate(Game.AssetRoot.manageTeamAsset.uiSlot, benchContent);
                 benchSlot.GetComponent<Image>().color = new Color(255f, 255f, 255f, 0f);
                 benchSlot.slotPosition = SlotPositionEnum.Bench;
+                benchSlot.manageTeamView = this;
                 
                 UIPlayer uiPlayer = nft.player_type switch
                 {

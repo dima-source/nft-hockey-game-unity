@@ -835,7 +835,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e66280f8704e49798754dc5f489ea869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manageTeamView: {fileID: 1041897911}
+  manageTeamView: {fileID: 1339640826}
+  RectTransform: {fileID: 0}
   slotPosition: 2
   slotId: 1
   uiPlayer: {fileID: 0}
@@ -1845,7 +1846,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e66280f8704e49798754dc5f489ea869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manageTeamView: {fileID: 1041897911}
+  manageTeamView: {fileID: 0}
+  RectTransform: {fileID: 0}
   slotPosition: 6
   slotId: 1
   uiPlayer: {fileID: 0}
@@ -3075,7 +3077,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e66280f8704e49798754dc5f489ea869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manageTeamView: {fileID: 1041897911}
+  manageTeamView: {fileID: 1339640826}
+  RectTransform: {fileID: 0}
   slotPosition: 3
   slotId: 1
   uiPlayer: {fileID: 0}
@@ -4113,7 +4116,6 @@ GameObject:
   - component: {fileID: 1041897910}
   - component: {fileID: 1041897909}
   - component: {fileID: 1041897908}
-  - component: {fileID: 1041897911}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -4204,35 +4206,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!114 &1041897911
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1041897906}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b09fd475a9a4f73a415237e301b7c79, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  forwardsCanvasContent: {fileID: 0}
-  defendersCanvasContent: {fileID: 0}
-  fives:
-  - {fileID: 1315889552}
-  - {fileID: 2143630822}
-  - {fileID: 190799904}
-  - {fileID: 750316995}
-  - {fileID: 1476655891}
-  goalies:
-  - {fileID: 1990097108}
-  - {fileID: 439387276}
-  canvasContent: {fileID: 1041897907}
-  benchContent: {fileID: 0}
-  iceTimePriority: {fileID: 599661449}
-  iceTimePrioritySlider: {fileID: 1548394570}
-  fiveView: {fileID: 1132143870}
-  goaliesView: {fileID: 1157983503}
 --- !u!1 &1083219350
 GameObject:
   m_ObjectHideFlags: 0
@@ -5420,17 +5393,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5700369718395824606, guid: 1cd74595b9af43a21a718a20cae9a62f, type: 3}
   m_PrefabInstance: {fileID: 5700369719430645843}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1315889552 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5700369718395824579, guid: 1cd74595b9af43a21a718a20cae9a62f, type: 3}
-  m_PrefabInstance: {fileID: 5700369719430645843}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e66280f8704e49798754dc5f489ea869, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1339640824
 GameObject:
   m_ObjectHideFlags: 0
@@ -5845,7 +5807,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e66280f8704e49798754dc5f489ea869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manageTeamView: {fileID: 1041897911}
+  manageTeamView: {fileID: 1339640826}
+  RectTransform: {fileID: 0}
   slotPosition: 4
   slotId: 1
   uiPlayer: {fileID: 0}
@@ -6213,7 +6176,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1041897911}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UI.ManageTeam.ManageTeamView, Assembly-CSharp
         m_MethodName: ChangeIceTimePriority
         m_Mode: 1
@@ -7387,7 +7350,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e66280f8704e49798754dc5f489ea869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manageTeamView: {fileID: 1041897911}
+  manageTeamView: {fileID: 0}
+  RectTransform: {fileID: 0}
   slotPosition: 5
   slotId: 1
   uiPlayer: {fileID: 0}
@@ -7557,7 +7521,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e66280f8704e49798754dc5f489ea869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manageTeamView: {fileID: 1041897911}
+  manageTeamView: {fileID: 1339640826}
+  RectTransform: {fileID: 0}
   slotPosition: 1
   slotId: 1
   uiPlayer: {fileID: 0}
@@ -7578,9 +7543,13 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5700369718395824579, guid: 1cd74595b9af43a21a718a20cae9a62f, type: 3}
+      propertyPath: ManageTeamView
+      value: 
+      objectReference: {fileID: 1339640826}
+    - target: {fileID: 5700369718395824579, guid: 1cd74595b9af43a21a718a20cae9a62f, type: 3}
       propertyPath: manageTeamView
       value: 
-      objectReference: {fileID: 1041897911}
+      objectReference: {fileID: 1339640826}
     - target: {fileID: 5700369718395824606, guid: 1cd74595b9af43a21a718a20cae9a62f, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
