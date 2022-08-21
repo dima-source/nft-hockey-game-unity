@@ -764,7 +764,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &190799901
 RectTransform:
   m_ObjectHideFlags: 0
@@ -782,7 +782,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 650, y: -131.511}
+  m_AnchoredPosition: {x: 350, y: -131.511}
   m_SizeDelta: {x: 200, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &190799902
@@ -1327,7 +1327,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 339371253}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1339640826}
+        m_TargetAssemblyTypeName: UI.ManageTeam.ManageTeamView, Assembly-CSharp
+        m_MethodName: HideCurrentFive
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1339640826}
+        m_TargetAssemblyTypeName: UI.ManageTeam.ManageTeamView, Assembly-CSharp
+        m_MethodName: ShowFive
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Third
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &339371253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3006,7 +3030,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &750316992
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4289,7 +4313,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1083219353}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1339640826}
+        m_TargetAssemblyTypeName: UI.ManageTeam.ManageTeamView, Assembly-CSharp
+        m_MethodName: HideCurrentFive
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1339640826}
+        m_TargetAssemblyTypeName: UI.ManageTeam.ManageTeamView, Assembly-CSharp
+        m_MethodName: ShowFive
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Fourth
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1083219353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4506,7 +4554,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.069000006}
   m_AnchorMax: {x: 1, y: 0.846}
-  m_AnchoredPosition: {x: 0, y: -1.4998779}
+  m_AnchoredPosition: {x: 0, y: -1.5}
   m_SizeDelta: {x: 0, y: 3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1136771530
@@ -5049,7 +5097,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1189611098}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1339640826}
+        m_TargetAssemblyTypeName: UI.ManageTeam.ManageTeamView, Assembly-CSharp
+        m_MethodName: HideCurrentFive
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1339640826}
+        m_TargetAssemblyTypeName: UI.ManageTeam.ManageTeamView, Assembly-CSharp
+        m_MethodName: ShowFive
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: First
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1189611098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5448,8 +5520,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   forwardsCanvasContent: {fileID: 192167209}
   defendersCanvasContent: {fileID: 96702243}
-  fives: []
-  goalies: []
   canvasContent: {fileID: 1041897907}
   benchContent: {fileID: 908311037}
   iceTimePriority: {fileID: 673235381}
@@ -5736,7 +5806,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1476655888
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5754,7 +5824,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 525, y: -131.511}
+  m_AnchoredPosition: {x: 350, y: -131.511}
   m_SizeDelta: {x: 200, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1476655889
@@ -5971,7 +6041,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1522387094}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1339640826}
+        m_TargetAssemblyTypeName: UI.ManageTeam.ManageTeamView, Assembly-CSharp
+        m_MethodName: HideCurrentFive
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1339640826}
+        m_TargetAssemblyTypeName: UI.ManageTeam.ManageTeamView, Assembly-CSharp
+        m_MethodName: ShowFive
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Second
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1522387094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7450,7 +7544,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2143630819
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7468,7 +7562,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 375, y: -131.511}
+  m_AnchoredPosition: {x: 156.25, y: -131.511}
   m_SizeDelta: {x: 200, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2143630820
@@ -7637,6 +7731,10 @@ PrefabInstance:
     - target: {fileID: 5700369718395824607, guid: 1cd74595b9af43a21a718a20cae9a62f, type: 3}
       propertyPath: m_Name
       value: Left Wing
+      objectReference: {fileID: 0}
+    - target: {fileID: 5700369718395824607, guid: 1cd74595b9af43a21a718a20cae9a62f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
