@@ -1,4 +1,5 @@
 using System;
+using Runtime;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -27,44 +28,81 @@ namespace UI.ManageTeam.DragAndDrop
             uiPlayerDroppedTransform.localPosition = Vector3.zero;
         }
 
+        private void FinalizeDrop(UIPlayer uiPlayerDropped)
+        {
+            // destroying slot if it's card moved from bench to team
+            if (uiPlayerDropped.uiSlot.transform.parent == manageTeamView.benchContent.transform)
+            {
+                Destroy(uiPlayerDropped.uiSlot.gameObject);
+            }
+            
+            uiPlayerDropped.uiSlot.uiPlayer = null;
+            uiPlayer = uiPlayerDropped;
+
+            uiPlayer.uiSlot = this;
+            
+            uiPlayerDropped.RectTransform.sizeDelta = RectTransform.sizeDelta;
+            EndDrop(uiPlayerDropped);
+        }
+
+        private void ProcessSwap(UIPlayer uiPlayerDropped)
+        {
+            // TODO: change team data
+            UIPlayer previousUIPlayer = uiPlayer;
+            UISlot benchSlot = uiPlayerDropped.uiSlot;
+            
+            benchSlot.uiPlayer = previousUIPlayer;
+            Transform previousUIPlayerTransform = previousUIPlayer.transform;
+            previousUIPlayerTransform.SetParent(benchSlot.transform);
+            previousUIPlayerTransform.localPosition = Vector3.zero;
+            previousUIPlayer.RectTransform.sizeDelta = benchSlot.RectTransform.sizeDelta;
+            previousUIPlayer.uiSlot = benchSlot;
+            
+            uiPlayerDropped.RectTransform.sizeDelta = RectTransform.sizeDelta;
+            EndDrop(uiPlayerDropped);
+            uiPlayer = uiPlayerDropped;
+            uiPlayer.uiSlot = this;
+        }
+
         public void OnDrop(PointerEventData eventData)
         {
             UIPlayer uiPlayerDropped = eventData.pointerDrag.GetComponent<UIPlayer>();
             
-            if (transform.parent == manageTeamView.benchContent.transform)
+            // moving card back to bench slot if it is moved to another bench slot
+            if (transform.parent == manageTeamView.benchContent.transform && uiPlayerDropped.uiSlot.transform.parent == manageTeamView.benchContent.transform)
             {
                 EndDrop(uiPlayerDropped);
                 uiPlayerDropped.transform.SetParent(uiPlayerDropped.uiSlot.transform); 
                 return;
             }
-            if (uiPlayer)
+            
+            // moving card from five to bench
+            if (uiPlayerDropped.uiSlot.transform.parent.parent == manageTeamView.teamView &&
+                transform.parent == manageTeamView.benchContent.transform)
             {
-                EndDrop(uiPlayerDropped);
+                uiPlayerDropped.uiSlot.uiPlayer = null;
+                manageTeamView.CreateNewBenchSlotWithPlayer(uiPlayerDropped);
+                // FinalizeDrop(uiPlayerDropped);
                 return;
             }
             
-            if (uiPlayerDropped.uiSlot.transform.parent == manageTeamView.benchContent.transform)
+            // swap cards inside team
+            if (uiPlayerDropped.uiSlot.transform.parent.parent == manageTeamView.teamView &&
+                transform.parent.parent == manageTeamView.teamView && uiPlayer)
             {
-                Destroy(uiPlayerDropped.uiSlot.gameObject);
+                ProcessSwap(uiPlayerDropped);
+                return;
             }
-
-
-            uiPlayer = uiPlayerDropped;
-
-            uiPlayerDropped.uiSlot = this;
             
-            // if (uiPlayerDropped == null || uiPlayer == null)
-            // {
-            //     return;
-            // }
-            
-            // Transform uiPlayerTransform = uiPlayer.transform;
-            // uiPlayerTransform.SetParent(uiPlayerDropped.uiSlot.transform);
-            // uiPlayerTransform.localPosition = Vector3.zero;
-
-            uiPlayerDropped.RectTransform.sizeDelta = RectTransform.sizeDelta;
-            EndDrop(uiPlayerDropped);
-            // manageTeamView.SwapCards(uiPlayer, uiPlayerDropped);
+            // swap from bench to five
+            if (uiPlayer &&
+                uiPlayerDropped.uiSlot.transform.parent == manageTeamView.benchContent.transform)
+            {
+                ProcessSwap(uiPlayerDropped);
+                return;
+            }
+            FinalizeDrop(uiPlayerDropped);
         }
+
     }
 }

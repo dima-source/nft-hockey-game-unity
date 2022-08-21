@@ -34,7 +34,7 @@ namespace UI.ManageTeam
         [SerializeField] private Text iceTimePriority;
         [SerializeField] private Slider iceTimePrioritySlider;
 
-        [SerializeField] private Transform fiveView;
+        [SerializeField] public Transform teamView;
         [SerializeField] private Transform goaliesView;
 
         private Team _team;
@@ -97,7 +97,7 @@ namespace UI.ManageTeam
             }
             */
         }
-        
+
         private void ShowGoalies()
         {
             foreach (UISlot goalie in goalies)
@@ -129,6 +129,26 @@ namespace UI.ManageTeam
             }
         }
 
+        public UISlot CreateNewBenchSlotWithPlayer(UIPlayer uiPlayer)
+        {
+                UISlot benchSlot = Instantiate(Game.AssetRoot.manageTeamAsset.uiSlot, benchContent);
+                benchSlot.GetComponent<Image>().color = new Color(255f, 255f, 255f, 0f);
+                benchSlot.slotPosition = SlotPositionEnum.Bench;
+                benchSlot.manageTeamView = this;
+                
+                uiPlayer.RectTransform.sizeDelta = new Vector2(150, 225);
+
+                benchSlot.uiPlayer = uiPlayer;
+                uiPlayer.uiSlot = benchSlot;
+                uiPlayer.transform.localPosition = Vector3.zero;
+                
+                benchSlot.manageTeamView = this;
+                benchSlot.slotId = _benchPlayers.Count;
+                
+                _benchPlayers.Add(benchSlot);
+                return benchSlot;
+        }
+        
         private void ShowBench(string line)
         {
             if (_benchPlayers != null)
@@ -213,43 +233,43 @@ namespace UI.ManageTeam
             */
         }
         
-        public void SwitchLine(string line)
-        {
-            SetLineDataToTeam(lineNumber);
-            
-            if (line == "Goalies")
-            {
-                if (lineNumber == "Goalies")
-                {
-                    return;
-                }
-                
-                fiveView.gameObject.SetActive(false);
-                goaliesView.gameObject.SetActive(true);
-                
-                ShowGoalies();
-                ShowBench(line);
-            }
-            else
-            {
-                fiveView.gameObject.SetActive(true);
-                goaliesView.gameObject.SetActive(false);
-                
-                ShowFive(line);
-                
-                if (lineNumber == "Goalies")
-                {
-                    ShowBench(line);
-                }
-            }
-            
-            lineNumber = line;
-        }
-
+        // public void SwitchLine(string line)
+        // {
+        //     SetLineDataToTeam(lineNumber);
+        //     
+        //     if (line == "Goalies")
+        //     {
+        //         if (lineNumber == "Goalies")
+        //         {
+        //             return;
+        //         }
+        //         
+        //         fiveView.gameObject.SetActive(false);
+        //         goaliesView.gameObject.SetActive(true);
+        //         
+        //         ShowGoalies();
+        //         ShowBench(line);
+        //     }
+        //     else
+        //     {
+        //         fiveView.gameObject.SetActive(true);
+        //         goaliesView.gameObject.SetActive(false);
+        //         
+        //         ShowFive(line);
+        //         
+        //         if (lineNumber == "Goalies")
+        //         {
+        //             ShowBench(line);
+        //         }
+        //     }
+        //     
+        //     lineNumber = line;
+        // }
+        
         private UISlot GetUISlot(SlotPositionEnum slotPositionEnum, int slotId)
         {
             UISlot uiSlot;
-
+        
             switch (slotPositionEnum)
             {
                 case SlotPositionEnum.Bench:

@@ -60,8 +60,6 @@ namespace UI.ManageTeam.DragAndDrop
             if (itemTransform.parent == canvasContent)
             {
                 uiSlot.OnDrop(eventData);
-                // itemTransform.SetParent(uiSlot.transform);
-                // itemTransform.localPosition = Vector3.zero;
             }
             
             transform.localPosition = Vector3.zero;
