@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -50,8 +52,13 @@ namespace UI.Scripts
 
         private GameObject _cardViewPrefab;
 
+        private Marketplace _marketplace;
 
+        private int _currentGridColumnSize = 3;
         private List<CardView> _pull;
+
+
+        private Button _grid3x3Button, _grid2x2Button, _gridLinesButton;
         
         private void Awake()
         {
@@ -61,6 +68,12 @@ namespace UI.Scripts
             Transform temp = Utils.FindChild<Transform>(transform, "FilterMenu");
             _togglesContainer = Utils.FindChild<RectTransform>(temp, "Content");
             _cardViewPrefab = Utils.LoadResource<GameObject>(Configurations.PrefabsFolderPath + "Marketplace/CardView");
+
+            _grid3x3Button = Utils.FindChild<Button>(transform, "Grid3x3Button");
+            _grid2x2Button = Utils.FindChild<Button>(transform, "Grid2x2Button");
+            _gridLinesButton = Utils.FindChild<Button>(transform, "LinesButton");
+            
+            _marketplace = FindObjectOfType(typeof(Marketplace)).GetComponent<Marketplace>();
             
             foreach (Transform child in _togglesContainer)
             {
@@ -70,8 +83,61 @@ namespace UI.Scripts
             foreach (Transform child in _layout.transform)
             {
                 Destroy(child.gameObject);
-            }  
-            CallLoadNewPortion();  
+            }
+            
+            CallLoadNewPortion();
+            //CheckButtons();
+        }
+        
+
+        private IEnumerator GetSize(Action<Vector2Int> callback)
+        {
+            yield return new WaitForEndOfFrame();
+            int itemsCount = _layout.transform.childCount;
+            float prevX = float.NegativeInfinity;
+            int xCount = 0;
+
+            for (int i = 0; i < itemsCount; i++)
+            {
+                Vector2 pos = ((RectTransform)_layout.transform.GetChild(i)).anchoredPosition;
+
+                if (pos.x <= prevX)
+                    break;
+
+                prevX = pos.x;
+                xCount++;
+            }
+
+            int yCount = GetAnotherAxisCount(itemsCount, xCount);
+            callback.Invoke(new Vector2Int(xCount, yCount));
+        }
+
+        private static int GetAnotherAxisCount(int totalCount, int axisCount)
+        {
+            return totalCount / axisCount + Mathf.Min(1, totalCount % axisCount);
+        }
+
+        private void CheckButtons()
+        {
+            StartCoroutine(GetSize(result =>
+            {
+                _grid3x3Button.gameObject.SetActive(true);
+                _grid2x2Button.gameObject.SetActive(true);
+                _gridLinesButton.gameObject.SetActive(true);
+                Debug.Log(result);
+                if (_currentGridColumnSize == 3)
+                {
+                    _grid3x3Button.gameObject.SetActive(_currentGridColumnSize == result.x);   
+                } 
+                else if (_currentGridColumnSize == 2)
+                {
+                    _grid2x2Button.gameObject.SetActive(_currentGridColumnSize == result.x);   
+                } 
+                else if (_currentGridColumnSize == 1)
+                {
+                    _gridLinesButton.gameObject.SetActive(_currentGridColumnSize == result.x);   
+                } 
+            }));
         }
 
         private void OnDisable()
@@ -86,25 +152,33 @@ namespace UI.Scripts
             CallLoadNewPortion();
             ScrollRect rect = _layoutContainer.GetComponent<ScrollRect>();
             rect.verticalNormalizedPosition = 1.0f;
+            _currentGridColumnSize = 3;
             Settings3x3.CopyValues(_layout);
+            //CheckButtons();
         }
 
         public void OnGrid3x3Click()
         {
             PlaySound();
             Settings3x3.CopyValues(_layout);
+            _currentGridColumnSize = 3;
+            //CheckButtons();
         }
         
         public void OnGrid2x2Click()
         {
             PlaySound();
             Settings2x2.CopyValues(_layout);
+            _currentGridColumnSize = 2;
+            //CheckButtons();
         }
 
         public void OnLinesButtonClick()
         {
             PlaySound();
             Settings1x1.CopyValues(_layout);
+            _currentGridColumnSize = 1;
+            //CheckButtons();
         }
 
         public void OnSearchChanged()
@@ -182,7 +256,20 @@ namespace UI.Scripts
             // Load new portion here
             for (int i = 0; i < cardsValueToLoad; i++)
             {
-                _pull.Add(Instantiate(_cardViewPrefab, _layout.transform).GetComponent<CardView>());
+                CardView view = Instantiate(_cardViewPrefab, _layout.transform).GetComponent<CardView>();
+                Button button = view.GetComponent<Button>();
+                button.enabled = true;
+                button.onClick.AddListener(() =>
+                {
+                    PlaySound();
+                    _marketplace.SwitchPage("CardDisplay");
+                    _marketplace.TopBar.SetBackButtonAction(() =>
+                    {
+                        // TODO: Set previous page here
+                        _marketplace.SwitchPage("FilterCards");
+                    });
+                });
+                _pull.Add(view);
             }
         }
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace UI.Scripts
 {
@@ -29,6 +30,8 @@ namespace UI.Scripts
         private TextMeshProUGUI _userWalletName;
         private TextMeshProUGUI _userWalletBalance;
         private TextMeshProUGUI _breadcrumbs;
+
+        public TopBar TopBar => _topBar;
         
         protected override void Initialize()
         {
@@ -69,7 +72,7 @@ namespace UI.Scripts
             _popup.Show();
         }
         
-        private void SwitchPage(string pageId)
+        public void SwitchPage(string pageId)
         {
             if (!_pages.ContainsKey(pageId))
             {

@@ -39,7 +39,7 @@ namespace UI.Scripts
             
             return component;
         }
-        
+
         public static T LoadResource<T>(string path) where T : Object
         {
             T resource;
@@ -102,6 +102,13 @@ namespace UI.Scripts
             }
 
             return sprite;
+        }
+        
+        public static Vector2 ToCartesian(float radius, float angle)
+        {
+            float x = radius * Mathf.Cos(angle);
+            float y = radius * Mathf.Sin(angle);
+            return new Vector2(x, y);
         }
 
     }   

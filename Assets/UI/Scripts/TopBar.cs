@@ -61,6 +61,8 @@ namespace UI.Scripts
             _buttons["OnSale"] = new Entry(Utils.FindChild<Button>(transform, "OnSale"));
             _buttons["Draft"] = new Entry(Utils.FindChild<Button>(transform, "Draft"));
             _buttons["Objects"] = new Entry(Utils.FindChild<Button>(transform, "Objects"));
+            
+            SetDefaultBackButton();
         }
 
         public void Bind(string buttonId, UnityAction action)
@@ -108,6 +110,29 @@ namespace UI.Scripts
             _selected = buttonId;
             string path = Configurations.MaterialsFolderPath + "PrimaryBackground";
             _buttons[buttonId].button.GetComponent<Image>().material = Utils.LoadResource<Material>(path);
+        }
+        
+        public void SetBackButtonAction(UnityAction action)
+        {
+            _buttons["GoBack"].button.onClick.RemoveAllListeners();
+            _buttons["GoBack"].button.onClick.AddListener(() =>
+            {
+                AudioController.LoadClip(Configurations.DefaultButtonSoundPath);
+                AudioController.source.Play();
+                action?.Invoke();
+                SetDefaultBackButton();
+            });
+        }
+
+        private void SetDefaultBackButton()
+        {
+            _buttons["GoBack"].button.onClick.RemoveAllListeners();
+            _buttons["GoBack"].button.onClick.AddListener(() =>
+            {
+                AudioController.LoadClip(Configurations.DefaultButtonSoundPath);
+                AudioController.source.Play();
+                // TODO: Add default action here
+            });
         }
 
     }

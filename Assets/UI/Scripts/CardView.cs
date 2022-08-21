@@ -76,6 +76,7 @@ namespace UI.Scripts
         public RectTransform RectTransform => _transform;
 
 
+
         protected override void Initialize()
         {
             _year = Utils.FindChild<TextMeshProUGUI>(transform, "Year");
