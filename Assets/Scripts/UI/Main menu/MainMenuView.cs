@@ -1,6 +1,7 @@
-using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Near;
+using Near.Models.Game;
 using NearClientUnity;
 using NearClientUnity.Utilities;
 using Runtime;
@@ -35,8 +36,39 @@ namespace UI.Main_menu
 
             AccountState accountState = await NearPersistentManager.Instance.GetAccountState();
             balance.text = "Your balance: " + NearUtils.FormatNearAmount(UInt128.Parse(accountState.Amount)) + " NEAR";
+
+            var isAccountRegistered = await CheckAccount(accountID);
+            if (!isAccountRegistered)
+            {
+                
+            }
         }
 
+        /// <summary>
+        /// Registered or not
+        /// </summary>
+        private async Task<bool> CheckAccount(string accountID)
+        {
+            var userFilter = new UserFilter()
+            {
+                id = accountID
+            };
+
+            var users = await Near.MarketplaceContract.ContractMethods.Views.GetUser(userFilter);
+            
+            if (users.Count == 0)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private async void GetTrained()
+        {
+            
+        }
+        
         public void TradeCards()
         {
             Game.LoadMarketplace();
