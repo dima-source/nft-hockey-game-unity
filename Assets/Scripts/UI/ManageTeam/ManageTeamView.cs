@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using Near.Models.Game.Team;
 using Near.Models.Tokens;
 using Near.Models.Tokens.Filters;
@@ -72,13 +73,18 @@ namespace UI.ManageTeam
             fives.Add(line, five);
         }
 
+        private void ClearFives()
+        {
+            fives.Values.ToList().
+                ForEach(
+                    dict => dict.Values.ToList().ForEach(slot => Destroy(slot.gameObject))
+                );
+            fives.Clear();
+        }
+
         private void InitFives()
         {
-            if (fives.Count == 8)
-            {
-                return;
-            }
-            fives.Clear();
+            ClearFives();
             CreateFiveSlots(LineNumbers.First);
             CreateFiveSlots(LineNumbers.Second);
             CreateFiveSlots(LineNumbers.Third);
