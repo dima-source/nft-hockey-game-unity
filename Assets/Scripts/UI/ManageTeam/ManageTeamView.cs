@@ -59,8 +59,12 @@ namespace UI.ManageTeam
         private void CreateFiveSlots(LineNumbers line)
         {
             var five = new Dictionary<SlotPositionEnum, UISlot>();
-            UISlot slot = CreateNewEmptySlot(forwardsCanvasContent, SlotPositionEnum.LeftWinger);
-            five.Add(SlotPositionEnum.LeftWinger, slot);
+            UISlot slot;
+            if (line != LineNumbers.PenaltyKill1 && line != LineNumbers.PenaltyKill2)
+            {
+                slot = CreateNewEmptySlot(forwardsCanvasContent, SlotPositionEnum.LeftWinger);
+                five.Add(SlotPositionEnum.LeftWinger, slot);
+            }
             slot = CreateNewEmptySlot(forwardsCanvasContent, SlotPositionEnum.Center);
             five.Add(SlotPositionEnum.Center, slot);
             slot = CreateNewEmptySlot(forwardsCanvasContent, SlotPositionEnum.RightWinger);
@@ -137,6 +141,17 @@ namespace UI.ManageTeam
             LineNumbers parsedLine = StringToLineNumber(number);
             Dictionary<SlotPositionEnum, UISlot> five = fives[parsedLine];
             five.Values.ToList().ForEach(slot => slot.gameObject.SetActive(true));
+            var forwardsHorizontalLayoutGroup = forwardsCanvasContent.GetComponent<HorizontalLayoutGroup>();
+            if (parsedLine == LineNumbers.PenaltyKill1 || parsedLine == LineNumbers.PenaltyKill2)
+            {
+                forwardsHorizontalLayoutGroup.padding.left = 150;
+                forwardsHorizontalLayoutGroup.padding.right = 150;
+            }
+            else
+            {
+                forwardsHorizontalLayoutGroup.padding.left = 0;
+                forwardsHorizontalLayoutGroup.padding.right = 0;
+            }
 
             _currentLineNumber = parsedLine;
             Debug.Log(number);
@@ -148,12 +163,12 @@ namespace UI.ManageTeam
                 benchSlot.GetComponent<Image>().color = new Color(255f, 255f, 255f, 0f);
                 
                 uiPlayer.RectTransform.sizeDelta = new Vector2(150, 225);
+                uiPlayer.RectTransform.localPosition = Vector3.one;
 
                 benchSlot.uiPlayer = uiPlayer;
                 uiPlayer.uiSlot = benchSlot;
                 uiPlayer.transform.SetParent(benchSlot.transform);
                 uiPlayer.transform.localPosition = Vector3.zero;
-                
                 if (container == fieldPlayersBenchContent)
                 {
                     _fieldPlayersBench.Add(benchSlot);
