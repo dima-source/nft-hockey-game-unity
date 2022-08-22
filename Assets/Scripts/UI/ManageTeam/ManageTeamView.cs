@@ -23,6 +23,10 @@ namespace UI.ManageTeam
             Second,
             Third,
             Fourth,
+            PowerPlay1,
+            PowerPlay2,
+            PenaltyKill1,
+            PenaltyKill2,
             Goalie
         }
         private ManageTeamController _controller;
@@ -30,7 +34,8 @@ namespace UI.ManageTeam
         public Transform forwardsCanvasContent;
         public Transform defendersCanvasContent;
         
-        private List<List<UISlot>> fives = new(4);
+        // private List<List<UISlot>> fives = new(8);
+        private Dictionary<LineNumbers, Dictionary<SlotPositionEnum, UISlot>> fives = new();
         private List<UISlot> goalies = new();
         private List<UISlot> _fieldPlayersBench = new();
         private List<UISlot> _goaliesBench = new();
@@ -50,30 +55,39 @@ namespace UI.ManageTeam
         private Team _team;
         private LineNumbers _currentLineNumber;
 
+        private void CreateFiveSlots(LineNumbers line)
+        {
+            var five = new Dictionary<SlotPositionEnum, UISlot>();
+            UISlot slot = CreateNewEmptySlot(forwardsCanvasContent, SlotPositionEnum.LeftWinger);
+            five.Add(SlotPositionEnum.LeftWinger, slot);
+            slot = CreateNewEmptySlot(forwardsCanvasContent, SlotPositionEnum.Center);
+            five.Add(SlotPositionEnum.Center, slot);
+            slot = CreateNewEmptySlot(forwardsCanvasContent, SlotPositionEnum.RightWinger);
+            five.Add(SlotPositionEnum.RightWinger, slot);
+            slot = CreateNewEmptySlot(defendersCanvasContent, SlotPositionEnum.LeftDefender);
+            five.Add(SlotPositionEnum.LeftDefender, slot);
+            slot = CreateNewEmptySlot(defendersCanvasContent, SlotPositionEnum.RightDefender);
+            five.Add(SlotPositionEnum.RightDefender, slot);
+            five.Values.ToList().ForEach(slot => slot.gameObject.SetActive(false));
+            fives.Add(line, five);
+        }
+
         private void InitFives()
         {
-            if (fives.Count == 4)
+            if (fives.Count == 8)
             {
                 return;
             }
-
             fives.Clear();
-            for (int i = 0; i < 4; i++)
-            {
-                List<UISlot> five = new List<UISlot>(5);
-                UISlot slot = CreateNewEmptySlot(forwardsCanvasContent, SlotPositionEnum.LeftWinger);
-                five.Add(slot);
-                slot = CreateNewEmptySlot(forwardsCanvasContent, SlotPositionEnum.Center);
-                five.Add(slot);
-                slot = CreateNewEmptySlot(forwardsCanvasContent, SlotPositionEnum.RightWinger);
-                five.Add(slot);
-                slot = CreateNewEmptySlot(defendersCanvasContent, SlotPositionEnum.LeftDefender);
-                five.Add(slot);
-                slot = CreateNewEmptySlot(defendersCanvasContent, SlotPositionEnum.RightDefender);
-                five.Add(slot);
-                five.ForEach(slot => slot.gameObject.SetActive(false));
-                fives.Add(five);
-            }
+            CreateFiveSlots(LineNumbers.First);
+            CreateFiveSlots(LineNumbers.Second);
+            CreateFiveSlots(LineNumbers.Third);
+            CreateFiveSlots(LineNumbers.Fourth);
+            CreateFiveSlots(LineNumbers.PowerPlay1);
+            CreateFiveSlots(LineNumbers.PowerPlay2);
+            CreateFiveSlots(LineNumbers.PenaltyKill1);
+            CreateFiveSlots(LineNumbers.PenaltyKill2);
+            
         }
 
         private void Awake()
@@ -98,43 +112,25 @@ namespace UI.ManageTeam
 
         public void HideCurrentFive()
         {
-            int fiveIndex = _currentLineNumber switch
-            {
-                LineNumbers.First=> 0,
-                LineNumbers.Second => 1,
-                LineNumbers.Third => 2,
-                LineNumbers.Fourth => 3,
-                _ => throw new ApplicationException($"Unexpected line number {_currentLineNumber}")
-            };
-            List<UISlot> five = fives[fiveIndex];
-            foreach (UISlot uiSlot in five)
-            {
-                uiSlot.gameObject.SetActive(false);
-            }
+            Dictionary<SlotPositionEnum, UISlot> five = fives[_currentLineNumber];
+            five.Values.ToList().ForEach(slot => slot.gameObject.SetActive(false));
         }
 
         private LineNumbers StringToLineNumber(string line)
         {
-            LineNumbers.TryParse(line, out LineNumbers parsedLine);
+            bool parsed = LineNumbers.TryParse(line, out LineNumbers parsedLine);
+            if (!parsed)
+            {
+                throw new ApplicationException($"Cannot parse value {line} to LineNumbers");
+            }
             return parsedLine;
         }
         
         public void ShowFive(string number)
         {
             LineNumbers parsedLine = StringToLineNumber(number);
-            int fiveIndex = parsedLine switch
-            {
-                LineNumbers.First => 0,
-                LineNumbers.Second => 1,
-                LineNumbers.Third => 2,
-                LineNumbers.Fourth => 3,
-                _ => throw new ApplicationException($"Unexpected line number {_currentLineNumber}")
-            };
-            List<UISlot> five = fives[fiveIndex];
-            foreach (UISlot uiSlot in five)
-            {
-                uiSlot.gameObject.SetActive(true);
-            }
+            Dictionary<SlotPositionEnum, UISlot> five = fives[parsedLine];
+            five.Values.ToList().ForEach(slot => slot.gameObject.SetActive(true));
 
             _currentLineNumber = parsedLine;
             Debug.Log(number);
@@ -152,8 +148,6 @@ namespace UI.ManageTeam
                 uiPlayer.transform.SetParent(benchSlot.transform);
                 uiPlayer.transform.localPosition = Vector3.zero;
                 
-                // benchSlot.manageTeamView = this;
-
                 if (container == fieldPlayersBenchContent)
                 {
                     _fieldPlayersBench.Add(benchSlot);
@@ -169,21 +163,11 @@ namespace UI.ManageTeam
         {
             UISlot slot = Instantiate(Game.AssetRoot.manageTeamAsset.uiSlot, container);
             slot.slotPosition = position;
-            // slot.manageTeamView = this;
             return slot;
         }
         
         private void InitBenches()
         {
-            // if (_benchPlayers != null)
-            // {
-            //     foreach (UISlot uiPlayerSlot in _benchPlayers)
-            //     {
-            //         Destroy(uiPlayerSlot.gameObject);
-            //     }
-            // }
-            // _benchPlayers = new List<UISlot>();
-
             List<Token> fieldPlayersBench = _userNFTs.Where(x => x.player_type == "FieldPlayer").ToList();
             List<Token> goaliesBench = _userNFTs.Where(x => x.player_type == "Goalie").ToList();
 
@@ -210,105 +194,11 @@ namespace UI.ManageTeam
             }
         }
 
-        // private void SetLineDataToTeam(string line)
-        // {
-            /*
-            if (line == "Goalies")
-            {
-                if (goalies[0].uiPlayer == null || goalies[1] == null)
-                {
-                    return;
-                }
-                
-                _team.Goalies["MainGoalkeeper"] = (Goalie)goalies[0].uiPlayer.CardData ;
-                _team.Goalies["SubstituteGoalkeeper"] = (Goalie)goalies[1].uiPlayer.CardData;
-            }
-            else
-            {
-                _team.Fives[line].FieldPlayers["LeftWing"] = (FieldPlayer)fives[0].uiPlayer.CardData;
-                _team.Fives[line].FieldPlayers["Center"] = (FieldPlayer)fives[1].uiPlayer.CardData;
-                _team.Fives[line].FieldPlayers["RightWing"] = (FieldPlayer)fives[2].uiPlayer.CardData;
-                _team.Fives[line].FieldPlayers["LeftDefender"] = (FieldPlayer)fives[3].uiPlayer.CardData;
-                _team.Fives[line].FieldPlayers["RightDefender"] = (FieldPlayer)fives[4].uiPlayer.CardData;
-            }
-            */
-        // }
-        
-        // public void SwitchLine(string line)
-        // {
-        //     SetLineDataToTeam(lineNumber);
-        //     
-        //     if (line == "Goalies")
-        //     {
-        //         if (lineNumber == "Goalies")
-        //         {
-        //             return;
-        //         }
-        //         
-        //         fiveView.gameObject.SetActive(false);
-        //         goaliesView.gameObject.SetActive(true);
-        //         
-        //         ShowGoalies();
-        //         ShowBench(line);
-        //     }
-        //     else
-        //     {
-        //         fiveView.gameObject.SetActive(true);
-        //         goaliesView.gameObject.SetActive(false);
-        //         
-        //         ShowFive(line);
-        //         
-        //         if (lineNumber == "Goalies")
-        //         {
-        //             ShowBench(line);
-        //         }
-        //     }
-        //     
-        //     lineNumber = line;
-        // }
-        
-        // private UISlot GetUISlot(SlotPositionEnum slotPositionEnum, int slotId)
-        // {
-        //     UISlot uiSlot;
-        //
-        //     switch (slotPositionEnum)
-        //     {
-        //         case SlotPositionEnum.Bench:
-        //             uiSlot = _benchPlayers.FirstOrDefault(x => x.slotId == slotId);
-        //             break;
-        //         case SlotPositionEnum.MainGoalie or SlotPositionEnum.BackupGoalie:
-        //             uiSlot = goalies.FirstOrDefault(x => x.slotPosition == slotPositionEnum);
-        //             break;
-        //         default:
-        //             uiSlot = fives.FirstOrDefault(x => x.slotPosition == slotPositionEnum);
-        //             break;
-        //     }
-        //     
-        //     return uiSlot;
-        // }
-
-        // public void SwapCards(UIPlayer uiPlayer1, UIPlayer uiPlayer2)
-        // {
-        //     UISlot uiSlot1 = GetUISlot(uiPlayer1.uiSlot.slotPosition, uiPlayer1.uiSlot.slotId);
-        //     UISlot uiSlot2 = GetUISlot(uiPlayer2.uiSlot.slotPosition, uiPlayer2.uiSlot.slotId);
-        //
-        //     uiSlot1.uiPlayer.uiSlot = uiSlot2;
-        //     uiSlot2.uiPlayer.uiSlot = uiSlot1;
-        //     
-        //     (uiSlot1.uiPlayer, uiSlot2.uiPlayer) = (uiSlot2.uiPlayer, uiSlot1.uiPlayer);
-        // }
-        
         public void ChangeIceTimePriority()
         {
             iceTimePriority.text = Utils.Utils.GetIceTimePriority((int)iceTimePrioritySlider.value);
         }
         
-        // public void Apply()
-        // {
-        //     SetLineDataToTeam(_currentLineNumber);
-        //     
-        //     _controller.ChangeLineups(_team);
-        // }
         
         public void Cancel()
         {

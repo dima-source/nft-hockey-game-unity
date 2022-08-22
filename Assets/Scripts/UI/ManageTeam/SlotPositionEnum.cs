@@ -7,10 +7,10 @@ namespace UI.ManageTeam
         RightWinger,
         LeftDefender,
         RightDefender,
-        MainGoalie,
-        BackupGoalie,
-        Substitution1Goalie,
-        Substitution2Goalie,
+        MainGoalkeeper,
+        SubstituteGoalkeeper,
+        GoalieSubstitution1,
+        GoalieSubstitution2,
         Bench,
     }
 }
