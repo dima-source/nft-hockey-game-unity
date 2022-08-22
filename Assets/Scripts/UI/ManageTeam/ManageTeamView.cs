@@ -30,16 +30,17 @@ namespace UI.ManageTeam
         public Transform forwardsCanvasContent;
         public Transform defendersCanvasContent;
         
-        private List<List<UISlot>> fives = new List<List<UISlot>>(4);
-        private List<UISlot> goalies;
-        private List<UISlot> _benchPlayers;
+        private List<List<UISlot>> fives = new(4);
+        private List<UISlot> goalies = new();
+        private List<UISlot> _fieldPlayersBench = new();
+        private List<UISlot> _goaliesBench = new();
 
         private List<Token> _userNFTs;
 
         [SerializeField] private Transform canvasContent;
-        [SerializeField] public Transform benchContent;
+        [SerializeField] public Transform fieldPlayersBenchContent;
+        [SerializeField] public Transform goaliesBenchContent;
 
-        // [SerializeField] private Text lineText;
         [SerializeField] private Text iceTimePriority;
         [SerializeField] private Slider iceTimePrioritySlider;
 
@@ -86,12 +87,13 @@ namespace UI.ManageTeam
             _team = await _controller.LoadUserTeam();
             PlayerFilter filter = new PlayerFilter();
             Pagination pagination = new Pagination();
+            pagination.first = 100;
             _userNFTs = await _controller.LoadUserNFTs(filter, pagination);
             
             _currentLineNumber = LineNumbers.First;
 
             ShowFive(_currentLineNumber.ToString());
-            ShowBench(_currentLineNumber);
+            InitBenches();
         }
 
         public void HideCurrentFive()
@@ -138,52 +140,28 @@ namespace UI.ManageTeam
             Debug.Log(number);
         }
 
-        // private void ShowGoalies()
-        // {
-        //     foreach (UISlot goalie in goalies)
-        //     {
-        //         if (goalie.uiPlayer != null)
-        //         {
-        //             Destroy(goalie.uiPlayer.gameObject);
-        //         }
-        //     }
-        //     
-        //     // lineText.text = "Goalies";
-        //
-        //     int goalieNumber = 0;
-        //     foreach (var goalieNftMetadata in  _team.Goalies)
-        //     {
-        //         UISlot goalieSlot = goalies[goalieNumber];
-        //         UIPlayer player = Instantiate(Game.AssetRoot.manageTeamAsset.goalie, goalieSlot.transform);
-        //         
-        //         //player.SetData(goalieNftMetadata.Value);
-        //
-        //         player.canvasContent = canvasContent;
-        //         player.forwardsContent = forwardsCanvasContent;
-        //         player.defendersContent = defendersCanvasContent;
-        //
-        //         goalies[goalieNumber].uiPlayer = player;
-        //         player.uiSlot = goalies[goalieNumber];
-        //
-        //         goalieNumber++;
-        //     }
-        // }
-
-        public UISlot CreateNewBenchSlotWithPlayer(UIPlayer uiPlayer)
+        public UISlot CreateNewBenchSlotWithPlayer(Transform container, UIPlayer uiPlayer)
         {
-                UISlot benchSlot = CreateNewEmptySlot(benchContent, SlotPositionEnum.Bench);
+                UISlot benchSlot = CreateNewEmptySlot(container, SlotPositionEnum.Bench);
                 benchSlot.GetComponent<Image>().color = new Color(255f, 255f, 255f, 0f);
                 
                 uiPlayer.RectTransform.sizeDelta = new Vector2(150, 225);
 
                 benchSlot.uiPlayer = uiPlayer;
                 uiPlayer.uiSlot = benchSlot;
+                uiPlayer.transform.SetParent(benchSlot.transform);
                 uiPlayer.transform.localPosition = Vector3.zero;
                 
-                benchSlot.manageTeamView = this;
-                benchSlot.slotId = _benchPlayers.Count;
-                
-                _benchPlayers.Add(benchSlot);
+                // benchSlot.manageTeamView = this;
+
+                if (container == fieldPlayersBenchContent)
+                {
+                    _fieldPlayersBench.Add(benchSlot);
+                } 
+                else if (container == goaliesBenchContent)
+                {
+                    _goaliesBench.Add(benchSlot);
+                }
                 return benchSlot;
         }
 
@@ -191,71 +169,49 @@ namespace UI.ManageTeam
         {
             UISlot slot = Instantiate(Game.AssetRoot.manageTeamAsset.uiSlot, container);
             slot.slotPosition = position;
-            slot.manageTeamView = this;
+            // slot.manageTeamView = this;
             return slot;
         }
         
-        private void ShowBench(LineNumbers line)
+        private void InitBenches()
         {
-            if (_benchPlayers != null)
-            {
-                foreach (UISlot uiPlayerSlot in _benchPlayers)
-                {
-                    Destroy(uiPlayerSlot.gameObject);
-                }
-            }
-            _benchPlayers = new List<UISlot>();
-            
-            string type = line switch
-            {
-                LineNumbers.Goalie => "FieldPlayer",
-                _ => "GoaliePos"
-            };
+            // if (_benchPlayers != null)
+            // {
+            //     foreach (UISlot uiPlayerSlot in _benchPlayers)
+            //     {
+            //         Destroy(uiPlayerSlot.gameObject);
+            //     }
+            // }
+            // _benchPlayers = new List<UISlot>();
 
-            List<Token> benchPlayers = type switch
-            {
-                "GoaliePos" => _userNFTs.Where(x => x.player_type != type && x.player_type != "Goalie")
-                    .ToList(),
-                _ => _userNFTs.Where(x => x.player_type != type).ToList()
-            };
+            List<Token> fieldPlayersBench = _userNFTs.Where(x => x.player_type == "FieldPlayer").ToList();
+            List<Token> goaliesBench = _userNFTs.Where(x => x.player_type == "Goalie").ToList();
 
-            int slotId = 0;
-            
-            foreach (Token nft in benchPlayers)
+            foreach (Token nft in fieldPlayersBench)
             {
-                UISlot benchSlot = Instantiate(Game.AssetRoot.manageTeamAsset.uiSlot, benchContent);
-                benchSlot.GetComponent<Image>().color = new Color(255f, 255f, 255f, 0f);
-                benchSlot.slotPosition = SlotPositionEnum.Bench;
-                benchSlot.manageTeamView = this;
+
+                UIPlayer uiPlayer = Instantiate(Game.AssetRoot.manageTeamAsset.fieldPlayer);
                 
-                UIPlayer uiPlayer = nft.player_type switch
-                {
-                    "FieldPlayer" => Instantiate(Game.AssetRoot.manageTeamAsset.fieldPlayer, benchSlot.transform),
-                    "Goalie" => Instantiate(Game.AssetRoot.manageTeamAsset.goalie, benchSlot.transform),
-                    _ => throw new Exception("Extra type not found")
-                };
-
-                uiPlayer.RectTransform.sizeDelta = new Vector2(150, 225);
                 uiPlayer.CardData = nft;
-
-                uiPlayer.uiSlot = benchSlot;
-                
                 uiPlayer.SetData(nft);
-                uiPlayer.transform.localPosition = Vector3.zero;
                 uiPlayer.canvasContent = canvasContent;
-                uiPlayer.forwardsContent = forwardsCanvasContent;
-                uiPlayer.defendersContent = defendersCanvasContent;
+                CreateNewBenchSlotWithPlayer(fieldPlayersBenchContent, uiPlayer);
+            }
+            
+            foreach (Token nft in goaliesBench)
+            {
 
-                benchSlot.manageTeamView = this;
-                benchSlot.slotId = slotId;
-                slotId++;
+                UIPlayer uiPlayer = Instantiate(Game.AssetRoot.manageTeamAsset.fieldPlayer);
                 
-                _benchPlayers.Add(benchSlot);
+                uiPlayer.CardData = nft;
+                uiPlayer.SetData(nft);
+                uiPlayer.canvasContent = canvasContent;
+                CreateNewBenchSlotWithPlayer(goaliesBenchContent, uiPlayer);
             }
         }
 
-        private void SetLineDataToTeam(string line)
-        {
+        // private void SetLineDataToTeam(string line)
+        // {
             /*
             if (line == "Goalies")
             {
@@ -276,7 +232,7 @@ namespace UI.ManageTeam
                 _team.Fives[line].FieldPlayers["RightDefender"] = (FieldPlayer)fives[4].uiPlayer.CardData;
             }
             */
-        }
+        // }
         
         // public void SwitchLine(string line)
         // {

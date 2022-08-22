@@ -2,6 +2,7 @@ using System;
 using Near.Models.Game.Team;
 using Near.Models.Tokens;
 using Near.Models.Tokens.Players.FieldPlayer;
+using Near.Models.Tokens.Players.Goalie;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;
@@ -37,17 +38,35 @@ namespace UI.ManageTeam.DragAndDrop
                 } catch (ApplicationException) {}
             }
 
-            FieldPlayer fieldPlayer = (FieldPlayer)token;
-            playerNumber = fieldPlayer.number;
-            playerRole = StringToRole(fieldPlayer.player_role);
-            position = StringToPosition(fieldPlayer.native_position);
-            statistics = new[]
+            
+            if (token.player_type == "Goalie")
             {
-                int.Parse(fieldPlayer.Stats.Skating.ToString()),
-                int.Parse(fieldPlayer.Stats.Shooting.ToString()),
-                int.Parse(fieldPlayer.Stats.Strength.ToString()),
-                int.Parse(fieldPlayer.Stats.Morale.ToString())
-            };
+                Goalie goalie = (Goalie)token;
+                playerNumber = goalie.number;
+                playerRole = StringToRole(goalie.player_role);
+                position = StringToPosition(goalie.native_position);
+                statistics = new[]
+                {
+                    int.Parse(goalie.Stats.Reflexes.ToString()),
+                    int.Parse(goalie.Stats.PuckControl.ToString()),
+                    int.Parse(goalie.Stats.Strength.ToString()),
+                };
+                
+            }
+            else
+            {
+                FieldPlayer fieldPlayer = (FieldPlayer)token;
+                playerNumber = fieldPlayer.number;
+                playerRole = StringToRole(fieldPlayer.player_role);
+                position = StringToPosition(fieldPlayer.native_position);
+                statistics = new[]
+                {
+                    int.Parse(fieldPlayer.Stats.Skating.ToString()),
+                    int.Parse(fieldPlayer.Stats.Shooting.ToString()),
+                    int.Parse(fieldPlayer.Stats.Strength.ToString()),
+                    int.Parse(fieldPlayer.Stats.Morale.ToString())
+                };
+            }
         }
     }
 }

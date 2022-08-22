@@ -29,8 +29,6 @@ namespace UI.ManageTeam.DragAndDrop
         public RectTransform RectTransform;
 
         public Transform canvasContent;
-        public Transform forwardsContent;
-        public Transform defendersContent;
 
         public Token CardData;
         public UISlot uiSlot;
