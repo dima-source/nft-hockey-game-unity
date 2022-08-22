@@ -44,7 +44,7 @@ namespace UI.Main_menu
             }
             Debug.Log(isAccountRegistered);
             
-            Near.MarketplaceContract.ContractMethods.Actions.BuyPack("7");
+            // Near.MarketplaceContract.ContractMethods.Actions.BuyPack("7");
         }
 
         /// <summary>
