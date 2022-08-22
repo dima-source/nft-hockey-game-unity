@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.Threading.Tasks;
 using NearClientUnity;
 using NearClientUnity.Utilities;
 using Newtonsoft.Json;
@@ -10,44 +11,6 @@ namespace Near.MarketplaceContract.ContractMethods
 {
     public static class Actions
     {
-        public static async void MintNFT(Dictionary<string, double> royalties, string media, string title, string extra)
-        {
-            Dictionary<string, int> perpetualRoyalties = new Dictionary<string, int>();
-
-            int totalPerpetual = 0;
-            
-            foreach (KeyValuePair<string, double> royalty in royalties)
-            {
-                int amount = (int)(royalty.Value * 100);
-                
-                totalPerpetual += amount;
-                perpetualRoyalties.Add(royalty.Key, amount);
-            }
-
-            if (totalPerpetual > NearUtils.MinterRoyaltyCap)
-            {
-                Debug.Log("Cannot add more than 20% in perpetual NFT royalties when minting");
-                return;
-            }
-
-            dynamic metadata = new ExpandoObject();
-            metadata.title = title;
-            metadata.media = media;
-            metadata.issued_at = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-            metadata.extra = extra;
-
-            dynamic args = new ExpandoObject();
-            args.token_id = "token-" + DateTimeOffset.Now.ToUnixTimeMilliseconds();
-            args.metadata = metadata;
-            args.perpetual_royalties = perpetualRoyalties;
-            
-            UInt128 deposit = NearUtils.ParseNearAmount("1") / 10;
-            
-            ContractNear nftContract = await NearPersistentManager.Instance.GetNftContract();
-            
-            await nftContract.Change("nft_mint", args, NearUtils.Gas, deposit);
-        }
-
         public static async void SaleUpdate(Dictionary<string, string> newSaleConditions, string tokenId, bool isAuction)
         {
             ContractNear marketContract = await NearPersistentManager.Instance.GetMarketplaceContract();
@@ -138,6 +101,35 @@ namespace Near.MarketplaceContract.ContractMethods
 
                 await marketContract.Change("remove_sale", removeSaleArgs, NearUtils.Gas, deposit);
             }
+        }
+        
+        /// <summary>
+        /// Register an account and give a free pack
+        /// </summary>
+        public static async void RegisterAccount()
+        {
+            ContractNear nftContract = await NearPersistentManager.Instance.GetNftContract();
+            var accountId = NearPersistentManager.Instance.GetAccountId();
+
+            dynamic args = new ExpandoObject();
+            args.receiver_id = accountId;
+            
+            var result = await nftContract.Change("nft_register_account", args, NearUtils.Gas);
+            int x = 0;
+        }
+
+        public static async void BuyPack(string cost)
+        {
+            ContractNear nftContract = await NearPersistentManager.Instance.GetNftContract();
+            var accountId = NearPersistentManager.Instance.GetAccountId();
+
+            dynamic args = new ExpandoObject();
+            args.receiver_id = accountId;
+            UInt128 deposit = NearUtils.ParseNearAmount(cost);
+
+            
+            var result = await nftContract.Change("nft_buy_pack", args, NearUtils.Gas, deposit);
+            int x = 0;
         }
     }
 }

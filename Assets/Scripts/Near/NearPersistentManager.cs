@@ -14,13 +14,13 @@ namespace Near
         private NearClientUnity.Near _near;
         
         private ContractNear _gameContract;
-        private const string GameContactId = "uriyyuriy.testnet";
+        private const string GameContactId = "game.parh.testnet";
 
         private ContractNear _marketplaceContract;
-        public readonly string MarketplaceContactId = "new_new_nft_market.testnet";
+        public readonly string MarketplaceContactId = "market.parh.testnet";
 
         private ContractNear _nftContract;
-        public readonly string nftContactId = "nft_0_0.testnet";
+        public readonly string nftContactId = "new_nft.parh.testnet";
         
         private async void Awake()
         {
@@ -127,7 +127,8 @@ namespace Near
             {
                 viewMethods = new[] { "nft_tokens_for_owner", "nft_tokens_batch",
                     "nft_token", "nft_tokens", "nft_total_supply", "get_owner_nft_team"},
-                changeMethods = new[] { "nft_mint", "nft_approve", "insert_nft_field_players", "insert_nft_goalies"}
+                changeMethods = new[] { "nft_mint", "nft_approve", "insert_nft_field_players",
+                    "insert_nft_goalies", "nft_register_account", "nft_buy_pack"}
             };
         
             return new ContractNear(account, WalletAccount, nftContactId, options);

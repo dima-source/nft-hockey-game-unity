@@ -40,8 +40,11 @@ namespace UI.Main_menu
             var isAccountRegistered = await CheckAccount(accountID);
             if (!isAccountRegistered)
             {
-                
+                GetFreePack();
             }
+            Debug.Log(isAccountRegistered);
+            
+            Near.MarketplaceContract.ContractMethods.Actions.BuyPack("7");
         }
 
         /// <summary>
@@ -64,6 +67,11 @@ namespace UI.Main_menu
             return true;
         }
 
+        private async void GetFreePack()
+        {
+            Near.MarketplaceContract.ContractMethods.Actions.RegisterAccount();
+        }
+        
         private async void GetTrained()
         {
             

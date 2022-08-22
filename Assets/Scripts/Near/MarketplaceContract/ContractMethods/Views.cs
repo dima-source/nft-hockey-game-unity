@@ -114,14 +114,10 @@ namespace Near.MarketplaceContract.ContractMethods
         }
         public static async Task<List<User>> GetUser(UserFilter filter)
         {
-            IQuery<User> query = new Query<User>("GetUsers")
+            IQuery<User> query = new Query<User>("users")
                 .AddArguments(new { where = filter })
-                .AddField(p=>p.gameDatas,
-                sq => sq
-                    .AddField(p => p.id))
-                .AddField(p => p.id);
-            
-                
+                .AddField(p => p.id)
+                .AddField(p => p.tokens);
 
             string responseJson = await GetJSONQuery(query.Build());
             

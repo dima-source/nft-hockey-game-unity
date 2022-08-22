@@ -18,8 +18,7 @@ namespace Near.MarketplaceContract
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var data = JObject.Load(reader);
-            var users = data["data"]?["GetUsers"];
-            //var token = JsonConvert.DeserializeObject<Token>(json, new PlayerConverter());
+            var users = data["data"]?["users"];
 
             List<User> result = new List<User>();
 
