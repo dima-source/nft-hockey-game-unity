@@ -137,7 +137,7 @@ namespace Near.GameContract.ContractMethods
                         .AddField(p=>p.active_five)
                         .AddField(p=>p.active_goalie)
                         .AddField(p=>p.score))
-                .AddField(p=>p.gameDatas,
+                .AddField(p=>p.games,
                     sq => sq
                         .AddField(p => p.id))
                 .AddField(p => p.id);

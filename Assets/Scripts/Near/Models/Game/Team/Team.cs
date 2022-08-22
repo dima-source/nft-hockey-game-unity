@@ -13,6 +13,5 @@ namespace Near.Models.Game.Team
         public List<FieldPlayer> FieldPlayers;
         public string active_five { get; set; }
         public string active_goalie { get; set; }
-        
     }
 }

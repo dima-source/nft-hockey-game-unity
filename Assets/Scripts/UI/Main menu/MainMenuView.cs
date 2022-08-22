@@ -1,6 +1,7 @@
-using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Near;
+using Near.Models.Game;
 using NearClientUnity;
 using NearClientUnity.Utilities;
 using Runtime;
@@ -19,7 +20,6 @@ namespace UI.Main_menu
 
         [SerializeField] private List<Transform> popups;
 
-        [SerializeField] private Transform mintNFTButton;
 
         public MainMenuController MainMenuController;
 
@@ -37,17 +37,49 @@ namespace UI.Main_menu
             AccountState accountState = await NearPersistentManager.Instance.GetAccountState();
             balance.text = "Your balance: " + NearUtils.FormatNearAmount(UInt128.Parse(accountState.Amount)) + " NEAR";
 
-            mintNFTButton.gameObject.SetActive(accountID == NearPersistentManager.Instance.MarketplaceContactId);
+            var isAccountRegistered = await CheckAccount(accountID);
+            if (!isAccountRegistered)
+            {
+                GetFreePack();
+            }
+            Debug.Log(isAccountRegistered);
+            
+            Near.MarketplaceContract.ContractMethods.Actions.BuyPack("7");
         }
 
+        /// <summary>
+        /// Registered or not
+        /// </summary>
+        private async Task<bool> CheckAccount(string accountID)
+        {
+            var userFilter = new UserFilter()
+            {
+                id = accountID
+            };
+
+            var users = await Near.MarketplaceContract.ContractMethods.Views.GetUser(userFilter);
+            
+            if (users.Count == 0)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private async void GetFreePack()
+        {
+            Near.MarketplaceContract.ContractMethods.Actions.RegisterAccount();
+        }
+        
+        private async void GetTrained()
+        {
+            
+        }
+        
         public void TradeCards()
         {
             Game.LoadMarketplace();
-        }
-
-        public void LoadMintNFT()
-        {
-            SceneManager.LoadScene("Mint NFT");
         }
 
         public void LoadManageTeam()
