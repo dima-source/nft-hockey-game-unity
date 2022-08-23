@@ -20,7 +20,7 @@ namespace Near
         public readonly string MarketplaceContactId = "market.parh.testnet";
 
         private ContractNear _nftContract;
-        public readonly string nftContactId = "new_nft.parh.testnet";
+        public readonly string nftContactId = "hcm.parh.testnet";
         
         private async void Awake()
         {

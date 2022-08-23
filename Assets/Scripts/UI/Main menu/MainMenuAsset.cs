@@ -7,5 +7,6 @@ namespace UI.Main_menu
     public class MainMenuAsset : ScriptableObject
     {
         public OpponentBet opponentBet;
+        public CardInPackUI cardInPackUI;
     }
 }
