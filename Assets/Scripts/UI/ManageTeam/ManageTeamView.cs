@@ -162,13 +162,13 @@ namespace UI.ManageTeam
                 UISlot benchSlot = CreateNewEmptySlot(container, SlotPositionEnum.Bench);
                 benchSlot.GetComponent<Image>().color = new Color(255f, 255f, 255f, 0f);
                 
+                uiPlayer.transform.SetParent(benchSlot.transform);
+                uiPlayer.transform.localPosition = Vector3.zero;
                 uiPlayer.RectTransform.sizeDelta = new Vector2(150, 225);
-                uiPlayer.RectTransform.localPosition = Vector3.one;
+                uiPlayer.RectTransform.localScale = benchSlot.RectTransform.localScale;
 
                 benchSlot.uiPlayer = uiPlayer;
                 uiPlayer.uiSlot = benchSlot;
-                uiPlayer.transform.SetParent(benchSlot.transform);
-                uiPlayer.transform.localPosition = Vector3.zero;
                 if (container == fieldPlayersBenchContent)
                 {
                     _fieldPlayersBench.Add(benchSlot);
@@ -203,23 +203,28 @@ namespace UI.ManageTeam
                 CreateNewBenchSlotWithPlayer(fieldPlayersBenchContent, uiPlayer);
             }
             
+            goaliesBenchContent.gameObject.SetActive(true);
             foreach (Token nft in goaliesBench)
             {
-
                 UIPlayer uiPlayer = Instantiate(Game.AssetRoot.manageTeamAsset.fieldPlayer);
-                
                 uiPlayer.CardData = nft;
                 uiPlayer.SetData(nft);
                 uiPlayer.canvasContent = canvasContent;
                 CreateNewBenchSlotWithPlayer(goaliesBenchContent, uiPlayer);
             }
+            goaliesBenchContent.gameObject.SetActive(false);
         }
 
         public void ChangeIceTimePriority()
         {
             iceTimePriority.text = Utils.Utils.GetIceTimePriority((int)iceTimePrioritySlider.value);
         }
-        
+
+        private void CollectData()
+        {
+            string iceTimePriorityValue = Utils.Utils.GetIceTimePriority((int) iceTimePrioritySlider.value);
+            
+        }
         
         public void Cancel()
         {

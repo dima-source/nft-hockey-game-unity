@@ -79,7 +79,10 @@ namespace Utils
             {
                 yield return DownloadTexture2D(url);
                 Texture2D texture = LoadTexture2D(path);
+                bool previousActiveness = image.gameObject.activeSelf;
+                image.gameObject.SetActive(true);
                 image.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
+                image.gameObject.SetActive(previousActiveness);
             }
         }
     }

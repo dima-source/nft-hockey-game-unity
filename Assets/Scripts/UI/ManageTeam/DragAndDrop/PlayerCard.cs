@@ -51,7 +51,6 @@ namespace UI.ManageTeam.DragAndDrop
                     int.Parse(goalie.Stats.PuckControl.ToString()),
                     int.Parse(goalie.Stats.Strength.ToString()),
                 };
-                
             }
             else
             {
