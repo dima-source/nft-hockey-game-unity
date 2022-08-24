@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -79,7 +80,10 @@ namespace Utils
             {
                 yield return DownloadTexture2D(url);
                 Texture2D texture = LoadTexture2D(path);
+                bool previousActiveness = image.gameObject.activeSelf;
+                image.gameObject.SetActive(true);
                 image.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
+                image.gameObject.SetActive(previousActiveness);
             }
         }
     }
@@ -138,6 +142,19 @@ namespace Utils
                 3 => "Normal",
                 4 => "HighPriority",
                 5 => "SuperHighPriority",
+            };
+        }
+
+        public static string GetTactics(int value)
+        {
+            return value switch
+            {
+                0 => throw new SwitchExpressionException("Tactics not chosen"),
+                1 => "Safe",
+                2 => "Defensive",
+                3 => "Neutral",
+                4 => "Offensive",
+                5 => "Aggressive"
             };
         }
 

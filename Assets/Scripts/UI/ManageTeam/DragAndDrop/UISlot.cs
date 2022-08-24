@@ -58,10 +58,10 @@ namespace UI.ManageTeam.DragAndDrop
             previousUIPlayerTransform.SetParent(benchSlot.transform);
             previousUIPlayerTransform.localPosition = Vector3.zero;
             previousUIPlayer.RectTransform.sizeDelta = benchSlot.RectTransform.sizeDelta;
-            uiPlayerDropped.RectTransform.localScale = RectTransform.localScale;
             previousUIPlayer.uiSlot = benchSlot;
             
             uiPlayerDropped.RectTransform.sizeDelta = RectTransform.sizeDelta;
+            uiPlayerDropped.RectTransform.localScale = RectTransform.localScale;
             EndDrop(uiPlayerDropped);
             uiPlayer = uiPlayerDropped;
             uiPlayer.uiSlot = this;
