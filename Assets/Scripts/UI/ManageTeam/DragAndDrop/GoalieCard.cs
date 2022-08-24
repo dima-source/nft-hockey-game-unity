@@ -1,8 +1,5 @@
-using Near.Models.Game.Team;
 using Near.Models.Tokens;
 using Near.Models.Tokens.Players.Goalie;
-using UnityEngine;
-using UnityEngine.UI;
 
 namespace UI.ManageTeam.DragAndDrop
 {
@@ -61,13 +58,13 @@ namespace UI.ManageTeam.DragAndDrop
             
             playerNumber = data.number;
             playerRole = StringToRole(data.player_role);
-            position = Position.G;
-/*
-            gloveAndBlocker.text = data.stats.GloveAndBlocker.ToString();
-            pads.text = data.stats.Pads.ToString();
-            stand.text = data.stats.Stand.ToString();
-            stretch.text = data.stats.Stretch.ToString();
-            morale.text = data.stats.Morale.ToString();
+            position = Scripts.CardView.Position.G;
+            /*
+                gloveAndBlocker.text = data.stats.GloveAndBlocker.ToString();
+                pads.text = data.stats.Pads.ToString();
+                stand.text = data.stats.Stand.ToString();
+                stretch.text = data.stats.Stretch.ToString();
+                morale.text = data.stats.Morale.ToString();
             */
         }
     }

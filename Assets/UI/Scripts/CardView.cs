@@ -1,6 +1,4 @@
 using System;
-using System.Data;
-using System.Linq;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine;
@@ -32,6 +30,7 @@ namespace UI.Scripts
             LW,
             RD,
             LD,
+            G,
             C
         }
         
@@ -69,13 +68,12 @@ namespace UI.Scripts
         private TextMeshProUGUI _position;
         private TextMeshProUGUI _nameText;
         private TextMeshProUGUI _numberText;
-        private Image _avatar;
+        protected Image _avatar;
         private TextMeshProUGUI _playerRoleText;
         private Image _background;
 
         private RectTransform _transform;
         public RectTransform RectTransform => _transform;
-
 
 
         protected override void Initialize()

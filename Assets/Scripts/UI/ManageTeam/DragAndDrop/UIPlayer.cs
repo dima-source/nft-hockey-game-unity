@@ -1,7 +1,5 @@
 using System;
-using System.IO;
 using Near.Models.Tokens;
-using UI.Scripts;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -10,7 +8,6 @@ namespace UI.ManageTeam.DragAndDrop
 {
     public abstract class UIPlayer : CardView, IDragHandler, IBeginDragHandler, IEndDragHandler
     {
-
         protected void setPlayerName(string name)
         {
             string[] splittedName = name.Split(" ", 2);
@@ -18,6 +15,7 @@ namespace UI.ManageTeam.DragAndDrop
             {
                 throw new ApplicationException("Name is incorrect. Must be \"Name Surname\", got \"" + name + "\"");
             }
+
             playerName = splittedName[0];
             playerSurname = splittedName[1];
         }
@@ -32,7 +30,7 @@ namespace UI.ManageTeam.DragAndDrop
 
         public Token CardData;
         public UISlot uiSlot;
-        
+
         protected void Start()
         {
             RectTransform = GetComponent<RectTransform>();
@@ -59,22 +57,22 @@ namespace UI.ManageTeam.DragAndDrop
             {
                 uiSlot.OnDrop(eventData);
             }
-            
+
             transform.localPosition = Vector3.zero;
             _canvasGroup.blocksRaycasts = true;
         }
 
         public abstract void SetData(Token token);
 
-        public static Position StringToPosition(string position)
+        public static Scripts.CardView.Position StringToPosition(string position)
         {
-            Position.TryParse(position, out Position parsedPosition);
+            Scripts.CardView.Position.TryParse(position, out Scripts.CardView.Position parsedPosition);
             return parsedPosition;
         }
 
-        public static PlayerRole StringToRole(string roleString)
+        public static Scripts.CardView.PlayerRole StringToRole(string roleString)
         {
-            PlayerRole.TryParse(roleString, out PlayerRole parsedRole);
+            Scripts.CardView.PlayerRole.TryParse(roleString, out Scripts.CardView.PlayerRole parsedRole);
             return parsedRole;
         }
     }

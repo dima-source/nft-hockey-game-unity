@@ -21,7 +21,6 @@ namespace UI.ManageTeam.DragAndDrop
         protected override void Initialize()
         {
             base.Initialize();
-            updateAvatar = false;
         }
 
         public override void SetData(Token token)
