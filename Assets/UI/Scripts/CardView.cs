@@ -44,7 +44,8 @@ namespace UI.Scripts
             Exclusive
         }
 
-        [Header("Main")]
+        [Header("Main")] 
+        public bool isAuction;
         public string avatarImagePath;
         public int year;
         public Position position;
@@ -89,6 +90,8 @@ namespace UI.Scripts
             
             _statistics = Utils.FindChild<TextMeshProUGUI>(transform, "Statistics");
             _transform = GetComponent<RectTransform>();
+
+            isAuction = true;
         }
 
         protected override void OnUpdate()
@@ -126,7 +129,7 @@ namespace UI.Scripts
             _statistics.text = String.Join(space, toDisplay);
         }
 
-        private static string RoleToString(PlayerRole role)
+        public static string RoleToString(PlayerRole role)
         {
             return role switch
             {

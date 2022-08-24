@@ -23,7 +23,6 @@ namespace UI.Scripts
         [SerializeField]
         private int balanceFractionalDisplay = 2;
         
-        private Popup _popup;
         private Dictionary<string, Transform> _pages;
         private TopBar _topBar;
         
@@ -35,7 +34,6 @@ namespace UI.Scripts
         
         protected override void Initialize()
         {
-            _popup = Utils.FindChild<Popup>(transform, "Popup");
             _topBar = Utils.FindChild<TopBar>(transform, "TopBar");
             _userWalletName = Utils.FindChild<TextMeshProUGUI>(transform, "Wallet");
             _userWalletBalance = Utils.FindChild<TextMeshProUGUI>(transform, "Balance");
@@ -45,6 +43,8 @@ namespace UI.Scripts
 
         protected override void OnAwake()
         {
+            SwitchPage(_topBar.NowPage);
+            
             _topBar.Bind("BuyPacks", () => SwitchPage("BuyPacks"));
             _topBar.Bind("BuyCards", () => SwitchPage("FilterCards"));
             _topBar.Bind("SellCards", () => SwitchPage("FilterCards"));
@@ -55,24 +55,17 @@ namespace UI.Scripts
 
         private void ShowOnDevelopmentPopup(string pageName)
         {
-            _popup.SetTitle(pageName);
-            _popup.SetMessage($"The '{pageName}' is in development. We let you know when it will be available.");
-            _popup.buttons = new[]
+            string message = $"The '{pageName}' is in development. We let you know when it will be available.";
+            Popup popup = GetComponent<RectTransform>().GetDefaultOk(pageName, message, () =>
             {
-                new Popup.ButtonView(Popup.ButtonType.Positive, "Okay")
-            };
-            
-            // Switch page to the default one 
-            _popup.onClose = () =>
-            {
+                // Switch page to the default one 
                 _topBar.SetSelected("BuyPacks");
                 SwitchPage("BuyPacks");
-            };
-            _popup.OnButtonClick(0, _popup.Close);
-            _popup.Show();
+            });
+            popup.Show();
         }
         
-        public void SwitchPage(string pageId)
+        public Transform SwitchPage(string pageId)
         {
             if (!_pages.ContainsKey(pageId))
             {
@@ -83,7 +76,9 @@ namespace UI.Scripts
             {
                 page.gameObject.SetActive(false);
             }
+            
             _pages[pageId].gameObject.SetActive(true);
+            return _pages[pageId];
         }
 
         private void InitializePages()

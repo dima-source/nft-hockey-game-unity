@@ -12,18 +12,23 @@ namespace UI.Scripts
         
         private class LayoutSettings
         {
+            private int _columns;
             private Vector2 _cellSize;
             private Vector2 _spacing;
 
-            public LayoutSettings(Vector2 cellSize, Vector2 spacing)
+            public LayoutSettings(int columns, Vector2 cellSize, Vector2 spacing)
             {
+                _columns = columns;
                 _cellSize = cellSize;
                 _spacing = spacing;
             }
 
             public void CopyValues(GridLayoutGroup layout)
             {
+                layout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+                layout.constraintCount = _columns;
                 layout.spacing = _spacing;
+                
                 layout.cellSize = _cellSize;
             }
         }
@@ -38,27 +43,24 @@ namespace UI.Scripts
         private GridLayoutGroup _layout;
 
         private static readonly LayoutSettings Settings1x1 = 
-            new(new Vector2(500, 800), 
+            new(1, new Vector2(500, 800), 
                 new Vector2(300, 150));
         
         private static readonly LayoutSettings Settings2x2 = 
-            new(new Vector2(450, 720), 
+            new(2, new Vector2(450, 720), 
                 new Vector2(100, 100));
         
         private static readonly LayoutSettings Settings3x3 = 
-            new(new Vector2(400, 640), 
+            new(3, new Vector2(300, 480), 
                 new Vector2(20, 20));
         
 
         private GameObject _cardViewPrefab;
 
         private Marketplace _marketplace;
-
-        private int _currentGridColumnSize = 3;
+        
         private List<CardView> _pull;
-
-
-        private Button _grid3x3Button, _grid2x2Button, _gridLinesButton;
+        
         
         private void Awake()
         {
@@ -69,10 +71,6 @@ namespace UI.Scripts
             _togglesContainer = Utils.FindChild<RectTransform>(temp, "Content");
             _cardViewPrefab = Utils.LoadResource<GameObject>(Configurations.PrefabsFolderPath + "Marketplace/CardView");
 
-            _grid3x3Button = Utils.FindChild<Button>(transform, "Grid3x3Button");
-            _grid2x2Button = Utils.FindChild<Button>(transform, "Grid2x2Button");
-            _gridLinesButton = Utils.FindChild<Button>(transform, "LinesButton");
-            
             _marketplace = FindObjectOfType(typeof(Marketplace)).GetComponent<Marketplace>();
             
             foreach (Transform child in _togglesContainer)
@@ -86,60 +84,9 @@ namespace UI.Scripts
             }
             
             CallLoadNewPortion();
-            //CheckButtons();
+            Settings3x3.CopyValues(_layout);
         }
         
-
-        private IEnumerator GetSize(Action<Vector2Int> callback)
-        {
-            yield return new WaitForEndOfFrame();
-            int itemsCount = _layout.transform.childCount;
-            float prevX = float.NegativeInfinity;
-            int xCount = 0;
-
-            for (int i = 0; i < itemsCount; i++)
-            {
-                Vector2 pos = ((RectTransform)_layout.transform.GetChild(i)).anchoredPosition;
-
-                if (pos.x <= prevX)
-                    break;
-
-                prevX = pos.x;
-                xCount++;
-            }
-
-            int yCount = GetAnotherAxisCount(itemsCount, xCount);
-            callback.Invoke(new Vector2Int(xCount, yCount));
-        }
-
-        private static int GetAnotherAxisCount(int totalCount, int axisCount)
-        {
-            return totalCount / axisCount + Mathf.Min(1, totalCount % axisCount);
-        }
-
-        private void CheckButtons()
-        {
-            StartCoroutine(GetSize(result =>
-            {
-                _grid3x3Button.gameObject.SetActive(true);
-                _grid2x2Button.gameObject.SetActive(true);
-                _gridLinesButton.gameObject.SetActive(true);
-                Debug.Log(result);
-                if (_currentGridColumnSize == 3)
-                {
-                    _grid3x3Button.gameObject.SetActive(_currentGridColumnSize == result.x);   
-                } 
-                else if (_currentGridColumnSize == 2)
-                {
-                    _grid2x2Button.gameObject.SetActive(_currentGridColumnSize == result.x);   
-                } 
-                else if (_currentGridColumnSize == 1)
-                {
-                    _gridLinesButton.gameObject.SetActive(_currentGridColumnSize == result.x);   
-                } 
-            }));
-        }
-
         private void OnDisable()
         {
             foreach (Transform child in _layout.transform)
@@ -152,33 +99,25 @@ namespace UI.Scripts
             CallLoadNewPortion();
             ScrollRect rect = _layoutContainer.GetComponent<ScrollRect>();
             rect.verticalNormalizedPosition = 1.0f;
-            _currentGridColumnSize = 3;
             Settings3x3.CopyValues(_layout);
-            //CheckButtons();
         }
 
         public void OnGrid3x3Click()
         {
             PlaySound();
             Settings3x3.CopyValues(_layout);
-            _currentGridColumnSize = 3;
-            //CheckButtons();
         }
         
         public void OnGrid2x2Click()
         {
             PlaySound();
             Settings2x2.CopyValues(_layout);
-            _currentGridColumnSize = 2;
-            //CheckButtons();
         }
 
         public void OnLinesButtonClick()
         {
             PlaySound();
             Settings1x1.CopyValues(_layout);
-            _currentGridColumnSize = 1;
-            //CheckButtons();
         }
 
         public void OnSearchChanged()
@@ -257,12 +196,88 @@ namespace UI.Scripts
             for (int i = 0; i < cardsValueToLoad; i++)
             {
                 CardView view = Instantiate(_cardViewPrefab, _layout.transform).GetComponent<CardView>();
+                
                 Button button = view.GetComponent<Button>();
                 button.enabled = true;
                 button.onClick.AddListener(() =>
                 {
                     PlaySound();
-                    _marketplace.SwitchPage("CardDisplay");
+                   
+                    CardDisplay cardDisplay = _marketplace.SwitchPage("CardDisplay").GetComponent<CardDisplay>();
+                    switch (_marketplace.TopBar.NowPage)
+                    {
+                        case "BuyCards":
+                            cardDisplay.SetButton(0, "Buy", () =>
+                            {
+                                Popup popup; 
+                                if (cardDisplay.CardView.isAuction)
+                                {
+                                    popup = _marketplace.GetComponent<RectTransform>()
+                                        .GetPlaceBet(new []
+                                        {
+                                            new PopupManager.BetInfo("kastet01.near", 2),
+                                            new PopupManager.BetInfo("kasteton.near", 3),
+                                            new PopupManager.BetInfo("kasok34.near", 5),
+                                            new PopupManager.BetInfo("kryakrya.near", 4.5f),
+                                            new PopupManager.BetInfo("kastet01.near", 6),
+                                        }, (value) => {Debug.Log(value);});
+                                }
+                                else
+                                {
+                                    popup = _marketplace.GetComponent<RectTransform>()
+                                        .GetBuy(12.3f, () => {});
+                                }
+                                popup.Show();
+                            });
+                            cardDisplay.SetButton(1, "");
+                            cardDisplay.SetButton(2, "");
+                            break;
+                        case "SellCards":
+                            cardDisplay.SetButton(0, "Sell", () =>
+                            {
+                                Popup popup = _marketplace.GetComponent<RectTransform>().GetSellCard((value) => Debug.Log(value));
+                                popup.Show();
+                            });
+                            cardDisplay.SetButton(1, "");
+                            cardDisplay.SetButton(2, "");
+                            break;
+                        case "OnSale":
+                            cardDisplay.SetButton(0, "Change sale conditions", () =>
+                            {
+                                Popup popup = _marketplace.GetComponent<RectTransform>().GetInputNear("Enter new price", 
+                                    (value) =>
+                                    {
+                                        Debug.Log(value);
+                                    });
+                                popup.Show();
+                            });
+                            
+                            cardDisplay.SetButton(1, "Take off the market", () => { });
+                            
+                            if (cardDisplay.CardView.isAuction)
+                            {
+                                cardDisplay.SetButton(2, "Accept the bet", () =>
+                                {
+                                    Popup popup = _marketplace.GetComponent<RectTransform>().GetAcceptBet(new []
+                                        {
+                                            new PopupManager.BetInfo("kastet01.near", 2),
+                                            new PopupManager.BetInfo("kasteton.near", 3),
+                                            new PopupManager.BetInfo("kasok34.near", 5),
+                                            new PopupManager.BetInfo("kryakrya.near", 4.5f),
+                                            new PopupManager.BetInfo("kastet01.near", 6),
+                                        }, () => {});
+                                    popup.Show();
+                                });   
+                            }
+                            else
+                            {
+                                cardDisplay.SetButton(2, "");
+                            }
+                            break;
+                        default:
+                            throw new ApplicationException($"Unknown '{_marketplace.TopBar.NowPage}' page");
+                    }
+
                     _marketplace.TopBar.SetBackButtonAction(() =>
                     {
                         // TODO: Set previous page here

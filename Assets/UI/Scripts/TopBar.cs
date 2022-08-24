@@ -28,6 +28,8 @@ namespace UI.Scripts
         }
 
         private Dictionary<string, Entry> _buttons;
+        
+        public string NowPage { get; private set; }
 
         // Default selected
         private string _selected = "BuyPacks";
@@ -61,7 +63,8 @@ namespace UI.Scripts
             _buttons["OnSale"] = new Entry(Utils.FindChild<Button>(transform, "OnSale"));
             _buttons["Draft"] = new Entry(Utils.FindChild<Button>(transform, "Draft"));
             _buttons["Objects"] = new Entry(Utils.FindChild<Button>(transform, "Objects"));
-            
+
+            NowPage = "BuyPacks";
             SetDefaultBackButton();
         }
 
@@ -76,6 +79,7 @@ namespace UI.Scripts
                 AudioController.LoadClip(Configurations.DefaultButtonSoundPath);
                 AudioController.source.Play();
                 SetSelected(buttonId);
+                NowPage = buttonId;
                 action();
             });
         }

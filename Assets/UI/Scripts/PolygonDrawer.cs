@@ -52,9 +52,16 @@ namespace UI.Scripts
         private const int MIN_STAT_VALUE = 0;
         private const int MAX_STAT_VALUE = 99;
         
-        private void Start()
+        private void OnEnable()
         {
-            StartCoroutine(GetSize(GenerateBase));
+            StartCoroutine(GetComponent<RectTransform>().GetSize(GenerateBase));
+        }
+
+        private void OnDisable()
+        {
+            foreach (Transform child in transform) {
+                Destroy(child.gameObject);
+            }
         }
 
         private void GenerateBase(Vector2 initialSize)
@@ -135,14 +142,13 @@ namespace UI.Scripts
         private TextMeshProUGUI GenerateText(string goName, string text, RectTransform parent, int textSize = 0)
         {
             GameObject go = new GameObject(goName);
-            go.transform.SetParent(parent);
+            go.transform.SetParent(parent, false);
 
             TextMeshProUGUI textMeshPro = go.AddComponent<TextMeshProUGUI>();
             textMeshPro.fontSizeMin = 5;
             textMeshPro.fontSizeMax = 100;
 
             RectTransform rectTransform = go.GetComponent<RectTransform>();
-            rectTransform.localScale = Vector3.one;
             rectTransform.anchoredPosition = Vector2.zero;
             rectTransform.sizeDelta = parent.sizeDelta;
             
@@ -170,7 +176,7 @@ namespace UI.Scripts
         private void GenerateConvexPolygon(Vector2 initialSize, List<Vector2> positions)
         {
             GameObject go = new GameObject("Concave");
-            go.transform.SetParent(transform);
+            go.transform.SetParent(transform, false);
             go.transform.SetSiblingIndex(Math.Max(0, transform.childCount - statistics.Count - 1));
 
             ConcavePolygonRenderer concave = go.AddComponent<ConcavePolygonRenderer>();
@@ -178,7 +184,6 @@ namespace UI.Scripts
             concave.positions = positions;
             
             RectTransform rectTransform = go.GetComponent<RectTransform>();
-            rectTransform.localScale = Vector3.one;
             rectTransform.anchoredPosition = Vector2.zero;
             rectTransform.sizeDelta = initialSize;
         }
@@ -187,25 +192,17 @@ namespace UI.Scripts
             int segments, int thickness, Transform parent = null)
         {
             GameObject go = new GameObject(objName);
-            go.transform.SetParent(parent ? parent : transform);
+            go.transform.SetParent(parent ? parent : transform, false);
             
             CircleRenderer baseRenderer = go.AddComponent<CircleRenderer>();
             baseRenderer.segments = segments;
             baseRenderer.thickness = thickness;
             
             RectTransform rectTransform = go.GetComponent<RectTransform>();
-            rectTransform.localScale = Vector3.one;
             rectTransform.anchoredPosition = Vector2.zero;
- 
             rectTransform.sizeDelta = size;
 
             return baseRenderer;
-        }
-        
-        private IEnumerator GetSize(UnityAction<Vector2> callback)
-        {
-            yield return null;
-            callback(GetComponent<RectTransform>().rect.size);
         }
 
     }

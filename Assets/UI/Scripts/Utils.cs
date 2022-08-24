@@ -1,9 +1,11 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 using Object = UnityEngine.Object;
 
 namespace UI.Scripts
@@ -109,6 +111,12 @@ namespace UI.Scripts
             float x = radius * Mathf.Cos(angle);
             float y = radius * Mathf.Sin(angle);
             return new Vector2(x, y);
+        }
+        
+        public static IEnumerator GetSize(this RectTransform rectTransform, UnityAction<Vector2> callback)
+        {
+            yield return null;
+            callback(rectTransform.rect.size);
         }
 
     }   

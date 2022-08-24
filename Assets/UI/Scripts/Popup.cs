@@ -31,7 +31,6 @@ namespace UI.Scripts
             }
         }
         
-        
         [Header("Texts")]
         [SerializeField]
         private string titleText;
@@ -44,7 +43,7 @@ namespace UI.Scripts
         private TextMeshProUGUI _title;
         private TextMeshProUGUI _message;
         private Transform _buttonsContainer;
-        public Action onClose;
+        public UnityAction onClose;
 
         protected override void Initialize()
         {
@@ -95,6 +94,18 @@ namespace UI.Scripts
                 action?.Invoke();
             });
         }
+        public void DeleteMessageSlot()
+        {
+            _message.gameObject.SetActive(false);
+        }
+
+        public void AddAdditional(Transform go)
+        {
+            Transform additional = Utils.FindChild<Transform>(transform, "Additional");
+            int position = additional.childCount - 1;
+            go.SetParent(additional, false);
+            go.SetSiblingIndex(Math.Max(0, position));
+        }
         
         public void SetMessage(string value)
         {
@@ -108,7 +119,7 @@ namespace UI.Scripts
 
         public void Close()
         {
-            onClose();
+            onClose?.Invoke();
             gameObject.SetActive(false);
         }
 

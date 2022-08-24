@@ -7,7 +7,7 @@ namespace UI.Scripts
     [RequireComponent(typeof(TMP_InputField))]
     public class Input : TextInformation
     {
-        private TMP_InputField _inputField;
+        protected TMP_InputField _inputField;
 
         [Serializable]
         public sealed class InputView
@@ -20,9 +20,9 @@ namespace UI.Scripts
 
         [SerializeField]
         private InputView _inputView;
-        
-        public InputView inputView => _inputView;
-        
+
+        private TextMeshProUGUI _input;
+
         protected override void Initialize()
         {
             base.Initialize();
@@ -30,8 +30,8 @@ namespace UI.Scripts
             _inputField.placeholder = _textMeshPro;
             RectTransform textArea = Utils.FindChild<RectTransform>(transform, "TextArea");
             _inputField.textViewport = textArea;
-            _inputField.textComponent = Utils.FindChild<TextMeshProUGUI>(textArea, "Input");
-            
+            _input = Utils.FindChild<TextMeshProUGUI>(textArea, "Input");
+            _inputField.textComponent = _input;
             _inputField.onValueChanged.AddListener(OnValueChanged);
             _inputField.onSubmit.AddListener(OnSubmit);
         }
@@ -41,9 +41,9 @@ namespace UI.Scripts
             base.OnUpdate();
             textView.CopyValues(_inputField.textComponent);
             _inputField.textComponent.color = Color.white;
-            _inputField.characterLimit = inputView.characterLimit;
-            _inputField.caretWidth = inputView.caretWidth;
-            _inputField.contentType = inputView.contentType;
+            _inputField.characterLimit = _inputView.characterLimit;
+            _inputField.caretWidth = _inputView.caretWidth;
+            _inputField.contentType = _inputView.contentType;
         }
 
         protected virtual void OnValueChanged(string value) { }
