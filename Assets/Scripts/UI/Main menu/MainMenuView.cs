@@ -15,7 +15,7 @@ namespace UI.Main_menu
     {
         [SerializeField] private FirstEntryPopup firstEntryPopup;
         [SerializeField] private SignInView signInView;
-        
+
         [SerializeField] private Text accountId;
         [SerializeField] private Text balance;
 
@@ -32,7 +32,7 @@ namespace UI.Main_menu
         public async void LoadAccountId()
         {
             string accountID = NearPersistentManager.Instance.GetAccountId();
-            
+
             accountId.text = "Welcome, " + accountID + " !";
 
             AccountState accountState = await NearPersistentManager.Instance.GetAccountState();
@@ -56,7 +56,7 @@ namespace UI.Main_menu
             };
 
             var users = await Near.MarketplaceContract.ContractMethods.Views.GetUser(userFilter);
-            
+
             if (users.Count == 0)
             {
                 return false;
@@ -64,12 +64,11 @@ namespace UI.Main_menu
 
             return true;
         }
-        
+
         private async void GetTrained()
         {
-            
         }
-        
+
         public void TradeCards()
         {
             Game.LoadMarketplace();
@@ -77,7 +76,7 @@ namespace UI.Main_menu
 
         public void LoadManageTeam()
         {
-            SceneManager.LoadScene("ManageTeam"); 
+            SceneManager.LoadScene("ManageTeam");
         }
 
         public void ShowPopup(Transform popupTransform)
@@ -86,14 +85,14 @@ namespace UI.Main_menu
             {
                 popup.gameObject.SetActive(false);
             }
-            
+
             popupTransform.gameObject.SetActive(true);
         }
 
         public void SignOut()
         {
             NearPersistentManager.Instance.SignOut();
-            
+
             gameObject.SetActive(false);
             signInView.gameObject.SetActive(true);
         }
