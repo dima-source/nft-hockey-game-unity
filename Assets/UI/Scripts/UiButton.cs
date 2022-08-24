@@ -5,11 +5,10 @@ using UnityEngine.UI;
 
 namespace UI.Scripts
 {
-    [RequireComponent(typeof(Image))]
     public class UiButton : TextInformation, IPointerClickHandler
     {
         public Action onClick { get; set; }
-        
+         
         private const string DefaultSound = "click v1";
 
         protected override void Initialize()
@@ -22,7 +21,8 @@ namespace UI.Scripts
         {
             AudioController.LoadClip(Configurations.MusicFolderPath + DefaultSound);
             AudioController.source.Play();
-            onClick();
+            onClick?.Invoke();
         }
+        
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -6,30 +7,31 @@ namespace UI.Scripts
     [RequireComponent(typeof(TMP_InputField))]
     public class Input : TextInformation
     {
-        private TMP_InputField _inputField;
+        protected TMP_InputField _inputField;
 
-        [Header("Input")] 
-        [Range(0, 100)]
-        public int characterLimit = 0;
-        public TMP_InputField.ContentType contentType;
-        [Range(1, 10)]
-        public int caretWidth = 1;
-        
-        public string InputText
+        [Serializable]
+        public sealed class InputView
         {
-            get => _inputField.text;
-            set => _inputField.SetTextWithoutNotify(value);
+            [Range(0, 100)]
+            public int characterLimit;
+            public TMP_InputField.ContentType contentType;
+            public int caretWidth = 3;
         }
+
+        [SerializeField]
+        private InputView _inputView;
+
+        private TextMeshProUGUI _input;
 
         protected override void Initialize()
         {
             base.Initialize();
             _inputField = gameObject.GetComponent<TMP_InputField>();
-            _inputField.placeholder = _text;
+            _inputField.placeholder = _textMeshPro;
             RectTransform textArea = Utils.FindChild<RectTransform>(transform, "TextArea");
             _inputField.textViewport = textArea;
-            _inputField.textComponent = Utils.FindChild<TextMeshProUGUI>(textArea, "Input");
-            
+            _input = Utils.FindChild<TextMeshProUGUI>(textArea, "Input");
+            _inputField.textComponent = _input;
             _inputField.onValueChanged.AddListener(OnValueChanged);
             _inputField.onSubmit.AddListener(OnSubmit);
         }
@@ -37,9 +39,11 @@ namespace UI.Scripts
         protected override void OnUpdate()
         {
             base.OnUpdate();
-            _inputField.characterLimit = characterLimit;
-            _inputField.caretWidth = caretWidth;
-            _inputField.contentType = contentType;
+            textView.CopyValues(_inputField.textComponent);
+            _inputField.textComponent.color = Color.white;
+            _inputField.characterLimit = _inputView.characterLimit;
+            _inputField.caretWidth = _inputView.caretWidth;
+            _inputField.contentType = _inputView.contentType;
         }
 
         protected virtual void OnValueChanged(string value) { }
