@@ -7614,9 +7614,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   forwardsCanvasContent: {fileID: 192167209}
   defendersCanvasContent: {fileID: 96702243}
+  goalies:
+  - {fileID: 1990097108}
+  - {fileID: 439387276}
+  - {fileID: 211146996}
+  - {fileID: 1737093642}
   canvasContent: {fileID: 1041897907}
   fieldPlayersBenchContent: {fileID: 908311037}
   goaliesBenchContent: {fileID: 860936954}
+  tactictsDropdown: {fileID: 1291850990}
   iceTimePriority: {fileID: 673235381}
   iceTimePrioritySlider: {fileID: 1548394570}
   teamView: {fileID: 1132143870}
@@ -9397,7 +9403,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1820725951}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1339640826}
+        m_TargetAssemblyTypeName: UI.ManageTeam.ManageTeamView, Assembly-CSharp
+        m_MethodName: SaveTeam
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1820725951
 MonoBehaviour:
   m_ObjectHideFlags: 0

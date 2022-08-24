@@ -20,7 +20,7 @@ namespace Near
         public readonly string MarketplaceContactId = "market.parh.testnet";
 
         private ContractNear _nftContract;
-        public readonly string nftContactId = "new_nft.parh.testnet";
+        public readonly string nftContactId = "hcm.parh.testnet";
         
         private async void Awake()
         {
@@ -128,7 +128,7 @@ namespace Near
                 viewMethods = new[] { "nft_tokens_for_owner", "nft_tokens_batch",
                     "nft_token", "nft_tokens", "nft_total_supply", "get_owner_nft_team"},
                 changeMethods = new[] { "nft_mint", "nft_approve", "insert_nft_field_players",
-                    "insert_nft_goalies", "nft_register_account", "nft_buy_pack"}
+                    "insert_nft_goalies", "nft_register_account", "nft_buy_pack", "manage_team"}
             };
         
             return new ContractNear(account, WalletAccount, nftContactId, options);

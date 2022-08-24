@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Threading.Tasks;
+using Near.Models.Game.TeamIds;
 using NearClientUnity;
 using NearClientUnity.Utilities;
 using Newtonsoft.Json;
@@ -101,6 +102,18 @@ namespace Near.MarketplaceContract.ContractMethods
 
                 await marketContract.Change("remove_sale", removeSaleArgs, NearUtils.Gas, deposit);
             }
+        }
+
+        public static async void ManageTeam(TeamIds teamIds)
+        {
+            ContractNear nftContract = await NearPersistentManager.Instance.GetNftContract();
+            var accountId = NearPersistentManager.Instance.GetAccountId();
+            dynamic args = new ExpandoObject();
+            args.team_ids = teamIds;
+            args.nft_contact_id = NearPersistentManager.Instance.nftContactId;
+            args.market_contract_id = NearPersistentManager.Instance.MarketplaceContactId;
+            var result = await nftContract.Change("manage_team", args, NearUtils.Gas);
+            Debug.Log(result);
         }
         
         /// <summary>

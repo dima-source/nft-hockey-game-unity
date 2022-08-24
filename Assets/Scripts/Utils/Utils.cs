@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -141,6 +142,19 @@ namespace Utils
                 3 => "Normal",
                 4 => "HighPriority",
                 5 => "SuperHighPriority",
+            };
+        }
+
+        public static string GetTactics(int value)
+        {
+            return value switch
+            {
+                0 => throw new SwitchExpressionException("Tactics not chosen"),
+                1 => "Safe",
+                2 => "Defensive",
+                3 => "Neutral",
+                4 => "Offensive",
+                5 => "Aggressive"
             };
         }
 

@@ -2,9 +2,9 @@ namespace UI.ManageTeam
 {
     public enum SlotPositionEnum
     {
-        LeftWinger,
+        LeftWing,
         Center,
-        RightWinger,
+        RightWing,
         LeftDefender,
         RightDefender,
         MainGoalkeeper,
