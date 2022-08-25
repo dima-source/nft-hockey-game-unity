@@ -139,7 +139,7 @@ namespace Near.GameContract.ContractMethods
                         .AddField(p=>p.score))
                 .AddField(p=>p.games,
                     sq => sq
-                        .AddField(p => p.id))
+                        .AddField(p => p.ID))
                 .AddField(p => p.id);
 
             string responseJson = await GetJSONQuery(query.Build());
