@@ -5,7 +5,7 @@ namespace Near.Models.Game
 {
     public class GameData
     {
-        public int id { get; set; }
+        public int ID { get; set; }
         public UserInGameInfo user1 { get; set; }
         public UserInGameInfo user2 { get; set; }        
         public int reward { get; set; }
@@ -15,6 +15,5 @@ namespace Near.Models.Game
         public int zone_number { get; set; }
         public List<Event> events { get; set; } 
         public FieldPlayer player_with_puck { get; set; }
-
     }
 }
