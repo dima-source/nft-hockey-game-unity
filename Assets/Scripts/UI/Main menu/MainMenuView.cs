@@ -80,6 +80,10 @@ namespace UI.Main_menu
             SceneManager.LoadScene("ManageTeam"); 
         }
 
+        public void LoadProfile()
+        {
+            SceneManager.LoadScene("Profile"); 
+        }
         public void ShowPopup(Transform popupTransform)
         {
             foreach (Transform popup in popups)

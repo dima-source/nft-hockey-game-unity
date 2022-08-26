@@ -1220,7 +1220,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: kostya<color="red">OSTAP</color>
+  m_text: kostya
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f59e0cc64ede8c743bbcf3e6e4d29979, type: 2}
   m_sharedMaterial: {fileID: 4386329128483912490, guid: f59e0cc64ede8c743bbcf3e6e4d29979, type: 2}
@@ -1247,7 +1247,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 6.45
+  m_fontSize: 10.4
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1513,17 +1513,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b388d2b1ac64a068b61c55132cb9a0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isAuction: 1
   avatarImagePath: Avatars/TestPlayer2
   year: 2022
   position: 0
-  nameSpacing: 0
   playerName: kostya
   playerSurname: ostap
   playerNumber: 99
   playerRole: 0
   rareness: 0
-  statisticsSpacing: 1
   statistics: 22000000200000002c0000002c0000002c000000
   playerImg: {fileID: 0}
   RectTransform: {fileID: 5412319755567626762}
@@ -1710,7 +1707,7 @@ GameObject:
   - component: {fileID: 8199455988950765510}
   - component: {fileID: 2034901108386385405}
   m_Layer: 0
-  m_Name: Statistics
+  m_Name: BottomRow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

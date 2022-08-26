@@ -98,8 +98,6 @@ namespace Near.MarketplaceContract.ContractMethods
                     sq => sq
                         .AddField(p => p.ID));
               
-                
-
             string responseJson = await GetJSONQuery(query.Build());
             
             Debug.Log(responseJson);

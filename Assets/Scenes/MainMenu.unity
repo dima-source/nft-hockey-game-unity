@@ -2398,6 +2398,7 @@ GameObject:
   - component: {fileID: 437679105}
   - component: {fileID: 437679104}
   - component: {fileID: 437679103}
+  - component: {fileID: 437679106}
   m_Layer: 5
   m_Name: 5
   m_TagString: Untagged
@@ -2469,7 +2470,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 437679104}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 437679106}
+        m_TargetAssemblyTypeName: UI.Main_menu.UIPopups.BidButton, Assembly-CSharp
+        m_MethodName: ChangeActiveButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &437679104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2508,6 +2521,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 437679101}
   m_CullTransparentMesh: 1
+--- !u!114 &437679106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 437679101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd0130584b944294aa8552225ea1fa51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiPopupSetBid: {fileID: 1700830377}
+  image: {fileID: 437679104}
+  bid: 5
+  activeSprite: {fileID: 21300000, guid: 47ee3969cd025514cabc168c42404e26, type: 3}
+  defaultSprite: {fileID: 0}
+  activeColor: {r: 1, g: 1, b: 1, a: 1}
+  defaultColor: {r: 0.227451, g: 0.23137257, b: 0.2509804, a: 1}
 --- !u!1 &441531420
 GameObject:
   m_ObjectHideFlags: 0
@@ -3991,6 +4023,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 640611222}
+  - component: {fileID: 640611223}
   m_Layer: 0
   m_Name: FriendsPopup
   m_TagString: Untagged
@@ -4020,6 +4053,19 @@ RectTransform:
   m_AnchoredPosition: {x: -0.00048828125, y: 0}
   m_SizeDelta: {x: 0.00048828125, y: 0.00048828125}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &640611223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 640611221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6e340b98e4d4fdc9cc687cd8f7422d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainMenuView: {fileID: 223302181}
 --- !u!1001 &665243207
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5192,7 +5238,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 805544965}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 223302181}
+        m_TargetAssemblyTypeName: UI.Main_menu.MainMenuView, Assembly-CSharp
+        m_MethodName: LoadProfile
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &805544965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6508,7 +6566,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1036824192}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 223302181}
+        m_TargetAssemblyTypeName: UI.Main_menu.MainMenuView, Assembly-CSharp
+        m_MethodName: TradeCards
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1036824192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6981,7 +7051,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1085758555}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1700830377}
+        m_TargetAssemblyTypeName: UI.Main_menu.UIPopups.UIPopupSetBid, Assembly-CSharp
+        m_MethodName: Show
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1085758555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7366,6 +7448,7 @@ GameObject:
   - component: {fileID: 1174689069}
   - component: {fileID: 1174689068}
   - component: {fileID: 1174689067}
+  - component: {fileID: 1174689070}
   m_Layer: 5
   m_Name: 10
   m_TagString: Untagged
@@ -7437,7 +7520,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1174689068}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1174689070}
+        m_TargetAssemblyTypeName: UI.Main_menu.UIPopups.BidButton, Assembly-CSharp
+        m_MethodName: ChangeActiveButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1174689068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7476,6 +7571,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1174689065}
   m_CullTransparentMesh: 1
+--- !u!114 &1174689070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1174689065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd0130584b944294aa8552225ea1fa51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiPopupSetBid: {fileID: 1700830377}
+  image: {fileID: 1174689068}
+  bid: 10
+  activeSprite: {fileID: 21300000, guid: 47ee3969cd025514cabc168c42404e26, type: 3}
+  defaultSprite: {fileID: 0}
+  activeColor: {r: 1, g: 1, b: 1, a: 1}
+  defaultColor: {r: 0.227451, g: 0.23137257, b: 0.2509804, a: 1}
 --- !u!1 &1198540919
 GameObject:
   m_ObjectHideFlags: 0
@@ -9145,6 +9259,7 @@ GameObject:
   - component: {fileID: 1444329644}
   - component: {fileID: 1444329643}
   - component: {fileID: 1444329642}
+  - component: {fileID: 1444329645}
   m_Layer: 5
   m_Name: 2
   m_TagString: Untagged
@@ -9216,7 +9331,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1444329643}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1444329645}
+        m_TargetAssemblyTypeName: UI.Main_menu.UIPopups.BidButton, Assembly-CSharp
+        m_MethodName: ChangeActiveButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1444329643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9255,6 +9382,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1444329640}
   m_CullTransparentMesh: 1
+--- !u!114 &1444329645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1444329640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd0130584b944294aa8552225ea1fa51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiPopupSetBid: {fileID: 1700830377}
+  image: {fileID: 1444329643}
+  bid: 2
+  activeSprite: {fileID: 21300000, guid: 47ee3969cd025514cabc168c42404e26, type: 3}
+  defaultSprite: {fileID: 0}
+  activeColor: {r: 1, g: 1, b: 1, a: 1}
+  defaultColor: {r: 0.227451, g: 0.23137257, b: 0.2509804, a: 1}
 --- !u!1 &1447248285
 GameObject:
   m_ObjectHideFlags: 0
@@ -10275,6 +10421,7 @@ GameObject:
   - component: {fileID: 1627374423}
   - component: {fileID: 1627374422}
   - component: {fileID: 1627374421}
+  - component: {fileID: 1627374424}
   m_Layer: 5
   m_Name: 1
   m_TagString: Untagged
@@ -10346,7 +10493,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1627374422}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1627374424}
+        m_TargetAssemblyTypeName: UI.Main_menu.UIPopups.BidButton, Assembly-CSharp
+        m_MethodName: ChangeActiveButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1627374422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10385,6 +10544,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1627374419}
   m_CullTransparentMesh: 1
+--- !u!114 &1627374424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1627374419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd0130584b944294aa8552225ea1fa51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiPopupSetBid: {fileID: 1700830377}
+  image: {fileID: 1627374422}
+  bid: 1
+  activeSprite: {fileID: 21300000, guid: 47ee3969cd025514cabc168c42404e26, type: 3}
+  defaultSprite: {fileID: 0}
+  activeColor: {r: 1, g: 1, b: 1, a: 1}
+  defaultColor: {r: 0.227451, g: 0.23137257, b: 0.2509804, a: 1}
 --- !u!1 &1648670680
 GameObject:
   m_ObjectHideFlags: 0
@@ -10819,6 +10997,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1700830376}
+  - component: {fileID: 1700830377}
   m_Layer: 0
   m_Name: SelectBidPopup
   m_TagString: Untagged
@@ -10849,6 +11028,31 @@ RectTransform:
   m_AnchoredPosition: {x: -0.00048828125, y: 0}
   m_SizeDelta: {x: 0.00048828125, y: 0.00048828125}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1700830377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1700830375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f2f4142e9104fa5a1ffa792a8b0c1cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainMenuView: {fileID: 223302181}
+  bidText: {fileID: 0}
+  buttons:
+  - {fileID: 1627374424}
+  - {fileID: 1444329645}
+  - {fileID: 2131319180}
+  - {fileID: 437679106}
+  - {fileID: 1955729808}
+  - {fileID: 1174689070}
+  - {fileID: 1703836884}
+  waitForOpponentView: {fileID: 0}
+  setBidView: {fileID: 0}
+  ownBid: {fileID: 0}
 --- !u!1 &1703836879
 GameObject:
   m_ObjectHideFlags: 0
@@ -10861,6 +11065,7 @@ GameObject:
   - component: {fileID: 1703836883}
   - component: {fileID: 1703836882}
   - component: {fileID: 1703836881}
+  - component: {fileID: 1703836884}
   m_Layer: 5
   m_Name: 15
   m_TagString: Untagged
@@ -10932,7 +11137,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1703836882}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1703836884}
+        m_TargetAssemblyTypeName: UI.Main_menu.UIPopups.BidButton, Assembly-CSharp
+        m_MethodName: ChangeActiveButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1703836882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10971,6 +11188,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1703836879}
   m_CullTransparentMesh: 1
+--- !u!114 &1703836884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1703836879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd0130584b944294aa8552225ea1fa51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiPopupSetBid: {fileID: 1700830377}
+  image: {fileID: 1703836882}
+  bid: 15
+  activeSprite: {fileID: 21300000, guid: 47ee3969cd025514cabc168c42404e26, type: 3}
+  defaultSprite: {fileID: 0}
+  activeColor: {r: 1, g: 1, b: 1, a: 1}
+  defaultColor: {r: 0.227451, g: 0.23137257, b: 0.2509804, a: 1}
 --- !u!1 &1717468336
 GameObject:
   m_ObjectHideFlags: 0
@@ -11415,7 +11651,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1753379618}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 640611221}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1753379618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12606,6 +12854,7 @@ GameObject:
   - component: {fileID: 1955729807}
   - component: {fileID: 1955729806}
   - component: {fileID: 1955729805}
+  - component: {fileID: 1955729808}
   m_Layer: 5
   m_Name: 6
   m_TagString: Untagged
@@ -12677,7 +12926,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1955729806}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1955729808}
+        m_TargetAssemblyTypeName: UI.Main_menu.UIPopups.BidButton, Assembly-CSharp
+        m_MethodName: ChangeActiveButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1955729806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12716,6 +12977,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1955729803}
   m_CullTransparentMesh: 1
+--- !u!114 &1955729808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1955729803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd0130584b944294aa8552225ea1fa51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiPopupSetBid: {fileID: 1700830377}
+  image: {fileID: 1955729806}
+  bid: 6
+  activeSprite: {fileID: 21300000, guid: 47ee3969cd025514cabc168c42404e26, type: 3}
+  defaultSprite: {fileID: 0}
+  activeColor: {r: 1, g: 1, b: 1, a: 1}
+  defaultColor: {r: 0.227451, g: 0.23137257, b: 0.2509804, a: 1}
 --- !u!1 &1974390119
 GameObject:
   m_ObjectHideFlags: 0
@@ -13929,6 +14209,7 @@ GameObject:
   - component: {fileID: 2131319179}
   - component: {fileID: 2131319178}
   - component: {fileID: 2131319177}
+  - component: {fileID: 2131319180}
   m_Layer: 5
   m_Name: 3
   m_TagString: Untagged
@@ -14000,7 +14281,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2131319178}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2131319180}
+        m_TargetAssemblyTypeName: UI.Main_menu.UIPopups.BidButton, Assembly-CSharp
+        m_MethodName: ChangeActiveButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2131319178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14039,6 +14332,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2131319175}
   m_CullTransparentMesh: 1
+--- !u!114 &2131319180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2131319175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd0130584b944294aa8552225ea1fa51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiPopupSetBid: {fileID: 1700830377}
+  image: {fileID: 2131319178}
+  bid: 3
+  activeSprite: {fileID: 21300000, guid: 47ee3969cd025514cabc168c42404e26, type: 3}
+  defaultSprite: {fileID: 0}
+  activeColor: {r: 1, g: 1, b: 1, a: 1}
+  defaultColor: {r: 0.227451, g: 0.23137257, b: 0.2509804, a: 1}
 --- !u!1 &2134287656
 GameObject:
   m_ObjectHideFlags: 0
@@ -15296,6 +15608,34 @@ PrefabInstance:
     - target: {fileID: 6534425409631484553, guid: 471791c3f87d4f043b85bb64b8428c79, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6534425409631484554, guid: 471791c3f87d4f043b85bb64b8428c79, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6534425409631484554, guid: 471791c3f87d4f043b85bb64b8428c79, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6534425409631484554, guid: 471791c3f87d4f043b85bb64b8428c79, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1700830377}
+    - target: {fileID: 6534425409631484554, guid: 471791c3f87d4f043b85bb64b8428c79, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6534425409631484554, guid: 471791c3f87d4f043b85bb64b8428c79, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Close
+      objectReference: {fileID: 0}
+    - target: {fileID: 6534425409631484554, guid: 471791c3f87d4f043b85bb64b8428c79, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UI.Main_menu.UIPopups.UIPopup, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6534425409631484554, guid: 471791c3f87d4f043b85bb64b8428c79, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
