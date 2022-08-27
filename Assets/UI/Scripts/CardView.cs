@@ -89,7 +89,6 @@ namespace UI.Scripts
             {
                 _statisticViews[i] = _statisticsContainer.GetChild(i).GetComponent<TextMeshProUGUI>();
             }
-
         }
 
         protected override void OnUpdate()

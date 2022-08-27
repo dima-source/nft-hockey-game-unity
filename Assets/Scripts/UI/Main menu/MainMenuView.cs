@@ -13,8 +13,9 @@ namespace UI.Main_menu
 {
     public class MainMenuView : MonoBehaviour
     {
+        [SerializeField] private FirstEntryPopup firstEntryPopup;
         [SerializeField] private SignInView signInView;
-        
+
         [SerializeField] private Text accountId;
         [SerializeField] private Text balance;
 
@@ -31,7 +32,7 @@ namespace UI.Main_menu
         public async void LoadAccountId()
         {
             string accountID = NearPersistentManager.Instance.GetAccountId();
-            
+
             accountId.text = "Welcome, " + accountID + " !";
 
             AccountState accountState = await NearPersistentManager.Instance.GetAccountState();
@@ -40,11 +41,8 @@ namespace UI.Main_menu
             var isAccountRegistered = await CheckAccount(accountID);
             if (!isAccountRegistered)
             {
-                GetFreePack();
+                firstEntryPopup.gameObject.SetActive(true);
             }
-            Debug.Log(isAccountRegistered);
-            
-            // Near.MarketplaceContract.ContractMethods.Actions.BuyPack("7");
         }
 
         /// <summary>
@@ -58,7 +56,7 @@ namespace UI.Main_menu
             };
 
             var users = await Near.MarketplaceContract.ContractMethods.Views.GetUser(userFilter);
-            
+
             if (users.Count == 0)
             {
                 return false;
@@ -67,16 +65,10 @@ namespace UI.Main_menu
             return true;
         }
 
-        private async void GetFreePack()
-        {
-            Near.MarketplaceContract.ContractMethods.Actions.RegisterAccount();
-        }
-        
         private async void GetTrained()
         {
-            
         }
-        
+
         public void TradeCards()
         {
             Game.LoadMarketplace();
@@ -84,7 +76,7 @@ namespace UI.Main_menu
 
         public void LoadManageTeam()
         {
-            SceneManager.LoadScene("ManageTeam"); 
+            SceneManager.LoadScene("ManageTeam");
         }
 
         public void ShowPopup(Transform popupTransform)
@@ -93,14 +85,14 @@ namespace UI.Main_menu
             {
                 popup.gameObject.SetActive(false);
             }
-            
+
             popupTransform.gameObject.SetActive(true);
         }
 
         public void SignOut()
         {
             NearPersistentManager.Instance.SignOut();
-            
+
             gameObject.SetActive(false);
             signInView.gameObject.SetActive(true);
         }

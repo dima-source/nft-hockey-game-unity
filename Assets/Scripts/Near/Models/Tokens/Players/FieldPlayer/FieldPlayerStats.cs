@@ -106,7 +106,7 @@ namespace Near.Models.Tokens.Players.FieldPlayer
 
         public uint Defense => (DefensiveAwareness + FaceOffs + ShotBlocking + StickChecking) / 4;
 
-        public uint GetAverageStats()
+        public float GetAverageStats()
         {
             return (Skating + Shooting + StickHandling + StrengthAvg + Iq + Defense) / 6;
         }

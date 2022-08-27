@@ -5,8 +5,8 @@ namespace Near.Models.Tokens.Players
     public abstract class Player : Token
     {
         public int id { get; set; }
-        public string IMG { get; set; }
-        public string Name { get; set; }
+        public string img { get; set; }
+        public string name { get; set; }
         public string nationality { get; set; }
         public bool reality { get; set; }
         public int number { get; set; }
@@ -17,5 +17,7 @@ namespace Near.Models.Tokens.Players
         
         [JsonIgnore]
         public string stats { get; set; }
+
+        public abstract void SetStats(string jsonStats);
     }
 }

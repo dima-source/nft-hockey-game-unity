@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Threading.Tasks;
 using Near.Models.Game.TeamIds;
+using Near.Models.Tokens;
+using Near.Models.Tokens.Players;
+using Near.Models.Tokens.Players.FieldPlayer;
+using Near.Models.Tokens.Players.Goalie;
 using NearClientUnity;
 using NearClientUnity.Utilities;
 using Newtonsoft.Json;
@@ -119,7 +123,7 @@ namespace Near.MarketplaceContract.ContractMethods
         /// <summary>
         /// Register an account and give a free pack
         /// </summary>
-        public static async void RegisterAccount()
+        public static async Task<List<Token>> RegisterAccount()
         {
             ContractNear nftContract = await NearPersistentManager.Instance.GetNftContract();
             var accountId = NearPersistentManager.Instance.GetAccountId();
@@ -128,10 +132,11 @@ namespace Near.MarketplaceContract.ContractMethods
             args.receiver_id = accountId;
             
             var result = await nftContract.Change("nft_register_account", args, NearUtils.Gas);
-            int x = 0;
+            
+            return ParseTokenMetadata(result.ToString());
         }
 
-        public static async void BuyPack(string cost)
+        public static async Task<List<Token>> BuyPack(string cost)
         {
             ContractNear nftContract = await NearPersistentManager.Instance.GetNftContract();
             var accountId = NearPersistentManager.Instance.GetAccountId();
@@ -140,9 +145,44 @@ namespace Near.MarketplaceContract.ContractMethods
             args.receiver_id = accountId;
             UInt128 deposit = NearUtils.ParseNearAmount(cost);
 
-            
             var result = await nftContract.Change("nft_buy_pack", args, NearUtils.Gas, deposit);
-            int x = 0;
+
+            return ParseTokenMetadata(result.ToString());
+        }
+        
+        /// <param name="tokenMetadata">Has the format: "[["title": "Kastet99", "extra": "{...}", ...]]"</param>
+        private static List<Token> ParseTokenMetadata(string tokenMetadata)
+        {
+            List<ExpandoObject> tokenMetadataDynamic = JsonConvert.DeserializeObject<List<ExpandoObject>>(tokenMetadata);
+            if (tokenMetadataDynamic == null)
+            {
+                return new List<Token>();
+            }
+            
+            List<Token> result = new List<Token>();
+            foreach (var metadata in (dynamic)tokenMetadataDynamic)
+            {
+                dynamic extra = JsonConvert.DeserializeObject<ExpandoObject>(metadata.extra.ToString());
+                string playerType = extra.player_type.ToString();
+
+                Player player = playerType switch
+                {
+                    "FieldPlayer" => JsonConvert.DeserializeObject<FieldPlayer>(metadata.extra.ToString()),
+                    "Goalie" => JsonConvert.DeserializeObject<Goalie>(metadata.extra.ToString()),
+                    _ => throw new Exception($"Type of {playerType} is undefined") 
+                };
+                
+                string jsonStats = JsonConvert.SerializeObject(extra.stats);
+                player.SetStats(jsonStats);
+                
+                player.media = metadata.media;
+                player.name = metadata.title.ToString();
+                player.title = metadata.title.ToString();
+                
+                result.Add(player);
+            }
+
+            return result;
         }
     }
 }
