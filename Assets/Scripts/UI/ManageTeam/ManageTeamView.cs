@@ -48,9 +48,9 @@ namespace UI.ManageTeam
 
         private List<Token> _userNFTs;
         
-        [SerializeField] private Transform canvasContent;
-        [SerializeField] public Transform fieldPlayersBenchContent;
-        [SerializeField] public Transform goaliesBenchContent;
+        [SerializeField] public Transform canvasContent;
+        [SerializeField] public Bench fieldPlayersBenchContent;
+        [SerializeField] public Bench goaliesBenchContent;
 
         [SerializeField] private TMP_Dropdown tactictsDropdown;
         [SerializeField] private Text iceTimePriority;
@@ -115,16 +115,20 @@ namespace UI.ManageTeam
         private async void Start()
         {
             _team = await _controller.LoadUserTeam();
-            PlayerFilter filter = new PlayerFilter();
-            Pagination pagination = new Pagination();
-            pagination.first = 100;
-            filter.ownerId = NearPersistentManager.Instance.GetAccountId();
+            PlayerFilter filter = new()
+            {
+                ownerId = NearPersistentManager.Instance.GetAccountId()
+            };
+            Pagination pagination = new()
+            {
+                first = 100
+            };
             _userNFTs = await _controller.LoadUserNFTs(filter, pagination);
-            
             _currentLineNumber = LineNumbers.First;
 
             ShowFive(_currentLineNumber.ToString());
             InitBenches();
+            fieldPlayersBenchContent.gameObject.SetActive(true);
         }
 
         public void HideCurrentFive()
@@ -164,28 +168,28 @@ namespace UI.ManageTeam
             Debug.Log(number);
         }
 
-        public UISlot CreateNewBenchSlotWithPlayer(Transform container, UIPlayer uiPlayer)
-        {
-                UISlot benchSlot = CreateNewEmptySlot(container, SlotPositionEnum.Bench);
-                benchSlot.GetComponent<Image>().color = new Color(255f, 255f, 255f, 0f);
-                
-                uiPlayer.transform.SetParent(benchSlot.transform);
-                uiPlayer.transform.localPosition = Vector3.zero;
-                uiPlayer.RectTransform.sizeDelta = new Vector2(150, 225);
-                uiPlayer.RectTransform.localScale = benchSlot.RectTransform.localScale;
-
-                benchSlot.uiPlayer = uiPlayer;
-                uiPlayer.uiSlot = benchSlot;
-                if (container == fieldPlayersBenchContent)
-                {
-                    _fieldPlayersBench.Add(benchSlot);
-                } 
-                else if (container == goaliesBenchContent)
-                {
-                    _goaliesBench.Add(benchSlot);
-                }
-                return benchSlot;
-        }
+        // public UISlot CreateNewBenchSlotWithPlayer(Transform container, UIPlayer uiPlayer)
+        // {
+        //         UISlot benchSlot = CreateNewEmptySlot(container, SlotPositionEnum.Bench);
+        //         benchSlot.GetComponent<Image>().color = new Color(255f, 255f, 255f, 0f);
+        //         
+        //         uiPlayer.transform.SetParent(benchSlot.transform);
+        //         uiPlayer.transform.localPosition = Vector3.zero;
+        //         uiPlayer.RectTransform.sizeDelta = new Vector2(150, 225);
+        //         uiPlayer.RectTransform.localScale = benchSlot.RectTransform.localScale;
+        //
+        //         benchSlot.uiPlayer = uiPlayer;
+        //         uiPlayer.uiSlot = benchSlot;
+        //         if (container == fieldPlayersBenchContent)
+        //         {
+        //             _fieldPlayersBench.Add(benchSlot);
+        //         } 
+        //         else if (container == goaliesBenchContent)
+        //         {
+        //             _goaliesBench.Add(benchSlot);
+        //         }
+        //         return benchSlot;
+        // }
 
         public UISlot CreateNewEmptySlot(Transform container, SlotPositionEnum position)
         {
@@ -198,28 +202,33 @@ namespace UI.ManageTeam
         {
             List<Token> fieldPlayersBench = _userNFTs.Where(x => x.player_type == "FieldPlayer").ToList();
             List<Token> goaliesBench = _userNFTs.Where(x => x.player_type == "Goalie").ToList();
+            // fieldPlayersBenchContent.S;
 
-            foreach (Token nft in fieldPlayersBench)
-            {
+            fieldPlayersBenchContent.Cards = fieldPlayersBench;
+            goaliesBenchContent.Cards = goaliesBench;
 
-                UIPlayer uiPlayer = Instantiate(Game.AssetRoot.manageTeamAsset.fieldPlayer);
-                
-                uiPlayer.CardData = nft;
-                uiPlayer.SetData(nft);
-                uiPlayer.canvasContent = canvasContent;
-                CreateNewBenchSlotWithPlayer(fieldPlayersBenchContent, uiPlayer);
-            }
-            
-            goaliesBenchContent.gameObject.SetActive(true);
-            foreach (Token nft in goaliesBench)
-            {
-                UIPlayer uiPlayer = Instantiate(Game.AssetRoot.manageTeamAsset.fieldPlayer);
-                uiPlayer.CardData = nft;
-                uiPlayer.SetData(nft);
-                uiPlayer.canvasContent = canvasContent;
-                CreateNewBenchSlotWithPlayer(goaliesBenchContent, uiPlayer);
-            }
-            goaliesBenchContent.gameObject.SetActive(false);
+
+            // foreach (Token nft in fieldPlayersBench)
+            // {
+            //     UIPlayer uiPlayer = Instantiate(Game.AssetRoot.manageTeamAsset.fieldPlayer);
+            //     
+            //     uiPlayer.CardData = nft;
+            //     uiPlayer.SetData(nft);
+            //     uiPlayer.canvasContent = canvasContent;
+            //     // CreateNewBenchSlotWithPlayer(fieldPlayersBenchContent, uiPlayer);
+            //     fieldPlayersBenchContent.AddPlayer(uiPlayer);
+            // }
+            //
+            // goaliesBenchContent.gameObject.SetActive(true);
+            // foreach (Token nft in goaliesBench)
+            // {
+            //     UIPlayer uiPlayer = Instantiate(Game.AssetRoot.manageTeamAsset.fieldPlayer);
+            //     uiPlayer.CardData = nft;
+            //     uiPlayer.SetData(nft);
+            //     uiPlayer.canvasContent = canvasContent;
+            //     goaliesBenchContent.AddPlayer(uiPlayer);
+            // }
+            // goaliesBenchContent.gameObject.SetActive(false);
         }
 
         public void ChangeIceTimePriority()
