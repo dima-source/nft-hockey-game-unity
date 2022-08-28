@@ -64,15 +64,15 @@ namespace UI.ManageTeam.DragAndDrop
 
         public abstract void SetData(Token token);
 
-        public static Scripts.CardView.Position StringToPosition(string position)
+        public static Position StringToPosition(string position)
         {
-            Scripts.CardView.Position.TryParse(position, out Scripts.CardView.Position parsedPosition);
+            Position.TryParse(position, out Position parsedPosition);
             return parsedPosition;
         }
 
-        public static Scripts.CardView.PlayerRole StringToRole(string roleString)
+        public static PlayerRole StringToRole(string roleString)
         {
-            Scripts.CardView.PlayerRole.TryParse(roleString, out Scripts.CardView.PlayerRole parsedRole);
+            PlayerRole.TryParse(roleString, out PlayerRole parsedRole);
             return parsedRole;
         }
     }

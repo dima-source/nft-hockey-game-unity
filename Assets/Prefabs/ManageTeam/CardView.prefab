@@ -524,7 +524,7 @@ GameObject:
   - component: {fileID: 2559620402097724285}
   - component: {fileID: 6856267219695292392}
   - component: {fileID: 6689121614074858302}
-  - component: {fileID: 1409490373169615720}
+  - component: {fileID: 4644964493352948556}
   m_Layer: 0
   m_Name: NumberText
   m_TagString: Untagged
@@ -649,7 +649,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &1409490373169615720
+--- !u!114 &4644964493352948556
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -908,7 +908,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 34
+  m_text: 32
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f59e0cc64ede8c743bbcf3e6e4d29979, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: bb7c6053a2fb3d046a46501e4d958dc7, type: 2}
@@ -1460,8 +1460,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5412319755567626762}
   - component: {fileID: 9064898182781437763}
-  - component: {fileID: 7005930777584663129}
   - component: {fileID: 7457955690171166448}
+  - component: {fileID: 4973624728251456209}
   m_Layer: 0
   m_Name: CardView
   m_TagString: Untagged
@@ -1501,7 +1501,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5412319755567626763}
   m_CullTransparentMesh: 1
---- !u!114 &7005930777584663129
+--- !u!225 &7457955690171166448
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5412319755567626763}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &4973624728251456209
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1521,23 +1533,11 @@ MonoBehaviour:
   playerNumber: 99
   playerRole: 0
   rareness: 0
-  statistics: 22000000200000002c0000002c0000002c000000
+  statistics: 20000000220000002c0000002c0000002c000000
   playerImg: {fileID: 0}
   RectTransform: {fileID: 5412319755567626762}
   canvasContent: {fileID: 0}
   uiSlot: {fileID: 0}
---- !u!225 &7457955690171166448
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5412319755567626763}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!1 &6110478972219658089
 GameObject:
   m_ObjectHideFlags: 0
@@ -1705,7 +1705,6 @@ GameObject:
   - component: {fileID: 2954664704936146084}
   - component: {fileID: 5152131645896146026}
   - component: {fileID: 8199455988950765510}
-  - component: {fileID: 2034901108386385405}
   m_Layer: 0
   m_Name: BottomRow
   m_TagString: Untagged
@@ -1784,14 +1783,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!222 &2034901108386385405
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6859559359184743015}
-  m_CullTransparentMesh: 1
 --- !u!1 &6926236567729387141
 GameObject:
   m_ObjectHideFlags: 0
@@ -2158,7 +2149,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 32
+  m_text: 34
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f59e0cc64ede8c743bbcf3e6e4d29979, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 43797004846a502488dbc9644552df8b, type: 2}
@@ -2817,3 +2808,28 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6447392187629989353, guid: 7b4e57d4d2661fd40ac0afd3d3303fd3, type: 3}
   m_PrefabInstance: {fileID: 6788275890629199260}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &526202058703710326 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6447392187629989354, guid: 7b4e57d4d2661fd40ac0afd3d3303fd3, type: 3}
+  m_PrefabInstance: {fileID: 6788275890629199260}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &780404439670179987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526202058703710326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c531c3b868fe49648cd02124493fcac3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: 
+  fontStyle: 0
+  oneLined: 0
+  displayed: 1
+  type: 1
+  borderRadius: 5
+  material: 3
+  alpha: 1
