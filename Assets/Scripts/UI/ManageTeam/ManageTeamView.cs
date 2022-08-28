@@ -43,14 +43,13 @@ namespace UI.ManageTeam
         // private List<List<UISlot>> fives = new(8);
         private Dictionary<LineNumbers, Dictionary<SlotPositionEnum, UISlot>> fives = new();
         [SerializeField] private List<UISlot> goalies = new();
-        private List<UISlot> _fieldPlayersBench = new();
-        private List<UISlot> _goaliesBench = new();
 
         private List<Token> _userNFTs;
         
         [SerializeField] public Transform canvasContent;
         [SerializeField] public Bench fieldPlayersBenchContent;
         [SerializeField] public Bench goaliesBenchContent;
+        [SerializeField] public Bench specialPlayersBenchContent;
 
         [SerializeField] private TMP_Dropdown tactictsDropdown;
         [SerializeField] private Text iceTimePriority;
@@ -202,33 +201,44 @@ namespace UI.ManageTeam
         {
             List<Token> fieldPlayersBench = _userNFTs.Where(x => x.player_type == "FieldPlayer").ToList();
             List<Token> goaliesBench = _userNFTs.Where(x => x.player_type == "Goalie").ToList();
-            // fieldPlayersBenchContent.S;
-
             fieldPlayersBenchContent.Cards = fieldPlayersBench;
             goaliesBenchContent.Cards = goaliesBench;
+        }
+        
+        // updates benches
+        public void AddFieldPlayerToTeam(UIPlayer player)
+        {
+            goaliesBenchContent.Cards.Add(player.CardData);
+            // TODO: add to special bench
+        }
 
-
-            // foreach (Token nft in fieldPlayersBench)
-            // {
-            //     UIPlayer uiPlayer = Instantiate(Game.AssetRoot.manageTeamAsset.fieldPlayer);
-            //     
-            //     uiPlayer.CardData = nft;
-            //     uiPlayer.SetData(nft);
-            //     uiPlayer.canvasContent = canvasContent;
-            //     // CreateNewBenchSlotWithPlayer(fieldPlayersBenchContent, uiPlayer);
-            //     fieldPlayersBenchContent.AddPlayer(uiPlayer);
-            // }
-            //
-            // goaliesBenchContent.gameObject.SetActive(true);
-            // foreach (Token nft in goaliesBench)
-            // {
-            //     UIPlayer uiPlayer = Instantiate(Game.AssetRoot.manageTeamAsset.fieldPlayer);
-            //     uiPlayer.CardData = nft;
-            //     uiPlayer.SetData(nft);
-            //     uiPlayer.canvasContent = canvasContent;
-            //     goaliesBenchContent.AddPlayer(uiPlayer);
-            // }
-            // goaliesBenchContent.gameObject.SetActive(false);
+        // updates benches
+        public void RemoveFieldPlayerFromTeam(UIPlayer player)
+        {
+            try
+            {
+                goaliesBenchContent.RemoveSlotWithinPlayer(player);
+            }
+            catch (ApplicationException e)
+            {
+                Debug.Log("Field player wasn't in goalies bench");
+                Debug.Log(e.Message);
+            }
+            // TODO: remove from special bench
+            
+            // removing player from goalie slot if it is in it
+            foreach (var goalieSlot in goalies)
+            {
+                if (!goalieSlot.uiPlayer)
+                    continue;
+                if (goalieSlot.uiPlayer.CardData.tokenId == player.CardData.tokenId)
+                {
+                    // goalieSlot.uiPlayer.gameObject.SetActive(true);
+                    Destroy(goalieSlot.uiPlayer.gameObject);
+                    goalieSlot.uiPlayer = null;
+                    break;
+                }
+            }
         }
 
         public void ChangeIceTimePriority()

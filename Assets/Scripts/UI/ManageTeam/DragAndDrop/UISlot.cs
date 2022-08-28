@@ -42,6 +42,7 @@ namespace UI.ManageTeam.DragAndDrop
             if (manageTeamView.fieldPlayersBenchContent.Slots.Contains(uiPlayerDropped.uiSlot))
             {
                 manageTeamView.fieldPlayersBenchContent.RemoveSlotWithinPlayer(uiPlayerDropped);
+                manageTeamView.AddFieldPlayerToTeam(uiPlayerDropped);
             }
             
             // destroying slot if it's card moved from bench to goalies
@@ -105,7 +106,7 @@ namespace UI.ManageTeam.DragAndDrop
             }
             
             // moving card back if Goalie is trying to be moved in FieldPlayer slot
-            if (slotPosition is not SlotPositionEnum.MainGoalkeeper or SlotPositionEnum.SubstituteGoalkeeper
+            if ((slotPosition != SlotPositionEnum.MainGoalkeeper && slotPosition != SlotPositionEnum.SubstituteGoalkeeper)
                 && uiPlayerDropped.position == CardView.Position.G)
             {
                 EndDrop(uiPlayerDropped);
@@ -119,6 +120,7 @@ namespace UI.ManageTeam.DragAndDrop
             {
                 uiPlayerDropped.uiSlot.uiPlayer = null;
                 manageTeamView.fieldPlayersBenchContent.AddPlayer(uiPlayerDropped);
+                manageTeamView.RemoveFieldPlayerFromTeam(uiPlayerDropped);
                 return;
             }
 
@@ -154,7 +156,9 @@ namespace UI.ManageTeam.DragAndDrop
             if (uiPlayer && uiPlayerDropped.uiSlot.transform.parent ==
                 manageTeamView.fieldPlayersBenchContent.transform)
             {
+                manageTeamView.RemoveFieldPlayerFromTeam(uiPlayer);
                 manageTeamView.fieldPlayersBenchContent.ReplacePlayer(uiPlayerDropped, uiPlayer);
+                manageTeamView.AddFieldPlayerToTeam(uiPlayerDropped);
                 ProcessSwap(uiPlayerDropped);
                 return;
             }
