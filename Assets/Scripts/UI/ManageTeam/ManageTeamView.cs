@@ -360,18 +360,19 @@ namespace UI.ManageTeam
             
             foreach (var goalieSlot in goalies)
             {
-                if (!goalieSlot.uiPlayer && goalieSlot.slotPosition != SlotPositionEnum.GoalieSubstitution1 
-                                         && goalieSlot.slotPosition != SlotPositionEnum.GoalieSubstitution2)
+                if (!goalieSlot.uiPlayer)
                 {
                     Debug.LogError($"{goalieSlot.slotPosition.ToString()} not set");
                     return;
                 }
-                if (goalieSlot.slotPosition != SlotPositionEnum.GoalieSubstitution1 
-                    && goalieSlot.slotPosition != SlotPositionEnum.GoalieSubstitution2)
+                if (goalieSlot.slotPosition == SlotPositionEnum.MainGoalkeeper 
+                    || goalieSlot.slotPosition == SlotPositionEnum.SubstituteGoalkeeper)
                     teamIds.goalies.Add(goalieSlot.slotPosition.ToString(), goalieSlot.uiPlayer.CardData.tokenId);
+                else if (goalieSlot.slotPosition == SlotPositionEnum.GoalieSubstitution1 
+                    || goalieSlot.slotPosition == SlotPositionEnum.GoalieSubstitution2)
+                    teamIds.goalie_substitutions.Add(goalieSlot.slotPosition.ToString(), goalieSlot.uiPlayer.CardData.tokenId);
+                
             }
-            teamIds.goalie_substitutions.Add(SlotPositionEnum.GoalieSubstitution1.ToString(), fieldPlayers[0]);
-            teamIds.goalie_substitutions.Add(SlotPositionEnum.GoalieSubstitution2.ToString(), fieldPlayers[1]);
             Debug.Log("Calculated");
             Near.MarketplaceContract.ContractMethods.Actions.ManageTeam(teamIds);
             Debug.Log("saved");
