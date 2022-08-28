@@ -49,14 +49,33 @@ namespace UI.ManageTeam
         [SerializeField] public Transform canvasContent;
         [SerializeField] public Bench fieldPlayersBenchContent;
         [SerializeField] public Bench goaliesBenchContent;
-        [SerializeField] public Bench specialPlayersBenchContent;
+        [SerializeField] public Bench powerPlayersBenchContent;
+        [SerializeField] public Bench penaltyKillBenchContent;
 
         [SerializeField] private TMP_Dropdown tactictsDropdown;
         [SerializeField] private Text iceTimePriority;
         [SerializeField] private Slider iceTimePrioritySlider;
 
         [SerializeField] public Transform teamView;
-        [SerializeField] private Transform goaliesView;
+
+        public Bench CurrentBench
+        {
+            get
+            {
+                var benches = new List<Bench> {fieldPlayersBenchContent, goaliesBenchContent, 
+                    powerPlayersBenchContent, penaltyKillBenchContent};
+                foreach (var bench in benches)
+                {
+                    if (bench.gameObject.activeSelf)
+                    {
+                        return bench;
+                    }
+                }
+                
+                throw new ApplicationException("No active bench");
+            }
+            set {}
+        }
 
         private Team _team;
         private LineNumbers _currentLineNumber;
@@ -210,6 +229,8 @@ namespace UI.ManageTeam
         {
             goaliesBenchContent.Cards.Add(player.CardData);
             // TODO: add to special bench
+            powerPlayersBenchContent.Cards.Add(player.CardData);
+            penaltyKillBenchContent.Cards.Add(player.CardData);
         }
 
         // updates benches
@@ -224,7 +245,6 @@ namespace UI.ManageTeam
                 Debug.Log("Field player wasn't in goalies bench");
                 Debug.Log(e.Message);
             }
-            // TODO: remove from special bench
             
             // removing player from goalie slot if it is in it
             foreach (var goalieSlot in goalies)
@@ -237,6 +257,60 @@ namespace UI.ManageTeam
                     Destroy(goalieSlot.uiPlayer.gameObject);
                     goalieSlot.uiPlayer = null;
                     break;
+                }
+            }
+            
+            try
+            {
+                powerPlayersBenchContent.RemoveSlotWithinPlayer(player);
+            }
+            catch (ApplicationException e)
+            {
+                Debug.Log("Field player wasn't in goalies bench");
+                Debug.Log(e.Message);
+            }
+            
+            // removing player from PowerPlay slot if it is in it
+            var keys = new List<LineNumbers>{LineNumbers.PowerPlay1, LineNumbers.PowerPlay2};
+            foreach (var key in keys)
+            {
+                foreach (var slot in fives[key].Values.ToList())
+                {
+                    if (!slot.uiPlayer)
+                        continue;
+                    if (slot.uiPlayer.CardData.tokenId == player.CardData.tokenId)
+                    {
+                        Destroy(slot.uiPlayer.gameObject);
+                        slot.uiPlayer = null;
+                        break;
+                    }
+                }
+            }
+            
+            try
+            {
+                penaltyKillBenchContent.RemoveSlotWithinPlayer(player);
+            }
+            catch (ApplicationException e)
+            {
+                Debug.Log("Field player wasn't in goalies bench");
+                Debug.Log(e.Message);
+            }
+            
+            // removing player from PenaltyKill slot if it is in it
+            keys = new List<LineNumbers>{LineNumbers.PenaltyKill1, LineNumbers.PenaltyKill2};
+            foreach (var key in keys)
+            {
+                foreach (var slot in fives[key].Values.ToList())
+                {
+                    if (!slot.uiPlayer)
+                        continue;
+                    if (slot.uiPlayer.CardData.tokenId == player.CardData.tokenId)
+                    {
+                        Destroy(slot.uiPlayer.gameObject);
+                        slot.uiPlayer = null;
+                        break;
+                    }
                 }
             }
         }

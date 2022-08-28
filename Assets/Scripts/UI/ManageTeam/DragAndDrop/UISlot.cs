@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Runtime;
 using UI.Scripts;
 using Unity.VisualScripting;
@@ -44,12 +45,21 @@ namespace UI.ManageTeam.DragAndDrop
                 manageTeamView.fieldPlayersBenchContent.RemoveSlotWithinPlayer(uiPlayerDropped);
                 manageTeamView.AddFieldPlayerToTeam(uiPlayerDropped);
             }
-            
-            // destroying slot if it's card moved from bench to goalies
-            if (manageTeamView.goaliesBenchContent.Slots.Contains(uiPlayerDropped.uiSlot))
+            else
             {
-                manageTeamView.goaliesBenchContent.RemoveSlotWithinPlayer(uiPlayerDropped);
+                // destroying bench slot if it's card moved from any bench excepting FieldPlayersBench to team
+                List<Bench> benches = new List<Bench>
+                {manageTeamView.goaliesBenchContent, manageTeamView.powerPlayersBenchContent, 
+                    manageTeamView.penaltyKillBenchContent};
+                foreach (var bench in benches)
+                {
+                    if (bench.Slots.Contains(uiPlayerDropped.uiSlot))
+                    {
+                        bench.RemoveSlotWithinPlayer(uiPlayerDropped);
+                    }
+                }
             }
+
             
             uiPlayer = uiPlayerDropped;
 
@@ -82,14 +92,16 @@ namespace UI.ManageTeam.DragAndDrop
 
         public void OnDrop(PointerEventData eventData)
         {
+            var secondaryBenches = new List<Bench>
+            {
+                manageTeamView.goaliesBenchContent, manageTeamView.penaltyKillBenchContent,
+                manageTeamView.powerPlayersBenchContent
+            };
             UIPlayer uiPlayerDropped = eventData.pointerDrag.GetComponent<UIPlayer>();
             
             // moving card back to bench slot if it is moved to another bench slot
-            if (transform.parent == manageTeamView.fieldPlayersBenchContent.transform && 
-                uiPlayerDropped.uiSlot.transform.parent == manageTeamView.fieldPlayersBenchContent.transform ||
-                transform.parent == manageTeamView.goaliesBenchContent.transform && 
-                uiPlayerDropped.uiSlot.transform.parent == manageTeamView.goaliesBenchContent.transform
-                )
+            if (transform.parent == uiPlayerDropped.uiSlot.transform.parent && 
+                transform.parent == manageTeamView.CurrentBench.transform)
             {
                 EndDrop(uiPlayerDropped);
                 uiPlayerDropped.transform.SetParent(uiPlayerDropped.uiSlot.transform); 
@@ -106,8 +118,10 @@ namespace UI.ManageTeam.DragAndDrop
             }
             
             // moving card back if Goalie is trying to be moved in FieldPlayer slot
-            if ((slotPosition != SlotPositionEnum.MainGoalkeeper && slotPosition != SlotPositionEnum.SubstituteGoalkeeper)
-                && uiPlayerDropped.position == CardView.Position.G)
+            if (slotPosition != SlotPositionEnum.MainGoalkeeper &&
+                slotPosition != SlotPositionEnum.SubstituteGoalkeeper &&
+                slotPosition != SlotPositionEnum.Bench && 
+                uiPlayerDropped.position == CardView.Position.G)
             {
                 EndDrop(uiPlayerDropped);
                 uiPlayerDropped.transform.SetParent(uiPlayerDropped.uiSlot.transform); 
@@ -133,6 +147,24 @@ namespace UI.ManageTeam.DragAndDrop
                 return;
             }
             
+            // moving card from PP to bench
+            if (uiPlayerDropped.uiSlot.transform.parent.parent == manageTeamView.teamView &&
+                transform.parent == manageTeamView.powerPlayersBenchContent.transform)
+            {
+                uiPlayerDropped.uiSlot.uiPlayer = null;
+                manageTeamView.powerPlayersBenchContent.AddPlayer(uiPlayerDropped);
+                return;
+            }
+            
+            // moving card from PK to bench
+            if (uiPlayerDropped.uiSlot.transform.parent.parent == manageTeamView.teamView &&
+                transform.parent == manageTeamView.penaltyKillBenchContent.transform)
+            {
+                uiPlayerDropped.uiSlot.uiPlayer = null;
+                manageTeamView.penaltyKillBenchContent.AddPlayer(uiPlayerDropped);
+                return;
+            }
+            
             // swap cards inside five or goalies
             if ((uiPlayerDropped.uiSlot.transform.parent.parent == transform.parent.parent || 
                  uiPlayerDropped.uiSlot.transform.parent.parent.parent == transform.parent.parent.parent) &&
@@ -142,14 +174,15 @@ namespace UI.ManageTeam.DragAndDrop
                 return;
             }
             
-            // swap from bench to goalies
-            if (uiPlayer &&
-                uiPlayerDropped.uiSlot.transform.parent ==
-                manageTeamView.goaliesBenchContent.transform)
+            // swap from bench to any line excepting main four lines
+            foreach (var bench in secondaryBenches)
             {
-                manageTeamView.goaliesBenchContent.ReplacePlayer(uiPlayerDropped, uiPlayer);
-                ProcessSwap(uiPlayerDropped);
-                return;
+                if (uiPlayer && uiPlayerDropped.uiSlot.transform.parent == bench.transform)
+                {
+                    bench.ReplacePlayer(uiPlayerDropped, uiPlayer);
+                    ProcessSwap(uiPlayerDropped);
+                    return;
+                }
             }
 
             // swap from bench to five
