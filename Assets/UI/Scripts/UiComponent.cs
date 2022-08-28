@@ -11,8 +11,8 @@ namespace UI.Scripts
         protected virtual void OnAwake() { }
         
         protected virtual void OnUpdate() { }
-
-        private void Awake()
+        
+        public void Awake()
         {
             Initialize();
             OnAwake();

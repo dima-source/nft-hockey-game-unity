@@ -1,6 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
 using Near;
-using Near.Models;
 using Near.Models.Game.Bid;
 using NearClientUnity.Utilities;
 using Runtime;
@@ -12,17 +12,19 @@ namespace UI.Main_menu.UIPopups
     public class UIPopupSetBid : UIPopup
     {
         [SerializeField] private InputField bidText;
-
+        [SerializeField] private List<BidButton> buttons;
+        
         [SerializeField] private Transform waitForOpponentView;
         [SerializeField] private Transform setBidView;
 
         [SerializeField] private Text ownBid;
 
         private bool isWaitForOpponent;
+        private string _bid;
         
         public new async void Show()
         {
-            bool isAlreadyInTheList = await mainMenuView.MainMenuController.IsAlreadyInTheList();
+            bool isAlreadyInTheList = await Near.GameContract.ContractMethods.Views.IsAvailable();
             
             if (isAlreadyInTheList)
             {
@@ -38,10 +40,10 @@ namespace UI.Main_menu.UIPopups
             else
             {
                 isWaitForOpponent = false;
-                CheckGame();
+                // CheckGame();
                 
-                waitForOpponentView.gameObject.SetActive(false);
-                setBidView.gameObject.SetActive(true);
+                // waitForOpponentView.gameObject.SetActive(false);
+                // setBidView.gameObject.SetActive(true);
             }
             
             mainMenuView.ShowPopup(transform);
@@ -49,20 +51,17 @@ namespace UI.Main_menu.UIPopups
         
         public void SetBid()
         {
-            SetBid(bidText.text);
-        }
-        
-        public void SetBid(string bid)
-        {
-            mainMenuView.MainMenuController.SetBid(bid);
-            // TODO: redirect URL
-            Application.deepLinkActivated += OnSetBid;
+            if (_bid == "")
+            {
+                return;
+            }
+            
+            mainMenuView.MainMenuController.SetBid(_bid);
+            OnSetBid();
         }
 
-        private void OnSetBid(string url)
+        private void OnSetBid()
         {
-            Application.deepLinkActivated -=OnSetBid;
-            
             Show();
             
             isWaitForOpponent = true;
@@ -103,6 +102,29 @@ namespace UI.Main_menu.UIPopups
             // TODO: redirect URL
             waitForOpponentView.gameObject.SetActive(false);
             setBidView.gameObject.SetActive(true);
+        }
+        
+        public void ChangeActiveButton(BidButton newActiveButton)
+        {
+            foreach (BidButton bidButton in buttons)
+            {
+                bidButton.image.sprite = bidButton.defaultSprite;
+                bidButton.image.color = bidButton.defaultColor;
+            }
+
+            newActiveButton.image.sprite = newActiveButton.activeSprite;
+            newActiveButton.image.color = newActiveButton.activeColor;
+            _bid = newActiveButton.bid;
+        }
+
+        public void CancelBid()
+        {
+            _bid = "";
+            foreach (BidButton bidButton in buttons)
+            {
+                bidButton.image.sprite = bidButton.defaultSprite;
+                bidButton.image.color = bidButton.defaultColor;
+            } 
         }
     }
 }

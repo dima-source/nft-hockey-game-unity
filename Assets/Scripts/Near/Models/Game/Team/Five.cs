@@ -6,9 +6,9 @@ namespace Near.Models.Game.Team
     public class Five
     {
         public int id { get; set; }
-        public List<FieldPlayer> field_players;
-        public string number;
-        public string ice_time_priority;
+        public List<PlayerOnPosition> field_players;
+        public string number { get; set; }
+        public string ice_time_priority { get; set; }
         public int time_field { get; set; }
         public string tactic { get; set; }
     }

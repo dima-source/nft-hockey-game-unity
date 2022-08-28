@@ -130,9 +130,9 @@ TextureImporter:
       name: RightArrow
       rect:
         serializedVersion: 2
-        x: 130
+        x: 128
         y: 896
-        width: 124
+        width: 128
         height: 128
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -174,7 +174,7 @@ TextureImporter:
         serializedVersion: 2
         x: 384
         y: 896
-        width: 126
+        width: 128
         height: 128
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -253,12 +253,12 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Checkmark
+      name: CheckmarkFilled
       rect:
         serializedVersion: 2
-        x: 897
+        x: 896
         y: 896
-        width: 127
+        width: 128
         height: 128
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -274,11 +274,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteSheet_0
+      name: CheckmarkEmpty
       rect:
         serializedVersion: 2
         x: 0
-        y: 767
+        y: 768
         width: 128
         height: 128
       alignment: 0
@@ -288,19 +288,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 24d2949ddb672ea41bd4c2a1cdd9f069
-      internalID: -1744283170
+      spriteID: 3e4358a559e452b4cadeb3a6cd939b28
+      internalID: 533549522
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteSheet_1
+      name: TopArrow
       rect:
         serializedVersion: 2
         x: 128
         y: 768
-        width: 127
+        width: 128
         height: 128
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -309,8 +309,113 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 55f2c4b5ee7308a44b0253851843b78d
-      internalID: -298032038
+      spriteID: 21d7148b73d50b8429f6bb5eb2a26995
+      internalID: -365798268
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DownArrow
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 768
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 22ed5001f4258264aa19b97686c8fa8b
+      internalID: -474416265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Search
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 768
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e11cc182276c89a4e97bdb0b9fa7870c
+      internalID: 2122657099
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Group2x2
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 768
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6edbaea9ed60aad4bb910e171d8992fa
+      internalID: -1051518242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Group3x3
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 768
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e8f19d88cced12d4094968e14b6a7cff
+      internalID: -791831026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lines
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 768
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a89ea1e72652a484381a4a97c6a4c914
+      internalID: -113163541
       vertices: []
       indices: 
       edges: []
@@ -327,15 +432,20 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       NearLogo: -1979032996
-      Checkmark: 229440774
+      Group3x3: -791831026
       Leaf: -1858093558
+      CheckmarkFilled: 229440774
+      DownArrow: -474416265
       Hyperbola: 1488836547
+      TopArrow: -365798268
       Circle: 32132781
-      SpriteSheet_0: -1744283170
-      SpriteSheet_1: -298032038
+      Group2x2: -1051518242
       RightArrow: -76590350
+      Lines: -113163541
+      CheckmarkEmpty: 533549522
       LeftArrow: 624954578
       Square: -557811779
+      Search: 2122657099
   spritePackingTag: 
   pSDRemoveMatte: 0
   userData: 

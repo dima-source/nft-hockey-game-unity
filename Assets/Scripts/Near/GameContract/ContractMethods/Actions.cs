@@ -46,7 +46,7 @@ namespace Near.GameContract.ContractMethods
             await gameContract.Change("make_unavailable", args);
         }
 
-        public static async Task<List<Event>> GenerateEvent(int numberOfRenderedEvents, int gameId)
+        public static async Task<List<Event>> GenerateEvent( int gameId)
         {
             ContractNear gameContract = await NearPersistentManager.Instance.GetGameContract();
                 

@@ -21,6 +21,8 @@ namespace Near.GameContract.ContractMethods
 {
     public static class Views
     {
+        public const string Url = "https://api.thegraph.com/subgraphs/name/nft-hockey/game";
+        
         /// <returns>If user is not in the game returns -1</returns>
         public static async Task<int> GetGameId()
         {
@@ -110,7 +112,6 @@ namespace Near.GameContract.ContractMethods
             
             return result; 
         }
-        public const string Url = "https://api.thegraph.com/subgraphs/name/nft-hockey/marketplace";
         public static async Task<string> GetJSONQuery(string json)
         {
             json = "{\"query\": \"{" + json.Replace("\"", "\\\"") + "}\"}";
@@ -127,20 +128,47 @@ namespace Near.GameContract.ContractMethods
                 return await response.Content.ReadAsStringAsync(); 
             }
         }
-        public static async Task<List<User>> GetUser(UserFilter filter)
+
+        public static async Task<bool> IsAvailable()
         {
-            IQuery<User> query = new Query<User>("GetUsers")
+            try
+            {
+                User user = await GetUser();
+                return user.is_available;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+        
+        public static async Task<User> GetUser()
+        {
+            string accountId = NearPersistentManager.Instance.GetAccountId();
+            UserFilter filter = new UserFilter()
+            {
+                id = accountId
+            };
+
+            List<User> users = await GetUsers(filter);
+
+            if (users.Count != 1)
+            {
+                throw new Exception($"User id {accountId} not found"); 
+            }
+
+            return users.First();
+        }
+        
+        public static async Task<List<User>> GetUsers(UserFilter filter)
+        {
+            IQuery<User> query = new Query<User>("userts")
                 .AddArguments(new { where = filter })
-                .AddField(p=>p.team,
-                    sq=>sq
-                        .AddField(p=>p.id)
-                        .AddField(p=>p.active_five)
-                        .AddField(p=>p.active_goalie)
-                        .AddField(p=>p.score))
                 .AddField(p=>p.games,
                     sq => sq
-                        .AddField(p => p.id))
-                .AddField(p => p.id);
+                        .AddField(p => p.ID))
+                .AddField(p => p.id)
+                .AddField(p => p.is_available);
 
             string responseJson = await GetJSONQuery(query.Build());
             

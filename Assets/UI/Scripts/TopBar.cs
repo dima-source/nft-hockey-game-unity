@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace UI.Scripts
 {
@@ -9,22 +12,24 @@ namespace UI.Scripts
 
         private class Entry
         {
-            public UiButton button;
-            private readonly TextInformation.BackgroundMaterial _defaultMaterial;
+            public readonly Button button;
+            private readonly Material _defaultMaterial;
 
-            public Entry(UiButton button)
+            public Entry(Button button)
             {
                 this.button = button;
-                _defaultMaterial = button.material;
+                _defaultMaterial = button.GetComponent<Image>().material;
             }
 
             public void SetDefault()
             {
-                button.material = _defaultMaterial;
+                button.GetComponent<Image>().material = _defaultMaterial;
             }
         }
 
         private Dictionary<string, Entry> _buttons;
+        
+        public string NowPage { get; private set; }
 
         // Default selected
         private string _selected = "BuyPacks";
@@ -51,29 +56,35 @@ namespace UI.Scripts
         protected override void Initialize()
         {
             _buttons = new();
-            _buttons["GoBack"] = new Entry(Utils.FindChild<UiButton>(transform, "GoBack"));
-            _buttons["BuyPacks"] = new Entry(Utils.FindChild<UiButton>(transform, "BuyPacks"));
-            _buttons["BuyCards"] = new Entry(Utils.FindChild<UiButton>(transform, "BuyCards"));
-            _buttons["SellCards"] = new Entry(Utils.FindChild<UiButton>(transform, "SellCards"));
-            _buttons["OnSale"] = new Entry(Utils.FindChild<UiButton>(transform, "OnSale"));
-            _buttons["Draft"] = new Entry(Utils.FindChild<UiButton>(transform, "Draft"));
-            _buttons["Objects"] = new Entry(Utils.FindChild<UiButton>(transform, "Objects"));
+            _buttons["GoBack"] = new Entry(Utils.FindChild<Button>(transform, "GoBack"));
+            _buttons["BuyPacks"] = new Entry(Utils.FindChild<Button>(transform, "BuyPacks"));
+            _buttons["BuyCards"] = new Entry(Utils.FindChild<Button>(transform, "BuyCards"));
+            _buttons["SellCards"] = new Entry(Utils.FindChild<Button>(transform, "SellCards"));
+            _buttons["OnSale"] = new Entry(Utils.FindChild<Button>(transform, "OnSale"));
+            _buttons["Draft"] = new Entry(Utils.FindChild<Button>(transform, "Draft"));
+            _buttons["Objects"] = new Entry(Utils.FindChild<Button>(transform, "Objects"));
+
+            NowPage = "BuyPacks";
+            SetDefaultBackButton();
         }
 
-        public void Bind(string buttonId, Action action)
+        public void Bind(string buttonId, UnityAction action)
         {
             if (!_buttons.ContainsKey(buttonId))
             {
                 throw new ApplicationException($"Unknown key '{buttonId}'");
             }
-            _buttons[buttonId].button.onClick = () =>
+            _buttons[buttonId].button.onClick.AddListener(() =>
             {
+                AudioController.LoadClip(Configurations.DefaultButtonSoundPath);
+                AudioController.source.Play();
                 SetSelected(buttonId);
+                NowPage = buttonId;
                 action();
-            };
+            });
         }
         
-        public void BindAll(Action[] actions)
+        public void BindAll(UnityAction[] actions)
         {
             if (actions.Length != _buttons.Count)
             {
@@ -101,7 +112,31 @@ namespace UI.Scripts
             }
             
             _selected = buttonId;
-            _buttons[buttonId].button.material = TextInformation.BackgroundMaterial.PrimaryBackground;
+            string path = Configurations.MaterialsFolderPath + "PrimaryBackground";
+            _buttons[buttonId].button.GetComponent<Image>().material = Utils.LoadResource<Material>(path);
+        }
+        
+        public void SetBackButtonAction(UnityAction action)
+        {
+            _buttons["GoBack"].button.onClick.RemoveAllListeners();
+            _buttons["GoBack"].button.onClick.AddListener(() =>
+            {
+                AudioController.LoadClip(Configurations.DefaultButtonSoundPath);
+                AudioController.source.Play();
+                action?.Invoke();
+                SetDefaultBackButton();
+            });
+        }
+
+        private void SetDefaultBackButton()
+        {
+            _buttons["GoBack"].button.onClick.RemoveAllListeners();
+            _buttons["GoBack"].button.onClick.AddListener(() =>
+            {
+                AudioController.LoadClip(Configurations.DefaultButtonSoundPath);
+                AudioController.source.Play();
+                // TODO: Add default action here
+            });
         }
 
     }

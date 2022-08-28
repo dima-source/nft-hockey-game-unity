@@ -1,3 +1,5 @@
+using System;
+using JetBrains.Annotations;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine;
@@ -5,34 +7,47 @@ using UnityEngine.EventSystems;
 
 namespace UI.Scripts
 {
+    [RequireComponent(typeof(Image))]
     public class Toggle : UiComponent, IPointerClickHandler
     {
 
         public string text = "";
-        
-        [SerializeField]
-        private bool _isOn = true;
 
-        public bool isOn => _isOn;
+        [Range(0, 10)]
+        [SerializeField]
+        private int spacing;
         
-        private TextInformation _text;
-        private Image _checkmark;
+        public bool isOn = true;
         
+        [CanBeNull] 
+        public Action onChange { get; set; }
+
+        private TextMeshProUGUI _text;
+
         protected override void Initialize()
         {
-            _text = Utils.FindChild<TextInformation>(transform, "Label");
-            _checkmark = Utils.FindChild<Image>(transform, "Checkmark");
+            _text = Utils.FindChild<TextMeshProUGUI>(transform, "Label");
         }
 
         protected override void OnUpdate()
         {
-            _text.text = text;
-            _checkmark.gameObject.SetActive(_isOn);
+            string space = new String(' ', spacing);
+            if (isOn)
+            {
+                _text.text = "<sprite name=CheckmarkFilled>" + space + text;        
+            }
+            else
+            {
+                _text.text = "<sprite name=CheckmarkEmpty>" + space + text;  
+            }
         }
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            _isOn = !_isOn;
+            AudioController.LoadClip(Configurations.DefaultButtonSoundPath);
+            AudioController.source.Play();
+            onChange?.Invoke();
+            isOn = !isOn;
         }
     }
 }

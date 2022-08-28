@@ -93,13 +93,11 @@ namespace Near.MarketplaceContract.ContractMethods
                         .AddField(p => p.id))
                 .AddField(p=>p.user1,
                     sq => sq
-                        .AddField(p => p.id))
+                        .AddField(p => p.ID))
                 .AddField(p=>p.user2,
                     sq => sq
-                        .AddField(p => p.id));
+                        .AddField(p => p.ID));
               
-                
-
             string responseJson = await GetJSONQuery(query.Build());
             
             Debug.Log(responseJson);
