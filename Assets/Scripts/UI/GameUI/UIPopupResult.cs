@@ -29,7 +29,7 @@ namespace UI.GameUI
 
         public void LoadMainMenu()
         {
-            Game.LoadMainMenu();
+           // Game.LoadMainMenu();
         }
     }
 }

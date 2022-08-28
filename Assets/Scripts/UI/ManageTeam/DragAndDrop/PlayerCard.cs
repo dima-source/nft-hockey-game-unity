@@ -17,12 +17,7 @@ namespace UI.ManageTeam.DragAndDrop
         // [SerializeField] private Text strength;
         // [SerializeField] private Text iq;
         // [SerializeField] private Text morale;
-
-        protected override void Initialize()
-        {
-            base.Initialize();
-        }
-
+        
         public override void SetData(Token token)
         {
             CardData = token;

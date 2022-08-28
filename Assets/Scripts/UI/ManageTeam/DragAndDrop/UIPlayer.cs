@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace UI.ManageTeam.DragAndDrop
 {
-    public abstract class UIPlayer : CardView, IDragHandler, IBeginDragHandler, IEndDragHandler
+    public abstract class UIPlayer : UI.Scripts.CardView, IDragHandler, IBeginDragHandler, IEndDragHandler
     {
         protected void setPlayerName(string name)
         {
@@ -66,13 +66,13 @@ namespace UI.ManageTeam.DragAndDrop
 
         public static Scripts.CardView.Position StringToPosition(string position)
         {
-            Scripts.CardView.Position.TryParse(position, out Scripts.CardView.Position parsedPosition);
+            Enum.TryParse(position, out Scripts.CardView.Position parsedPosition);
             return parsedPosition;
         }
 
         public static Scripts.CardView.PlayerRole StringToRole(string roleString)
         {
-            Scripts.CardView.PlayerRole.TryParse(roleString, out Scripts.CardView.PlayerRole parsedRole);
+            Enum.TryParse(roleString, out Scripts.CardView.PlayerRole parsedRole);
             return parsedRole;
         }
     }
