@@ -116,5 +116,15 @@ namespace UI.Main_menu.UIPopups
             newActiveButton.image.color = newActiveButton.activeColor;
             _bid = newActiveButton.bid;
         }
+
+        public void CancelBid()
+        {
+            _bid = "";
+            foreach (BidButton bidButton in buttons)
+            {
+                bidButton.image.sprite = bidButton.defaultSprite;
+                bidButton.image.color = bidButton.defaultColor;
+            } 
+        }
     }
 }

@@ -9,14 +9,11 @@ namespace UI.GameUI
     {
         public List<Event> Events;
 
-        public int NumberOfGeneratedEvents;
-
         private bool isGenerated = false;
 
         public GameController()
         {
             Events = new List<Event>();
-            NumberOfGeneratedEvents = 0;
         }
         
         public async Task<AvailableGame> GetUserGame()
@@ -36,11 +33,10 @@ namespace UI.GameUI
             try
             {
                 List<Event> events = await Near.GameContract.ContractMethods
-                    .Actions.GenerateEvent(NumberOfGeneratedEvents, gameId);
+                    .Actions.GenerateEvent(gameId);
 
                 if (events != null)
                 {
-                    NumberOfGeneratedEvents += events.Count;
                     Events.AddRange(events);
 
                     isGenerated = false;
