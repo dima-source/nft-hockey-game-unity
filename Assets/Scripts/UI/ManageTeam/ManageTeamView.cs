@@ -40,7 +40,6 @@ namespace UI.ManageTeam
         public Transform forwardsCanvasContent;
         public Transform defendersCanvasContent;
         
-        // private List<List<UISlot>> fives = new(8);
         private Dictionary<LineNumbers, Dictionary<SlotPositionEnum, UISlot>> fives = new();
         [SerializeField] private List<UISlot> goalies = new();
 
@@ -55,6 +54,9 @@ namespace UI.ManageTeam
         [SerializeField] private TMP_Dropdown tactictsDropdown;
         [SerializeField] private Text iceTimePriority;
         [SerializeField] private Slider iceTimePrioritySlider;
+
+        private Dictionary<LineNumbers, string> _fivesTactics = new();
+        private Dictionary<LineNumbers, string> _fivesIceTimePriority = new();
 
         [SerializeField] public Transform teamView;
 
@@ -153,6 +155,9 @@ namespace UI.ManageTeam
         {
             Dictionary<SlotPositionEnum, UISlot> five = fives[_currentLineNumber];
             five.Values.ToList().ForEach(slot => slot.gameObject.SetActive(false));
+            iceTimePrioritySlider.SetValueWithoutNotify(0f);
+            iceTimePriority.text = "Select ice time priority";
+            tactictsDropdown.SetValueWithoutNotify(0);
         }
 
         private LineNumbers StringToLineNumber(string line)
@@ -184,30 +189,37 @@ namespace UI.ManageTeam
 
             _currentLineNumber = parsedLine;
             Debug.Log(number);
-        }
 
-        // public UISlot CreateNewBenchSlotWithPlayer(Transform container, UIPlayer uiPlayer)
-        // {
-        //         UISlot benchSlot = CreateNewEmptySlot(container, SlotPositionEnum.Bench);
-        //         benchSlot.GetComponent<Image>().color = new Color(255f, 255f, 255f, 0f);
-        //         
-        //         uiPlayer.transform.SetParent(benchSlot.transform);
-        //         uiPlayer.transform.localPosition = Vector3.zero;
-        //         uiPlayer.RectTransform.sizeDelta = new Vector2(150, 225);
-        //         uiPlayer.RectTransform.localScale = benchSlot.RectTransform.localScale;
-        //
-        //         benchSlot.uiPlayer = uiPlayer;
-        //         uiPlayer.uiSlot = benchSlot;
-        //         if (container == fieldPlayersBenchContent)
-        //         {
-        //             _fieldPlayersBench.Add(benchSlot);
-        //         } 
-        //         else if (container == goaliesBenchContent)
-        //         {
-        //             _goaliesBench.Add(benchSlot);
-        //         }
-        //         return benchSlot;
-        // }
+            bool alreadySet = _fivesTactics.TryGetValue(_currentLineNumber, out string tactic);
+            if (alreadySet)
+            {
+                int value = tactic switch
+                {
+                    "Safe" => 1,
+                    "Defensive" => 2,
+                    "Neutral" => 3,
+                    "Offensive" => 4,
+                    "Aggressive" => 5
+                };
+                tactictsDropdown.SetValueWithoutNotify(value);
+            }
+
+            alreadySet = _fivesIceTimePriority.TryGetValue(_currentLineNumber, out string priority);
+            if (alreadySet)
+            {
+                
+                int value = priority switch
+                {
+                    "SuperLowPriority" => 1,
+                    "LowPriority" => 2,
+                    "Normal" => 3,
+                    "HighPriority" => 4,
+                    "SuperHighPriority" => 5
+                };
+                iceTimePrioritySlider.SetValueWithoutNotify(value );
+                iceTimePriority.text = PascalToCapitalized(priority);
+            }
+        }
 
         public UISlot CreateNewEmptySlot(Transform container, SlotPositionEnum position)
         {
@@ -223,12 +235,17 @@ namespace UI.ManageTeam
             fieldPlayersBenchContent.Cards = fieldPlayersBench;
             goaliesBenchContent.Cards = goaliesBench;
         }
+
+        private string PascalToCapitalized(string value)
+        {
+            var result = value.SelectMany((c, i) => i != 0 && char.IsUpper(c) && !char.IsUpper(value[i - 1]) ? new char[] { ' ', c } : new char[] { c });
+            return new String(result.ToArray());
+        }
         
         // updates benches
         public void AddFieldPlayerToTeam(UIPlayer player)
         {
             goaliesBenchContent.Cards.Add(player.CardData);
-            // TODO: add to special bench
             powerPlayersBenchContent.Cards.Add(player.CardData);
             penaltyKillBenchContent.Cards.Add(player.CardData);
         }
@@ -315,14 +332,19 @@ namespace UI.ManageTeam
             }
         }
 
-        public void ChangeIceTimePriority()
+        public void OnChangeIceTimePriority()
         {
-            iceTimePriority.text = Utils.Utils.GetIceTimePriority((int)iceTimePrioritySlider.value);
+            string currentPriority = Utils.Utils.GetIceTimePriority((int) iceTimePrioritySlider.value);
+            iceTimePriority.text = PascalToCapitalized(currentPriority);
+            bool added = _fivesIceTimePriority.TryAdd(_currentLineNumber, currentPriority);
+            if (!added)
+            {
+                _fivesIceTimePriority[_currentLineNumber] = currentPriority;
+            }
         }
 
-        public void SaveTeam()
+        public void OnChangeTactics()
         {
-            string iceTimePriorityValue = Utils.Utils.GetIceTimePriority((int)iceTimePrioritySlider.value);
             string tactics;
             try
             {
@@ -330,10 +352,20 @@ namespace UI.ManageTeam
             }
             catch (SwitchExpressionException)
             {
-                Debug.LogError("Tactics not chosen");
+                Debug.Log("Tactics not chosen");
+                _fivesTactics.Remove(_currentLineNumber);
                 return;
             }
-            Debug.Log(tactics);
+            
+            bool added = _fivesTactics.TryAdd(_currentLineNumber, tactics);
+            if (!added)
+            {
+                _fivesTactics[_currentLineNumber] = tactics;
+            }
+        }
+
+        public void SaveTeam()
+        {
             List<string> fieldPlayers = new();
             TeamIds teamIds = new();
             foreach (var lineNumber in fives.Keys)
@@ -352,9 +384,19 @@ namespace UI.ManageTeam
                         playersOnPositions[position].uiPlayer.CardData.tokenId);
                     fieldPlayers.Add(playersOnPositions[position].uiPlayer.CardData.tokenId);
                 }
-                fiveIds.ice_time_priority = iceTimePriorityValue;
+
+                bool added;
+                added = _fivesTactics.TryGetValue(lineNumber, out string tactics);
+                if (!added)
+                    throw new ApplicationException($"Tactics not set for line \"{lineNumber.ToString()}\"");
                 fiveIds.tactic = tactics;
                 fiveIds.number = lineNumber.ToString();
+                
+                added = _fivesIceTimePriority.TryGetValue(lineNumber, out string iceTimePriorityValue);
+                if (!added)
+                    throw new ApplicationException($"Ice time priority not set for line \"{lineNumber.ToString()}\"");
+                fiveIds.ice_time_priority = iceTimePriorityValue;
+                
                 teamIds.fives.Add(lineNumber.ToString(), fiveIds);
             }
             
