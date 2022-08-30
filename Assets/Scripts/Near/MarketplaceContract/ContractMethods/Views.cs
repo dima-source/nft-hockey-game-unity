@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using GraphQL.Query.Builder;
 using Near.MarketplaceContract.Parsers;
 using Near.Models.Game;
+using Near.Models.Game.Team;
+using Near.Models.Game.TeamIds;
 using Near.Models.Tokens;
 using Near.Models.Tokens.Filters;
 using Near.Models.Tokens.Players;
@@ -22,7 +24,7 @@ namespace Near.MarketplaceContract.ContractMethods
         
         public static async Task<string> GetJSONQuery(string json)
         {
-            json = "{\"query\": \"{" + json.Replace("\"", "\\\"") + "}\"}";
+            json = "{\"query\": \"{" + json.Replace("\"", "\\\"").Replace("\n", "\\n") + "}\"}";
             
             using (var client = new HttpClient())
             {
@@ -37,7 +39,42 @@ namespace Near.MarketplaceContract.ContractMethods
             }
         }
 
-        // public static async Task<Team> GetTeam();
+        public static async Task<TeamIds> GetTeam(string accountId)
+        {
+            string query = $@"
+               team(id: ""{accountId}"") {{
+                   id
+                   fives {{
+                       id
+                       field_players {{
+                           id
+                               token_id
+                           position
+                       }}
+                       number
+                           ice_time_priority
+                       tactic
+                   }}
+                   goalies {{
+                       id
+                           number
+                       token_id
+                   }}
+                   goalie_substitutions {{
+                       id
+                           number
+                       token_id
+                   }}
+               }}";
+
+            string responseJson = await GetJSONQuery(query);
+            
+            Debug.Log(responseJson);
+            
+            var teamIds = JsonConvert.DeserializeObject<TeamIds>(responseJson, new TeamIdsConverter());
+            
+            return teamIds;
+        }
 
         public static async Task<List<Token>> GetTokens(PlayerFilter filter, Pagination pagination)
         {

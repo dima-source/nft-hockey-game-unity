@@ -79,7 +79,7 @@ namespace UI.ManageTeam
             set {}
         }
 
-        private Team _team;
+        private TeamIds _team;
         private LineNumbers _currentLineNumber;
 
         private void CreateFiveSlots(LineNumbers line)
