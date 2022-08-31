@@ -214,6 +214,19 @@ namespace UI.ManageTeam
             goaliesContent.gameObject.SetActive(false);
         }
 
+        private void InitTopPanels()
+        {
+            if (_team.fives.Count == 0)
+            {
+                return;
+            }
+            foreach (var five in _team.fives.Values)
+            {
+                _fivesTactics.Add(StringToLineNumber(five.number), five.tactic);
+                _fivesIceTimePriority.Add(StringToLineNumber(five.number), five.ice_time_priority);
+            }
+        }
+
         private void Awake()
         {
             _controller = new ManageTeamController();
@@ -233,6 +246,7 @@ namespace UI.ManageTeam
             _team = await _controller.LoadUserTeam();
             InitFives();
             InitGoalies();
+            InitTopPanels();
 
             _currentLineNumber = LineNumbers.First;
             ShowFive(_currentLineNumber.ToString());
