@@ -91,16 +91,11 @@ namespace UI.ManageTeam
             FiveIds data;
             if (_team.fives.Count == 0)
             {
-                data = new();
+                return;
             }
             else
             {
                 _team.fives.TryGetValue(line.ToString(), out data);
-            }
-
-            if (data == null)
-            {
-                return;
             }
 
             string tokenId = data.field_players[position.ToString()];

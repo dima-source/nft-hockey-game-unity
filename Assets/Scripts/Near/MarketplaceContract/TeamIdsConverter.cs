@@ -24,7 +24,7 @@ namespace Near.MarketplaceContract
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var data = JObject.Load(reader);
-            var teamIds = data["data"]?["team"];
+            var teamIds = data["data"]?["team"].ToObject<JObject>();
             
             TeamIds result = new TeamIds();
             
