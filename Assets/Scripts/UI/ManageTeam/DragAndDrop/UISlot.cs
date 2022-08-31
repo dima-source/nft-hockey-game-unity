@@ -17,7 +17,7 @@ namespace UI.ManageTeam.DragAndDrop
         
         public UIPlayer uiPlayer;
 
-        protected void Awake()
+        public void Awake()
         {
             RectTransform = GetComponent<RectTransform>();
             manageTeamView = GetComponentInParent<ManageTeamView>();

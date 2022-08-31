@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
+using System.Xml.Xsl;
 using Near;
 using Near.Models.Game.Team;
 using Near.Models.Game.TeamIds;
@@ -50,6 +51,7 @@ namespace UI.ManageTeam
         [SerializeField] public Bench goaliesBenchContent;
         [SerializeField] public Bench powerPlayersBenchContent;
         [SerializeField] public Bench penaltyKillBenchContent;
+        [SerializeField] public Transform goaliesContent;
 
         [SerializeField] private TMP_Dropdown tactictsDropdown;
         [SerializeField] private Text iceTimePriority;
@@ -82,25 +84,102 @@ namespace UI.ManageTeam
         private TeamIds _team;
         private LineNumbers _currentLineNumber;
 
+        private void InitTeamPlayer(LineNumbers line, SlotPositionEnum position)
+        {
+            var slot = fives[line][position];
+            
+            FiveIds data;
+            if (_team.fives.Count == 0)
+            {
+                data = new();
+            }
+            else
+            {
+                _team.fives.TryGetValue(line.ToString(), out data);
+            }
+
+            if (data == null)
+            {
+                return;
+            }
+
+            string tokenId = data.field_players[position.ToString()];
+            var card = _userNFTs.Find(nft => nft.tokenId == tokenId);
+            UIPlayer player = Instantiate(Game.AssetRoot.manageTeamAsset.fieldPlayer, slot.transform);
+            player.CardData = card;
+            player.SetData(card);
+            player.canvasContent = canvasContent;
+            player.transform.SetParent(slot.transform);
+            player.transform.localPosition = Vector3.zero;
+            player.RectTransform.sizeDelta = slot.RectTransform.sizeDelta;
+            player.RectTransform.localScale = slot.RectTransform.localScale;
+                
+            slot.uiPlayer = player;
+            slot.uiPlayer.uiSlot = slot;
+        }
+
+        private void InitGoalie(UISlot slot)
+        {
+            string goalieToken = null;
+            if (slot.slotPosition == SlotPositionEnum.MainGoalkeeper
+                || slot.slotPosition == SlotPositionEnum.SubstituteGoalkeeper)
+            {
+                _team.goalies.TryGetValue(slot.slotPosition.ToString(), out goalieToken);
+            }
+            else if (slot.slotPosition == SlotPositionEnum.GoalieSubstitution1
+                     || slot.slotPosition == SlotPositionEnum.GoalieSubstitution2)
+            {
+                _team.goalie_substitutions.TryGetValue(slot.slotPosition.ToString(), out goalieToken);
+            }
+
+            if (goalieToken == null)
+            {
+                return;
+            }
+            
+            var card = _userNFTs.Find(nft => nft.tokenId == goalieToken);
+            UIPlayer player = Instantiate(Game.AssetRoot.manageTeamAsset.fieldPlayer, slot.transform);
+            player.CardData = card;
+            player.SetData(card);
+            player.canvasContent = canvasContent;
+            player.transform.SetParent(slot.transform);
+            player.transform.localPosition = Vector3.zero;
+            player.RectTransform.sizeDelta = slot.RectTransform.sizeDelta;
+            player.RectTransform.localScale = slot.RectTransform.localScale;
+                
+            slot.uiPlayer = player;
+            slot.uiPlayer.uiSlot = slot; 
+        }
+
         private void CreateFiveSlots(LineNumbers line)
         {
             var five = new Dictionary<SlotPositionEnum, UISlot>();
+            fives.Add(line, five);
             UISlot slot;
             if (line != LineNumbers.PenaltyKill1 && line != LineNumbers.PenaltyKill2)
             {
                 slot = CreateNewEmptySlot(forwardsCanvasContent, SlotPositionEnum.LeftWing);
                 five.Add(SlotPositionEnum.LeftWing, slot);
+                InitTeamPlayer(line, SlotPositionEnum.LeftWing);
             }
+            
             slot = CreateNewEmptySlot(forwardsCanvasContent, SlotPositionEnum.Center);
             five.Add(SlotPositionEnum.Center, slot);
+            InitTeamPlayer(line, SlotPositionEnum.Center);
+            
             slot = CreateNewEmptySlot(forwardsCanvasContent, SlotPositionEnum.RightWing);
             five.Add(SlotPositionEnum.RightWing, slot);
+            InitTeamPlayer(line, SlotPositionEnum.RightWing);
+            
             slot = CreateNewEmptySlot(defendersCanvasContent, SlotPositionEnum.LeftDefender);
             five.Add(SlotPositionEnum.LeftDefender, slot);
+            InitTeamPlayer(line, SlotPositionEnum.LeftDefender);
+            
             slot = CreateNewEmptySlot(defendersCanvasContent, SlotPositionEnum.RightDefender);
             five.Add(SlotPositionEnum.RightDefender, slot);
+            InitTeamPlayer(line, SlotPositionEnum.RightDefender);
+            
             five.Values.ToList().ForEach(slot => slot.gameObject.SetActive(false));
-            fives.Add(line, five);
         }
 
         private void ClearFives()
@@ -123,18 +202,25 @@ namespace UI.ManageTeam
             CreateFiveSlots(LineNumbers.PowerPlay2);
             CreateFiveSlots(LineNumbers.PenaltyKill1);
             CreateFiveSlots(LineNumbers.PenaltyKill2);
-            
+        }
+
+        private void InitGoalies()
+        {
+            goaliesContent.gameObject.SetActive(true);
+            foreach (UISlot goalieSlot in goalies)
+            {
+                InitGoalie(goalieSlot);
+            }
+            goaliesContent.gameObject.SetActive(false);
         }
 
         private void Awake()
         {
             _controller = new ManageTeamController();
-            InitFives();
         }
 
         private async void Start()
         {
-            _team = await _controller.LoadUserTeam();
             PlayerFilter filter = new()
             {
                 ownerId = NearPersistentManager.Instance.GetAccountId()
@@ -144,8 +230,11 @@ namespace UI.ManageTeam
                 first = 100
             };
             _userNFTs = await _controller.LoadUserNFTs(filter, pagination);
-            _currentLineNumber = LineNumbers.First;
+            _team = await _controller.LoadUserTeam();
+            InitFives();
+            InitGoalies();
 
+            _currentLineNumber = LineNumbers.First;
             ShowFive(_currentLineNumber.ToString());
             InitBenches();
             fieldPlayersBenchContent.gameObject.SetActive(true);
@@ -230,10 +319,72 @@ namespace UI.ManageTeam
         
         private void InitBenches()
         {
-            List<Token> fieldPlayersBench = _userNFTs.Where(x => x.player_type == "FieldPlayer").ToList();
-            List<Token> goaliesBench = _userNFTs.Where(x => x.player_type == "Goalie").ToList();
+            if (_team.fives.Count == 0)
+            {
+                List<Token> fieldPlayers = _userNFTs.Where(x => x.player_type == "FieldPlayer").ToList();
+                List<Token> goalies = _userNFTs.Where(x => x.player_type == "Goalie").ToList();
+                fieldPlayersBenchContent.Cards = fieldPlayers;
+                goaliesBenchContent.Cards = goalies;
+                return;
+            }
+            
+            HashSet<string> fieldPlayersTokensInTeam = new();
+            foreach (var five in _team.fives.Values)
+            {
+                foreach (var tokenId in five.field_players.Values.ToList())
+                {
+                    fieldPlayersTokensInTeam.Add(tokenId);
+                }
+            }
+            
+            List<string> goaliesTokensInTeam = new();
+            foreach (var tokenId in _team.goalies.Values)
+            {
+                goaliesTokensInTeam.Add(tokenId);
+            }
+            foreach (var tokenId in _team.goalie_substitutions.Values)
+            {
+                goaliesTokensInTeam.Add(tokenId);
+            }
+
+            List<string> powerPlayersTokensInTeam = new();
+            foreach (var tokenId in _team.fives[LineNumbers.PowerPlay1.ToString()].field_players.Values.ToList())
+            {
+                powerPlayersTokensInTeam.Add(tokenId);
+            }
+            foreach (var tokenId in _team.fives[LineNumbers.PowerPlay2.ToString()].field_players.Values.ToList())
+            {
+                powerPlayersTokensInTeam.Add(tokenId);
+            }
+            
+            List<string> penaltyKillTokensInTeam = new();
+            foreach (var tokenId in _team.fives[LineNumbers.PenaltyKill1.ToString()].field_players.Values.ToList())
+            {
+                penaltyKillTokensInTeam.Add(tokenId);
+            }
+            foreach (var tokenId in _team.fives[LineNumbers.PenaltyKill2.ToString()].field_players.Values.ToList())
+            {
+                penaltyKillTokensInTeam.Add(tokenId);
+            }
+            
+            
+            List<Token> fieldPlayersBench = _userNFTs.Where(x => x.player_type == "FieldPlayer" &&
+                                                                 !fieldPlayersTokensInTeam.Contains(x.tokenId) ).ToList();
+            List<Token> goaliesBench = _userNFTs.Where(x => x.player_type == "Goalie" && !goaliesTokensInTeam.Contains(x.tokenId)).ToList();
+            goaliesBench.AddRange(_userNFTs.Where(x => fieldPlayersTokensInTeam.Contains(x.tokenId) && 
+                                                       !goaliesTokensInTeam.Contains(x.tokenId)));
+            
+            List<Token> powerPlayersBench = _userNFTs.Where(x => fieldPlayersTokensInTeam.Contains(x.tokenId))
+                .Where(x => !powerPlayersTokensInTeam.Contains(x.tokenId)).ToList();
+            List<Token> penaltyKillBench = _userNFTs.Where(x => fieldPlayersTokensInTeam.Contains(x.tokenId))
+                .Where(x => !penaltyKillTokensInTeam.Contains(x.tokenId)).ToList();
+            // List<Token> penaltyKillBench = fieldPlayersBench.Where(x => !penaltyKillTokensInTeam.Contains(x.tokenId)).ToList();
+            
             fieldPlayersBenchContent.Cards = fieldPlayersBench;
             goaliesBenchContent.Cards = goaliesBench;
+            powerPlayersBenchContent.Cards = powerPlayersBench;
+            penaltyKillBenchContent.Cards = penaltyKillBench;
+            
         }
 
         private string PascalToCapitalized(string value)
