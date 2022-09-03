@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine.UI;
 using TMPro;
 using UI.Scripts;
@@ -176,6 +177,19 @@ namespace UI.ManageTeam.DragAndDrop
                 PlayerRole.Butterfly => "Butterfly",
                 PlayerRole.Hybrid => "Hybrid",
                 _ => throw new ApplicationException("Unsupported role")
+            };
+        }
+
+        public SlotPositionEnum PositionToSlotPosition()
+        {
+            return position switch
+            {
+                Position.LW => SlotPositionEnum.LeftWing,
+                Position.C => SlotPositionEnum.Center,
+                Position.RW => SlotPositionEnum.RightWing,
+                Position.LD => SlotPositionEnum.LeftDefender,
+                Position.RD => SlotPositionEnum.RightDefender,
+                _ => throw new SwitchExpressionException("Cannot map position to SlotPositionEnum")
             };
         }
         

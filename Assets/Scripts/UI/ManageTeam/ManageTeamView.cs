@@ -524,6 +524,98 @@ namespace UI.ManageTeam
             }
         }
 
+        public void UpdateTeamWork()
+        {
+            
+        }
+
+        public void ShowStatsChanges(UIPlayer player, bool switched = false)
+        {
+            var slot = player.uiSlot;
+            if (goalies.Contains(slot))
+                return;
+
+            // if player moved to bench
+            if (slot.slotPosition == SlotPositionEnum.Bench)
+            {
+                List<UIPlayer> sameNationalityPlayers = new();
+                foreach (var uiSlot in fives[_currentLineNumber].Values.ToList().Where(x => x != slot))
+                {
+                    if (!uiSlot.uiPlayer)
+                    {
+                        continue;
+                    }
+                    if (((Player) uiSlot.uiPlayer.CardData).nationality == ((Player) player.CardData).nationality)
+                    {
+                        sameNationalityPlayers.Add(uiSlot.uiPlayer);
+                    }
+                }
+
+                if (sameNationalityPlayers.Count == 1)
+                {
+                    sameNationalityPlayers.First().PlayStatsDown(5);
+                }
+
+                return;
+            }
+            
+            var userPosition = player.PositionToSlotPosition();
+            int percent = 100;
+            
+            // if player on it's position, doing nothing
+
+            // if player in the other side. RHCP :)
+            if (userPosition == SlotPositionEnum.LeftWing && slot.slotPosition == SlotPositionEnum.RightWing ||
+                userPosition == SlotPositionEnum.RightWing && slot.slotPosition == SlotPositionEnum.LeftWing ||
+                userPosition == SlotPositionEnum.RightDefender && slot.slotPosition == SlotPositionEnum.LeftDefender ||
+                userPosition == SlotPositionEnum.LeftDefender && slot.slotPosition == SlotPositionEnum.RightDefender)
+            {
+                percent = 95;
+            }
+            // if not central player is in center
+            else if (userPosition != SlotPositionEnum.Center && slot.slotPosition == SlotPositionEnum.Center)
+            {
+                percent = 75;
+            }
+            // if player is just on another position
+            else if (userPosition != slot.slotPosition)
+            {
+                percent = 80;
+            }
+
+            if (!switched)
+            {
+                bool sameNationalityInFive = false;
+                List<UIPlayer> sameNationalityPlayers = new();
+                foreach (var uiSlot in fives[_currentLineNumber].Values.ToList().Where(x => x != slot))
+                {
+                    if (!uiSlot.uiPlayer)
+                    {
+                        continue;
+                    }
+                    if (((Player) uiSlot.uiPlayer.CardData).nationality == ((Player) player.CardData).nationality)
+                    {
+                        sameNationalityInFive = true;
+                        sameNationalityPlayers.Add(uiSlot.uiPlayer);
+                    }
+                }
+
+                foreach (var uiPlayer in sameNationalityPlayers)
+                {
+                    uiPlayer.PlayStatsUp(5);
+                }
+                if (sameNationalityInFive)
+                    percent += 5;
+            }
+            if (percent > 100)
+            {
+                player.PlayStatsUp(percent - 100);
+            } else if (percent < 100)
+            {
+                player.PlayStatsDown(100 - percent);
+            }
+        }
+
         public void SaveTeam()
         {
             List<string> fieldPlayers = new();

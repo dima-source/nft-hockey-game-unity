@@ -63,7 +63,7 @@ namespace UI.ManageTeam.DragAndDrop
             EndDrop(uiPlayerDropped);
         }
 
-        private void ProcessSwap(UIPlayer uiPlayerDropped)
+        private UIPlayer ProcessSwap(UIPlayer uiPlayerDropped)
         {
             // TODO: change team data
             UIPlayer previousUIPlayer = uiPlayer;
@@ -81,6 +81,7 @@ namespace UI.ManageTeam.DragAndDrop
             EndDrop(uiPlayerDropped);
             uiPlayer = uiPlayerDropped;
             uiPlayer.uiSlot = this;
+            return previousUIPlayer;
         }
 
         public void OnDrop(PointerEventData eventData)
@@ -128,6 +129,7 @@ namespace UI.ManageTeam.DragAndDrop
                 uiPlayerDropped.uiSlot.uiPlayer = null;
                 manageTeamView.fieldPlayersBenchContent.AddPlayer(uiPlayerDropped);
                 manageTeamView.RemoveFieldPlayerFromTeam(uiPlayerDropped);
+                manageTeamView.ShowStatsChanges(uiPlayerDropped);
                 return;
             }
 
@@ -146,6 +148,7 @@ namespace UI.ManageTeam.DragAndDrop
             {
                 uiPlayerDropped.uiSlot.uiPlayer = null;
                 manageTeamView.powerPlayersBenchContent.AddPlayer(uiPlayerDropped);
+                manageTeamView.ShowStatsChanges(uiPlayerDropped);
                 return;
             }
             
@@ -155,6 +158,7 @@ namespace UI.ManageTeam.DragAndDrop
             {
                 uiPlayerDropped.uiSlot.uiPlayer = null;
                 manageTeamView.penaltyKillBenchContent.AddPlayer(uiPlayerDropped);
+                manageTeamView.ShowStatsChanges(uiPlayerDropped);
                 return;
             }
             
@@ -163,7 +167,12 @@ namespace UI.ManageTeam.DragAndDrop
                  uiPlayerDropped.uiSlot.transform.parent.parent.parent == transform.parent.parent.parent) &&
                 uiPlayer)
             {
-                ProcessSwap(uiPlayerDropped);
+                var previousPlayer = ProcessSwap(uiPlayerDropped);
+                if (!previousPlayer == uiPlayerDropped)
+                {
+                    manageTeamView.ShowStatsChanges(uiPlayerDropped, true);
+                    manageTeamView.ShowStatsChanges(previousPlayer, true);
+                }
                 return;
             }
             
@@ -174,6 +183,7 @@ namespace UI.ManageTeam.DragAndDrop
                 {
                     bench.ReplacePlayer(uiPlayerDropped, uiPlayer);
                     ProcessSwap(uiPlayerDropped);
+                    manageTeamView.ShowStatsChanges(uiPlayerDropped);
                     return;
                 }
             }
@@ -186,10 +196,12 @@ namespace UI.ManageTeam.DragAndDrop
                 manageTeamView.fieldPlayersBenchContent.ReplacePlayer(uiPlayerDropped, uiPlayer);
                 manageTeamView.AddFieldPlayerToTeam(uiPlayerDropped);
                 ProcessSwap(uiPlayerDropped);
+                manageTeamView.ShowStatsChanges(uiPlayerDropped);
                 return;
             }
             
             FinalizeDrop(uiPlayerDropped);
+            manageTeamView.ShowStatsChanges(uiPlayerDropped);
         }
 
     }
