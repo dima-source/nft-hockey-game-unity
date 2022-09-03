@@ -4,7 +4,7 @@ namespace Near.Models.Game.Team
 {
     public class PlayerOnPosition
     {
-        public string ID { get; set; }
+        public string id { get; set; }
         public FieldPlayer player { get; set; }
         public string position { get; set; }
     }
