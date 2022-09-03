@@ -1,14 +1,11 @@
 using System;
-using System.Collections.Generic;
 using System.Dynamic;
 using System.Threading.Tasks;
-using Near.Models.Game;
 using Near.Models.Game.Team;
-using Near.Models.Tokens;
-using Near.Models.Tokens.Players.FieldPlayer;
-using Near.Models.Tokens.Players.Goalie;
 using NearClientUnity;
-using Newtonsoft.Json;
+using UnityEngine;
+using Object = System.Object;
+
 
 namespace Near.GameContract.ContractMethods
 {
@@ -26,42 +23,45 @@ namespace Near.GameContract.ContractMethods
                 NearUtils.ParseNearAmount(deposit));
         }
         
-        public static async void MakeAvailable(string bid)
+        public static async Task<dynamic> MakeAvailable(string bid)
         {
             ContractNear gameContract = await NearPersistentManager.Instance.GetGameContract();
                 
             dynamic args = new ExpandoObject();
             args.config = new Object();
-            await gameContract.Change("make_available", args,
+
+            return await gameContract.Change("make_available", args, 
                 NearUtils.GasMakeAvailable,
                 NearUtils.ParseNearAmount(bid));
         }
 
-        public static async void MakeUnavailable()
+        public static async Task<bool> MakeUnavailable(string bid)
         {
             ContractNear gameContract = await NearPersistentManager.Instance.GetGameContract();
                 
             dynamic args = new ExpandoObject();
+            args.bid = bid + "000000000000000000000000";
+            
+            try
+            {
+                await gameContract.Change("make_unavailable", args);
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e.Message);
+                return false;
+            }
 
-            await gameContract.Change("make_unavailable", args);
+            return true;
         }
 
-        public static async Task<List<Event>> GenerateEvent( int gameId)
+        public static async void GenerateEvent(int gameId)
         {
             ContractNear gameContract = await NearPersistentManager.Instance.GetGameContract();
                 
             dynamic args = new ExpandoObject();
-            /*
-             * 
-             
-            args.number_of_rendered_events = numberOfRenderedEvents;
-            args.game_id = gameId;
-            */
 
-            var results = await gameContract.Change("generate_event", args, NearUtils.GasMove);
-            List<Event> events = JsonConvert.DeserializeObject<List<Event>>(results);
-
-            return events;
+            await gameContract.Change("generate_event", args, NearUtils.GasMove);
         }
 
         public static async Task TakeTO(int gameId)
@@ -131,54 +131,108 @@ namespace Near.GameContract.ContractMethods
             */
         }
 
-        private static List<dynamic> ConvertFives(Dictionary<string, Five> fives)
+        public static async Task<bool> RegisterAccount()
         {
-            List<dynamic> result = new List<dynamic>();
-
-            foreach (var five in fives)
-            {
-                /*
-                List<List<string>> fiveArgs = ConvertFieldPlayers(five.Value.FieldPlayers);
-
-                if (fiveArgs.Count != 0)
-                {
-                    List<dynamic> fiveTuple = new List<dynamic>() { five.Key, fiveArgs }; 
-                    result.Add(fiveTuple);
-                }
-                */
-            }
-
-            return result;
-        }
-
-        private static List<List<string>> ConvertFieldPlayers(Dictionary<string, FieldPlayer> fieldPlayers)
-        {
-            List<List<string>> result = new List<List<string>>();
+            ContractNear gameContract = await NearPersistentManager.Instance.GetGameContract();
                 
-            foreach (var fieldPlayer in fieldPlayers)
+            dynamic args = new ExpandoObject();
+
+            try
             {
-                if (fieldPlayer.Value.tokenId != "-1")
-                {
-                    result.Add(new List<string> { fieldPlayer.Key, fieldPlayer.Value.tokenId });
-                }
+                await gameContract.Change("register_account", args, NearUtils.GasMove);
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e.Message);
+                return false;
             }
 
-            return result;
+            return true;
         }
 
-        private static List<List<string>> ConvertGoalies(Dictionary<string, Goalie> goalies)
+        /// <param name="friendId">
+        /// "send_friend_request", "accept_friend_request", "decline_friend_request",
+        /// </param>
+        private static async Task<bool> SendFriendRequest(string friendId, string methodName)
         {
-            List<List<string>> result = new List<List<string>>();
+            ContractNear gameContract = await NearPersistentManager.Instance.GetGameContract();
+                
+            dynamic args = new ExpandoObject();
+            args.friend_id = friendId;
 
-            foreach (var goalie in goalies)
+            try
             {
-                if (goalie.Value.tokenId != "-1")
-                {
-                    result.Add(new List<string> { goalie.Key, goalie.Value.tokenId });
-                }
+                await gameContract.Change(methodName, args, NearUtils.GasMove);
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e.Message);
+                return false;
             }
 
-            return result;
+            return true;
         }
+
+        private static async Task<bool> SendRequestPlay(string friendId, string deposit)
+        {
+            ContractNear gameContract = await NearPersistentManager.Instance.GetGameContract();
+                
+            dynamic args = new ExpandoObject();
+            args.friend_id = friendId;
+
+            try
+            {
+                await gameContract.Change("send_request_play", args, NearUtils.GasMove);
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e.Message);
+                return false;
+            }
+
+            return true;
+        }
+
+        private static async Task<int> AcceptRequestPlay(string friendId, string deposit)
+        {
+            ContractNear gameContract = await NearPersistentManager.Instance.GetGameContract();
+                
+            dynamic args = new ExpandoObject();
+            args.friend_id = friendId;
+            
+            var result = await gameContract.Change(
+                "accept_request_play",
+                args,
+                NearUtils.GasMove,
+                NearUtils.ParseNearAmount(deposit)
+            );
+            
+            return int.Parse(result.ToString());
+        }
+        
+        private static async Task<bool> DeclineRequestPlay(string friendId, string deposit)
+        {
+            ContractNear gameContract = await NearPersistentManager.Instance.GetGameContract();
+                
+            dynamic args = new ExpandoObject();
+            args.friend_id = friendId;
+
+            try
+            {
+                await gameContract.Change(
+                    "decline_request_game", 
+                    args, 
+                    NearUtils.GasMove,
+                    NearUtils.ParseNearAmount(deposit)
+                );
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e.Message);
+                return false;
+            }
+
+            return true;
+        } 
     }
 }

@@ -1,107 +1,80 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using Near;
-using Near.Models.Game.Bid;
+using Near.Models.Game;
 using NearClientUnity.Utilities;
-using Runtime;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace UI.Main_menu.UIPopups
 {
     public class UIPopupSetBid : UIPopup
     {
-        [SerializeField] private InputField bidText;
+        [SerializeField] private Transform requestButtons;
+        [SerializeField] private Loading loading;
+        [SerializeField] private Search searchView;
         [SerializeField] private List<BidButton> buttons;
-        
-        [SerializeField] private Transform waitForOpponentView;
-        [SerializeField] private Transform setBidView;
+        [SerializeField] private UIPopupNotEnoughBalance uiPopupNotEnoughBalance;
 
-        [SerializeField] private Text ownBid;
-
-        private bool isWaitForOpponent;
         private string _bid;
         
         public new async void Show()
         {
-            bool isAlreadyInTheList = await Near.GameContract.ContractMethods.Views.IsAvailable();
+            try
+            {
+                User user = await Near.GameContract.ContractMethods.Views.GetUser();
             
-            if (isAlreadyInTheList)
-            {
-                GameConfig gameConfig = await mainMenuView.MainMenuController.GetGameConfig();
-                ownBid.text = "Your bid: " + NearUtils.FormatNearAmount(UInt128.Parse(gameConfig.Deposit));
-                
-                waitForOpponentView.gameObject.SetActive(true);
-                setBidView.gameObject.SetActive(false);
-
-                isWaitForOpponent = true;
-                StartCoroutine(WaitForOpponent());
+                if (user.is_available)
+                {
+                    UInt128 deposit = UInt128.Parse(user.deposit);
+                    string formatDeposit = NearUtils.FormatNearAmount(deposit).ToString();
+                    
+                    searchView.SetBidText(formatDeposit);
+                    requestButtons.gameObject.SetActive(false);
+                    searchView.gameObject.SetActive(true);
+                }
             }
-            else
+            catch (Exception e)
             {
-                isWaitForOpponent = false;
-                // CheckGame();
-                
-                // waitForOpponentView.gameObject.SetActive(false);
-                // setBidView.gameObject.SetActive(true);
+                Console.WriteLine(e);
+                throw;
             }
             
             mainMenuView.ShowPopup(transform);
         }
         
-        public void SetBid()
+        public async void SetBid()
         {
             if (_bid == "")
             {
                 return;
             }
             
-            mainMenuView.MainMenuController.SetBid(_bid);
-            OnSetBid();
-        }
-
-        private void OnSetBid()
-        {
-            Show();
-            
-            isWaitForOpponent = true;
-            StartCoroutine(WaitForOpponent());
-        }
-
-        private IEnumerator WaitForOpponent()
-        {
-            while (true)
+            try
             {
-                yield return new WaitForSeconds(1);
-
-                if (!isWaitForOpponent)
-                {
-                    yield break;
-                }
+                loading.gameObject.SetActive(true);
+                uiPopupNotEnoughBalance.gameObject.SetActive(false); 
                 
-                CheckGame();
+                await Near.GameContract.ContractMethods.Actions.MakeAvailable(_bid);
             }
-        }
-
-        private async void CheckGame()
-        {
-            int gameId = await mainMenuView.MainMenuController.GetGameId();
-
-            if (gameId != -1)
+            catch (Exception e)
             {
-                isWaitForOpponent = false;
-                Game.LoadGame();    
+                if (e.Message.Contains("NotEnoughBalance"))
+                {
+                    uiPopupNotEnoughBalance.Show();
+                }
+                else
+                {
+                    Debug.Log(e.Message);
+                }
+                loading.gameObject.SetActive(false);
+                
+                return;
             }
-        }
 
-        public void MakeUnavailable()
-        {
-            mainMenuView.MainMenuController.MakeUnAvailable();
-            isWaitForOpponent = false;
-            
-            // TODO: redirect URL
-            waitForOpponentView.gameObject.SetActive(false);
-            setBidView.gameObject.SetActive(true);
+            loading.gameObject.SetActive(false);
+            searchView.gameObject.SetActive(true);
+            searchView.SetBidText(_bid);
+            requestButtons.gameObject.SetActive(false);
         }
         
         public void ChangeActiveButton(BidButton newActiveButton)

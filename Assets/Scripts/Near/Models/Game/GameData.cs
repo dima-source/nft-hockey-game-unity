@@ -5,7 +5,7 @@ namespace Near.Models.Game
 {
     public class GameData
     {
-        public int ID { get; set; }
+        public int id { get; set; }
         public UserInGameInfo user1 { get; set; }
         public UserInGameInfo user2 { get; set; }        
         public int reward { get; set; }

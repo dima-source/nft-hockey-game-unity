@@ -90,39 +90,7 @@ namespace Near.MarketplaceContract.ContractMethods
 
             return tokens;
         }
-        
-        public static async Task<List<GameData>> GetGame(GameDataFilter filter)
-        {
-            IQuery<GameData> query = new Query<GameData>("GetData")
-                .AddArguments(new { where = filter })
-                .AddField(p => p.last_event_generation_time)
-                .AddField(p => p.reward)
-                .AddField(p => p.winner_index)
-                .AddField(p => p.zone_number)
-                .AddField(p => p.turns)
-                .AddField(p=>p.player_with_puck,
-                    sq => sq
-                        .AddField(p => p.id))
-                .AddField(p=>p.user1,
-                    sq => sq
-                        .AddField(p => p.ID))
-                .AddField(p=>p.user2,
-                    sq => sq
-                        .AddField(p => p.ID));
-              
-            string responseJson = await GetJSONQuery(query.Build());
-            
-            Debug.Log(responseJson);
-            
-            var GameDatas = JsonConvert.DeserializeObject<List<GameData>>(responseJson, new GameDataConverter());
-            
-            if (GameDatas == null)
-            {
-                return new List<GameData>();
-            }
 
-            return GameDatas;
-        }
         public static async Task<List<User>> GetUser(UserFilter filter)
         {
             IQuery<User> query = new Query<User>("users")

@@ -9,13 +9,16 @@ using System.Text;
 using System.Threading.Tasks;
 using GraphQL.Query.Builder;
 using Near.MarketplaceContract;
+using Near.MarketplaceContract.Parsers;
 using Near.Models.Game;
 using Near.Models.Game.Bid;
 using Near.Models.Game.Team;
 using Near.Models.Game.TeamIds;
+using Near.Models.Tokens.Players.FieldPlayer;
 using NearClientUnity;
 using Newtonsoft.Json;
 using UnityEngine;
+using Event = Near.Models.Game.Event;
 
 namespace Near.GameContract.ContractMethods
 {
@@ -112,6 +115,7 @@ namespace Near.GameContract.ContractMethods
             
             return result; 
         }
+        
         public static async Task<string> GetJSONQuery(string json)
         {
             json = "{\"query\": \"{" + json.Replace("\"", "\\\"") + "}\"}";
@@ -129,19 +133,6 @@ namespace Near.GameContract.ContractMethods
             }
         }
 
-        public static async Task<bool> IsAvailable()
-        {
-            try
-            {
-                User user = await GetUser();
-                return user.is_available;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
-        }
-        
         public static async Task<User> GetUser()
         {
             string accountId = NearPersistentManager.Instance.GetAccountId();
@@ -162,13 +153,24 @@ namespace Near.GameContract.ContractMethods
         
         public static async Task<List<User>> GetUsers(UserFilter filter)
         {
-            IQuery<User> query = new Query<User>("userts")
-                .AddArguments(new { where = filter })
-                .AddField(p=>p.games,
+            IQuery<User> query = new Query<User>("users")
+                .AddArguments(new {where = filter})
+                .AddField(p => p.games,
                     sq => sq
-                        .AddField(p => p.ID))
+                        .AddField(p => p.id))
                 .AddField(p => p.id)
-                .AddField(p => p.is_available);
+                .AddField(p => p.is_available)
+                .AddField(p => p.deposit)
+                .AddField(p => p.friends, sq => sq
+                    .AddField(u => u.id))
+                .AddField(p => p.sent_friend_requests, sq => sq
+                    .AddField(u => u.id))
+                .AddField(p => p.friend_requests_received, sq => sq
+                    .AddField(u => u.id))
+                .AddField(u => u.sent_requests_play, sq => sq
+                    .AddField(u => u.id))
+                .AddField(p => p.requests_play_received, sq => sq
+                    .AddField(u => u.id));
 
             string responseJson = await GetJSONQuery(query.Build());
             
@@ -205,6 +207,39 @@ namespace Near.GameContract.ContractMethods
             dynamic gameConfig = await gameContract.View("get_game_config", args);
             
             return JsonConvert.DeserializeObject<GameConfig>(gameConfig.result);
+        }
+        
+        public static async Task<List<GameData>> GetGames(GameDataFilter filter)
+        {
+            // TODO
+            IQuery<GameData> query = new Query<GameData>("games")
+                .AddArguments(new { where = filter })
+                .AddField(p => p.id)
+                .AddField(p => p.reward)
+                .AddField(p => p.winner_index)
+                .AddField(p => p.last_event_generation_time)
+                .AddField(p => p.turns)
+                .AddField(p => p.zone_number)
+                .AddField(p => p.events, Event.GetQuery)
+                .AddField(p=>p.player_with_puck,
+                    FieldPlayer.GetQuery)
+                .AddField(p=>p.user1,
+                    UserInGameInfo.GetQuery)
+                .AddField(p=>p.user2,
+                    UserInGameInfo.GetQuery);
+              
+            string responseJson = await GetJSONQuery(query.Build());
+            
+            Debug.Log(responseJson);
+            
+            var gameDatas = JsonConvert.DeserializeObject<List<GameData>>(responseJson, new GameDataConverter());
+            
+            if (gameDatas == null)
+            {
+                return new List<GameData>();
+            }
+
+            return gameDatas;
         }
         
         private static string CalculateIdFieldPlayer(TeamIds teamIds, string numberFive, string playerPosition)
