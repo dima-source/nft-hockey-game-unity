@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.UI;
 using TMPro;
@@ -11,6 +13,8 @@ namespace UI.ManageTeam.DragAndDrop
     public class CardView : UiComponent
     {
         protected bool updateAvatar = false;
+        [SerializeField] private Animation _statsChange;
+        [SerializeField] private TMP_Text _statsPercentText;
 
         public enum PlayerRole
         {
@@ -89,6 +93,30 @@ namespace UI.ManageTeam.DragAndDrop
             {
                 _statisticViews[i] = _statisticsContainer.GetChild(i).GetComponent<TextMeshProUGUI>();
             }
+        }
+
+        public void PlayStatsUp(int percent)
+        {
+            _statsPercentText.text = $"{percent.ToString()}%";
+            StartCoroutine(AnimationPlaying("StatsUp"));
+        }
+        
+        public void PlayStatsDown(int percent)
+        {
+            _statsPercentText.text = $"{percent.ToString()}%";
+            StartCoroutine(AnimationPlaying("StatsDown"));
+        }
+        
+        private IEnumerator AnimationPlaying(string animationType)
+        {
+            _statsChange.gameObject.SetActive(true);
+            _statsChange.Play(animationType);
+            while (_statsChange.isPlaying)
+            {
+                yield return new WaitForSeconds(0.5f);
+            }
+            
+            _statsChange.gameObject.SetActive(false);
         }
 
         protected override void OnUpdate()

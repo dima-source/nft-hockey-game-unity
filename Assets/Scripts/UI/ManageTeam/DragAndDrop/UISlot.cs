@@ -32,13 +32,6 @@ namespace UI.ManageTeam.DragAndDrop
 
         private void FinalizeDrop(UIPlayer uiPlayerDropped)
         {
-            // destroying slot if it's card moved from bench to five or goalies
-            // if (uiPlayerDropped.uiSlot.transform.parent == manageTeamView.fieldPlayersBenchContent.transform ||
-            //     uiPlayerDropped.uiSlot.transform.parent == manageTeamView.goaliesBenchContent.transform )
-            // {
-            //     Destroy(uiPlayerDropped.uiSlot.gameObject);
-            // }
-
             // destroying slot if it's card moved from bench to five
             if (manageTeamView.fieldPlayersBenchContent.Slots.Contains(uiPlayerDropped.uiSlot))
             {
