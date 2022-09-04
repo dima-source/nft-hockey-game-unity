@@ -61,6 +61,7 @@ namespace UI.ManageTeam
         private Dictionary<LineNumbers, string> _fivesIceTimePriority = new();
 
         [SerializeField] public Transform teamView;
+        [SerializeField] private TMP_Text _teamworkText;
 
         public Bench CurrentBench
         {
@@ -534,6 +535,8 @@ namespace UI.ManageTeam
             var slot = player.uiSlot;
             if (goalies.Contains(slot))
                 return;
+            
+            var currentFive = fives[_currentLineNumber].Values.ToList().Where(x => x != slot);
 
             // if player moved to bench
             if (slot.slotPosition == SlotPositionEnum.Bench)
@@ -582,12 +585,15 @@ namespace UI.ManageTeam
             {
                 percent = 80;
             }
+            
+            Dictionary<UIPlayer, int> playersPercent = new();
 
             if (!switched)
             {
+                int isDefensemanPair = 0;
                 bool sameNationalityInFive = false;
-                List<UIPlayer> sameNationalityPlayers = new();
-                foreach (var uiSlot in fives[_currentLineNumber].Values.ToList().Where(x => x != slot))
+                // natianality
+                foreach (var uiSlot in currentFive)
                 {
                     if (!uiSlot.uiPlayer)
                     {
@@ -596,17 +602,135 @@ namespace UI.ManageTeam
                     if (((Player) uiSlot.uiPlayer.CardData).nationality == ((Player) player.CardData).nationality)
                     {
                         sameNationalityInFive = true;
-                        sameNationalityPlayers.Add(uiSlot.uiPlayer);
+                        playersPercent.Add(uiSlot.uiPlayer, 5);
+                        // if (playersPercent.ContainsKey(uiSlot.uiPlayer))
+                        //     playersPercent[uiSlot.uiPlayer] = 5;
+                        // else playersPercent.Add(uiSlot.uiPlayer, 5);
+                    }
+                }
+                
+                // role 
+                string player_role = ((Player) player.CardData).player_role;
+                foreach (var uiSlot in currentFive)
+                {
+                    if (!uiSlot.uiPlayer)
+                    {
+                        continue;
+                    }
+                    string uiPlayerRole = ((Player) uiSlot.uiPlayer.CardData).player_role;
+                    if (uiPlayerRole == "DefensiveDefenseman" 
+                        && player_role == "OffensiveDefenseman" ||
+                        uiPlayerRole == "OffensiveDefenseman" 
+                        && player_role == "DefensiveDefenseman")
+                    {
+                        if (isDefensemanPair == 1)
+                        {
+                            isDefensemanPair = 2;
+                            continue;
+                        }
+
+                        if (isDefensemanPair == 2)
+                        {
+                            continue;
+                        }
+                        isDefensemanPair = 1;
+                        continue;
+                    }
+                    
+                    if (isDefensemanPair == 1)
+                    {
+                        if (playersPercent.ContainsKey(uiSlot.uiPlayer))
+                            playersPercent[uiSlot.uiPlayer] += 10;
+                        else playersPercent.Add(uiSlot.uiPlayer, 10);
+                    }
+
+
+                    if (player_role is "ToughGuy" or "Enforcer" && uiSlot.uiPlayer)
+                    {
+                        if (uiPlayerRole is "Playmaker" or "Shooter")
+                        {
+                            if (playersPercent.ContainsKey(uiSlot.uiPlayer))
+                                playersPercent[uiSlot.uiPlayer] += 20;
+                            else playersPercent.Add(uiSlot.uiPlayer, 20);
+                        }
+                        else
+                        {
+                            if (playersPercent.ContainsKey(uiSlot.uiPlayer))
+                                playersPercent[uiSlot.uiPlayer] -= 10;
+                            else playersPercent.Add(uiSlot.uiPlayer, -10);
+                            
+                        }
+                    }
+
+                    if (player_role is "TryHarder" or "TwoWay")
+                    {
+                        if (playersPercent.ContainsKey(uiSlot.uiPlayer))
+                            playersPercent[uiSlot.uiPlayer] += 10;
+                        else playersPercent.Add(uiSlot.uiPlayer, 10);
+                    }
+
+                    if (player_role is "DefensiveForward" && 
+                        (uiSlot.slotPosition == SlotPositionEnum.LeftDefender ||
+                        uiSlot.slotPosition == SlotPositionEnum.RightDefender))
+                    {
+                        if (playersPercent.ContainsKey(uiSlot.uiPlayer))
+                            playersPercent[uiSlot.uiPlayer] += 20;
+                        else playersPercent.Add(uiSlot.uiPlayer, 20);
+                    }
+                }
+                
+                if (isDefensemanPair > 0)
+                {
+                    if (playersPercent.ContainsKey(player))
+                        playersPercent[player] += 10;
+                    else playersPercent.Add(player, 10);
+                }
+
+                if (currentFive.Where(x => x.uiPlayer)
+                        .Count(x => ((Player) x.uiPlayer.CardData).player_role is "ToughGuy" or "Enforcer") > 0)
+                {
+                    if (((Player) player.CardData).player_role is "Playmaker" or "Shooter")
+                    {
+                        percent += 20;
+                    }
+                    else
+                    {
+                        percent -= 10;
                     }
                 }
 
-                foreach (var uiPlayer in sameNationalityPlayers)
+                int toughGuysAndEnforcers = currentFive.Where(x => x.uiPlayer).Count(x =>
+                    ((Player) x.uiPlayer.CardData).player_role is "TryHarder" or "TwoWay");
+                for (int i = 0; i < toughGuysAndEnforcers; i++)
                 {
-                    uiPlayer.PlayStatsUp(5);
+                        percent += 10;
                 }
+
+                if ((player.uiSlot.slotPosition == SlotPositionEnum.LeftDefender ||
+                    player.uiSlot.slotPosition == SlotPositionEnum.RightDefender) && 
+                    currentFive.Count(x => ((Player) x.uiPlayer.CardData).player_role is "DefensiveForward") > 0)
+                {
+                    percent += 20;
+                }
+
                 if (sameNationalityInFive)
                     percent += 5;
+                
+                foreach (var uiPlayer in playersPercent.Keys)
+                {
+                    int p = playersPercent[uiPlayer];
+                    if (p > 0)
+                    {
+                        uiPlayer.PlayStatsUp(p);
+                    }
+                    else if (p < 0)
+                    {
+                        uiPlayer.PlayStatsDown(p * -1);
+                    }
+                }
             }
+
+            
             if (percent > 100)
             {
                 player.PlayStatsUp(percent - 100);

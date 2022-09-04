@@ -168,7 +168,7 @@ namespace UI.ManageTeam.DragAndDrop
                 uiPlayer)
             {
                 var previousPlayer = ProcessSwap(uiPlayerDropped);
-                if (!previousPlayer == uiPlayerDropped)
+                if (!(previousPlayer == uiPlayerDropped))
                 {
                     manageTeamView.ShowStatsChanges(uiPlayerDropped, true);
                     manageTeamView.ShowStatsChanges(previousPlayer, true);

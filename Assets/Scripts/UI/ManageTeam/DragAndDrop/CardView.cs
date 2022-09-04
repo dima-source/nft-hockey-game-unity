@@ -101,7 +101,7 @@ namespace UI.ManageTeam.DragAndDrop
             _statsPercentText.text = $"{percent.ToString()}%";
             StartCoroutine(AnimationPlaying("StatsUp"));
         }
-        
+
         public void PlayStatsDown(int percent)
         {
             _statsPercentText.text = $"{percent.ToString()}%";
@@ -139,6 +139,11 @@ namespace UI.ManageTeam.DragAndDrop
             _playerRoleText.text = RoleToString(playerRole);
             _background.material = RarenessToMaterial(rareness);
             UpdateStatistics();
+        }
+
+        protected void OnDisable()
+        {
+            _statsChange.gameObject.SetActive(false);
         }
 
         private void UpdateStatistics()
