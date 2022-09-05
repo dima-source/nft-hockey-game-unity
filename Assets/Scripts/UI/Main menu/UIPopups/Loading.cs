@@ -12,7 +12,6 @@ namespace UI.Main_menu.UIPopups
         public void Start()
         {
             imageRectTransform = image.GetComponent<RectTransform>();
-            int x;
         }
 
         private void Update()

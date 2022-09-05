@@ -30,17 +30,48 @@ namespace UI.Main_menu
             AccountState accountState = await NearPersistentManager.Instance.GetAccountState();
             balance.text = "Your balance: " + NearUtils.FormatNearAmount(UInt128.Parse(accountState.Amount)) + " NEAR";
 
-            var isAccountRegistered = await CheckAccount(accountID);
-            if (!isAccountRegistered)
+            var isGameAccountRegistered = await CheckGameAccount(accountID);
+            if (!isGameAccountRegistered)
+            {
+                var isSuccess = await Near.GameContract.ContractMethods.Actions.RegisterAccount();
+                if (!isSuccess)
+                {
+                    //TODO: Show popup something went wrong
+                }
+            }
+            
+            var isMarketAccountRegistered = await CheckMarketplaceAccount(accountID);
+            /*
+            if (!isMarketAccountRegistered)
             {
                 firstEntryPopup.gameObject.SetActive(true);
+            }*/
+        }
+        
+        /// <summary>
+        /// Registered or not
+        /// </summary>
+        private async Task<bool> CheckGameAccount(string accountID)
+        {
+            var userFilter = new UserFilter()
+            {
+                id = accountID
+            };
+
+            var users = await Near.GameContract.ContractMethods.Views.GetUsers(userFilter);
+
+            if (users.Count == 0)
+            {
+                return false;
             }
+
+            return true;
         }
 
         /// <summary>
         /// Registered or not
         /// </summary>
-        private async Task<bool> CheckAccount(string accountID)
+        private async Task<bool> CheckMarketplaceAccount(string accountID)
         {
             var userFilter = new UserFilter()
             {

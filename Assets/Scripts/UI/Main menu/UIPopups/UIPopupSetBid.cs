@@ -13,7 +13,7 @@ namespace UI.Main_menu.UIPopups
         [SerializeField] private Loading loading;
         [SerializeField] private Search searchView;
         [SerializeField] private List<BidButton> buttons;
-        [SerializeField] private UIPopupNotEnoughBalance uiPopupNotEnoughBalance;
+        [SerializeField] private UIPopupError uiPopupError;
 
         private string _bid;
         
@@ -52,7 +52,7 @@ namespace UI.Main_menu.UIPopups
             try
             {
                 loading.gameObject.SetActive(true);
-                uiPopupNotEnoughBalance.gameObject.SetActive(false); 
+                uiPopupError.gameObject.SetActive(false); 
                 
                 await Near.GameContract.ContractMethods.Actions.MakeAvailable(_bid);
             }
@@ -60,7 +60,7 @@ namespace UI.Main_menu.UIPopups
             {
                 if (e.Message.Contains("NotEnoughBalance"))
                 {
-                    uiPopupNotEnoughBalance.Show();
+                    uiPopupError.Show();
                 }
                 else
                 {

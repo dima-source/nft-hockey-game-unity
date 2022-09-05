@@ -151,88 +151,56 @@ namespace Near.GameContract.ContractMethods
         }
 
         /// <param name="friendId">
-        /// "send_friend_request", "accept_friend_request", "decline_friend_request",
+        /// "send_friend_request", "accept_friend_request", "decline_friend_request", "remove_friend"
         /// </param>
-        private static async Task<bool> SendFriendRequest(string friendId, string methodName)
+        public static async void SendFriendRequest(string friendId, string methodName)
         {
             ContractNear gameContract = await NearPersistentManager.Instance.GetGameContract();
                 
             dynamic args = new ExpandoObject();
             args.friend_id = friendId;
 
-            try
-            {
-                await gameContract.Change(methodName, args, NearUtils.GasMove);
-            }
-            catch (Exception e)
-            {
-                Debug.Log(e.Message);
-                return false;
-            }
-
-            return true;
+            await gameContract.Change(methodName, args, NearUtils.GasMove);
         }
 
-        private static async Task<bool> SendRequestPlay(string friendId, string deposit)
+        public static async void SendRequestPlay(string friendId, string deposit)
         {
             ContractNear gameContract = await NearPersistentManager.Instance.GetGameContract();
                 
             dynamic args = new ExpandoObject();
             args.friend_id = friendId;
 
-            try
-            {
-                await gameContract.Change("send_request_play", args, NearUtils.GasMove);
-            }
-            catch (Exception e)
-            {
-                Debug.Log(e.Message);
-                return false;
-            }
-
-            return true;
+            await gameContract.Change("send_request_play", args, NearUtils.GasMove);
         }
 
-        private static async Task<int> AcceptRequestPlay(string friendId, string deposit)
+        public static async void AcceptRequestPlay(string friendId, string deposit)
         {
             ContractNear gameContract = await NearPersistentManager.Instance.GetGameContract();
                 
             dynamic args = new ExpandoObject();
             args.friend_id = friendId;
             
-            var result = await gameContract.Change(
+            await gameContract.Change(
                 "accept_request_play",
                 args,
                 NearUtils.GasMove,
                 NearUtils.ParseNearAmount(deposit)
             );
-            
-            return int.Parse(result.ToString());
         }
         
-        private static async Task<bool> DeclineRequestPlay(string friendId, string deposit)
+        public static async void DeclineRequestPlay(string friendId, string deposit)
         {
             ContractNear gameContract = await NearPersistentManager.Instance.GetGameContract();
                 
             dynamic args = new ExpandoObject();
             args.friend_id = friendId;
 
-            try
-            {
-                await gameContract.Change(
-                    "decline_request_game", 
-                    args, 
-                    NearUtils.GasMove,
-                    NearUtils.ParseNearAmount(deposit)
-                );
-            }
-            catch (Exception e)
-            {
-                Debug.Log(e.Message);
-                return false;
-            }
-
-            return true;
+             gameContract.Change(
+                 "decline_request_game", 
+                 args, 
+                 NearUtils.GasMove,
+                 NearUtils.ParseNearAmount(deposit)
+             );
         } 
     }
 }
