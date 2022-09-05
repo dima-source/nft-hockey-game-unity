@@ -153,7 +153,7 @@ namespace Near.GameContract.ContractMethods
         /// <param name="friendId">
         /// "send_friend_request", "accept_friend_request", "decline_friend_request", "remove_friend"
         /// </param>
-        public static async void SendFriendRequest(string friendId, string methodName)
+        public static async Task SendFriendRequest(string friendId, string methodName)
         {
             ContractNear gameContract = await NearPersistentManager.Instance.GetGameContract();
                 
@@ -163,7 +163,7 @@ namespace Near.GameContract.ContractMethods
             await gameContract.Change(methodName, args, NearUtils.GasMove);
         }
 
-        public static async void SendRequestPlay(string friendId, string deposit)
+        public static async Task SendRequestPlay(string friendId, string deposit)
         {
             ContractNear gameContract = await NearPersistentManager.Instance.GetGameContract();
                 
@@ -173,7 +173,7 @@ namespace Near.GameContract.ContractMethods
             await gameContract.Change("send_request_play", args, NearUtils.GasMove);
         }
 
-        public static async void AcceptRequestPlay(string friendId, string deposit)
+        public static async Task AcceptRequestPlay(string friendId, string deposit)
         {
             ContractNear gameContract = await NearPersistentManager.Instance.GetGameContract();
                 
@@ -188,7 +188,7 @@ namespace Near.GameContract.ContractMethods
             );
         }
         
-        public static async void DeclineRequestPlay(string friendId, string deposit)
+        public static async Task DeclineRequestPlay(string friendId, string deposit)
         {
             ContractNear gameContract = await NearPersistentManager.Instance.GetGameContract();
                 

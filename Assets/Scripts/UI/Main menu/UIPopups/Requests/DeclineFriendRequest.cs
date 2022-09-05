@@ -1,4 +1,6 @@
-﻿namespace UI.Main_menu.UIPopups.Requests
+﻿using System.Threading.Tasks;
+
+namespace UI.Main_menu.UIPopups.Requests
 {
     public class DeclineFriendRequest : ISendRequest
     {
@@ -9,9 +11,9 @@
             _accountId = accountId;
         }
         
-        public void SendRequest()
+        public async Task SendRequest()
         {
-            Near.GameContract.ContractMethods.Actions.SendFriendRequest(_accountId, "decline_friend_request");
+            await Near.GameContract.ContractMethods.Actions.SendFriendRequest(_accountId, "decline_friend_request");
         }
     }
 }

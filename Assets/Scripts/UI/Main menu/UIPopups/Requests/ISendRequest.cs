@@ -1,7 +1,9 @@
-﻿namespace UI.Main_menu.UIPopups.Requests
+﻿using System.Threading.Tasks;
+
+namespace UI.Main_menu.UIPopups.Requests
 {
     public interface ISendRequest
     {
-        public void SendRequest();
+        public Task SendRequest();
     }
 }

@@ -8,6 +8,7 @@ namespace UI.Main_menu.UIPopups
 {
     public class FriendItem : MonoBehaviour
     {
+        [SerializeField] private TextMeshProUGUI _friendId;
         public TextMeshProUGUI Bid { get; set; }
 
         public enum ButtonAction
@@ -34,7 +35,6 @@ namespace UI.Main_menu.UIPopups
 
         [SerializeField] private TMP_InputField inputField;
         private SendRequestStrategy _sendRequestsStrategy;
-        private TextMeshProUGUI _friendId;
 
         public void Init(ButtonAction buttonAction,
             CancelButtonAction cancelButtonAction,

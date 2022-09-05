@@ -8,23 +8,26 @@ namespace UI.Main_menu.UIPopups.Requests
         [SerializeField] private Loading loading;
         [SerializeField] private UIPopupError uiPopupError;
         
-        public void SendRequest(ISendRequest request)
+        public async void SendRequest(ISendRequest request)
         {
+            gameObject.SetActive(true);
             loading.gameObject.SetActive(true);
             
             try
             {
-                request.SendRequest();
+                await request.SendRequest();
             }
             catch(Exception e)
             {
                 uiPopupError.SetTitle(e.Message.Contains("NotEnoughBalance")
                     ? "Not enough balance"
                     : "Something went wrong");
+                loading.gameObject.SetActive(false);
                 uiPopupError.Show();
+                return;
             }
             
-            loading.gameObject.SetActive(false);
+            gameObject.SetActive(false);
         }
     }
 }

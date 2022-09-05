@@ -1,4 +1,6 @@
-﻿namespace UI.Main_menu.UIPopups.Requests
+﻿using System.Threading.Tasks;
+
+namespace UI.Main_menu.UIPopups.Requests
 {
     public class PlayRequest : ISendRequest
     {
@@ -11,9 +13,9 @@
             _bid = bid;
         } 
         
-        public void SendRequest()
+        public async Task SendRequest()
         {
-            Near.GameContract.ContractMethods.Actions.SendRequestPlay(_accountId, _bid);
+            await Near.GameContract.ContractMethods.Actions.SendRequestPlay(_accountId, _bid);
         }
     }
 }
