@@ -109,6 +109,7 @@ namespace UI.ManageTeam
             player.transform.localPosition = Vector3.zero;
             player.RectTransform.sizeDelta = slot.RectTransform.sizeDelta;
             player.RectTransform.localScale = slot.RectTransform.localScale;
+            player.ManageTeamView = this;
                 
             slot.uiPlayer = player;
             slot.uiPlayer.uiSlot = slot;
@@ -142,6 +143,7 @@ namespace UI.ManageTeam
             player.transform.localPosition = Vector3.zero;
             player.RectTransform.sizeDelta = slot.RectTransform.sizeDelta;
             player.RectTransform.localScale = slot.RectTransform.localScale;
+            player.ManageTeamView = this;
                 
             slot.uiPlayer = player;
             slot.uiPlayer.uiSlot = slot; 
@@ -248,6 +250,8 @@ namespace UI.ManageTeam
             ShowFive(_currentLineNumber.ToString());
             InitBenches();
             fieldPlayersBenchContent.gameObject.SetActive(true);
+            
+            UpdateTeamWork();
         }
 
         public void HideCurrentFive()
@@ -527,7 +531,98 @@ namespace UI.ManageTeam
 
         public void UpdateTeamWork()
         {
-            
+            var playersSlots = fives[_currentLineNumber].Values;
+            if (playersSlots.Where(x => x.uiPlayer != null).Count() != playersSlots.Count)
+            {
+                _teamworkText.text = "";
+                return;
+            }
+
+            var players = playersSlots.Select(slot => slot.uiPlayer);
+            var playersData = players.Select(player => (FieldPlayer) player.CardData);
+            Dictionary<UIPlayer, int> playersPercent = new();
+            foreach (var player in players)
+                playersPercent.Add(player, 100);
+
+            int percentsSumBefore = playersPercent.Values.Aggregate((i, i1) => i + i1);
+
+            foreach (var player in players)
+            {
+                var playerData = (FieldPlayer) player.CardData;
+                var slot = player.uiSlot;
+                if (playersData.Count(d => d.nationality == playerData.nationality) > 1)
+                {
+                    playersPercent[player] += 5;
+                }
+
+                var nativePostition = player.PositionToSlotPosition();
+                if (nativePostition == SlotPositionEnum.LeftWing &&
+                    player.uiSlot.slotPosition == SlotPositionEnum.RightWing ||
+                    nativePostition == SlotPositionEnum.RightWing &&
+                    player.uiSlot.slotPosition == SlotPositionEnum.LeftWing ||
+                    nativePostition == SlotPositionEnum.RightDefender &&
+                    player.uiSlot.slotPosition == SlotPositionEnum.LeftDefender ||
+                    nativePostition == SlotPositionEnum.LeftDefender &&
+                    player.uiSlot.slotPosition == SlotPositionEnum.RightDefender)
+                {
+                    playersPercent[player] -= 5;
+                }
+                else if (nativePostition != SlotPositionEnum.Center && player.uiSlot.slotPosition == SlotPositionEnum.Center)
+                {
+                    playersPercent[player] -= 25;
+                } 
+                else if (nativePostition != slot.slotPosition)
+                {
+                    playersPercent[player] -= 20;
+                }
+
+                if (playerData.player_role == "DefensiveDefenseman" &&
+                    playersData.Count(d => d.player_role == "OffensiveDefenseman") >= 1 ||
+                    playerData.player_role == "OffensiveDefenseman" &&
+                    playersData.Count(d => d.player_role == "DefensiveDefenseman") >= 1)
+                {
+                    playersPercent[player] -= 10;
+                }
+                
+                if (playersData.Count(d => d.player_role is "ToughGuy" or "Enforcer") > 0)
+                {
+                    if (playerData.player_role is "Playmaker" or "Shooter")
+                    {
+                        playersPercent[player] += 20;
+                    }
+                    else
+                    {
+                        playersPercent[player] -= 10;
+                    }
+                }
+
+                if (playersData.Count(d => d.player_role is "TryHarder") > 0)
+                {
+                        playersPercent[player] += 10;
+                }
+                if (playersData.Count(d => d.player_role is "TwoWay") > 0)
+                {
+                        playersPercent[player] += 10;
+                }
+
+                if (playersData.Count(d => d.player_role is "DefensiveForward") > 0 &&
+                    (player.uiSlot.slotPosition == SlotPositionEnum.LeftDefender ||
+                     player.uiSlot.slotPosition == SlotPositionEnum.RightDefender))
+                {
+                    playersPercent[player] += 20;
+                }
+            }
+            int percentsSumAfter = playersPercent.Values.Aggregate((i, i1) => i + i1);
+            if (percentsSumAfter < percentsSumBefore)
+            {
+                _teamworkText.text = "Low teamwork";
+            } else if (percentsSumAfter == percentsSumBefore)
+            {
+                _teamworkText.text = "OK teamwork";
+            } else if (percentsSumAfter > percentsSumBefore)
+            {
+                _teamworkText.text = "Great teamwork";
+            }
         }
 
         public void ShowStatsChanges(UIPlayer player, bool switched = false)

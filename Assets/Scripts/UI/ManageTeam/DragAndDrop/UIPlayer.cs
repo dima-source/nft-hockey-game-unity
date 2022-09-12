@@ -20,11 +20,10 @@ namespace UI.ManageTeam.DragAndDrop
             playerSurname = splittedName[1];
         }
 
-        public Image playerImg;
-
         private CanvasGroup _canvasGroup;
         private Canvas _mainCanvas;
         public RectTransform RectTransform;
+        public ManageTeamView ManageTeamView;
 
         public Transform canvasContent;
 
@@ -60,6 +59,7 @@ namespace UI.ManageTeam.DragAndDrop
 
             transform.localPosition = Vector3.zero;
             _canvasGroup.blocksRaycasts = true;
+            ManageTeamView.UpdateTeamWork();
         }
 
         public abstract void SetData(Token token);

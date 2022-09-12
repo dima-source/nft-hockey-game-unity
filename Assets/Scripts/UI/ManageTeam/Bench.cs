@@ -49,6 +49,7 @@ namespace UI.ManageTeam
                 player.transform.localPosition = Vector3.zero;
                 player.RectTransform.sizeDelta = new Vector2(150, 225);
                 player.RectTransform.localScale = benchSlot.RectTransform.localScale;
+                player.ManageTeamView = manageTeamView;
                 
                 benchSlot.uiPlayer = player;
                 benchSlot.uiPlayer.uiSlot = benchSlot;
@@ -124,6 +125,7 @@ namespace UI.ManageTeam
         public void OnEnable()
         {
             RebuildSlots();
+            manageTeamView.UpdateTeamWork();
         }
         
         public void OnDisable()
