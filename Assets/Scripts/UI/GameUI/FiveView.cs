@@ -16,7 +16,7 @@ namespace UI.GameUI
         [SerializeField] private PlayerCard leftDefender;
         [SerializeField] private PlayerCard rightDefender;
 
-        [SerializeField] private GoalieCard goalie;
+        //[SerializeField] private GoalieCard goalie;
 
         private int numberFive;
 

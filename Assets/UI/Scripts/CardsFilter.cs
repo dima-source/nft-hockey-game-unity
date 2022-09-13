@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UI.Scripts.Card;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -161,7 +162,7 @@ namespace UI.Scripts
             for (int i = 0; i < _pull.Count; i++)
             {
                 var card = _pull[i];
-                Rect cardRect = GetWorldRect(card.RectTransform);
+                Rect cardRect = GetWorldRect(card.rectTransform);
                 Rect layoutRect = GetWorldRect(_layoutContainer);
                 card.Enable(layoutRect.Overlaps(cardRect));
             }
@@ -210,7 +211,7 @@ namespace UI.Scripts
                             cardDisplay.SetButton(0, "Buy", () =>
                             {
                                 Popup popup; 
-                                if (cardDisplay.CardView.isAuction)
+                                if (cardDisplay.CardView.playerCardData.isOnAuction)
                                 {
                                     popup = _marketplace.GetComponent<RectTransform>()
                                         .GetPlaceBet(new []
@@ -254,7 +255,7 @@ namespace UI.Scripts
                             
                             cardDisplay.SetButton(1, "Take off the market", () => { });
                             
-                            if (cardDisplay.CardView.isAuction)
+                            if (cardDisplay.CardView.playerCardData.isOnAuction)
                             {
                                 cardDisplay.SetButton(2, "Accept the bet", () =>
                                 {

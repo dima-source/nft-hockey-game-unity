@@ -6,7 +6,8 @@ using UnityEngine.UI;
 namespace UI.Scripts
 {
     [RequireComponent(typeof(CanvasRenderer))]
-    public class ConcavePolygonRenderer : Graphic
+    [ExecuteInEditMode]
+    public class ConcavePolygonRenderer : MaskableGraphic
     {
 
 	    private class Vertex
@@ -17,7 +18,6 @@ namespace UI.Scripts
 		    public Vertex next;
 
 		    public bool isReflex;
-		    public bool isConvex;
 
 		    public Vertex(Vector2 position, Color color)
 		    {
@@ -28,14 +28,23 @@ namespace UI.Scripts
 		    
 	    }
 
+	    [SerializeField]
+	    private List<Vector2> positions = new(3);
 
-	    public List<Vector2> positions;
-        
-        protected override void OnPopulateMesh(VertexHelper helper)
+	    public void SetPositions(List<Vector2> value)
+	    {
+		    positions = value;
+		    gameObject.SetActive(false);
+		    gameObject.SetActive(true);
+	    }
+
+	    protected override void OnPopulateMesh(VertexHelper helper)
         {
             helper.Clear();
             TriangulateConcavePolygon(helper);
+            Debug.Log("pop");
         }
+        
         
         private void TriangulateConcavePolygon(VertexHelper helper) 
         {
@@ -90,8 +99,13 @@ namespace UI.Scripts
 					return;
 				}
 				
-				Vertex earVertex = earVertices[0];
+				Vertex earVertex = earVertices.Count > 0 ? earVertices[0] : null;
 
+				if (earVertex == null)
+				{
+					break;
+				}
+				
 				Vertex earVertexPrev = earVertex.previous;
 				Vertex earVertexNext = earVertex.next;
 
@@ -122,8 +136,6 @@ namespace UI.Scripts
 		private static void CheckIfReflexOrConvex(Vertex v)
 		{
 			v.isReflex = false;
-			v.isConvex = false;
-			
 			Vector2 a = v.previous.vertex.position;
 			Vector2 b = v.vertex.position;
 			Vector2 c = v.next.vertex.position;
@@ -131,10 +143,6 @@ namespace UI.Scripts
 			if (IsTriangleOrientedClockwise(a, b, c))
 			{
 				v.isReflex = true;
-			}
-			else
-			{
-				v.isConvex = true;
 			}
 		}
 		

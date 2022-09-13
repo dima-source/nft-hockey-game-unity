@@ -10,7 +10,7 @@ namespace UI.ManageTeam.DragAndDrop
 
         public SlotPositionEnum slotPosition;
         
-        public UIPlayer uiPlayer;
+        public DraggableCard draggableCard;
 
         protected void Awake()
         {
@@ -18,106 +18,106 @@ namespace UI.ManageTeam.DragAndDrop
             manageTeamView = GetComponentInParent<ManageTeamView>();
         }
 
-        private void EndDrop(UIPlayer uiPlayerDropped)
+        private void EndDrop(DraggableCard draggableCardDropped)
         {
-            Transform uiPlayerDroppedTransform = uiPlayerDropped.transform;
-            uiPlayerDropped.transform.SetParent(transform); 
+            Transform uiPlayerDroppedTransform = draggableCardDropped.transform;
+            draggableCardDropped.transform.SetParent(transform); 
             uiPlayerDroppedTransform.localPosition = Vector3.zero;
         }
 
-        private void FinalizeDrop(UIPlayer uiPlayerDropped)
+        private void FinalizeDrop(DraggableCard draggableCardDropped)
         {
             // destroying slot if it's card moved from bench to five or goalies
-            if (uiPlayerDropped.uiSlot.transform.parent == manageTeamView.fieldPlayersBenchContent.transform ||
-                uiPlayerDropped.uiSlot.transform.parent == manageTeamView.goaliesBenchContent.transform )
+            if (draggableCardDropped.uiSlot.transform.parent == manageTeamView.fieldPlayersBenchContent.transform ||
+                draggableCardDropped.uiSlot.transform.parent == manageTeamView.goaliesBenchContent.transform )
             {
-                Destroy(uiPlayerDropped.uiSlot.gameObject);
+                Destroy(draggableCardDropped.uiSlot.gameObject);
             }
             
-            uiPlayerDropped.uiSlot.uiPlayer = null;
-            uiPlayer = uiPlayerDropped;
+            draggableCardDropped.uiSlot.draggableCard = null;
+            draggableCard = draggableCardDropped;
 
-            uiPlayer.uiSlot = this;
+            draggableCard.uiSlot = this;
             
-            uiPlayerDropped.RectTransform.sizeDelta = RectTransform.sizeDelta;
-            uiPlayerDropped.RectTransform.localScale = RectTransform.localScale;
-            EndDrop(uiPlayerDropped);
+            draggableCardDropped.rectTransform.sizeDelta = RectTransform.sizeDelta;
+            draggableCardDropped.rectTransform.localScale = RectTransform.localScale;
+            EndDrop(draggableCardDropped);
         }
 
-        private void ProcessSwap(UIPlayer uiPlayerDropped)
+        private void ProcessSwap(DraggableCard draggableCardDropped)
         {
             // TODO: change team data
-            UIPlayer previousUIPlayer = uiPlayer;
-            UISlot benchSlot = uiPlayerDropped.uiSlot;
+            DraggableCard previousDraggableCard = draggableCard;
+            UISlot benchSlot = draggableCardDropped.uiSlot;
             
-            benchSlot.uiPlayer = previousUIPlayer;
-            Transform previousUIPlayerTransform = previousUIPlayer.transform;
+            benchSlot.draggableCard = previousDraggableCard;
+            Transform previousUIPlayerTransform = previousDraggableCard.transform;
             previousUIPlayerTransform.SetParent(benchSlot.transform);
             previousUIPlayerTransform.localPosition = Vector3.zero;
-            previousUIPlayer.RectTransform.sizeDelta = benchSlot.RectTransform.sizeDelta;
-            previousUIPlayer.uiSlot = benchSlot;
+            previousDraggableCard.rectTransform.sizeDelta = benchSlot.RectTransform.sizeDelta;
+            previousDraggableCard.uiSlot = benchSlot;
             
-            uiPlayerDropped.RectTransform.sizeDelta = RectTransform.sizeDelta;
-            uiPlayerDropped.RectTransform.localScale = RectTransform.localScale;
-            EndDrop(uiPlayerDropped);
-            uiPlayer = uiPlayerDropped;
-            uiPlayer.uiSlot = this;
+            draggableCardDropped.rectTransform.sizeDelta = RectTransform.sizeDelta;
+            draggableCardDropped.rectTransform.localScale = RectTransform.localScale;
+            EndDrop(draggableCardDropped);
+            draggableCard = draggableCardDropped;
+            draggableCard.uiSlot = this;
         }
 
         public void OnDrop(PointerEventData eventData)
         {
-            UIPlayer uiPlayerDropped = eventData.pointerDrag.GetComponent<UIPlayer>();
+            DraggableCard draggableCardDropped = eventData.pointerDrag.GetComponent<DraggableCard>();
             
             // moving card back to bench slot if it is moved to another bench slot
             if (transform.parent == manageTeamView.fieldPlayersBenchContent.transform && 
-                uiPlayerDropped.uiSlot.transform.parent == manageTeamView.fieldPlayersBenchContent.transform ||
+                draggableCardDropped.uiSlot.transform.parent == manageTeamView.fieldPlayersBenchContent.transform ||
                 transform.parent == manageTeamView.goaliesBenchContent.transform && 
-                uiPlayerDropped.uiSlot.transform.parent == manageTeamView.goaliesBenchContent.transform
+                draggableCardDropped.uiSlot.transform.parent == manageTeamView.goaliesBenchContent.transform
                 )
             {
-                EndDrop(uiPlayerDropped);
-                uiPlayerDropped.transform.SetParent(uiPlayerDropped.uiSlot.transform); 
+                EndDrop(draggableCardDropped);
+                draggableCardDropped.transform.SetParent(draggableCardDropped.uiSlot.transform); 
                 return;
             }
             
             // moving card from five to bench
-            if (uiPlayerDropped.uiSlot.transform.parent.parent == manageTeamView.teamView &&
+            if (draggableCardDropped.uiSlot.transform.parent.parent == manageTeamView.teamView &&
                 transform.parent == manageTeamView.fieldPlayersBenchContent.transform)
             {
-                uiPlayerDropped.uiSlot.uiPlayer = null;
-                manageTeamView.CreateNewBenchSlotWithPlayer(manageTeamView.fieldPlayersBenchContent, uiPlayerDropped);
+                draggableCardDropped.uiSlot.draggableCard = null;
+                manageTeamView.CreateNewBenchSlotWithPlayer(manageTeamView.fieldPlayersBenchContent, draggableCardDropped);
                 return;
             }
 
             // moving card from goalies to bench
-            if (uiPlayerDropped.uiSlot.transform.parent.parent.parent == manageTeamView.teamView &&
+            if (draggableCardDropped.uiSlot.transform.parent.parent.parent == manageTeamView.teamView &&
                 transform.parent == manageTeamView.goaliesBenchContent.transform)
             {
-                uiPlayerDropped.uiSlot.uiPlayer = null;
-                manageTeamView.CreateNewBenchSlotWithPlayer(manageTeamView.goaliesBenchContent, uiPlayerDropped);
+                draggableCardDropped.uiSlot.draggableCard = null;
+                manageTeamView.CreateNewBenchSlotWithPlayer(manageTeamView.goaliesBenchContent, draggableCardDropped);
                 return;
                 
             }
             
             // swap cards inside five or goalies
-            if ((uiPlayerDropped.uiSlot.transform.parent.parent == transform.parent.parent || 
-                 uiPlayerDropped.uiSlot.transform.parent.parent.parent == transform.parent.parent.parent) &&
-                uiPlayer)
+            if ((draggableCardDropped.uiSlot.transform.parent.parent == transform.parent.parent || 
+                 draggableCardDropped.uiSlot.transform.parent.parent.parent == transform.parent.parent.parent) &&
+                draggableCard)
             {
-                ProcessSwap(uiPlayerDropped);
+                ProcessSwap(draggableCardDropped);
                 return;
             }
             
             // swap from bench to five or goalies
-            if (uiPlayer &&
-                (uiPlayerDropped.uiSlot.transform.parent == manageTeamView.fieldPlayersBenchContent.transform ||
-                uiPlayerDropped.uiSlot.transform.parent == manageTeamView.goaliesBenchContent.transform)
+            if (draggableCard &&
+                (draggableCardDropped.uiSlot.transform.parent == manageTeamView.fieldPlayersBenchContent.transform ||
+                draggableCardDropped.uiSlot.transform.parent == manageTeamView.goaliesBenchContent.transform)
                 )
             {
-                ProcessSwap(uiPlayerDropped);
+                ProcessSwap(draggableCardDropped);
                 return;
             }
-            FinalizeDrop(uiPlayerDropped);
+            FinalizeDrop(draggableCardDropped);
         }
 
     }

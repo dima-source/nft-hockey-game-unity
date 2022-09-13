@@ -3,7 +3,8 @@ using Near.Models.Tokens;
 using Near.Models.Tokens.Players.FieldPlayer;
 using Near.Models.Tokens.Players.Goalie;
 using UI.Scripts;
-using UnityEngine;
+using UI.Scripts.Card;
+using UI.Scripts.Card.CardStatistics;
 using Utils;
 
 namespace UI.Main_menu
@@ -12,67 +13,47 @@ namespace UI.Main_menu
     {
         public void SetData(Token token)
         {
-            SetPlayerName(token.title);
+            playerCardData.name = name;
 
             if (!string.IsNullOrEmpty(token.media))
             {
                 try
                 {
-                    StartCoroutine(ImageLoader.LoadImage(_avatar, token.media));
+                    StartCoroutine(ImageLoader.LoadImage(token.media, (sprite) =>
+                    {
+                        playerCardData.avatar = sprite;
+                    }));
                 } catch (ApplicationException) {}
             }
             
             if (token.player_type == "Goalie")
             {
                 Goalie goalie = (Goalie)token;
-                playerNumber = goalie.number;
-                playerRole = StringToRole(goalie.player_role);
-                position = StringToPosition(goalie.native_position);
-                statistics = new[]
+                playerCardData.number = new CardNumberCharacteristic(goalie.number);
+                playerCardData.role = new CardRoleCharacteristic(goalie.player_role);
+                playerCardData.position = new CardPositionCharacteristic(goalie.native_position);
+                playerCardData.statistics = new CardStatistic[]
                 {
-                    int.Parse(goalie.Stats.Reflexes.ToString()),
-                    int.Parse(goalie.Stats.PuckControl.ToString()),
-                    int.Parse(goalie.Stats.Strength.ToString()),
+                    new HockeyIqStatistic((int)goalie.Stats.Reflexes),
+                    new StickHandlingStatistic((int)goalie.Stats.PuckControl),
+                    new StrengthStatistic((int)goalie.Stats.Strength),
                 };
                 
             }
             else
             {
                 FieldPlayer fieldPlayer = (FieldPlayer)token;
-                playerNumber = fieldPlayer.number;
-                playerRole = StringToRole(fieldPlayer.player_role);
-                position = StringToPosition(fieldPlayer.native_position);
-                statistics = new[]
+                playerCardData.number = new CardNumberCharacteristic(fieldPlayer.number);
+                playerCardData.role = new CardRoleCharacteristic(fieldPlayer.player_role);
+                playerCardData.position = new CardPositionCharacteristic(fieldPlayer.native_position);
+                playerCardData.statistics = new CardStatistic[]
                 {
-                    int.Parse(fieldPlayer.Stats.Skating.ToString()),
-                    int.Parse(fieldPlayer.Stats.Shooting.ToString()),
-                    int.Parse(fieldPlayer.Stats.Strength.ToString()),
-                    int.Parse(fieldPlayer.Stats.Morale.ToString())
+                    new SkatingStatistic((int)fieldPlayer.Stats.Skating),
+                    new ShootingStatistic((int)fieldPlayer.Stats.Shooting),
+                    new StrengthStatistic((int)fieldPlayer.Stats.Strength),
+                    new HockeyIqStatistic((int)fieldPlayer.Stats.Morale)
                 };
             }
-        }
-        
-        private void SetPlayerName(string name)
-        {
-            string[] splittedName = name.Split(" ", 2);
-            if (splittedName.Length != 2)
-            {
-                throw new ApplicationException("Name is incorrect. Must be \"Name Surname\", got \"" + name + "\"");
-            }
-            playerName = splittedName[0];
-            playerSurname = splittedName[1];
-        }
-        
-        private static Position StringToPosition(string position)
-        {
-            Position.TryParse(position, out Position parsedPosition);
-            return parsedPosition;
-        }
-
-        private static PlayerRole StringToRole(string roleString)
-        {
-            PlayerRole.TryParse(roleString, out PlayerRole parsedRole);
-            return parsedRole;
         }
     }
 }

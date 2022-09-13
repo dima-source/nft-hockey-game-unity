@@ -164,18 +164,18 @@ namespace UI.ManageTeam
             Debug.Log(number);
         }
 
-        public UISlot CreateNewBenchSlotWithPlayer(Transform container, UIPlayer uiPlayer)
+        public UISlot CreateNewBenchSlotWithPlayer(Transform container, DraggableCard draggableCard)
         {
                 UISlot benchSlot = CreateNewEmptySlot(container, SlotPositionEnum.Bench);
                 benchSlot.GetComponent<Image>().color = new Color(255f, 255f, 255f, 0f);
                 
-                uiPlayer.transform.SetParent(benchSlot.transform);
-                uiPlayer.transform.localPosition = Vector3.zero;
-                uiPlayer.RectTransform.sizeDelta = new Vector2(150, 225);
-                uiPlayer.RectTransform.localScale = benchSlot.RectTransform.localScale;
+                draggableCard.transform.SetParent(benchSlot.transform);
+                draggableCard.transform.localPosition = Vector3.zero;
+                draggableCard.rectTransform.sizeDelta = new Vector2(150, 225);
+                draggableCard.rectTransform.localScale = benchSlot.RectTransform.localScale;
 
-                benchSlot.uiPlayer = uiPlayer;
-                uiPlayer.uiSlot = benchSlot;
+                benchSlot.draggableCard = draggableCard;
+                draggableCard.uiSlot = benchSlot;
                 if (container == fieldPlayersBenchContent)
                 {
                     _fieldPlayersBench.Add(benchSlot);
@@ -202,22 +202,22 @@ namespace UI.ManageTeam
             foreach (Token nft in fieldPlayersBench)
             {
 
-                UIPlayer uiPlayer = Instantiate(Game.AssetRoot.manageTeamAsset.fieldPlayer);
+                DraggableCard draggableCard = Instantiate(Game.AssetRoot.manageTeamAsset.fieldCard);
                 
-                uiPlayer.CardData = nft;
-                uiPlayer.SetData(nft);
-                uiPlayer.canvasContent = canvasContent;
-                CreateNewBenchSlotWithPlayer(fieldPlayersBenchContent, uiPlayer);
+                draggableCard.CardData = nft;
+                draggableCard.SetData(nft);
+                draggableCard.canvasContent = canvasContent;
+                CreateNewBenchSlotWithPlayer(fieldPlayersBenchContent, draggableCard);
             }
             
             goaliesBenchContent.gameObject.SetActive(true);
             foreach (Token nft in goaliesBench)
             {
-                UIPlayer uiPlayer = Instantiate(Game.AssetRoot.manageTeamAsset.fieldPlayer);
-                uiPlayer.CardData = nft;
-                uiPlayer.SetData(nft);
-                uiPlayer.canvasContent = canvasContent;
-                CreateNewBenchSlotWithPlayer(goaliesBenchContent, uiPlayer);
+                DraggableCard draggableCard = Instantiate(Game.AssetRoot.manageTeamAsset.fieldCard);
+                draggableCard.CardData = nft;
+                draggableCard.SetData(nft);
+                draggableCard.canvasContent = canvasContent;
+                CreateNewBenchSlotWithPlayer(goaliesBenchContent, draggableCard);
             }
             goaliesBenchContent.gameObject.SetActive(false);
         }
@@ -250,14 +250,14 @@ namespace UI.ManageTeam
                 foreach (var position in playersOnPositions.Keys)
                 {
 
-                    if (!playersOnPositions[position].uiPlayer) // if ui player not set
+                    if (!playersOnPositions[position].draggableCard) // if ui player not set
                     {
                         Debug.LogError($"{lineNumber.ToString()} line not fully set");
                         return;
                     }
                     fiveIds.field_players.Add(position.ToString(),
-                        playersOnPositions[position].uiPlayer.CardData.tokenId);
-                    fieldPlayers.Add(playersOnPositions[position].uiPlayer.CardData.tokenId);
+                        playersOnPositions[position].draggableCard.CardData.tokenId);
+                    fieldPlayers.Add(playersOnPositions[position].draggableCard.CardData.tokenId);
                 }
                 fiveIds.ice_time_priority = iceTimePriorityValue;
                 fiveIds.tactic = tactics;
@@ -267,7 +267,7 @@ namespace UI.ManageTeam
             
             foreach (var goalieSlot in goalies)
             {
-                if (!goalieSlot.uiPlayer && goalieSlot.slotPosition != SlotPositionEnum.GoalieSubstitution1 
+                if (!goalieSlot.draggableCard && goalieSlot.slotPosition != SlotPositionEnum.GoalieSubstitution1 
                                          && goalieSlot.slotPosition != SlotPositionEnum.GoalieSubstitution2)
                 {
                     Debug.LogError($"{goalieSlot.slotPosition.ToString()} not set");
@@ -275,7 +275,7 @@ namespace UI.ManageTeam
                 }
                 if (goalieSlot.slotPosition != SlotPositionEnum.GoalieSubstitution1 
                     && goalieSlot.slotPosition != SlotPositionEnum.GoalieSubstitution2)
-                    teamIds.goalies.Add(goalieSlot.slotPosition.ToString(), goalieSlot.uiPlayer.CardData.tokenId);
+                    teamIds.goalies.Add(goalieSlot.slotPosition.ToString(), goalieSlot.draggableCard.CardData.tokenId);
             }
             teamIds.goalie_substitutions.Add(SlotPositionEnum.GoalieSubstitution1.ToString(), fieldPlayers[0]);
             teamIds.goalie_substitutions.Add(SlotPositionEnum.GoalieSubstitution2.ToString(), fieldPlayers[1]);
