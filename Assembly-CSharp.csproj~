@@ -1,0 +1,1071 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <LangVersion>9.0</LangVersion>
+    <_TargetFrameworkDirectories>non_empty_path_generated_by_unity.rider.package</_TargetFrameworkDirectories>
+    <_FullFrameworkReferenceAssemblyPaths>non_empty_path_generated_by_unity.rider.package</_FullFrameworkReferenceAssemblyPaths>
+    <DisableHandlePackageFileConflicts>true</DisableHandlePackageFileConflicts>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <RootNamespace></RootNamespace>
+    <ProjectGuid>{b7aeaed9-b3d6-825e-3533-1aa4ee5705ae}</ProjectGuid>
+    <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <BaseDirectory>.</BaseDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\Bin\Debug\Assembly-CSharp\</OutputPath>
+    <DefineConstants>UNITY_2022_1_14;UNITY_2022_1;UNITY_2022;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;UNITY_2020_1_OR_NEWER;UNITY_2020_2_OR_NEWER;UNITY_2020_3_OR_NEWER;UNITY_2021_1_OR_NEWER;UNITY_2021_2_OR_NEWER;UNITY_2021_3_OR_NEWER;UNITY_2022_1_OR_NEWER;PLATFORM_ARCH_64;UNITY_64;UNITY_INCLUDE_TESTS;USE_SEARCH_ENGINE_API;USE_SEARCH_TABLE;USE_SEARCH_MODULE;USE_PROPERTY_DATABASE;USE_QUERY_BUILDER;USE_SEARCH_EXTENSION_API;SCENE_TEMPLATE_MODULE;ENABLE_AR;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_EVENT_QUEUE;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_VIRTUALTEXTURING;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_EDITOR_GAME_SERVICES;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;ENABLE_MANAGED_UNITYTLS;INCLUDE_DYNAMIC_GI;ENABLE_SCRIPTING_GC_WBARRIERS;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_VIDEO;ENABLE_ACCELERATOR_CLIENT_DEBUGGING;PLATFORM_STANDALONE;TEXTCORE_1_0_OR_NEWER;PLATFORM_STANDALONE_WIN;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_NVIDIA;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_OUT_OF_PROCESS_CRASH_HANDLER;ENABLE_CLUSTER_SYNC;ENABLE_CLUSTERINPUT;PLATFORM_UPDATES_TIME_OUTSIDE_OF_PLAYER_LOOP;GFXDEVICE_WAITFOREVENT_MESSAGEPUMP;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_4_6;NET_UNITY_4_8;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_LEGACY_INPUT_MANAGER;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169,0649</NoWarn>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoConfig>true</NoConfig>
+    <NoStdLib>true</NoStdLib>
+    <AddAdditionalExplicitAssemblyReferences>false</AddAdditionalExplicitAssemblyReferences>
+    <ImplicitlyExpandNETStandardFacades>false</ImplicitlyExpandNETStandardFacades>
+    <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
+  </PropertyGroup>
+  <ItemGroup>
+     <Compile Include="Assets\Configurations.cs" />
+     <Compile Include="Assets\Scripts\Near\Models\Game\Bid\AvailableGame.cs" />
+     <Compile Include="Assets\Scripts\Runtime\Runner.cs" />
+     <Compile Include="Assets\Scripts\UI\Main menu\UIPopups\FirstEntryPopup.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Field\Operations\ConditionalMove.cs" />
+     <Compile Include="Assets\Scripts\UI\Main menu\MainMenuAsset.cs" />
+     <Compile Include="Assets\Scripts\UI\Main menu\MainMenu.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\ContractNear.cs" />
+     <Compile Include="Assets\Scripts\UI\ManageTeam\DragAndDrop\PlayerCard.cs" />
+     <Compile Include="Assets\Scripts\Near\MarketplaceContract\Parsers\IPlayerParser.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\ConnectionInfo.cs" />
+     <Compile Include="Assets\Scripts\Near\Models\Tokens\Players\Goalie\GoalieStats.cs" />
+     <Compile Include="Assets\Scripts\UI\Profile\UIPopups\UIPopupWithdraw.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\PublicKey.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Field\Operations\IsNegative.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Providers\FinalExecutionStatusBasic.cs" />
+     <Compile Include="Assets\Scripts\UI\Main menu\Music.cs" />
+     <Compile Include="Assets\Scripts\UI\Main menu\SignInView.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\CryptoBytes.cs" />
+     <Compile Include="Assets\Scripts\UI\Marketplace\ViewInteractor.cs" />
+     <Compile Include="Assets\Scripts\Near\Models\Game\UserStatistics.cs" />
+     <Compile Include="Assets\Scripts\Near\Models\Game\Team\Team.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\NearConfig.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\AccountState.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Providers\TotalWeight.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Account.cs" />
+     <Compile Include="Assets\Scripts\Near\MarketplaceContract\TokensConverter.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\KeyTypeConverter.cs" />
+     <Compile Include="Assets\UI\Scripts\ToggleGroup.cs" />
+     <Compile Include="Assets\Scripts\Near\Models\Tokens\Offer.cs" />
+     <Compile Include="Assets\Scripts\Near\Models\Game\GameData.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Group\Operations\GetP3.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\FunctionCallPermission.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Field\FieldElement.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Signer.cs" />
+     <Compile Include="Assets\Scripts\UI\Marketplace\Sell cards\SellCardsView.cs" />
+     <Compile Include="Assets\Scripts\Near\Models\Tokens\Players\Goalie\Goalie.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Group\Operations\FromBytes.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Providers\FinalExecutionOutcome.cs" />
+     <Compile Include="Assets\Scripts\UI\ManageTeam\DragAndDrop\UISlot.cs" />
+     <Compile Include="Assets\Scripts\Near\MarketplaceContract\Parsers\FieldPlayerParser.cs" />
+     <Compile Include="Assets\Scripts\UI\ManageTeam\ManageTeamController.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Group\GroupElement.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Lookup\D.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\ProviderType.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\ScalarOps\MulAdd.cs" />
+     <Compile Include="Assets\Scripts\Near\GameContract\GameDataConverter.cs" />
+     <Compile Include="Assets\UI\Scripts\TopBar.cs" />
+     <Compile Include="Assets\Scripts\UI\Marketplace\FreeAgents\UIPopups\UIPopupOnAccept.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\NearBinaryWriter.cs" />
+     <Compile Include="Assets\Scripts\UI\Marketplace\FreeAgents\UIPopups\UIPopupOnRemoveSale.cs" />
+     <Compile Include="Assets\Scripts\UI\Main menu\UIPopups\MailAndFriends\UIPopupFriends.cs" />
+     <Compile Include="Assets\Scripts\Near\MarketplaceContract\Parsers\GoalieParser.cs" />
+     <Compile Include="Assets\Scripts\Near\Models\Game\User.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Field\Operations\ControlledSwap.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\KeyStores\MergeKeyStore.cs" />
+     <Compile Include="Assets\Scripts\UI\ManageTeam\Buttons\LineButton.cs" />
+     <Compile Include="Assets\Scripts\UI\Main menu\MainMenuView.cs" />
+     <Compile Include="Assets\Scripts\Runtime\GameStarter.cs" />
+     <Compile Include="Assets\Scripts\Near\MarketplaceContract\UserConverter.cs" />
+     <Compile Include="Assets\Scripts\Near\NearPersistentManager.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\AccessKey.cs" />
+     <Compile Include="Assets\Scripts\UI\ManageTeam\Buttons\SwitchColorButtonsView.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Lookup\D2.cs" />
+     <Compile Include="Assets\Scripts\UI\Marketplace\NftCardsUI\FieldPlayer\FieldPlayerCardUI.cs" />
+     <Compile Include="Assets\UI\Scripts\InputNear.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Group\Operations\P3ConvertToP2.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\KeyPairEd25519.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\KeyStores\UnencryptedFileSystemKeyStore.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Sha512Internal.cs" />
+     <Compile Include="Assets\Scripts\UI\Marketplace\NftCardsUI\RolesButton.cs" />
+     <Compile Include="Assets\Scripts\UI\Marketplace\Buy cards\BidText.cs" />
+     <Compile Include="Assets\UI\Scripts\CardsFilter.cs" />
+     <Compile Include="Assets\UI\Scripts\Toggle.cs" />
+     <Compile Include="Assets\UI\Scripts\CardView.cs" />
+     <Compile Include="Assets\UI\Scripts\Utils.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Group\Operations\GetP3Dbl.cs" />
+     <Compile Include="Assets\Scripts\Near\Models\Game\UserFilter.cs" />
+     <Compile Include="Assets\Scripts\UI\Marketplace\NftCardsUI\NftCardInputUI.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Providers\ExecutionOutcomeWithId.cs" />
+     <Compile Include="Assets\UI\Scripts\ConcavePolygonRenderer.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Group\Operations\P3ToCached.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Transaction.cs" />
+     <Compile Include="Assets\Scripts\Near\Models\Tokens\Players\FieldPlayer\FieldPlayerStats.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Field\Operations\FromBytes.cs" />
+     <Compile Include="Assets\Scripts\UI\Main menu\Pack.cs" />
+     <Compile Include="Assets\Scripts\Near\Models\Game\TeamIds\FiveIds.cs" />
+     <Compile Include="Assets\Scripts\Near\MarketplaceContract\ContractMethods\Views.cs" />
+     <Compile Include="Assets\Scripts\Near\Models\Game\Team\PlayerOnPosition.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Action.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Field\Operations\IsNonZero.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Providers\Provider.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\AccessKeyPermissionType.cs" />
+     <Compile Include="Assets\Scripts\UI\Marketplace\NftCardsUI\Goalie\GoalieNftCardUI.cs" />
+     <Compile Include="Assets\Scripts\UI\Marketplace\BuyPacks\BuyPacksView.cs" />
+     <Compile Include="Assets\Scripts\Near\MarketplaceContract\TeamIdsConverter.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Group\Operations\DoubleScalarMult.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Providers\ChunkResult.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\InMemorySigner.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\AccessKeyPermission.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Lookup\sqrtm1.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Providers\SyncInfo.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\ByteIntegerConverter.cs" />
+     <Compile Include="Assets\Scripts\UI\Marketplace\NftCardsUI\Goalie\GoalieCardUI.cs" />
+     <Compile Include="Assets\Scripts\UI\Profile\Profile.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\ConnectionConfig.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Field\Operations\ToBytes.cs" />
+     <Compile Include="Assets\Scripts\UI\Main menu\UIPopups\MailAndFriends\FriendItem.cs" />
+     <Compile Include="Assets\Scripts\UI\Marketplace\NftCardsUI\FieldPlayer\FieldPlayerNftCardUI.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Ed25519Ops\KeyPair.cs" />
+     <Compile Include="Assets\Scripts\Near\Models\Tokens\Token.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\FullAccessPermission.cs" />
+     <Compile Include="Assets\Scripts\UI\Marketplace\ICardRenderer.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\ActionType.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\ScalarOps\Clamp.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\ContractOptions.cs" />
+     <Compile Include="Assets\Scripts\UI\Marketplace\FreeAgents\FreeAgentView.cs" />
+     <Compile Include="Assets\Scripts\UI\Main menu\UIPopups\BidButton.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Providers\ExecutionError.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Near.cs" />
+     <Compile Include="Assets\Scripts\UI\Marketplace\UIPopup.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Lookup\Base2.cs" />
+     <Compile Include="Assets\UI\Scripts\CardDisplay.cs" />
+     <Compile Include="Assets\Scripts\Near\GameContract\ContractMethods\Views.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Array8.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Providers\ExecutionOutcome.cs" />
+     <Compile Include="Assets\UI\Scripts\AudioController.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Providers\BlockResult.cs" />
+     <Compile Include="Assets\Scripts\Near\MarketplaceContract\PlayerConverter.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Field\Operations\Negative.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Lookup\Base.cs" />
+     <Compile Include="Assets\Scripts\Near\Models\Tokens\MarketplaceToken.cs" />
+     <Compile Include="Assets\UI\Scripts\Marketplace.cs" />
+     <Compile Include="Assets\UI\Scripts\TextInformation.cs" />
+     <Compile Include="Assets\Scripts\UI\Main menu\SceneLoading.cs" />
+     <Compile Include="Assets\Scripts\UI\Marketplace\NftCardsUI\NftCardUI.cs" />
+     <Compile Include="Assets\Scripts\Near\MarketplaceContract\ContractMethods\Actions.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Array16.cs" />
+     <Compile Include="Assets\Scripts\UI\Main menu\CardInPackUI.cs" />
+     <Compile Include="Assets\Scripts\UI\Marketplace\Buy cards\UIPopups\UIPopupPurchasedCard.cs" />
+     <Compile Include="Assets\Scripts\UI\Main menu\UIPopups\Search.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Field\Operations\Square2.cs" />
+     <Compile Include="Assets\Scripts\UI\ManageTeam\ManageTeamAsset.cs" />
+     <Compile Include="Assets\Scripts\UI\ManageTeam\ManageTeamView.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Group\Operations\ScalarMultBase.cs" />
+     <Compile Include="Assets\Scripts\Assets\AssetRoot.cs" />
+     <Compile Include="Assets\Scripts\UI\Main menu\UIPopups\MailAndFriends\UIPopupMail.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\KeyPair.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Group\Operations\Add.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\ScalarOps\Load.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Field\Operations\Multiplication.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\KeyStores\InMemoryKeyStore.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\SignerType.cs" />
+     <Compile Include="Assets\Scripts\UI\Marketplace\ICardLoader.cs" />
+     <Compile Include="Assets\Scripts\UI\Marketplace\Sell cards\SellCardsButton.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\LocalAccountCreator.cs" />
+     <Compile Include="Assets\Scripts\Near\Models\Tokens\Filters\Pagination.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\KeyStores\KeyStore.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Field\Operations\Invert.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Group\Operations\P3ToBytes.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Group\Operations\GetP2Dbl.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\NearBinaryReader.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Ed25519Ops\sign.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Base58.cs" />
+     <Compile Include="Assets\Scripts\UI\Marketplace\MarketplaceAsset.cs" />
+     <Compile Include="Assets\Scripts\Utils\Utils.cs" />
+     <Compile Include="Assets\Scripts\UI\Main menu\ButtonFX.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Field\Operations\Square.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\UInt128.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Group\Operations\ToBytes.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Sha512.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\UrlAccountCreator.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Providers\NodeStatusResult.cs" />
+     <Compile Include="Assets\Scripts\UI\Marketplace\NftCardsUI\FieldPlayer\FieldPlayerDescriptionUI.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\ScalarOps\Reduce.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Providers\JsonRpcProvider.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Group\Operations\GetPreComp.cs" />
+     <Compile Include="Assets\Scripts\UI\Marketplace\FreeAgents\UIPopups\UIPopupOnUpdatePrice.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\WalletAccount.cs" />
+     <Compile Include="Assets\Scripts\UI\Marketplace\Sell cards\SellCardView.cs" />
+     <Compile Include="Assets\Scripts\UI\Main menu\UIPopups\UIPopupSettings.cs" />
+     <Compile Include="Assets\UI\Scripts\UiComponent.cs" />
+     <Compile Include="Assets\Scripts\Near\GameContract\ContractMethods\Actions.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\ProviderConfig.cs" />
+     <Compile Include="Assets\Scripts\Near\Models\Game\Team\Five.cs" />
+     <Compile Include="Assets\Scripts\UI\ManageTeam\DragAndDrop\UIPlayer.cs" />
+     <Compile Include="Assets\Scripts\Near\Models\Game\Bid\Opponent.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\NearSignature.cs" />
+     <Compile Include="Assets\Scripts\Near\Models\Game\Bid\Bid.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Ed25519Ops\open.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\IExternalAuthService.cs" />
+     <Compile Include="Assets\Scripts\Near\Models\Game\TeamIds\TeamIds.cs" />
+     <Compile Include="Assets\Scripts\UI\ManageTeam\DragAndDrop\CardView.cs" />
+     <Compile Include="Assets\UI\Scripts\PolygonDrawer.cs" />
+     <Compile Include="Assets\Scripts\UI\Main menu\UIPopups\Loading.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Field\Operations\Pow22523.cs" />
+     <Compile Include="Assets\Scripts\Runtime\Game.cs" />
+     <Compile Include="Assets\Scripts\UI\Marketplace\Buy cards\BuyCardView.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Web.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Providers\FinalExecutionStatus.cs" />
+     <Compile Include="Assets\UI\Scripts\CircleRenderer.cs" />
+     <Compile Include="Assets\Scripts\UI\Marketplace\NftCardsUI\Goalie\GoalieDescriptionUI.cs" />
+     <Compile Include="Assets\Scripts\UI\Marketplace\Sell cards\UIPopupOnSell.cs" />
+     <Compile Include="Assets\Scripts\UI\Marketplace\FreeAgents\FreeAgentsView.cs" />
+     <Compile Include="Assets\Scripts\Near\Models\Game\Bid\GameConfig.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\INetwork.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\SignerConfig.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Group\Operations\P1P1ConvertToP3.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Providers\Transaction.cs" />
+     <Compile Include="Assets\Scripts\UI\Main menu\UIPopups\UIPopupSetBid.cs" />
+     <Compile Include="Assets\Scripts\UI\Marketplace\MarketplaceInteractor.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Field\Operations\Reduce.cs" />
+     <Compile Include="Assets\UI\Scripts\Input.cs" />
+     <Compile Include="Assets\Scripts\UI\Main menu\OpponentBet.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Providers\BlockHeader.cs" />
+     <Compile Include="Assets\Scripts\Near\Models\Game\Event.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Connection.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\AccountCreator.cs" />
+     <Compile Include="Assets\Scripts\UI\Marketplace\NftCardsUI\CardUI.cs" />
+     <Compile Include="Assets\Scripts\UI\Main menu\UIPopups\Timer.cs" />
+     <Compile Include="Assets\Scripts\Near\Models\Tokens\Rarity.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Group\Operations\P1P1ConvertToP2.cs" />
+     <Compile Include="Assets\Scripts\Near\Models\Tokens\Players\Player.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Group\Operations\Madd.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Field\Operations\Subtract.cs" />
+     <Compile Include="Assets\Scripts\UI\ManageTeam\SlotPositionEnum.cs" />
+     <Compile Include="Assets\Scripts\Near\Models\Tokens\Players\FieldPlayer\FieldPlayer.cs" />
+     <Compile Include="Assets\Scripts\UI\Marketplace\TopButton.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Field\Operations\FieldOperations_0.cs" />
+     <Compile Include="Assets\Scripts\UI\Main menu\UIPopups\UIPopup.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Field\Operations\FromBytes2.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Field\Operations\FieldOperations_1.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\KeyStores\AccountInfo.cs" />
+     <Compile Include="Assets\Scripts\Runtime\IController.cs" />
+     <Compile Include="Assets\Scripts\Near\NearUtils.cs" />
+     <Compile Include="Assets\UI\Scripts\UiButton.cs" />
+     <Compile Include="Assets\Scripts\Near\GameContract\UserGameContractConverter.cs" />
+     <Compile Include="Assets\Scripts\Near\Models\Tokens\Filters\PlayerFilter.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Ed25519.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Field\Operations\Load.cs" />
+     <Compile Include="Assets\Scripts\UI\Main menu\UIPopups\UIPopupNotEnoughBalance.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Field\Operations\Multiplication121666.cs" />
+     <Compile Include="Assets\Scripts\UI\Marketplace\Sell cards\SwitchToggleSellCard.cs" />
+     <Compile Include="Assets\Scripts\Near\Models\Game\GameDataFilter.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Group\Operations\GetP2.cs" />
+     <Compile Include="Assets\Scripts\UI\Marketplace\MarketplaceController.cs" />
+     <Compile Include="Assets\Scripts\UI\ManageTeam\DragAndDrop\TextInformation.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Providers\ExecutionStatusBasic.cs" />
+     <Compile Include="Assets\UI\Scripts\Popup.cs" />
+     <Compile Include="Assets\Scripts\Near\Models\Tokens\AccountWithDeposit.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\KeyType.cs" />
+     <Compile Include="Assets\Scripts\UI\Marketplace\NftCardsUI\NftCardDescriptionUI.cs" />
+     <Compile Include="Assets\Scripts\UI\Marketplace\Buy cards\BuyCardsView.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\ByteArray64.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\ByteArray32.cs" />
+     <Compile Include="Assets\Scripts\Near\Models\Game\UserInGameInfo.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Providers\ChunkHeader.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Group\Operations\Subtract.cs" />
+     <Compile Include="Assets\UI\Scripts\PopupManager.cs" />
+     <Compile Include="Assets\Scripts\Runtime\GameRunner.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\MontgomeryOps\ScalarMult.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Providers\ExecutionStatus.cs" />
+     <Compile Include="Assets\Scripts\UI\Marketplace\Buy cards\UIPopups\UIPopupSetBid.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\IExternalAuthStorage.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Field\Operations\Add.cs" />
+     <Compile Include="Assets\Scripts\UI\ManageTeam\Bench.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\SignedTransaction.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Signature.cs" />
+     <Compile Include="Assets\Scripts\NearApiLibrary\Utilities\Ed25519\Internal\Ed25519Ref10\Group\Operations\Msub.cs" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
+     <None Include="Assets\Fonts\Orbitron\OFL.txt" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
+     <None Include="Assets\Fonts\Orbitron\README.txt" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
+     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
+     <None Include="Assets\Fonts\Digital-Numbers\digitalnumbers\OFL.txt" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
+     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
+     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
+     <None Include="Assets\Fonts\Digital-Numbers\ffonts.net.txt" />
+     <None Include="Assets\Fonts\Digital-Numbers\install-a-new-font.txt" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
+     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
+     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne.json" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
+     <Reference Include="UnityEngine">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.AIModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.AIModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.ARModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.ARModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.AccessibilityModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.AccessibilityModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.AndroidJNIModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.AndroidJNIModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.AnimationModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.AnimationModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.AssetBundleModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.AssetBundleModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.AudioModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.AudioModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.ClothModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.ClothModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.ClusterInputModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.ClusterInputModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.ClusterRendererModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.ClusterRendererModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.CoreModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.CoreModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.CrashReportingModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.CrashReportingModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.DSPGraphModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.DSPGraphModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.DirectorModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.DirectorModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.GIModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.GIModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.GameCenterModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.GameCenterModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.GridModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.GridModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.HotReloadModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.HotReloadModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.IMGUIModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.IMGUIModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.ImageConversionModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.ImageConversionModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.InputModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.InputModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.InputLegacyModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.InputLegacyModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.JSONSerializeModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.JSONSerializeModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.LocalizationModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.LocalizationModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.ParticleSystemModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.ParticleSystemModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.PerformanceReportingModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.PerformanceReportingModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.PhysicsModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.PhysicsModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.Physics2DModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.Physics2DModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.ProfilerModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.ProfilerModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.ScreenCaptureModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.ScreenCaptureModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.SharedInternalsModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.SharedInternalsModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.SpriteMaskModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.SpriteMaskModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.SpriteShapeModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.SpriteShapeModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.StreamingModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.StreamingModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.SubstanceModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.SubstanceModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.SubsystemsModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.SubsystemsModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.TLSModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.TLSModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.TerrainModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.TerrainModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.TerrainPhysicsModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.TerrainPhysicsModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.TextCoreFontEngineModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.TextCoreFontEngineModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.TextCoreTextEngineModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.TextCoreTextEngineModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.TextRenderingModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.TextRenderingModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.TilemapModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.TilemapModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.UIModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.UIModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.UIElementsModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.UIElementsModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.UIElementsNativeModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.UIElementsNativeModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.UNETModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.UNETModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.UmbraModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.UmbraModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.UnityAnalyticsModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityAnalyticsModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.UnityConnectModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityConnectModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.UnityCurlModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityCurlModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.UnityTestProtocolModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityTestProtocolModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.UnityWebRequestModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityWebRequestModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.UnityWebRequestAssetBundleModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityWebRequestAssetBundleModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.UnityWebRequestAudioModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.UnityWebRequestTextureModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.UnityWebRequestWWWModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.VFXModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.VFXModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.VRModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.VRModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.VehiclesModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.VehiclesModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.VideoModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.VideoModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.VirtualTexturingModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.VirtualTexturingModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.WindModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.WindModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.XRModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEngine.XRModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEditor">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEditor.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEditor.CoreModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEditor.CoreModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEditor.DeviceSimulatorModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEditor.DeviceSimulatorModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEditor.DiagnosticsModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEditor.DiagnosticsModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEditor.GraphViewModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEditor.GraphViewModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEditor.PackageManagerUIModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEditor.PackageManagerUIModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEditor.PresetsUIModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEditor.PresetsUIModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEditor.QuickSearchModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEditor.QuickSearchModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEditor.SceneTemplateModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEditor.SceneTemplateModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEditor.TextCoreFontEngineModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEditor.TextCoreFontEngineModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEditor.TextCoreTextEngineModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEditor.TextCoreTextEngineModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEditor.UIBuilderModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEditor.UIBuilderModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEditor.UIElementsModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEditor.UIElementsModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEditor.UIElementsSamplesModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEditor.UIElementsSamplesModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEditor.UIServiceModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEditor.UIServiceModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEditor.UnityConnectModule">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\Managed\UnityEngine\UnityEditor.UnityConnectModule.dll</HintPath>
+     </Reference>
+     <Reference Include="GraphQL.Query.Builder">
+     <HintPath>C:\Users\User\Desktop\nft-hockey-game-unity\Assets\Plugins\GraphQL.Query.Builder.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
+     <HintPath>C:\Users\User\Desktop\nft-hockey-game-unity\Library\PackageCache\com.unity.visualscripting@1.7.8\Runtime\VisualScripting.Flow\Dependencies\NCalc\Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
+     </Reference>
+     <Reference Include="Newtonsoft.Json">
+     <HintPath>C:\Users\User\Desktop\nft-hockey-game-unity\Library\PackageCache\com.unity.nuget.newtonsoft-json@3.0.2\Runtime\Newtonsoft.Json.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Android.Types">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\PlaybackEngines\AndroidPlayer\Unity.Android.Types.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Android.Gradle">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\PlaybackEngines\AndroidPlayer\Unity.Android.Gradle.dll</HintPath>
+     </Reference>
+     <Reference Include="mscorlib">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\mscorlib.dll</HintPath>
+     </Reference>
+     <Reference Include="System">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\System.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Core">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\System.Core.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Runtime.Serialization">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\System.Runtime.Serialization.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Xml">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\System.Xml.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Xml.Linq">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\System.Xml.Linq.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Numerics">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\System.Numerics.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Numerics.Vectors">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\System.Numerics.Vectors.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Net.Http">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\System.Net.Http.dll</HintPath>
+     </Reference>
+     <Reference Include="System.IO.Compression">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\System.IO.Compression.dll</HintPath>
+     </Reference>
+     <Reference Include="Microsoft.CSharp">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Microsoft.CSharp.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Data">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\System.Data.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Data.DataSetExtensions">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\System.Data.DataSetExtensions.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Drawing">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\System.Drawing.dll</HintPath>
+     </Reference>
+     <Reference Include="System.IO.Compression.FileSystem">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\System.IO.Compression.FileSystem.dll</HintPath>
+     </Reference>
+     <Reference Include="System.ComponentModel.Composition">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\System.ComponentModel.Composition.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Transactions">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\System.Transactions.dll</HintPath>
+     </Reference>
+     <Reference Include="Microsoft.Win32.Primitives">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\Microsoft.Win32.Primitives.dll</HintPath>
+     </Reference>
+     <Reference Include="netstandard">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\netstandard.dll</HintPath>
+     </Reference>
+     <Reference Include="System.AppContext">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.AppContext.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Buffers">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Buffers.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Collections.Concurrent">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Collections.Concurrent.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Collections">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Collections.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Collections.NonGeneric">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Collections.NonGeneric.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Collections.Specialized">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Collections.Specialized.dll</HintPath>
+     </Reference>
+     <Reference Include="System.ComponentModel.Annotations">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.ComponentModel.Annotations.dll</HintPath>
+     </Reference>
+     <Reference Include="System.ComponentModel">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.ComponentModel.dll</HintPath>
+     </Reference>
+     <Reference Include="System.ComponentModel.EventBasedAsync">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.ComponentModel.EventBasedAsync.dll</HintPath>
+     </Reference>
+     <Reference Include="System.ComponentModel.Primitives">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.ComponentModel.Primitives.dll</HintPath>
+     </Reference>
+     <Reference Include="System.ComponentModel.TypeConverter">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.ComponentModel.TypeConverter.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Console">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Console.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Data.Common">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Data.Common.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Diagnostics.Contracts">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Diagnostics.Contracts.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Diagnostics.Debug">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Diagnostics.Debug.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Diagnostics.FileVersionInfo">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Diagnostics.FileVersionInfo.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Diagnostics.Process">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Diagnostics.Process.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Diagnostics.StackTrace">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Diagnostics.StackTrace.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Diagnostics.TextWriterTraceListener">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Diagnostics.TextWriterTraceListener.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Diagnostics.Tools">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Diagnostics.Tools.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Diagnostics.TraceSource">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Diagnostics.TraceSource.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Drawing.Primitives">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Drawing.Primitives.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Dynamic.Runtime">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Dynamic.Runtime.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Globalization.Calendars">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Globalization.Calendars.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Globalization">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Globalization.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Globalization.Extensions">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Globalization.Extensions.dll</HintPath>
+     </Reference>
+     <Reference Include="System.IO.Compression.ZipFile">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.IO.Compression.ZipFile.dll</HintPath>
+     </Reference>
+     <Reference Include="System.IO">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.IO.dll</HintPath>
+     </Reference>
+     <Reference Include="System.IO.FileSystem">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.IO.FileSystem.dll</HintPath>
+     </Reference>
+     <Reference Include="System.IO.FileSystem.DriveInfo">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.IO.FileSystem.DriveInfo.dll</HintPath>
+     </Reference>
+     <Reference Include="System.IO.FileSystem.Primitives">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.IO.FileSystem.Primitives.dll</HintPath>
+     </Reference>
+     <Reference Include="System.IO.FileSystem.Watcher">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.IO.FileSystem.Watcher.dll</HintPath>
+     </Reference>
+     <Reference Include="System.IO.IsolatedStorage">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.IO.IsolatedStorage.dll</HintPath>
+     </Reference>
+     <Reference Include="System.IO.MemoryMappedFiles">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.IO.MemoryMappedFiles.dll</HintPath>
+     </Reference>
+     <Reference Include="System.IO.Pipes">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.IO.Pipes.dll</HintPath>
+     </Reference>
+     <Reference Include="System.IO.UnmanagedMemoryStream">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.IO.UnmanagedMemoryStream.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Linq">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Linq.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Linq.Expressions">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Linq.Expressions.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Linq.Parallel">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Linq.Parallel.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Linq.Queryable">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Linq.Queryable.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Memory">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Memory.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Net.Http.Rtc">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Net.Http.Rtc.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Net.NameResolution">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Net.NameResolution.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Net.NetworkInformation">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Net.NetworkInformation.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Net.Ping">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Net.Ping.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Net.Primitives">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Net.Primitives.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Net.Requests">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Net.Requests.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Net.Security">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Net.Security.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Net.Sockets">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Net.Sockets.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Net.WebHeaderCollection">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Net.WebHeaderCollection.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Net.WebSockets.Client">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Net.WebSockets.Client.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Net.WebSockets">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Net.WebSockets.dll</HintPath>
+     </Reference>
+     <Reference Include="System.ObjectModel">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.ObjectModel.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Reflection.DispatchProxy">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Reflection.DispatchProxy.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Reflection">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Reflection.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Reflection.Emit">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Reflection.Emit.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Reflection.Emit.ILGeneration">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Reflection.Emit.ILGeneration.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Reflection.Emit.Lightweight">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Reflection.Emit.Lightweight.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Reflection.Extensions">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Reflection.Extensions.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Reflection.Primitives">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Reflection.Primitives.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Resources.Reader">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Resources.Reader.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Resources.ResourceManager">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Resources.ResourceManager.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Resources.Writer">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Resources.Writer.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Runtime.CompilerServices.VisualC">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Runtime.CompilerServices.VisualC.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Runtime">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Runtime.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Runtime.Extensions">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Runtime.Extensions.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Runtime.Handles">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Runtime.Handles.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Runtime.InteropServices">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Runtime.InteropServices.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Runtime.InteropServices.RuntimeInformation">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Runtime.InteropServices.WindowsRuntime">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Runtime.InteropServices.WindowsRuntime.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Runtime.Numerics">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Runtime.Numerics.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Runtime.Serialization.Formatters">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Runtime.Serialization.Formatters.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Runtime.Serialization.Json">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Runtime.Serialization.Json.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Runtime.Serialization.Primitives">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Runtime.Serialization.Primitives.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Runtime.Serialization.Xml">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Runtime.Serialization.Xml.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Security.Claims">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Security.Claims.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Security.Cryptography.Algorithms">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Security.Cryptography.Algorithms.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Security.Cryptography.Csp">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Security.Cryptography.Csp.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Security.Cryptography.Encoding">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Security.Cryptography.Encoding.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Security.Cryptography.Primitives">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Security.Cryptography.Primitives.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Security.Cryptography.X509Certificates">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Security.Cryptography.X509Certificates.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Security.Principal">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Security.Principal.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Security.SecureString">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Security.SecureString.dll</HintPath>
+     </Reference>
+     <Reference Include="System.ServiceModel.Duplex">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.ServiceModel.Duplex.dll</HintPath>
+     </Reference>
+     <Reference Include="System.ServiceModel.Http">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.ServiceModel.Http.dll</HintPath>
+     </Reference>
+     <Reference Include="System.ServiceModel.NetTcp">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.ServiceModel.NetTcp.dll</HintPath>
+     </Reference>
+     <Reference Include="System.ServiceModel.Primitives">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.ServiceModel.Primitives.dll</HintPath>
+     </Reference>
+     <Reference Include="System.ServiceModel.Security">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.ServiceModel.Security.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Text.Encoding">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Text.Encoding.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Text.Encoding.Extensions">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Text.Encoding.Extensions.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Text.RegularExpressions">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Text.RegularExpressions.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Threading">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Threading.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Threading.Overlapped">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Threading.Overlapped.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Threading.Tasks">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Threading.Tasks.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Threading.Tasks.Extensions">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Threading.Tasks.Extensions.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Threading.Tasks.Parallel">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Threading.Tasks.Parallel.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Threading.Thread">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Threading.Thread.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Threading.ThreadPool">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Threading.ThreadPool.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Threading.Timer">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Threading.Timer.dll</HintPath>
+     </Reference>
+     <Reference Include="System.ValueTuple">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.ValueTuple.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Xml.ReaderWriter">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Xml.ReaderWriter.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Xml.XDocument">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Xml.XDocument.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Xml.XmlDocument">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Xml.XmlDocument.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Xml.XmlSerializer">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Xml.XmlSerializer.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Xml.XPath">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Xml.XPath.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Xml.XPath.XDocument">
+     <HintPath>D:\Unity\2022.1.14f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Xml.XPath.XDocument.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.VisualScripting.Flow.Editor">
+     <HintPath>C:\Users\User\Desktop\nft-hockey-game-unity\Library\ScriptAssemblies\Unity.VisualScripting.Flow.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Coffee.SoftMaskForUGUI.Editor">
+     <HintPath>C:\Users\User\Desktop\nft-hockey-game-unity\Library\ScriptAssemblies\Coffee.SoftMaskForUGUI.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.VSCode.Editor">
+     <HintPath>C:\Users\User\Desktop\nft-hockey-game-unity\Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.InternalAPIEditorBridge.003">
+     <HintPath>C:\Users\User\Desktop\nft-hockey-game-unity\Library\ScriptAssemblies\Unity.InternalAPIEditorBridge.003.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.TextMeshPro.Editor">
+     <HintPath>C:\Users\User\Desktop\nft-hockey-game-unity\Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.VisualStudio.Editor">
+     <HintPath>C:\Users\User\Desktop\nft-hockey-game-unity\Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.VectorGraphics">
+     <HintPath>C:\Users\User\Desktop\nft-hockey-game-unity\Library\ScriptAssemblies\Unity.VectorGraphics.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Timeline">
+     <HintPath>C:\Users\User\Desktop\nft-hockey-game-unity\Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.VisualScripting.Core.Editor">
+     <HintPath>C:\Users\User\Desktop\nft-hockey-game-unity\Library\ScriptAssemblies\Unity.VisualScripting.Core.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.TextMeshPro">
+     <HintPath>C:\Users\User\Desktop\nft-hockey-game-unity\Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.VisualScripting.State.Editor">
+     <HintPath>C:\Users\User\Desktop\nft-hockey-game-unity\Library\ScriptAssemblies\Unity.VisualScripting.State.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.InternalAPIEngineBridge.003">
+     <HintPath>C:\Users\User\Desktop\nft-hockey-game-unity\Library\ScriptAssemblies\Unity.InternalAPIEngineBridge.003.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.VisualScripting.SettingsProvider.Editor">
+     <HintPath>C:\Users\User\Desktop\nft-hockey-game-unity\Library\ScriptAssemblies\Unity.VisualScripting.SettingsProvider.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.2D.Sprite.Editor">
+     <HintPath>C:\Users\User\Desktop\nft-hockey-game-unity\Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.VisualScripting.Flow">
+     <HintPath>C:\Users\User\Desktop\nft-hockey-game-unity\Library\ScriptAssemblies\Unity.VisualScripting.Flow.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEditor.UI">
+     <HintPath>C:\Users\User\Desktop\nft-hockey-game-unity\Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.PlasticSCM.Editor">
+     <HintPath>C:\Users\User\Desktop\nft-hockey-game-unity\Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Rider.Editor">
+     <HintPath>C:\Users\User\Desktop\nft-hockey-game-unity\Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.UI">
+     <HintPath>C:\Users\User\Desktop\nft-hockey-game-unity\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Services.Core">
+     <HintPath>C:\Users\User\Desktop\nft-hockey-game-unity\Library\ScriptAssemblies\Unity.Services.Core.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.VisualScripting.Core">
+     <HintPath>C:\Users\User\Desktop\nft-hockey-game-unity\Library\ScriptAssemblies\Unity.VisualScripting.Core.dll</HintPath>
+     </Reference>
+     <Reference Include="Coffee.SoftMaskForUGUI">
+     <HintPath>C:\Users\User\Desktop\nft-hockey-game-unity\Library\ScriptAssemblies\Coffee.SoftMaskForUGUI.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Services.Core.Analytics">
+     <HintPath>C:\Users\User\Desktop\nft-hockey-game-unity\Library\ScriptAssemblies\Unity.Services.Core.Analytics.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.VisualScripting.Shared.Editor">
+     <HintPath>C:\Users\User\Desktop\nft-hockey-game-unity\Library\ScriptAssemblies\Unity.VisualScripting.Shared.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Services.Core.Environments">
+     <HintPath>C:\Users\User\Desktop\nft-hockey-game-unity\Library\ScriptAssemblies\Unity.Services.Core.Environments.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Timeline.Editor">
+     <HintPath>C:\Users\User\Desktop\nft-hockey-game-unity\Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.VectorGraphics.Editor">
+     <HintPath>C:\Users\User\Desktop\nft-hockey-game-unity\Library\ScriptAssemblies\Unity.VectorGraphics.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.VisualScripting.State">
+     <HintPath>C:\Users\User\Desktop\nft-hockey-game-unity\Library\ScriptAssemblies\Unity.VisualScripting.State.dll</HintPath>
+     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

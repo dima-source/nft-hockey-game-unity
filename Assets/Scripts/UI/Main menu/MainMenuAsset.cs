@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UI.Main_menu.UIPopups;
+using UnityEngine;
 
 namespace UI.Main_menu
 {
@@ -6,7 +7,7 @@ namespace UI.Main_menu
     [CreateAssetMenu(menuName = "Assets/Asset Main menu", fileName = "Asset Main menu")]
     public class MainMenuAsset : ScriptableObject
     {
-        public OpponentBet opponentBet;
+        public FriendItem friendItem;
         public CardInPackUI cardInPackUI;
     }
 }

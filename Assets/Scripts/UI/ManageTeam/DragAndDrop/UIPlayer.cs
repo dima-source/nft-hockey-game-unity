@@ -20,11 +20,10 @@ namespace UI.ManageTeam.DragAndDrop
             playerSurname = splittedName[1];
         }
 
-        public Image playerImg;
-
         private CanvasGroup _canvasGroup;
         private Canvas _mainCanvas;
         public RectTransform RectTransform;
+        public ManageTeamView ManageTeamView;
 
         public Transform canvasContent;
 
@@ -60,19 +59,20 @@ namespace UI.ManageTeam.DragAndDrop
 
             transform.localPosition = Vector3.zero;
             _canvasGroup.blocksRaycasts = true;
+            ManageTeamView.UpdateTeamWork();
         }
 
         public abstract void SetData(Token token);
 
-        public static Scripts.CardView.Position StringToPosition(string position)
+        public static Position StringToPosition(string position)
         {
-            Scripts.CardView.Position.TryParse(position, out Scripts.CardView.Position parsedPosition);
+            Position.TryParse(position, out Position parsedPosition);
             return parsedPosition;
         }
 
-        public static Scripts.CardView.PlayerRole StringToRole(string roleString)
+        public static PlayerRole StringToRole(string roleString)
         {
-            Scripts.CardView.PlayerRole.TryParse(roleString, out Scripts.CardView.PlayerRole parsedRole);
+            PlayerRole.TryParse(roleString, out PlayerRole parsedRole);
             return parsedRole;
         }
     }

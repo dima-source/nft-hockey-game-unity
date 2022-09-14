@@ -14,7 +14,7 @@ namespace Near
         private NearClientUnity.Near _near;
         
         private ContractNear _gameContract;
-        private const string GameContactId = "game.parh.testnet";
+        private const string GameContactId = "new_game.parh.testnet";
 
         private ContractNear _marketplaceContract;
         public readonly string MarketplaceContactId = "market.parh.testnet";
@@ -77,7 +77,11 @@ namespace Near
                     "is_already_in_the_waiting_list", "get_game_config", "get_game_config"},
                 changeMethods = new[] { "make_available", "start_game", "generate_event",
                     "make_unavailable", "internal_stop_game", "get_owner_team", "take_to",
-                    "coach_speech", "goalie_out", "goalie_back"}
+                    "coach_speech", "goalie_out", "goalie_back", 
+                    "send_friend_request", "accept_friend_request", "decline_friend_request", 
+                    "send_request_play", "accept_request_play", "decline_request_game",
+                    "register_account", "remove_friend"
+                }
             };
         
             return new ContractNear(account, WalletAccount, GameContactId, options);

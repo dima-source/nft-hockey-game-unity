@@ -1,29 +1,67 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine.UI;
 using TMPro;
 using UI.Scripts;
 using Unity.VisualScripting;
 using UnityEngine;
 
-namespace UI.ManageTeam
+namespace UI.ManageTeam.DragAndDrop
 {
     public class CardView : UiComponent
     {
-        protected bool updateAvatar = true;
+        protected bool updateAvatar = false;
+        [SerializeField] private Animation _statsChange;
+        [SerializeField] private TMP_Text _statsPercentText;
 
+        public enum PlayerRole
+        {
+            Playmaker,
+            Enforcer,
+            Shooter,
+            TryHarder,
+            DefensiveForward,
+            Grinder,
+            DefensiveDefenceman,
+            OffensiveDefenceman,
+            TwoWayDefencemen,
+            ToughGuy,
+            StandUp,
+            Butterfly,
+            Hybrid
+        }
 
-        [Header("Main")]
-        public string avatarImagePath;
+        public enum Position
+        {
+            RW,
+            LW,
+            RD,
+            LD,
+            C,
+            G
+        }
+
+        public enum Rareness
+        {
+            Usual,
+            Rare,
+            Epic,
+            Legendary
+        }
+
+        [Header("Main")] public string avatarImagePath;
         public int year;
-        public Scripts.CardView.Position position;
+        public Position position;
 
         [Header("Personal")] public string playerName = "";
         public string playerSurname = "";
         public int playerNumber;
-        public Scripts.CardView.PlayerRole playerRole;
-        public Scripts.CardView.Rareness rareness;
-        
+        public PlayerRole playerRole;
+        public Rareness rareness;
+
         public int[] statistics;
 
         private Transform _statisticsContainer;
@@ -48,13 +86,37 @@ namespace UI.ManageTeam
             _avatar = UI.Scripts.Utils.FindChild<Image>(transform, "Icon");
             _playerRoleText = UI.Scripts.Utils.FindChild<TextMeshProUGUI>(transform, "RoleText");
             _background = UI.Scripts.Utils.FindChild<TextInformation>(transform, "Background");
-            
+
             _statisticsContainer = UI.Scripts.Utils.FindChild<Transform>(transform, "BottomRow");
             _statisticViews = new TextMeshProUGUI[_statisticsContainer.childCount];
             for (int i = 0; i < _statisticsContainer.childCount; i++)
             {
                 _statisticViews[i] = _statisticsContainer.GetChild(i).GetComponent<TextMeshProUGUI>();
             }
+        }
+
+        public void PlayStatsUp(int percent)
+        {
+            _statsPercentText.text = $"{percent.ToString()}%";
+            StartCoroutine(AnimationPlaying("StatsUp"));
+        }
+
+        public void PlayStatsDown(int percent)
+        {
+            _statsPercentText.text = $"{percent.ToString()}%";
+            StartCoroutine(AnimationPlaying("StatsDown"));
+        }
+
+        private IEnumerator AnimationPlaying(string animationType)
+        {
+            _statsChange.gameObject.SetActive(true);
+            _statsChange.Play(animationType);
+            while (_statsChange.isPlaying)
+            {
+                yield return new WaitForSeconds(0.5f);
+            }
+
+            _statsChange.gameObject.SetActive(false);
         }
 
         protected override void OnUpdate()
@@ -64,7 +126,7 @@ namespace UI.ManageTeam
             _nameText.text = playerName;
             _surnameText.text = playerSurname;
             _numberText.text = playerNumber.ToString();
-            if (updateAvatar) 
+            if (updateAvatar)
                 _avatar.sprite = UI.Scripts.Utils.LoadSprite(Configurations.SpritesFolderPath + avatarImagePath);
             else
             {
@@ -73,64 +135,80 @@ namespace UI.ManageTeam
                     _avatar.sprite = UI.Scripts.Utils.LoadSprite(Configurations.SpritesFolderPath + avatarImagePath);
                 }
             }
+
             _playerRoleText.text = RoleToString(playerRole);
-            // TODO: 
-            //_background.material = RarenessToMaterial(rareness);
+            _background.material = RarenessToMaterial(rareness);
             UpdateStatistics();
+        }
+
+        protected void OnDisable()
+        {
+            _statsChange.gameObject.SetActive(false);
         }
 
         private void UpdateStatistics()
         {
             if (statistics.Length > _statisticsContainer.childCount)
             {
-                statistics = statistics.Take(_statisticsContainer.childCount).ToArray();   
+                statistics = statistics.Take(_statisticsContainer.childCount).ToArray();
             }
-            
+
             for (int i = 0; i < _statisticViews.Length; i++)
             {
                 GameObject statisticsObject = _statisticViews[i].gameObject;
                 statisticsObject.SetActive(i < statistics.Length);
                 if (i < statistics.Length)
                 {
-                    _statisticViews[i].text = statistics[i].ToString();   
+                    _statisticViews[i].text = statistics[i].ToString();
                 }
             }
         }
 
-        private static string RoleToString(Scripts.CardView.PlayerRole role)
+        private static string RoleToString(PlayerRole role)
         {
             return role switch
             {
-                Scripts.CardView.PlayerRole.Playmaker => "Playmaker",
-                Scripts.CardView.PlayerRole.Enforcer => "Enforcer",
-                Scripts.CardView.PlayerRole.Shooter => "Shooter",
-                Scripts.CardView.PlayerRole.TryHarder => "Try-harder",
-                Scripts.CardView.PlayerRole.DefensiveForward => "Defensive forward",
-                Scripts.CardView.PlayerRole.Grinder => "Grinder",
-                Scripts.CardView.PlayerRole.DefensiveDefenceman => "Defensive defenceman",
-                Scripts.CardView.PlayerRole.OffensiveDefenceman => "Offensive defenceman",
-                Scripts.CardView.PlayerRole.TwoWayDefencemen => "Two-way defencemen",
-                Scripts.CardView.PlayerRole.ToughGuy => "Tough guy",
-                Scripts.CardView.PlayerRole.StandUp => "Standup",
-                Scripts.CardView.PlayerRole.Butterfly => "Butterfly",
-                Scripts.CardView.PlayerRole.Hybrid => "Hybrid",
+                PlayerRole.Playmaker => "Playmaker",
+                PlayerRole.Enforcer => "Enforcer",
+                PlayerRole.Shooter => "Shooter",
+                PlayerRole.TryHarder => "Try-harder",
+                PlayerRole.DefensiveForward => "Defensive forward",
+                PlayerRole.Grinder => "Grinder",
+                PlayerRole.DefensiveDefenceman => "Defensive defenceman",
+                PlayerRole.OffensiveDefenceman => "Offensive defenceman",
+                PlayerRole.TwoWayDefencemen => "Two-way defencemen",
+                PlayerRole.ToughGuy => "Tough guy",
+                PlayerRole.StandUp => "Standup",
+                PlayerRole.Butterfly => "Butterfly",
+                PlayerRole.Hybrid => "Hybrid",
                 _ => throw new ApplicationException("Unsupported role")
             };
         }
-        
+
+        public SlotPositionEnum PositionToSlotPosition()
+        {
+            return position switch
+            {
+                Position.LW => SlotPositionEnum.LeftWing,
+                Position.C => SlotPositionEnum.Center,
+                Position.RW => SlotPositionEnum.RightWing,
+                Position.LD => SlotPositionEnum.LeftDefender,
+                Position.RD => SlotPositionEnum.RightDefender,
+                _ => throw new SwitchExpressionException("Cannot map position to SlotPositionEnum")
+            };
+        }
+
         // TODO: change colors
-        /*
-        private static TextInformation.BackgroundMaterial RarenessToMaterial(Scripts.CardView.Rareness rareness)
+        private static TextInformation.BackgroundMaterial RarenessToMaterial(Rareness rareness)
         {
             return rareness switch
             {
-                Scripts.CardView.Rareness.Usual => TextInformation.BackgroundMaterial.AccentBackgroundCold,
-                Scripts.CardView.Rareness.Rare => TextInformation.BackgroundMaterial.AccentBackgroundHot,
-                Scripts.CardView.Rareness.=> TextInformation.BackgroundMaterial.AccentBackground1,
-                Scripts.CardView.Rareness.Legendary => TextInformation.BackgroundMaterial.AccentBackground2,
+                Rareness.Usual => TextInformation.BackgroundMaterial.AccentBackgroundCold,
+                Rareness.Rare => TextInformation.BackgroundMaterial.AccentBackgroundHot,
+                Rareness.Epic => TextInformation.BackgroundMaterial.AccentBackground1,
+                Rareness.Legendary => TextInformation.BackgroundMaterial.AccentBackground2,
                 _ => throw new ApplicationException("Unsupported rareness")
             };
         }
-        */
     }
 }

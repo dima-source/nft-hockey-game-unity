@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using GraphQL.Query.Builder;
 using Near.MarketplaceContract.Parsers;
 using Near.Models.Game;
+using Near.Models.Game.Team;
+using Near.Models.Game.TeamIds;
 using Near.Models.Tokens;
 using Near.Models.Tokens.Filters;
 using Near.Models.Tokens.Players;
@@ -22,7 +24,7 @@ namespace Near.MarketplaceContract.ContractMethods
         
         public static async Task<string> GetJSONQuery(string json)
         {
-            json = "{\"query\": \"{" + json.Replace("\"", "\\\"") + "}\"}";
+            json = "{\"query\": \"{" + json.Replace("\"", "\\\"").Replace("\n", "\\n") + "}\"}";
             
             using (var client = new HttpClient())
             {
@@ -37,7 +39,17 @@ namespace Near.MarketplaceContract.ContractMethods
             }
         }
 
-        // public static async Task<Team> GetTeam();
+        public static async Task<TeamIds> GetTeam(string accountId)
+        {
+            string query = $@"team(id: ""{accountId}"") {{id fives {{ id field_players {{id token_id position}} number ice_time_priority tactic }} goalies {{id number token_id}} goalie_substitutions {{ id number token_id}}}}";
+            string responseJson = await GetJSONQuery(query.Trim());
+            
+            Debug.Log(responseJson);
+            
+            var teamIds = JsonConvert.DeserializeObject<TeamIds>(responseJson, new TeamIdsConverter());
+            
+            return teamIds;
+        }
 
         public static async Task<List<Token>> GetTokens(PlayerFilter filter, Pagination pagination)
         {
@@ -78,41 +90,7 @@ namespace Near.MarketplaceContract.ContractMethods
 
             return tokens;
         }
-        
-        public static async Task<List<GameData>> GetGame(GameDataFilter filter)
-        {
-            IQuery<GameData> query = new Query<GameData>("GetData")
-                .AddArguments(new { where = filter })
-                .AddField(p => p.last_event_generation_time)
-                .AddField(p => p.reward)
-                .AddField(p => p.winner_index)
-                .AddField(p => p.zone_number)
-                .AddField(p => p.turns)
-                .AddField(p=>p.player_with_puck,
-                    sq => sq
-                        .AddField(p => p.id))
-                .AddField(p=>p.user1,
-                    sq => sq
-                        .AddField(p => p.id))
-                .AddField(p=>p.user2,
-                    sq => sq
-                        .AddField(p => p.id));
-              
-                
 
-            string responseJson = await GetJSONQuery(query.Build());
-            
-            Debug.Log(responseJson);
-            
-            var GameDatas = JsonConvert.DeserializeObject<List<GameData>>(responseJson, new GameDataConverter());
-            
-            if (GameDatas == null)
-            {
-                return new List<GameData>();
-            }
-
-            return GameDatas;
-        }
         public static async Task<List<User>> GetUser(UserFilter filter)
         {
             IQuery<User> query = new Query<User>("users")

@@ -16,7 +16,7 @@ namespace Near.GameContract
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var data = JObject.Load(reader);
-            var users = data["data"]?["GetUsers"];
+            var users = data["data"]?["users"];
             //var token = JsonConvert.DeserializeObject<Token>(json, new PlayerConverter());
 
             List<User> result = new List<User>();

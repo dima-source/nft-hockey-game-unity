@@ -9,6 +9,5 @@ namespace Near.Models.Game
         public int total_loss{ get; set; }
         public int total_goals { get; set; }
         public int total_misses { get; set; }
-
     }
 }

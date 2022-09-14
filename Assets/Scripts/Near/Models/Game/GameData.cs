@@ -15,6 +15,5 @@ namespace Near.Models.Game
         public int zone_number { get; set; }
         public List<Event> events { get; set; } 
         public FieldPlayer player_with_puck { get; set; }
-
     }
 }
