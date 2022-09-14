@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
@@ -68,22 +69,21 @@ namespace Utils
             }
         }
 
-        public static IEnumerator LoadImage(Image image, string url)
+        public static IEnumerator LoadImage(string url, UnityAction<Sprite> callback)
         {
             string path = GetPathWithinFilename(GetFilenameFromUrl(url));
             if (File.Exists(path))
             {
                 Texture2D texture = LoadTexture2D(path);
-                image.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
+                Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
+                callback.Invoke(sprite);
             }
             else
             {
                 yield return DownloadTexture2D(url);
                 Texture2D texture = LoadTexture2D(path);
-                bool previousActiveness = image.gameObject.activeSelf;
-                image.gameObject.SetActive(true);
-                image.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
-                image.gameObject.SetActive(previousActiveness);
+                Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
+                callback.Invoke(sprite);
             }
         }
     }

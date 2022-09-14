@@ -94,25 +94,24 @@ namespace UI.ManageTeam
             {
                 return;
             }
-            else
-            {
-                _team.fives.TryGetValue(line.ToString(), out data);
-            }
+
+            _team.fives.TryGetValue(line.ToString(), out data);
 
             string tokenId = data.field_players[position.ToString()];
             var card = _userNFTs.Find(nft => nft.tokenId == tokenId);
-            UIPlayer player = Instantiate(Game.AssetRoot.manageTeamAsset.fieldPlayer, slot.transform);
+            DraggableCard player = Instantiate(Game.AssetRoot.manageTeamAsset.fieldCard, slot.transform);
             player.CardData = card;
             player.SetData(card);
             player.canvasContent = canvasContent;
             player.transform.SetParent(slot.transform);
             player.transform.localPosition = Vector3.zero;
-            player.RectTransform.sizeDelta = slot.RectTransform.sizeDelta;
-            player.RectTransform.localScale = slot.RectTransform.localScale;
-            player.ManageTeamView = this;
+            player.rectTransform.sizeDelta = slot.RectTransform.sizeDelta;
+            player.rectTransform.localScale = slot.RectTransform.localScale;
+            //TODO
+            //player.ManageTeamView = this;
                 
-            slot.uiPlayer = player;
-            slot.uiPlayer.uiSlot = slot;
+            slot.draggableCard = player;
+            slot.draggableCard.uiSlot = slot;
         }
 
         private void InitGoalie(UISlot slot)
@@ -135,18 +134,19 @@ namespace UI.ManageTeam
             }
             
             var card = _userNFTs.Find(nft => nft.tokenId == goalieToken);
-            UIPlayer player = Instantiate(Game.AssetRoot.manageTeamAsset.fieldPlayer, slot.transform);
+            DraggableCard player = Instantiate(Game.AssetRoot.manageTeamAsset.fieldCard, slot.transform);
             player.CardData = card;
             player.SetData(card);
             player.canvasContent = canvasContent;
             player.transform.SetParent(slot.transform);
             player.transform.localPosition = Vector3.zero;
-            player.RectTransform.sizeDelta = slot.RectTransform.sizeDelta;
-            player.RectTransform.localScale = slot.RectTransform.localScale;
-            player.ManageTeamView = this;
+            player.rectTransform.sizeDelta = slot.RectTransform.sizeDelta;
+            player.rectTransform.localScale = slot.RectTransform.localScale;
+            //TODO
+            //player.ManageTeamView = this;
                 
-            slot.uiPlayer = player;
-            slot.uiPlayer.uiSlot = slot; 
+            slot.draggableCard = player;
+            slot.draggableCard.uiSlot = slot; 
         }
 
         private void CreateFiveSlots(LineNumbers line)
@@ -408,7 +408,7 @@ namespace UI.ManageTeam
         }
         
         // updates benches
-        public void AddFieldPlayerToTeam(UIPlayer player)
+        public void AddFieldPlayerToTeam(DraggableCard player)
         {
             goaliesBenchContent.Cards.Add(player.CardData);
             powerPlayersBenchContent.Cards.Add(player.CardData);
@@ -416,7 +416,7 @@ namespace UI.ManageTeam
         }
 
         // updates benches
-        public void RemoveFieldPlayerFromTeam(UIPlayer player)
+        public void RemoveFieldPlayerFromTeam(DraggableCard player)
         {
             try
             {
@@ -431,13 +431,13 @@ namespace UI.ManageTeam
             // removing player from goalie slot if it is in it
             foreach (var goalieSlot in goalies)
             {
-                if (!goalieSlot.uiPlayer)
+                if (!goalieSlot.draggableCard)
                     continue;
-                if (goalieSlot.uiPlayer.CardData.tokenId == player.CardData.tokenId)
+                if (goalieSlot.draggableCard.CardData.tokenId == player.CardData.tokenId)
                 {
                     // goalieSlot.uiPlayer.gameObject.SetActive(true);
-                    Destroy(goalieSlot.uiPlayer.gameObject);
-                    goalieSlot.uiPlayer = null;
+                    Destroy(goalieSlot.draggableCard.gameObject);
+                    goalieSlot.draggableCard = null;
                     break;
                 }
             }
@@ -458,12 +458,12 @@ namespace UI.ManageTeam
             {
                 foreach (var slot in fives[key].Values.ToList())
                 {
-                    if (!slot.uiPlayer)
+                    if (!slot.draggableCard)
                         continue;
-                    if (slot.uiPlayer.CardData.tokenId == player.CardData.tokenId)
+                    if (slot.draggableCard.CardData.tokenId == player.CardData.tokenId)
                     {
-                        Destroy(slot.uiPlayer.gameObject);
-                        slot.uiPlayer = null;
+                        Destroy(slot.draggableCard.gameObject);
+                        slot.draggableCard = null;
                         break;
                     }
                 }
@@ -485,12 +485,12 @@ namespace UI.ManageTeam
             {
                 foreach (var slot in fives[key].Values.ToList())
                 {
-                    if (!slot.uiPlayer)
+                    if (!slot.draggableCard)
                         continue;
-                    if (slot.uiPlayer.CardData.tokenId == player.CardData.tokenId)
+                    if (slot.draggableCard.CardData.tokenId == player.CardData.tokenId)
                     {
-                        Destroy(slot.uiPlayer.gameObject);
-                        slot.uiPlayer = null;
+                        Destroy(slot.draggableCard.gameObject);
+                        slot.draggableCard = null;
                         break;
                     }
                 }
@@ -532,15 +532,15 @@ namespace UI.ManageTeam
         public void UpdateTeamWork()
         {
             var playersSlots = fives[_currentLineNumber].Values;
-            if (playersSlots.Where(x => x.uiPlayer != null).Count() != playersSlots.Count)
+            if (playersSlots.Where(x => x.draggableCard != null).Count() != playersSlots.Count)
             {
                 _teamworkText.text = "";
                 return;
             }
 
-            var players = playersSlots.Select(slot => slot.uiPlayer);
+            var players = playersSlots.Select(slot => slot.draggableCard);
             var playersData = players.Select(player => (FieldPlayer) player.CardData);
-            Dictionary<UIPlayer, int> playersPercent = new();
+            Dictionary<DraggableCard, int> playersPercent = new();
             foreach (var player in players)
                 playersPercent.Add(player, 100);
 
@@ -555,23 +555,26 @@ namespace UI.ManageTeam
                     playersPercent[player] += 5;
                 }
 
-                var nativePostition = player.PositionToSlotPosition();
-                if (nativePostition == SlotPositionEnum.LeftWing &&
-                    player.uiSlot.slotPosition == SlotPositionEnum.RightWing ||
-                    nativePostition == SlotPositionEnum.RightWing &&
-                    player.uiSlot.slotPosition == SlotPositionEnum.LeftWing ||
-                    nativePostition == SlotPositionEnum.RightDefender &&
-                    player.uiSlot.slotPosition == SlotPositionEnum.LeftDefender ||
-                    nativePostition == SlotPositionEnum.LeftDefender &&
-                    player.uiSlot.slotPosition == SlotPositionEnum.RightDefender)
+                //TODO
+                // CHANGE IT !!!
+                var nativePostition = player.playerCardData.position;
+                
+                if (nativePostition.ToString() == "LW" &&
+                    player.uiSlot.slotPosition.ToString() == "RW" ||
+                    nativePostition.ToString() == "RW" &&
+                    player.uiSlot.slotPosition.ToString() == "LW" ||
+                    nativePostition.ToString() == "RD" &&
+                    player.uiSlot.slotPosition.ToString() == "LD" ||
+                    nativePostition.ToString() == "LD" &&
+                    player.uiSlot.slotPosition.ToString() == "RD")
                 {
                     playersPercent[player] -= 5;
                 }
-                else if (nativePostition != SlotPositionEnum.Center && player.uiSlot.slotPosition == SlotPositionEnum.Center)
+                else if (nativePostition.ToString() != "C" && player.uiSlot.slotPosition == SlotPositionEnum.Center)
                 {
                     playersPercent[player] -= 25;
                 } 
-                else if (nativePostition != slot.slotPosition)
+                else if (nativePostition.ToString() != slot.slotPosition.ToString())
                 {
                     playersPercent[player] -= 20;
                 }
@@ -625,7 +628,7 @@ namespace UI.ManageTeam
             }
         }
 
-        public void ShowStatsChanges(UIPlayer player, bool switched = false)
+        public void ShowStatsChanges(DraggableCard player, bool switched = false)
         {
             var slot = player.uiSlot;
             if (goalies.Contains(slot))
@@ -636,33 +639,37 @@ namespace UI.ManageTeam
             // if player moved to bench
             if (slot.slotPosition == SlotPositionEnum.Bench)
             {
-                List<UIPlayer> sameNationalityPlayers = new();
+                List<DraggableCard> sameNationalityPlayers = new();
                 foreach (var uiSlot in fives[_currentLineNumber].Values.ToList().Where(x => x != slot))
                 {
-                    if (!uiSlot.uiPlayer)
+                    if (!uiSlot.draggableCard)
                     {
                         continue;
                     }
-                    if (((Player) uiSlot.uiPlayer.CardData).nationality == ((Player) player.CardData).nationality)
+                    if (((Player) uiSlot.draggableCard.CardData).nationality == ((Player) player.CardData).nationality)
                     {
-                        sameNationalityPlayers.Add(uiSlot.uiPlayer);
+                        sameNationalityPlayers.Add(uiSlot.draggableCard);
                     }
                 }
 
                 if (sameNationalityPlayers.Count == 1)
                 {
-                    sameNationalityPlayers.First().PlayStatsDown(5);
+                    //TODO
+                    //sameNationalityPlayers.First().PlayStatsDown(5);
                 }
 
                 return;
             }
-            
-            var userPosition = player.PositionToSlotPosition();
+
+            var userPosition = player.playerCardData.position.ToString();
             int percent = 100;
             
             // if player on it's position, doing nothing
 
             // if player in the other side. RHCP :)
+            
+            //TODO
+            /*
             if (userPosition == SlotPositionEnum.LeftWing && slot.slotPosition == SlotPositionEnum.RightWing ||
                 userPosition == SlotPositionEnum.RightWing && slot.slotPosition == SlotPositionEnum.LeftWing ||
                 userPosition == SlotPositionEnum.RightDefender && slot.slotPosition == SlotPositionEnum.LeftDefender ||
@@ -680,8 +687,9 @@ namespace UI.ManageTeam
             {
                 percent = 80;
             }
+            */
             
-            Dictionary<UIPlayer, int> playersPercent = new();
+            Dictionary<DraggableCard, int> playersPercent = new();
 
             if (!switched)
             {
@@ -690,14 +698,14 @@ namespace UI.ManageTeam
                 // natianality
                 foreach (var uiSlot in currentFive)
                 {
-                    if (!uiSlot.uiPlayer)
+                    if (!uiSlot.draggableCard)
                     {
                         continue;
                     }
-                    if (((Player) uiSlot.uiPlayer.CardData).nationality == ((Player) player.CardData).nationality)
+                    if (((Player) uiSlot.draggableCard.CardData).nationality == ((Player) player.CardData).nationality)
                     {
                         sameNationalityInFive = true;
-                        playersPercent.Add(uiSlot.uiPlayer, 5);
+                        playersPercent.Add(uiSlot.draggableCard, 5);
                         // if (playersPercent.ContainsKey(uiSlot.uiPlayer))
                         //     playersPercent[uiSlot.uiPlayer] = 5;
                         // else playersPercent.Add(uiSlot.uiPlayer, 5);
@@ -708,11 +716,11 @@ namespace UI.ManageTeam
                 string player_role = ((Player) player.CardData).player_role;
                 foreach (var uiSlot in currentFive)
                 {
-                    if (!uiSlot.uiPlayer)
+                    if (!uiSlot.draggableCard)
                     {
                         continue;
                     }
-                    string uiPlayerRole = ((Player) uiSlot.uiPlayer.CardData).player_role;
+                    string uiPlayerRole = ((Player) uiSlot.draggableCard.CardData).player_role;
                     if (uiPlayerRole == "DefensiveDefenseman" 
                         && player_role == "OffensiveDefenseman" ||
                         uiPlayerRole == "OffensiveDefenseman" 
@@ -734,43 +742,43 @@ namespace UI.ManageTeam
                     
                     if (isDefensemanPair == 1)
                     {
-                        if (playersPercent.ContainsKey(uiSlot.uiPlayer))
-                            playersPercent[uiSlot.uiPlayer] += 10;
-                        else playersPercent.Add(uiSlot.uiPlayer, 10);
+                        if (playersPercent.ContainsKey(uiSlot.draggableCard))
+                            playersPercent[uiSlot.draggableCard] += 10;
+                        else playersPercent.Add(uiSlot.draggableCard, 10);
                     }
 
 
-                    if (player_role is "ToughGuy" or "Enforcer" && uiSlot.uiPlayer)
+                    if (player_role is "ToughGuy" or "Enforcer" && uiSlot.draggableCard)
                     {
                         if (uiPlayerRole is "Playmaker" or "Shooter")
                         {
-                            if (playersPercent.ContainsKey(uiSlot.uiPlayer))
-                                playersPercent[uiSlot.uiPlayer] += 20;
-                            else playersPercent.Add(uiSlot.uiPlayer, 20);
+                            if (playersPercent.ContainsKey(uiSlot.draggableCard))
+                                playersPercent[uiSlot.draggableCard] += 20;
+                            else playersPercent.Add(uiSlot.draggableCard, 20);
                         }
                         else
                         {
-                            if (playersPercent.ContainsKey(uiSlot.uiPlayer))
-                                playersPercent[uiSlot.uiPlayer] -= 10;
-                            else playersPercent.Add(uiSlot.uiPlayer, -10);
+                            if (playersPercent.ContainsKey(uiSlot.draggableCard))
+                                playersPercent[uiSlot.draggableCard] -= 10;
+                            else playersPercent.Add(uiSlot.draggableCard, -10);
                             
                         }
                     }
 
                     if (player_role is "TryHarder" or "TwoWay")
                     {
-                        if (playersPercent.ContainsKey(uiSlot.uiPlayer))
-                            playersPercent[uiSlot.uiPlayer] += 10;
-                        else playersPercent.Add(uiSlot.uiPlayer, 10);
+                        if (playersPercent.ContainsKey(uiSlot.draggableCard))
+                            playersPercent[uiSlot.draggableCard] += 10;
+                        else playersPercent.Add(uiSlot.draggableCard, 10);
                     }
 
                     if (player_role is "DefensiveForward" && 
                         (uiSlot.slotPosition == SlotPositionEnum.LeftDefender ||
                         uiSlot.slotPosition == SlotPositionEnum.RightDefender))
                     {
-                        if (playersPercent.ContainsKey(uiSlot.uiPlayer))
-                            playersPercent[uiSlot.uiPlayer] += 20;
-                        else playersPercent.Add(uiSlot.uiPlayer, 20);
+                        if (playersPercent.ContainsKey(uiSlot.draggableCard))
+                            playersPercent[uiSlot.draggableCard] += 20;
+                        else playersPercent.Add(uiSlot.draggableCard, 20);
                     }
                 }
                 
@@ -781,8 +789,8 @@ namespace UI.ManageTeam
                     else playersPercent.Add(player, 10);
                 }
 
-                if (currentFive.Where(x => x.uiPlayer)
-                        .Count(x => ((Player) x.uiPlayer.CardData).player_role is "ToughGuy" or "Enforcer") > 0)
+                if (currentFive.Where(x => x.draggableCard)
+                        .Count(x => ((Player) x.draggableCard.CardData).player_role is "ToughGuy" or "Enforcer") > 0)
                 {
                     if (((Player) player.CardData).player_role is "Playmaker" or "Shooter")
                     {
@@ -794,8 +802,8 @@ namespace UI.ManageTeam
                     }
                 }
 
-                int toughGuysAndEnforcers = currentFive.Where(x => x.uiPlayer).Count(x =>
-                    ((Player) x.uiPlayer.CardData).player_role is "TryHarder" or "TwoWay");
+                int toughGuysAndEnforcers = currentFive.Where(x => x.draggableCard).Count(x =>
+                    ((Player) x.draggableCard.CardData).player_role is "TryHarder" or "TwoWay");
                 for (int i = 0; i < toughGuysAndEnforcers; i++)
                 {
                         percent += 10;
@@ -803,7 +811,7 @@ namespace UI.ManageTeam
 
                 if ((player.uiSlot.slotPosition == SlotPositionEnum.LeftDefender ||
                     player.uiSlot.slotPosition == SlotPositionEnum.RightDefender) && 
-                    currentFive.Count(x => ((Player) x.uiPlayer.CardData).player_role is "DefensiveForward") > 0)
+                    currentFive.Count(x => ((Player) x.draggableCard.CardData).player_role is "DefensiveForward") > 0)
                 {
                     percent += 20;
                 }
@@ -816,11 +824,13 @@ namespace UI.ManageTeam
                     int p = playersPercent[uiPlayer];
                     if (p > 0)
                     {
-                        uiPlayer.PlayStatsUp(p);
+                        //TODO
+                        //uiPlayer.PlayStatsUp(p);
                     }
                     else if (p < 0)
                     {
-                        uiPlayer.PlayStatsDown(p * -1);
+                        //TODO
+                        //uiPlayer.PlayStatsDown(p * -1);
                     }
                 }
             }
@@ -828,10 +838,12 @@ namespace UI.ManageTeam
             
             if (percent > 100)
             {
-                player.PlayStatsUp(percent - 100);
+                //TODO
+                //player.PlayStatsUp(percent - 100);
             } else if (percent < 100)
             {
-                player.PlayStatsDown(100 - percent);
+                //TODO
+                //player.PlayStatsDown(100 - percent);
             }
         }
 
@@ -846,14 +858,14 @@ namespace UI.ManageTeam
                 foreach (var position in playersOnPositions.Keys)
                 {
 
-                    if (!playersOnPositions[position].uiPlayer) // if ui player not set
+                    if (!playersOnPositions[position].draggableCard) // if ui player not set
                     {
                         Debug.LogError($"{lineNumber.ToString()} line not fully set");
                         return;
                     }
                     fiveIds.field_players.Add(position.ToString(),
-                        playersOnPositions[position].uiPlayer.CardData.tokenId);
-                    fieldPlayers.Add(playersOnPositions[position].uiPlayer.CardData.tokenId);
+                        playersOnPositions[position].draggableCard.CardData.tokenId);
+                    fieldPlayers.Add(playersOnPositions[position].draggableCard.CardData.tokenId);
                 }
 
                 bool added;
@@ -873,17 +885,17 @@ namespace UI.ManageTeam
             
             foreach (var goalieSlot in goalies)
             {
-                if (!goalieSlot.uiPlayer)
+                if (!goalieSlot.draggableCard)
                 {
                     Debug.LogError($"{goalieSlot.slotPosition.ToString()} not set");
                     return;
                 }
                 if (goalieSlot.slotPosition == SlotPositionEnum.MainGoalkeeper 
                     || goalieSlot.slotPosition == SlotPositionEnum.SubstituteGoalkeeper)
-                    teamIds.goalies.Add(goalieSlot.slotPosition.ToString(), goalieSlot.uiPlayer.CardData.tokenId);
+                    teamIds.goalies.Add(goalieSlot.slotPosition.ToString(), goalieSlot.draggableCard.CardData.tokenId);
                 else if (goalieSlot.slotPosition == SlotPositionEnum.GoalieSubstitution1 
                     || goalieSlot.slotPosition == SlotPositionEnum.GoalieSubstitution2)
-                    teamIds.goalie_substitutions.Add(goalieSlot.slotPosition.ToString(), goalieSlot.uiPlayer.CardData.tokenId);
+                    teamIds.goalie_substitutions.Add(goalieSlot.slotPosition.ToString(), goalieSlot.draggableCard.CardData.tokenId);
                 
             }
             Debug.Log("Calculated");

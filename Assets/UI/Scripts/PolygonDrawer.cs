@@ -181,7 +181,7 @@ namespace UI.Scripts
 
             ConcavePolygonRenderer concave = go.AddComponent<ConcavePolygonRenderer>();
             concave.color = concaveColor;
-            concave.positions = positions;
+            concave.SetPositions(positions);
             
             RectTransform rectTransform = go.GetComponent<RectTransform>();
             rectTransform.anchoredPosition = Vector2.zero;

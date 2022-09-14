@@ -16,20 +16,20 @@ namespace UI.ManageTeam
         [NonSerialized] public List<UISlot> Slots = new();
         public ManageTeamView manageTeamView;
 
-        public List<UIPlayer> Players
+        public List<DraggableCard> Players
         {
-            get {return Slots.ConvertAll(slot => slot.uiPlayer);}
+            get {return Slots.ConvertAll(slot => slot.draggableCard);}
             set { }
         }
 
-        public void ReplacePlayer(UIPlayer oldPlayer, UIPlayer newPlayer)
+        public void ReplacePlayer(DraggableCard oldPlayer, DraggableCard newPlayer)
         {
             int index = Players.IndexOf(oldPlayer);
             if (index == -1)
             {
                 throw new ApplicationException("Bench does not contain this player");
             }
-            Slots[index].uiPlayer = newPlayer;
+            Slots[index].draggableCard = newPlayer;
 
             index = Cards.IndexOf(oldPlayer.CardData);
             Cards[index] = newPlayer.CardData;
@@ -41,23 +41,24 @@ namespace UI.ManageTeam
                 benchSlot.slotPosition = SlotPositionEnum.Bench;
                 benchSlot.GetComponent<Image>().color = new Color(255f, 255f, 255f, 0f);
                 
-                UIPlayer player = Instantiate(Game.AssetRoot.manageTeamAsset.fieldPlayer);
+                DraggableCard player = Instantiate(Game.AssetRoot.manageTeamAsset.fieldCard);
                 player.CardData = card;
                 player.SetData(card);
                 player.canvasContent = manageTeamView.canvasContent;
                 player.transform.SetParent(benchSlot.transform);
                 player.transform.localPosition = Vector3.zero;
-                player.RectTransform.sizeDelta = new Vector2(150, 225);
-                player.RectTransform.localScale = benchSlot.RectTransform.localScale;
-                player.ManageTeamView = manageTeamView;
+                player.rectTransform.sizeDelta = new Vector2(150, 225);
+                player.rectTransform.localScale = benchSlot.RectTransform.localScale;
+                // TODO
+                //player.ManageTeamView = manageTeamView;
                 
-                benchSlot.uiPlayer = player;
-                benchSlot.uiPlayer.uiSlot = benchSlot;
+                benchSlot.draggableCard = player;
+                benchSlot.draggableCard.uiSlot = benchSlot;
                 Slots.Add(benchSlot);
                 return benchSlot;
         }
         
-        private UISlot CreateSlotWithPlayer(UIPlayer player)
+        private UISlot CreateSlotWithPlayer(DraggableCard player)
         {
                 UISlot benchSlot = Instantiate(Game.AssetRoot.manageTeamAsset.uiSlot, transform);
                 benchSlot.slotPosition = SlotPositionEnum.Bench;
@@ -65,16 +66,16 @@ namespace UI.ManageTeam
                 
                 player.transform.SetParent(benchSlot.transform);
                 player.transform.localPosition = Vector3.zero;
-                player.RectTransform.sizeDelta = new Vector2(150, 225);
-                player.RectTransform.localScale = benchSlot.RectTransform.localScale;
+                player.rectTransform.sizeDelta = new Vector2(150, 225);
+                player.rectTransform.localScale = benchSlot.RectTransform.localScale;
                 
-                benchSlot.uiPlayer = player;
-                benchSlot.uiPlayer.uiSlot = benchSlot;
+                benchSlot.draggableCard = player;
+                benchSlot.draggableCard.uiSlot = benchSlot;
                 Slots.Add(benchSlot);
                 return benchSlot;
         }
 
-        public UISlot AddPlayer(UIPlayer player)
+        public UISlot AddPlayer(DraggableCard player)
         {
             if (Cards.Contains(player.CardData))
                 throw new ApplicationException($"Such player is already in bench");
@@ -84,11 +85,11 @@ namespace UI.ManageTeam
 
         private void DestroySlot(UISlot slot)
         {
-            slot.uiPlayer.uiSlot = null;
+            slot.draggableCard.uiSlot = null;
             Destroy(slot.gameObject);
         }
 
-        public void RemoveSlotWithinPlayer(UIPlayer player)
+        public void RemoveSlotWithinPlayer(DraggableCard player)
         {
             if (!Cards.Remove(player.CardData))
             {

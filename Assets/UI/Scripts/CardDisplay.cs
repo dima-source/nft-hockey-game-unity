@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.Serialization;
 using TMPro;
+using UI.Scripts.Card;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
@@ -29,10 +30,9 @@ namespace UI.Scripts
             _priceText = Utils.FindChild<TextMeshProUGUI>(transform, "Price");
             _basicInformationText = Utils.FindChild<TextMeshProUGUI>(transform, "Basic");
             _additionalInformationText = Utils.FindChild<TextMeshProUGUI>(transform, "Secondary");
-            SetBasicInformation("Name Surname", CardView.PlayerRole.Enforcer, CardView.Position.LD, false);
-            SetSecondaryInformation("Ukrainian", DateTime.Now, 19);
-            
-            Transform buttonsContainer = Utils.FindChild<Transform>(transform, "ButtonContainer");
+            SetInformation();
+
+           Transform buttonsContainer = Utils.FindChild<Transform>(transform, "ButtonContainer");
             _buttons = new Button[buttonsContainer.childCount];
             for (int i = 0; i < buttonsContainer.childCount; i++)
             {
@@ -40,21 +40,16 @@ namespace UI.Scripts
             }
         }
 
-        public void SetBasicInformation(string fullName, CardView.PlayerRole role, 
-            CardView.Position position, bool rightHanded)
+        private void SetInformation()
         {
-            string value = $"<uppercase>{fullName}</uppercase>\nrole: {CardView.RoleToString(role)}\nposition: {position}\n";
-            value += "hand: " + (rightHanded ? "R" : "L");
-            _basicInformationText.text = value;
+            //string value = $"<uppercase>{CardView.playerName}</uppercase>\nrole: {""} \nposition: {CardView.cardPosition}\n";
+            //value += "hand: " + (rightHanded ? "R" : "L");
+            //_basicInformationText.text = value;
+            
+            //string dateFormat = "MM/dd/yyyy";
+            //string value = $"nation: {nation}\nbirthday: {birthday.ToString(dateFormat)}\nage: {age}\n";
+            //_additionalInformationText.text = value;
         }
-        
-        public void SetSecondaryInformation(string nation, DateTime birthday, int age)
-        {
-            string dateFormat = "MM/dd/yyyy";
-            string value = $"nation: {nation}\nbirthday: {birthday.ToString(dateFormat)}\nage: {age}\n";
-            _additionalInformationText.text = value;
-        }
-
 
         public void SetButton(int index, string value, UnityAction action = null)
         {

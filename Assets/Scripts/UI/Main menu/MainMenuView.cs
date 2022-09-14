@@ -94,7 +94,7 @@ namespace UI.Main_menu
 
         public void TradeCards()
         {
-            Game.LoadMarketplace();
+            //Game.LoadMarketplace();
         }
 
         public void LoadManageTeam()

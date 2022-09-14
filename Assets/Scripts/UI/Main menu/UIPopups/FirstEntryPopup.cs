@@ -21,8 +21,8 @@ namespace UI.Main_menu
 
             foreach (var token in tokens)
             {
-                CardInPackUI card = Instantiate(Game.AssetRoot.mainMenuAsset.cardInPackUI, cardsContent);
-                card.SetData(token);
+                //CardInPackUI card = Instantiate(Game.AssetRoot.mainMenuAsset.cardInPackUI, cardsContent);
+                //card.SetData(token);
             }
         }
     }

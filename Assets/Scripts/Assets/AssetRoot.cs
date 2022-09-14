@@ -1,6 +1,5 @@
 using UI.Main_menu;
 using UI.ManageTeam;
-using UI.Marketplace;
 using UnityEngine;
 
 namespace Assets
@@ -9,7 +8,6 @@ namespace Assets
     public class AssetRoot : ScriptableObject
     {
         public MainMenuAsset mainMenuAsset;
-        public MarketplaceAsset marketplaceAsset;
         public ManageTeamAsset manageTeamAsset;
     }
 }
