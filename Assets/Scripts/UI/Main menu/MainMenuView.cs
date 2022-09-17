@@ -41,11 +41,11 @@ namespace UI.Main_menu
             }
             
             var isMarketAccountRegistered = await CheckMarketplaceAccount(accountID);
-            /*
-            if (!isMarketAccountRegistered)
+            
+            if (isMarketAccountRegistered)
             {
                 firstEntryPopup.gameObject.SetActive(true);
-            }*/
+            }
         }
         
         /// <summary>

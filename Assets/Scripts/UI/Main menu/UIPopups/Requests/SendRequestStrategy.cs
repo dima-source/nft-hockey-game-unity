@@ -19,11 +19,14 @@ namespace UI.Main_menu.UIPopups.Requests
             }
             catch(Exception e)
             {
+                Debug.Log(e.Message);
+                
                 uiPopupError.SetTitle(e.Message.Contains("NotEnoughBalance")
                     ? "Not enough balance"
                     : "Something went wrong");
                 loading.gameObject.SetActive(false);
                 uiPopupError.Show();
+                
                 return;
             }
             

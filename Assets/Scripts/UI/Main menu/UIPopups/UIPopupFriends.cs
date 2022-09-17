@@ -72,7 +72,7 @@ namespace UI.Main_menu.UIPopups
                     sendRequestStrategy,
                     friend.id);
                 
-                friendItem.Bid.text = friend.id;
+                friendItem.Bid.text = friend.deposit;
                 _friendItems.Add(friendItem);
             }
         }
@@ -104,7 +104,9 @@ namespace UI.Main_menu.UIPopups
             foreach (var friend in _friendItems)
             {
                 Destroy(friend.gameObject);
-            } 
+            }
+
+            _friendItems = new List<FriendItem>();
         }
     }
 }

@@ -4,11 +4,9 @@ using System.Dynamic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using GraphQL.Query.Builder;
-using Near.MarketplaceContract;
 using Near.MarketplaceContract.Parsers;
 using Near.Models.Game;
 using Near.Models.Game.Bid;
@@ -168,9 +166,11 @@ namespace Near.GameContract.ContractMethods
                 .AddField(p => p.friend_requests_received, sq => sq
                     .AddField(u => u.id))
                 .AddField(u => u.sent_requests_play, sq => sq
-                    .AddField(u => u.id))
+                    .AddField(u => u.id)
+                    .AddField(u => u.deposit))
                 .AddField(p => p.requests_play_received, sq => sq
-                    .AddField(u => u.id));
+                    .AddField(u => u.id)
+                    .AddField(u => u.deposit));
 
             string responseJson = await GetJSONQuery(query.Build());
             

@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using UI.Scripts.Constraints;
 
 namespace UI.Scripts.Card
 {
     public class CharacteristicImpl<T> : Characteristic<T>, IComparable where T : IComparable
     {
-
         protected T characteristic;
         private readonly Constraint<T> constraint;
 

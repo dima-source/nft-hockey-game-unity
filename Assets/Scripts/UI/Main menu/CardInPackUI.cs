@@ -2,7 +2,6 @@
 using Near.Models.Tokens;
 using Near.Models.Tokens.Players.FieldPlayer;
 using Near.Models.Tokens.Players.Goalie;
-using UI.Scripts;
 using UI.Scripts.Card;
 using UI.Scripts.Card.CardStatistics;
 using Utils;
