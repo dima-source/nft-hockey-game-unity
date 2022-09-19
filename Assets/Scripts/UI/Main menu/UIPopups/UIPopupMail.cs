@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Near.Models.Game;
+using NearClientUnity.Utilities;
 using Runtime;
 using TMPro;
 using UI.Main_menu.UIPopups.Requests;
@@ -52,9 +53,9 @@ namespace UI.Main_menu.UIPopups
                 friendItem.Init(FriendItem.ButtonAction.AcceptPlayRequest, 
                     FriendItem.CancelButtonAction.DeclinePlayRequest,
                     sendRequestStrategy,
-                    friend.id);
+                    friend.from);
                 
-                friendItem.Bid.text = friend.deposit;
+                friendItem.bidText.text = Near.NearUtils.FormatNearAmount(UInt128.Parse(friend.deposit)).ToString(); 
                 _friendItems.Add(friendItem);
             }
         }

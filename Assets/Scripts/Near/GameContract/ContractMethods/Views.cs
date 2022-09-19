@@ -166,11 +166,13 @@ namespace Near.GameContract.ContractMethods
                 .AddField(p => p.friend_requests_received, sq => sq
                     .AddField(u => u.id))
                 .AddField(u => u.sent_requests_play, sq => sq
-                    .AddField(u => u.id)
-                    .AddField(u => u.deposit))
+                    .AddField(u => u.from)
+                    .AddField(u => u.deposit)
+                    .AddField(u => u.to))
                 .AddField(p => p.requests_play_received, sq => sq
-                    .AddField(u => u.id)
-                    .AddField(u => u.deposit));
+                    .AddField(u => u.from)
+                    .AddField(u => u.deposit)
+                    .AddField(u => u.to));
 
             string responseJson = await GetJSONQuery(query.Build());
             

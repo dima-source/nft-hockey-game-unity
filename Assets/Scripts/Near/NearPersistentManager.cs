@@ -79,7 +79,7 @@ namespace Near
                     "make_unavailable", "internal_stop_game", "get_owner_team", "take_to",
                     "coach_speech", "goalie_out", "goalie_back", 
                     "send_friend_request", "accept_friend_request", "decline_friend_request", 
-                    "send_request_play", "accept_request_play", "decline_request_game",
+                    "send_request_play", "accept_request_play", "decline_request_play",
                     "register_account", "remove_friend"
                 }
             };

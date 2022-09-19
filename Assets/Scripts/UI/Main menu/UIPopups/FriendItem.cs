@@ -9,7 +9,6 @@ namespace UI.Main_menu.UIPopups
     public class FriendItem : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI _friendId;
-        public TextMeshProUGUI Bid { get; set; }
 
         public enum ButtonAction
         {
@@ -33,7 +32,9 @@ namespace UI.Main_menu.UIPopups
 
         public Button cancelButton;
 
-        [SerializeField] private TMP_InputField inputField;
+        public TMP_InputField BidInput;
+        public TextMeshProUGUI bidText;
+        
         private SendRequestStrategy _sendRequestsStrategy;
 
         public void Init(ButtonAction buttonAction,
@@ -54,8 +55,7 @@ namespace UI.Main_menu.UIPopups
             {
                 case ButtonAction.SendPlayRequest:
                     buttonText.text = "Play";
-                    inputField.gameObject.SetActive(true);
-                    cancelButton.gameObject.SetActive(false);
+                    BidInput.gameObject.SetActive(true);
                     button.onClick.AddListener(SendPlayRequest);
                     break;
                 case ButtonAction.AddFriend:
@@ -64,7 +64,7 @@ namespace UI.Main_menu.UIPopups
                     break;
                 case ButtonAction.AcceptPlayRequest:
                     buttonText.text = "Play";
-                    Bid.gameObject.SetActive(true);
+                    bidText.gameObject.SetActive(true);
                     button.onClick.AddListener(AcceptPlayRequest);
                     break;
                 case ButtonAction.AcceptFriendRequest:
@@ -81,13 +81,13 @@ namespace UI.Main_menu.UIPopups
 
         private void SendPlayRequest()
         {
-            if (inputField.text == "")
+            if (BidInput.text == "")
             {
-                inputField.placeholder.color = Color.red;
+                BidInput.placeholder.color = Color.red;
                 return;
             }
 
-            var sendPlayRequest = new PlayRequest(_friendId.text, inputField.text);
+            var sendPlayRequest = new PlayRequest(_friendId.text, BidInput.text);
             _sendRequestsStrategy.SendRequest(sendPlayRequest);
         }
 
@@ -99,7 +99,7 @@ namespace UI.Main_menu.UIPopups
 
         private void AcceptPlayRequest()
         {
-            var sendAcceptPlayRequest = new AcceptPlayRequest(_friendId.text, Bid.text);
+            var sendAcceptPlayRequest = new AcceptPlayRequest(_friendId.text, bidText.text);
             _sendRequestsStrategy.SendRequest(sendAcceptPlayRequest);
 
             // TODO: start game
@@ -122,6 +122,7 @@ namespace UI.Main_menu.UIPopups
                     cancelButton.onClick.AddListener(DeclineFriendRequest);
                     break;
                 case CancelButtonAction.DeclinePlayRequest:
+                    bidText.gameObject.SetActive(true);
                     cancelButton.onClick.AddListener(DeclinePlayRequest);
                     break;
                 case CancelButtonAction.Default:
@@ -146,7 +147,7 @@ namespace UI.Main_menu.UIPopups
 
         private void DeclinePlayRequest()
         {
-            var declinePlayRequest = new DeclinePlayRequest(_friendId.text, Bid.text);
+            var declinePlayRequest = new DeclinePlayRequest(_friendId.text, bidText.text);
             _sendRequestsStrategy.SendRequest(declinePlayRequest);
         }
     }

@@ -170,7 +170,8 @@ namespace Near.GameContract.ContractMethods
             dynamic args = new ExpandoObject();
             args.friend_id = friendId;
 
-            await gameContract.Change("send_request_play", args, NearUtils.GasMove);
+            await gameContract.Change("send_request_play", args, NearUtils.GasMove,
+                NearUtils.ParseNearAmount(deposit));
         }
 
         public static async Task AcceptRequestPlay(string friendId, string deposit)
@@ -196,7 +197,7 @@ namespace Near.GameContract.ContractMethods
             args.friend_id = friendId;
 
              gameContract.Change(
-                 "decline_request_game", 
+                 "decline_request_play", 
                  args, 
                  NearUtils.GasMove,
                  NearUtils.ParseNearAmount(deposit)

@@ -42,7 +42,7 @@ namespace UI.Main_menu
             
             var isMarketAccountRegistered = await CheckMarketplaceAccount(accountID);
             
-            if (isMarketAccountRegistered)
+            if (!isMarketAccountRegistered)
             {
                 firstEntryPopup.gameObject.SetActive(true);
             }
@@ -94,7 +94,7 @@ namespace UI.Main_menu
 
         public void TradeCards()
         {
-            //Game.LoadMarketplace();
+            Game.LoadMarketplace();
         }
 
         public void LoadManageTeam()
