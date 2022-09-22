@@ -35,7 +35,8 @@ namespace UI.Main_menu.UIPopups
                 friendItem.Init(FriendItem.ButtonAction.AcceptFriendRequest, 
                     FriendItem.CancelButtonAction.DeclineFriendRequest,
                     sendRequestStrategy,
-                    friend.id);
+                    friend.id,
+                    ShowRequestFriends);
                 
                 _friendItems.Add(friendItem);
             }
@@ -53,7 +54,8 @@ namespace UI.Main_menu.UIPopups
                 friendItem.Init(FriendItem.ButtonAction.AcceptPlayRequest, 
                     FriendItem.CancelButtonAction.DeclinePlayRequest,
                     sendRequestStrategy,
-                    friend.from);
+                    friend.from,
+                    ShowRequestPlay);
                 
                 friendItem.bidText.text = Near.NearUtils.FormatNearAmount(UInt128.Parse(friend.deposit)).ToString(); 
                 _friendItems.Add(friendItem);

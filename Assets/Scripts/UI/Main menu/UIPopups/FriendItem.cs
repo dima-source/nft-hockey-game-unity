@@ -2,6 +2,7 @@
 using TMPro;
 using UI.Main_menu.UIPopups.Requests;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace UI.Main_menu.UIPopups
@@ -40,13 +41,17 @@ namespace UI.Main_menu.UIPopups
         public void Init(ButtonAction buttonAction,
             CancelButtonAction cancelButtonAction,
             SendRequestStrategy sendRequestStrategy,
-            string friendId)
+            string friendId,
+            UnityAction call)
         {
             _sendRequestsStrategy = sendRequestStrategy;
             _friendId.text = friendId;
 
             SetAcceptButtonAction(buttonAction);
             SetCancelButtonAction(cancelButtonAction);
+            
+            cancelButton.onClick.AddListener(call);
+            button.onClick.AddListener(call);
         }
 
         private void SetAcceptButtonAction(ButtonAction buttonAction)

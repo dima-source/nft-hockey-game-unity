@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Near.Models.Game;
 using NearClientUnity.Utilities;
 using Runtime;
@@ -35,7 +36,8 @@ namespace UI.Main_menu.UIPopups
                 friendItem.Init(FriendItem.ButtonAction.SendPlayRequest, 
                     FriendItem.CancelButtonAction.RemoveFriend,
                     sendRequestStrategy,
-                    friend.id);
+                    friend.id,
+                    ShowFriends);
                 
                 _friendItems.Add(friendItem);
             }
@@ -53,7 +55,8 @@ namespace UI.Main_menu.UIPopups
                 friendItem.Init(FriendItem.ButtonAction.Default, 
                     FriendItem.CancelButtonAction.DeclineFriendRequest,
                     sendRequestStrategy,
-                    friend.id);
+                    friend.id,
+                    ShowRequestFriends);
                 
                 _friendItems.Add(friendItem);
             }
@@ -71,7 +74,8 @@ namespace UI.Main_menu.UIPopups
                 friendItem.Init(FriendItem.ButtonAction.Default, 
                     FriendItem.CancelButtonAction.DeclinePlayRequest,
                     sendRequestStrategy,
-                    friend.to);
+                    friend.to,
+                    ShowRequestPlay);
                 
                 friendItem.bidText.text = Near.NearUtils.FormatNearAmount(UInt128.Parse(friend.deposit)).ToString(); 
                 _friendItems.Add(friendItem);
@@ -91,10 +95,23 @@ namespace UI.Main_menu.UIPopups
             foreach (var user in users)
             {
                 FriendItem friendItem = Instantiate(Game.AssetRoot.mainMenuAsset.friendItem, friendsContent);
-                friendItem.Init(FriendItem.ButtonAction.AddFriend,
-                    FriendItem.CancelButtonAction.Default,
-                    sendRequestStrategy,
-                    user.id);
+                
+                if (_user.friends.Count(x => x.id == _user.id) != 0)
+                {
+                    friendItem.Init(FriendItem.ButtonAction.SendPlayRequest, 
+                        FriendItem.CancelButtonAction.RemoveFriend,
+                        sendRequestStrategy,
+                        user.id,
+                        ShowFriends);
+                }
+                else
+                {
+                    friendItem.Init(FriendItem.ButtonAction.AddFriend,
+                        FriendItem.CancelButtonAction.Default,
+                        sendRequestStrategy,
+                        user.id,
+                        ShowFriends);
+                }
                 
                 _friendItems.Add(friendItem);
             } 

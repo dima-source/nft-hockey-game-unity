@@ -199,8 +199,7 @@ namespace Near.GameContract.ContractMethods
              gameContract.Change(
                  "decline_request_play", 
                  args, 
-                 NearUtils.GasMove,
-                 NearUtils.ParseNearAmount(deposit)
+                 NearUtils.GasMove
              );
         } 
     }
