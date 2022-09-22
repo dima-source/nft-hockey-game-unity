@@ -908,7 +908,7 @@ GameObject:
   - component: {fileID: 5412319755567626762}
   - component: {fileID: 630800543669462943}
   - component: {fileID: 2831933183645521310}
-  - component: {fileID: 8159803239477747113}
+  - component: {fileID: 5652212010121949123}
   m_Layer: 0
   m_Name: CardView
   m_TagString: Untagged
@@ -999,7 +999,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Padding: {x: 0, y: 0, z: 0, w: 0}
   m_Softness: {x: 0, y: 0}
---- !u!114 &8159803239477747113
+--- !u!114 &5652212010121949123
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1008,9 +1008,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5412319755567626763}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27f119d26f0da464ba6a2962f1066fc8, type: 3}
+  m_Script: {fileID: 11500000, guid: 6b388d2b1ac64a068b61c55132cb9a0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerImg: {fileID: 0}
+  canvasContent: {fileID: 0}
+  uiSlot: {fileID: 0}
 --- !u!1 &8073878600343725416
 GameObject:
   m_ObjectHideFlags: 0

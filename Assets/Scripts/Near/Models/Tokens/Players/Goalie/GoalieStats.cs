@@ -78,7 +78,7 @@ namespace Near.Models.Tokens.Players.Goalie
             Aggressiveness + Agility + Durability + Endurance + Speed + Vision + Morale
         ) / 7;
         
-        private uint GetAverageStats()
+        public uint GetAverageStats()
         {
             return (Reflexes + PuckControl + Strength) / 3;
         }

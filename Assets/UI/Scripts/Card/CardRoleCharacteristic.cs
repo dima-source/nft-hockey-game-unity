@@ -12,16 +12,36 @@ namespace UI.Scripts.Card
                 "Shooter", "Try-Harder", 
                 "Defensive Forward", 
                 "Grinder", "Defensive Defenceman",
-                "Offensive Defenceman", "Two-Way Defencemen", 
+                "Offensive Defenceman", "Two-Way Defenceman", 
                 "Tough Guy", "Standup", 
-                "Butterfly", "Hybrid")) 
+                "TryHarder", 
+                "DefensiveForward", 
+                "DefensiveDefenseman",
+                "OffensiveDefenseman", "TwoWayDefenceman", 
+                "TwoWay",
+                "DefensiveDefenceman", "OffensiveDefenceman",
+                "ToughGuy", "Butterfly", "Hybrid")) 
         {
             
         }
 
         public override string ToString()
         {
-            return characteristic;
+            
+            return characteristic switch
+            {
+                "TryHarder" => "Try-Harder", 
+                "DefensiveForward" => "Defensive Forward", 
+                "DefensiveDefenceman" => "Defensive Defenceman",
+                "OffensiveDefenceman" => "Offensive Defenceman", 
+                "DefensiveDefenseman" => "Defensive Defenceman",
+                "OffensiveDefenseman" => "Offensive Defenceman", 
+                "TwoWay" => "Two-Way Defenceman",
+                "TwoWayDefenceman" => "Two-Way Defenceman",
+                "TwoWayDefenseman" => "Two-Way Defenceman",
+                "ToughGuy" => "Tough Guy", 
+                _ => characteristic
+            };
         }
     }
 }

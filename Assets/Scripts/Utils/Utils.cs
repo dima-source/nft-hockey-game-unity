@@ -169,5 +169,23 @@ namespace Utils
                 "RightDefender" => 4,
             };
         }
+
+        public static string GetRarityWithinAverageStats(int averageStats)
+        {
+            // {"Common", new Color32(205, 215, 218, 255)},
+            // {"Uncommon", new Color32(114, 165, 212, 255)},
+            // {"Rare", new Color32(62, 88, 222, 255)},
+            // {"Unique", new Color32(170, 23, 222, 255)},
+            // {"Exclusive", new Color32(236, 8, 145, 255)}
+            return averageStats switch
+            {
+                (>= 40 and < 60) => "Common",
+                (>= 60 and < 76) => "Uncommon",
+                (>= 76 and < 86) => "Rare",
+                (>= 86 and < 96) => "Unique",
+                (>= 96 and <= 100) => "Exclusive",
+                _ => throw new ApplicationException("Incorrect average stat value")
+            };
+        }
     }
 }
