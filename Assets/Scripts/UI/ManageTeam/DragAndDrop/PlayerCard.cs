@@ -1,20 +1,17 @@
 using System;
+using System.Collections;
 using Near.Models.Game.Team;
 using Near.Models.Tokens;
 using Near.Models.Tokens.Players.FieldPlayer;
 using Near.Models.Tokens.Players.Goalie;
 using UI.Scripts.Card;
 using UI.Scripts.Card.CardStatistics;
-using UnityEngine;
-using UnityEngine.UI;
 using Utils;
-using Event = Near.Models.Game.Event;
 
 namespace UI.ManageTeam.DragAndDrop
 {
     public class PlayerCard : DraggableCard
     {
-        
         public override void SetData(Token token)
         {
             CardData = token;

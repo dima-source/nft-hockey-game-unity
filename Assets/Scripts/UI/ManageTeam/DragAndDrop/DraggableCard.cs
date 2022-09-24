@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using Near.Models.Tokens;
+using TMPro;
 using UI.Scripts.Card;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -10,7 +12,11 @@ namespace UI.ManageTeam.DragAndDrop
     public abstract class DraggableCard : CardView, IDragHandler, IBeginDragHandler, IEndDragHandler
     {
 
+        [SerializeField] private Animation _statsChange;
+        [SerializeField] private TMP_Text _statsPercentText;
+        
         public Image playerImg;
+        public ManageTeamView ManageTeamView;
 
         private CanvasGroup _canvasGroup;
         private Canvas _mainCanvas;
@@ -48,6 +54,30 @@ namespace UI.ManageTeam.DragAndDrop
 
             transform.localPosition = Vector3.zero;
             _canvasGroup.blocksRaycasts = true;
+        }
+        
+        public void PlayStatsUp(int percent)
+        {
+            _statsPercentText.text = $"{percent.ToString()}%";
+            StartCoroutine(AnimationPlaying("StatsUp"));
+        }
+
+        public void PlayStatsDown(int percent)
+        {
+            _statsPercentText.text = $"{percent.ToString()}%";
+            StartCoroutine(AnimationPlaying("StatsDown"));
+        }
+        
+        private IEnumerator AnimationPlaying(string animationType)
+        {
+            _statsChange.gameObject.SetActive(true);
+            _statsChange.Play(animationType);
+            while (_statsChange.isPlaying)
+            {
+                yield return new WaitForSeconds(0.5f);
+            }
+            
+            _statsChange.gameObject.SetActive(false);
         }
 
         public abstract void SetData(Token token);

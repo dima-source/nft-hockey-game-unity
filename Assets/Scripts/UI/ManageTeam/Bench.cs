@@ -40,6 +40,7 @@ namespace UI.ManageTeam
                 UISlot benchSlot = Instantiate(Game.AssetRoot.manageTeamAsset.uiSlot, transform);
                 benchSlot.slotPosition = SlotPositionEnum.Bench;
                 benchSlot.GetComponent<Image>().color = new Color(255f, 255f, 255f, 0f);
+                benchSlot.manageTeamView = manageTeamView;
                 
                 DraggableCard player = Instantiate(Game.AssetRoot.manageTeamAsset.fieldCard);
                 player.CardData = card;
@@ -49,8 +50,7 @@ namespace UI.ManageTeam
                 player.transform.localPosition = Vector3.zero;
                 player.rectTransform.sizeDelta = new Vector2(150, 225);
                 player.rectTransform.localScale = benchSlot.RectTransform.localScale;
-                // TODO
-                //player.ManageTeamView = manageTeamView;
+                player.ManageTeamView = manageTeamView;
                 
                 benchSlot.draggableCard = player;
                 benchSlot.draggableCard.uiSlot = benchSlot;
@@ -68,6 +68,7 @@ namespace UI.ManageTeam
                 player.transform.localPosition = Vector3.zero;
                 player.rectTransform.sizeDelta = new Vector2(150, 225);
                 player.rectTransform.localScale = benchSlot.RectTransform.localScale;
+                benchSlot.manageTeamView = manageTeamView;
                 
                 benchSlot.draggableCard = player;
                 benchSlot.draggableCard.uiSlot = benchSlot;

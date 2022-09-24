@@ -35,7 +35,6 @@ namespace UI.ManageTeam
             PenaltyKill2,
             Goalie
         }
-        // TODO: make iceTimePriority and tactics different for every five 
         private ManageTeamController _controller;
 
         public Transform forwardsCanvasContent;
@@ -107,8 +106,7 @@ namespace UI.ManageTeam
             player.transform.localPosition = Vector3.zero;
             player.rectTransform.sizeDelta = slot.RectTransform.sizeDelta;
             player.rectTransform.localScale = slot.RectTransform.localScale;
-            //TODO
-            //player.ManageTeamView = this;
+            player.ManageTeamView = this;
                 
             slot.draggableCard = player;
             slot.draggableCard.uiSlot = slot;
@@ -142,8 +140,7 @@ namespace UI.ManageTeam
             player.transform.localPosition = Vector3.zero;
             player.rectTransform.sizeDelta = slot.RectTransform.sizeDelta;
             player.rectTransform.localScale = slot.RectTransform.localScale;
-            //TODO
-            //player.ManageTeamView = this;
+            player.ManageTeamView = this;
                 
             slot.draggableCard = player;
             slot.draggableCard.uiSlot = slot; 
@@ -275,6 +272,11 @@ namespace UI.ManageTeam
         
         public void ShowFive(string number)
         {
+            if (number == "G")
+            {
+                _teamworkText.text = "";
+                return;
+            }
             LineNumbers parsedLine = StringToLineNumber(number);
             Dictionary<SlotPositionEnum, UISlot> five = fives[parsedLine];
             five.Values.ToList().ForEach(slot => slot.gameObject.SetActive(true));
@@ -322,12 +324,14 @@ namespace UI.ManageTeam
                 iceTimePrioritySlider.SetValueWithoutNotify(value );
                 iceTimePriority.text = PascalToCapitalized(priority);
             }
+            UpdateTeamWork();
         }
 
         public UISlot CreateNewEmptySlot(Transform container, SlotPositionEnum position)
         {
             UISlot slot = Instantiate(Game.AssetRoot.manageTeamAsset.uiSlot, container);
             slot.slotPosition = position;
+            slot.manageTeamView = this;
             return slot;
         }
         
@@ -392,7 +396,6 @@ namespace UI.ManageTeam
                 .Where(x => !powerPlayersTokensInTeam.Contains(x.tokenId)).ToList();
             List<Token> penaltyKillBench = _userNFTs.Where(x => fieldPlayersTokensInTeam.Contains(x.tokenId))
                 .Where(x => !penaltyKillTokensInTeam.Contains(x.tokenId)).ToList();
-            // List<Token> penaltyKillBench = fieldPlayersBench.Where(x => !penaltyKillTokensInTeam.Contains(x.tokenId)).ToList();
             
             fieldPlayersBenchContent.Cards = fieldPlayersBench;
             goaliesBenchContent.Cards = goaliesBench;
@@ -532,7 +535,7 @@ namespace UI.ManageTeam
         public void UpdateTeamWork()
         {
             var playersSlots = fives[_currentLineNumber].Values;
-            if (playersSlots.Where(x => x.draggableCard != null).Count() != playersSlots.Count)
+            if (playersSlots.Any(x => !x.gameObject.activeSelf))
             {
                 _teamworkText.text = "";
                 return;
@@ -555,8 +558,6 @@ namespace UI.ManageTeam
                     playersPercent[player] += 5;
                 }
 
-                //TODO
-                // CHANGE IT !!!
                 var nativePostition = player.playerCardData.position;
                 
                 if (nativePostition.ToString() == "LW" &&
@@ -654,8 +655,8 @@ namespace UI.ManageTeam
 
                 if (sameNationalityPlayers.Count == 1)
                 {
-                    //TODO
-                    //sameNationalityPlayers.First().PlayStatsDown(5);
+                    sameNationalityPlayers.First().PlayStatsDown(5);
+                    UpdateTeamWork();
                 }
 
                 return;
@@ -668,26 +669,23 @@ namespace UI.ManageTeam
 
             // if player in the other side. RHCP :)
             
-            //TODO
-            /*
-            if (userPosition == SlotPositionEnum.LeftWing && slot.slotPosition == SlotPositionEnum.RightWing ||
-                userPosition == SlotPositionEnum.RightWing && slot.slotPosition == SlotPositionEnum.LeftWing ||
-                userPosition == SlotPositionEnum.RightDefender && slot.slotPosition == SlotPositionEnum.LeftDefender ||
-                userPosition == SlotPositionEnum.LeftDefender && slot.slotPosition == SlotPositionEnum.RightDefender)
+            if (userPosition == "LW" && slot.slotPosition == SlotPositionEnum.RightWing ||
+                userPosition == "RW" && slot.slotPosition == SlotPositionEnum.LeftWing ||
+                userPosition == "RD" && slot.slotPosition == SlotPositionEnum.LeftDefender ||
+                userPosition == "LD" && slot.slotPosition == SlotPositionEnum.RightDefender)
             {
                 percent = 95;
             }
             // if not central player is in center
-            else if (userPosition != SlotPositionEnum.Center && slot.slotPosition == SlotPositionEnum.Center)
+            else if (userPosition != "C" && slot.slotPosition == SlotPositionEnum.Center)
             {
                 percent = 75;
             }
             // if player is just on another position
-            else if (userPosition != slot.slotPosition)
+            else if (userPosition != String.Concat(slot.slotPosition.ToString().Select(c => Char.IsUpper(c))))
             {
                 percent = 80;
             }
-            */
             
             Dictionary<DraggableCard, int> playersPercent = new();
 
@@ -706,9 +704,9 @@ namespace UI.ManageTeam
                     {
                         sameNationalityInFive = true;
                         playersPercent.Add(uiSlot.draggableCard, 5);
-                        // if (playersPercent.ContainsKey(uiSlot.uiPlayer))
-                        //     playersPercent[uiSlot.uiPlayer] = 5;
-                        // else playersPercent.Add(uiSlot.uiPlayer, 5);
+                        if (playersPercent.ContainsKey(uiSlot.draggableCard))
+                            playersPercent[uiSlot.draggableCard] = 5;
+                        else playersPercent.Add(uiSlot.draggableCard, 5);
                     }
                 }
                 
@@ -824,13 +822,13 @@ namespace UI.ManageTeam
                     int p = playersPercent[uiPlayer];
                     if (p > 0)
                     {
-                        //TODO
-                        //uiPlayer.PlayStatsUp(p);
+                        uiPlayer.PlayStatsUp(p);
+                        UpdateTeamWork();
                     }
                     else if (p < 0)
                     {
-                        //TODO
-                        //uiPlayer.PlayStatsDown(p * -1);
+                        uiPlayer.PlayStatsDown(p * -1);
+                        UpdateTeamWork();
                     }
                 }
             }
@@ -838,12 +836,12 @@ namespace UI.ManageTeam
             
             if (percent > 100)
             {
-                //TODO
-                //player.PlayStatsUp(percent - 100);
+                player.PlayStatsUp(percent - 100);
+                UpdateTeamWork();
             } else if (percent < 100)
             {
-                //TODO
-                //player.PlayStatsDown(100 - percent);
+                player.PlayStatsDown(100 - percent);
+                UpdateTeamWork();
             }
         }
 
