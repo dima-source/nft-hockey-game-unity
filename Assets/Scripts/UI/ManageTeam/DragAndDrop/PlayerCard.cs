@@ -1,20 +1,17 @@
 using System;
+using System.Collections;
 using Near.Models.Game.Team;
 using Near.Models.Tokens;
 using Near.Models.Tokens.Players.FieldPlayer;
 using Near.Models.Tokens.Players.Goalie;
 using UI.Scripts.Card;
 using UI.Scripts.Card.CardStatistics;
-using UnityEngine;
-using UnityEngine.UI;
 using Utils;
-using Event = Near.Models.Game.Event;
 
 namespace UI.ManageTeam.DragAndDrop
 {
     public class PlayerCard : DraggableCard
     {
-        
         public override void SetData(Token token)
         {
             CardData = token;
@@ -41,10 +38,13 @@ namespace UI.ManageTeam.DragAndDrop
                 playerCardData.position = new CardPositionCharacteristic(goalie.native_position);
                 playerCardData.statistics = new CardStatistic[]
                 {
-                    new HockeyIqStatistic((int)goalie.Stats.Reflexes),
-                    new StickHandlingStatistic((int)goalie.Stats.PuckControl),
+                    new ReflexesStatistic((int)goalie.Stats.Reflexes),
+                    new PuckControlStatistic((int)goalie.Stats.PuckControl),
                     new StrengthStatistic((int)goalie.Stats.Strength),
                 };
+                playerCardData.rareness =
+                    new CardRarenessCharacteristic(
+                        Utils.Utils.GetRarityWithinAverageStats((int)goalie.Stats.GetAverageStats()));
             }
             else
             {
@@ -56,9 +56,14 @@ namespace UI.ManageTeam.DragAndDrop
                 {
                     new SkatingStatistic((int)fieldPlayer.Stats.Skating),
                     new ShootingStatistic((int)fieldPlayer.Stats.Shooting),
-                    new StrengthStatistic((int)fieldPlayer.Stats.Strength),
-                    new HockeyIqStatistic((int)fieldPlayer.Stats.Morale)
+                    new StickHandlingStatistic((int)fieldPlayer.Stats.StickHandling),
+                    new StrengthStatistic((int)fieldPlayer.Stats.StrengthAvg),
+                    new HockeyIqStatistic((int)fieldPlayer.Stats.Iq),
+                    new DefenceStatistic((int)fieldPlayer.Stats.Defense)
                 };
+                playerCardData.rareness =
+                    new CardRarenessCharacteristic(
+                        Utils.Utils.GetRarityWithinAverageStats((int)fieldPlayer.Stats.GetAverageStats()));
             }
         }
     }

@@ -7,7 +7,6 @@ namespace UI.ManageTeam
     public class ManageTeamAsset : ScriptableObject
     {
         public DraggableCard fieldCard;
-        public DraggableCard goalie;
         public UISlot uiSlot;
     }
 }

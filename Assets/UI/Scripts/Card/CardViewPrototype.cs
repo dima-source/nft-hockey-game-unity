@@ -8,14 +8,17 @@ using UnityEngine.UI;
 namespace UI.Scripts.Card
 {
     public class CardViewPrototype
-    { 
-        
+    {
+        private readonly int FIELD_PLAYER_STATS_COUNT = 6;
+        private readonly int GOALIE_STATS_COUNT = 3;
         private readonly Transform transform;
         private readonly PlayerCardData playerCardData;
         
         private readonly Graphic graphic;
         private readonly Text text;
         private CardStatisticView[] cardStatisticViews;
+
+        private bool _foundCardStatisticsViews;
 
         public CardViewPrototype(Transform transform, PlayerCardData playerCardData)
         {
@@ -24,7 +27,7 @@ namespace UI.Scripts.Card
             
             graphic = new Graphic(transform);
             text = new Text(transform);
-            FindCardStatisticViews();
+            // FindCardStatisticViews();
         }
         
         private class Graphic
@@ -67,17 +70,53 @@ namespace UI.Scripts.Card
 
         private void FindCardStatisticViews()
         {
+            
             Transform statisticsContainer = Utils.FindChild<Transform>(transform, "StatisticsContainer");
-            cardStatisticViews = new CardStatisticView[statisticsContainer.childCount];
-            for (int i = 0; i < cardStatisticViews.Length; i++)
+            if (playerCardData.position.ToString() != "G")
             {
-                Transform statistic = statisticsContainer.GetChild(i);
-                cardStatisticViews[i] = statistic.GetComponent<CardStatisticView>();
+                int indexCounter = 0;
+                cardStatisticViews = new CardStatisticView[FIELD_PLAYER_STATS_COUNT];
+                for (int i = 0; i < FIELD_PLAYER_STATS_COUNT; i++)
+                {
+                    Transform statistic = statisticsContainer.GetChild(i);
+                    statistic.gameObject.SetActive(true);
+                    cardStatisticViews[indexCounter] = statistic.GetComponent<CardStatisticView>();
+                    indexCounter++;
+                }
+
+                if(Application.isPlaying){
+                    for (int i = FIELD_PLAYER_STATS_COUNT; i < FIELD_PLAYER_STATS_COUNT + GOALIE_STATS_COUNT; i++)
+                    {
+                        statisticsContainer.GetChild(i).gameObject.SetActive(false);
+                    }
+                }
+            }
+            else
+            {
+                cardStatisticViews = new CardStatisticView[GOALIE_STATS_COUNT];
+                int indexCounter = 0;
+                for (int i = FIELD_PLAYER_STATS_COUNT; i < FIELD_PLAYER_STATS_COUNT + GOALIE_STATS_COUNT; i++)
+                {
+                    Transform statistic = statisticsContainer.GetChild(i);
+                    statistic.gameObject.SetActive(true);
+                    cardStatisticViews[indexCounter] = statistic.GetComponent<CardStatisticView>();
+                    indexCounter++;
+                }
+
+                for (int i = 0; i < 6; i++)
+                {
+                    statisticsContainer.GetChild(i).gameObject.SetActive(false);
+                }
             }
         }
 
         public void UpdateView()
         {
+            if (!_foundCardStatisticsViews)
+            {
+                FindCardStatisticViews();
+                _foundCardStatisticsViews = true;
+            }
             UpdateGraphic();
             UpdateText();
             UpdateStatisticViews();
@@ -100,6 +139,8 @@ namespace UI.Scripts.Card
             text.position.text = playerCardData.position.ToString();
             text.playerNumber.text = playerCardData.number.ToString();
             text.playerRole.text = playerCardData.role.ToString();
+            if (playerCardData.rareness.ToString() == "Common")
+                text.playerRole.color = Color.black;
         }
 
         private void UpdateStatisticViews()
