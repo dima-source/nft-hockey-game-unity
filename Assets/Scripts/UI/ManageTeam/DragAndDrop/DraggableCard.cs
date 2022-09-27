@@ -32,6 +32,11 @@ namespace UI.ManageTeam.DragAndDrop
             _canvasGroup = GetComponent<CanvasGroup>();
         }
 
+        private void OnEnable()
+        {
+            _statsChange.gameObject.SetActive(false);
+        }
+
         public void OnBeginDrag(PointerEventData eventData)
         {
             rectTransform.SetParent(canvasContent);

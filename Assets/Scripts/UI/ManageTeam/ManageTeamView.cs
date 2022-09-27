@@ -535,8 +535,7 @@ namespace UI.ManageTeam
         public void UpdateTeamWork()
         {
             var playersSlots = fives[_currentLineNumber].Values;
-            if (playersSlots.Any(x => !x.gameObject.activeSelf))
-            {
+            if (playersSlots.Any(x => !x.gameObject.activeSelf || !x.draggableCard))            {
                 _teamworkText.text = "";
                 return;
             }
