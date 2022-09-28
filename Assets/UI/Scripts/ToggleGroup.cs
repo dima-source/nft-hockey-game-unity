@@ -15,6 +15,8 @@ namespace UI.Scripts
         [SerializeField]
         private bool _isOpen = true;
         public bool isOpen => _isOpen;
+        
+        public Toggle[] _toggles;
 
         [SerializeField]
         private bool isOneAnswerOnly;
@@ -25,7 +27,6 @@ namespace UI.Scripts
         private TextMeshProUGUI _toggleGroupName;
         private Transform _toggleContainer;
         private TextMeshProUGUI _arrow;
-        private Toggle[] _toggles;
 
         public Action onChange;
 

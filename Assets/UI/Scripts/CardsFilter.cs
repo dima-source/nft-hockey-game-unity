@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Near.Models.Tokens;
 using Near.Models.Tokens.Filters;
-using Near.Models.Tokens.Players;
 using UI.Scripts.Card;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -64,8 +63,9 @@ namespace UI.Scripts
         private Marketplace _marketplace;
         
         private List<CardView> _pull;
-        
-        
+
+        private List<Toggle> _toggles;
+
         private void Awake()
         {
             _pull = new List<CardView>();
@@ -79,7 +79,13 @@ namespace UI.Scripts
             
             foreach (Transform child in _togglesContainer)
             {
-                child.GetComponent<ToggleGroup>().onChange = OnInputChanged;
+                ToggleGroup toggleGroup = child.GetComponent<ToggleGroup>();
+                toggleGroup.onChange = OnInputChanged;
+                
+                foreach (var toggle in toggleGroup._toggles)
+                {
+                    toggle.onChange = OnToggleChanged;
+                }
             }
             
             foreach (Transform child in _layout.transform)
@@ -299,30 +305,51 @@ namespace UI.Scripts
 
         private async Task<List<Token>> LoadNewCards()
         {
-            List<Token> tokens = new List<Token>();
+            Pagination pagination = GetPagination();
+            PlayerFilter filter = GetPlayerFilter();
             
+            List<Token> tokens = await Near.MarketplaceContract.ContractMethods.Views.GetTokens(filter, pagination);
+            
+            return tokens;
+        }
+
+        private Pagination GetPagination()
+        {
             Pagination pagination = new Pagination();
             pagination.first = cardsValueToLoad;
             pagination.skip = _pull.Count;
-            
+
+            return pagination;
+        }
+
+        private PlayerFilter GetPlayerFilter()
+        {
+            PlayerFilter filter = new PlayerFilter();
+                                                            
             switch (_marketplace.TopBar.NowPage)
             {
                 case "BuyCards":
+                    filter.marketplace_data_ = new MarketplaceTokenFilter();
                     break;
                 case "SellCards":
-                    PlayerFilter filter = new PlayerFilter();
                     filter.ownerId = Near.NearPersistentManager.Instance.GetAccountId();
-                    tokens = await Near.MarketplaceContract.ContractMethods.Views.GetTokens(filter, pagination);
                     break;
                 case "OnSale":
+                    filter.ownerId = Near.NearPersistentManager.Instance.GetAccountId();
+                    filter.marketplace_data_ = new MarketplaceTokenFilter();
                     break;
                 default:
                     throw new ApplicationException($"Unknown '{_marketplace.TopBar.NowPage}' page");
             }
 
-            return tokens;
+            return filter;
         }
 
+        private void OnToggleChanged()
+        {
+            Debug.Log("ToggleChanged");
+        }
+        
         private void PlaySound()
         {
             AudioController.LoadClip(Configurations.DefaultButtonSoundPath);
