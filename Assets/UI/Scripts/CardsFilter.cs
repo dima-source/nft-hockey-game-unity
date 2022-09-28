@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Near.Models.Tokens.Players;
 using UI.Scripts.Card;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -199,6 +200,7 @@ namespace UI.Scripts
                 
                 Button button = view.GetComponent<Button>();
                 button.enabled = true;
+                
                 button.onClick.AddListener(() =>
                 {
                     PlaySound();
@@ -284,6 +286,7 @@ namespace UI.Scripts
                         _marketplace.SwitchPage("FilterCards");
                     });
                 });
+                
                 _pull.Add(view);
             }
         }
