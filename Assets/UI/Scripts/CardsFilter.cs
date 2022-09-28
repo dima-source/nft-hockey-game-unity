@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Near.Models.Tokens;
+using Near.Models.Tokens.Filters;
 using Near.Models.Tokens.Players;
 using UI.Scripts.Card;
 using Unity.VisualScripting;
@@ -191,12 +194,15 @@ namespace UI.Scripts
             }
         }
 
-        private void OnLoadNewPortion()
+        private async void OnLoadNewPortion()
         {
             // Load new portion here
-            for (int i = 0; i < cardsValueToLoad; i++)
+            List<Token> tokens = await LoadNewCards();
+
+            foreach (var token in tokens)
             {
                 CardView view = Instantiate(_cardViewPrefab, _layout.transform).GetComponent<CardView>();
+                view.SetData(token);
                 
                 Button button = view.GetComponent<Button>();
                 button.enabled = true;
@@ -289,6 +295,32 @@ namespace UI.Scripts
                 
                 _pull.Add(view);
             }
+        }
+
+        private async Task<List<Token>> LoadNewCards()
+        {
+            List<Token> tokens = new List<Token>();
+            
+            Pagination pagination = new Pagination();
+            pagination.first = cardsValueToLoad;
+            pagination.skip = _pull.Count;
+            
+            switch (_marketplace.TopBar.NowPage)
+            {
+                case "BuyCards":
+                    break;
+                case "SellCards":
+                    PlayerFilter filter = new PlayerFilter();
+                    filter.ownerId = Near.NearPersistentManager.Instance.GetAccountId();
+                    tokens = await Near.MarketplaceContract.ContractMethods.Views.GetTokens(filter, pagination);
+                    break;
+                case "OnSale":
+                    break;
+                default:
+                    throw new ApplicationException($"Unknown '{_marketplace.TopBar.NowPage}' page");
+            }
+
+            return tokens;
         }
 
         private void PlaySound()

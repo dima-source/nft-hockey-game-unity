@@ -124,6 +124,11 @@ namespace Near.MarketplaceContract.ContractMethods
             return new List<Token>();
         }
 
+        public static async Task<List<MarketplaceToken>> GetMarketplaceTokens()
+        {
+            return new List<MarketplaceToken>();
+        }
+
         public static async Task<List<Token>> GetUserNFTsOnSale()
         {
             throw new System.NotImplementedException();

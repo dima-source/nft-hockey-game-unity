@@ -1,5 +1,8 @@
-﻿using UI.Scripts.Card.CardStatistics;
+﻿using System;
+using Near.Models.Tokens;
+using UI.Scripts.Card.CardStatistics;
 using UnityEngine;
+using Utils;
 
 namespace UI.Scripts.Card
 {
@@ -49,6 +52,7 @@ namespace UI.Scripts.Card
                 new DefenceStatistic(99)
             };
         }
-        
+
+
     }
 }
