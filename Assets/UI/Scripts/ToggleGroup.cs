@@ -29,6 +29,7 @@ namespace UI.Scripts
         private TextMeshProUGUI _arrow;
 
         public Action onChange;
+        public Action onChangeToggle;
 
         private static readonly Dictionary<bool, string> ARROWS = new()
         {
@@ -55,7 +56,10 @@ namespace UI.Scripts
                 }
                 else
                 {
-                    _toggles[i].onChange = null;
+                    if (onChange != null)
+                    {
+                        _toggles[i].onChange = onChangeToggle.Invoke;
+                    }
                 }
             }
             _arrow = Utils.FindChild<TextMeshProUGUI>(transform, "Arrow");

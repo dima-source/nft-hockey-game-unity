@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Near.Models.Tokens;
 using Near.Models.Tokens.Filters;
+using Near.Models.Tokens.Filters.ToggleFilters;
 using UI.Scripts.Card;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -80,12 +81,7 @@ namespace UI.Scripts
             foreach (Transform child in _togglesContainer)
             {
                 ToggleGroup toggleGroup = child.GetComponent<ToggleGroup>();
-                toggleGroup.onChange = OnInputChanged;
-                
-                foreach (var toggle in toggleGroup._toggles)
-                {
-                    toggle.onChange = OnToggleChanged;
-                }
+                toggleGroup.onChangeToggle = OnToggleChanged;
             }
             
             foreach (Transform child in _layout.transform)
@@ -142,8 +138,26 @@ namespace UI.Scripts
             Debug.Log("changed");
         }
 
+        private async void OnToggleChanged()
+        {
+            Pagination pagination = GetPagination();
+            PlayerFilter filter = GetPlayerFilter();
+            
+            foreach (Transform child in _layout.transform)
+            {
+                Destroy(child.gameObject);
+            }  
+            
+            _currentLoad = 1;
+            _pull.Clear();
+            
+            List<Token> tokens = await Near.MarketplaceContract.ContractMethods.Views
+                .GetTokens(filter, pagination);
+            
+            ShowLoadedNewPortion(tokens);
+        }
+        
         private bool _isIn = true;
-
 
         private void CallLoadNewPortion()
         {
@@ -202,9 +216,12 @@ namespace UI.Scripts
 
         private async void OnLoadNewPortion()
         {
-            // Load new portion here
             List<Token> tokens = await LoadNewCards();
+            ShowLoadedNewPortion(tokens);
+        }
 
+        private void ShowLoadedNewPortion(List<Token> tokens)
+        {
             foreach (var token in tokens)
             {
                 CardView view = Instantiate(_cardViewPrefab, _layout.transform).GetComponent<CardView>();
@@ -325,29 +342,27 @@ namespace UI.Scripts
         private PlayerFilter GetPlayerFilter()
         {
             PlayerFilter filter = new PlayerFilter();
-                                                            
-            switch (_marketplace.TopBar.NowPage)
+
+            if (_marketplace.TopBar.NowPage is "SellCards" or "OnSale")
             {
-                case "BuyCards":
-                    filter.marketplace_data_ = new MarketplaceTokenFilter();
-                    break;
-                case "SellCards":
-                    filter.ownerId = Near.NearPersistentManager.Instance.GetAccountId();
-                    break;
-                case "OnSale":
-                    filter.ownerId = Near.NearPersistentManager.Instance.GetAccountId();
-                    filter.marketplace_data_ = new MarketplaceTokenFilter();
-                    break;
-                default:
-                    throw new ApplicationException($"Unknown '{_marketplace.TopBar.NowPage}' page");
+                filter.ownerId = Near.NearPersistentManager.Instance.GetAccountId();
             }
 
-            return filter;
-        }
+            ToggleFilterFactory toggleFilterFactory = new ToggleFilterFactory();
+            foreach (Transform child in _togglesContainer)
+            {
+                ToggleGroup toggleGroup = child.GetComponent<ToggleGroup>();
 
-        private void OnToggleChanged()
-        {
-            Debug.Log("ToggleChanged");
+                if (toggleGroup.groupName == "Sale option" && _marketplace.TopBar.NowPage == "SellCards")
+                {
+                    continue;
+                }
+                
+                IToggleFilter toggleFilter = toggleFilterFactory.GetToggleFilter(toggleGroup.groupName);
+                toggleFilter.AddToPlayerFilter(filter, toggleGroup._toggles);
+            }
+            
+            return filter;
         }
         
         private void PlaySound()

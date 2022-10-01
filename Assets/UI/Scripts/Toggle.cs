@@ -46,8 +46,9 @@ namespace UI.Scripts
         {
             AudioController.LoadClip(Configurations.DefaultButtonSoundPath);
             AudioController.source.Play();
-            onChange?.Invoke();
             isOn = !isOn;
+            
+            onChange?.Invoke();
         }
     }
 }
