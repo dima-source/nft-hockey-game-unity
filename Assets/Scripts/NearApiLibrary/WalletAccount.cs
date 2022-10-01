@@ -94,7 +94,7 @@ namespace NearClientUnity
             return true;
         }
 
-        public async Task<bool> RequestSignIn(string contractId, string title)
+        public async Task<bool> RequestSignIn(string title)
         {
             if (!string.IsNullOrWhiteSpace(GetAccountId())) return true;
             if (await _keyStore.GetKeyAsync(_networkId, GetAccountId()) != null) return true;
@@ -115,6 +115,22 @@ namespace NearClientUnity
 
             await _keyStore.SetKeyAsync(_networkId, PendingAccessKeyPrefix + accessKey.GetPublicKey(), accessKey);
             return _authService.OpenUrl(url.Uri.AbsoluteUri);
+        }
+
+        public async Task<bool> RegisterAccount(string accountId, AccountCreator accountCreator, string seedPhrase)
+        {
+            KeyPair keyPair = KeyPair.FromString(seedPhrase);
+            try
+            {
+                await accountCreator.CreateAccountAsync(accountId, keyPair.GetPublicKey());
+                
+                await _keyStore.SetKeyAsync(_networkId, accountId, keyPair);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public async void SignOut()
