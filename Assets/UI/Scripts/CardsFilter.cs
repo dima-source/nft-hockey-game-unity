@@ -141,6 +141,8 @@ namespace UI.Scripts
         private async void OnToggleChanged()
         {
             Pagination pagination = GetPagination();
+            pagination.skip = 0;
+            
             PlayerFilter filter = GetPlayerFilter();
             
             foreach (Transform child in _layout.transform)

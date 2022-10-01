@@ -56,7 +56,7 @@ namespace UI.Scripts
                 }
                 else
                 {
-                    if (onChange != null)
+                    if (onChangeToggle != null)
                     {
                         _toggles[i].onChange = onChangeToggle.Invoke;
                     }
