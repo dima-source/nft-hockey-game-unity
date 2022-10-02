@@ -8,5 +8,6 @@ namespace Near.Models.Tokens.Filters.ToggleFilters
         {
             
         }
+        
     }
 }
