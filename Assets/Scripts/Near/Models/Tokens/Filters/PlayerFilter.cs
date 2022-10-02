@@ -10,6 +10,7 @@ namespace Near.Models.Tokens.Filters
         public long birthday_lte { get; set; }
         
         public List<string> rarity_in { get; set; }
+        public List<string> native_position_in { get; set; }
         public List<string> player_type_in { get; set; }
         public List<string> hand_in { get; set; }
         public List<string> player_role_in { get; set; }
