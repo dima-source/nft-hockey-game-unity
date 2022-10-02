@@ -138,7 +138,7 @@ namespace UI.Scripts
             Debug.Log("changed");
         }
 
-        private async void OnToggleChanged()
+        private async void OnToggleChanged(string toggleText)
         {
             Pagination pagination = GetPagination();
             pagination.skip = 0;

@@ -8,8 +8,8 @@ namespace Near.Models.Tokens.Filters
         public string ownerId { get; set; }
         public string hand { get; set; }
         public string player_type { get; set; }
-        public string birthday_gte { get; set; }
-        public string birthday_lte { get; set; }
+        public long birthday_gte { get; set; }
+        public long birthday_lte { get; set; }
 
         public MarketplaceTokenFilter marketplace_data_ { get; set; }
         

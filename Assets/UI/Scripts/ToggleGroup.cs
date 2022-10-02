@@ -29,7 +29,7 @@ namespace UI.Scripts
         private TextMeshProUGUI _arrow;
 
         public Action onChange;
-        public Action onChangeToggle;
+        public Action<string> onChangeToggle;
 
         private static readonly Dictionary<bool, string> ARROWS = new()
         {
@@ -42,26 +42,33 @@ namespace UI.Scripts
             _toggleGroupName = Utils.FindChild<TextMeshProUGUI>(transform, "ToggleGroupName");
             _toggleContainer = Utils.FindChild<Transform>(transform, "ToggleContainer");
             _toggles = new Toggle[_toggleContainer.childCount];
+            
             for (int i = 0; i < _toggles.Length; i++)
             {
                 _toggles[i] = _toggleContainer.GetChild(i).GetComponent<Toggle>();
                 _toggles[i].isOn = false;
-                if (isOneAnswerOnly)
+
+                if (onChangeToggle == null) continue;
+                
+                if (isOneAnswerOnly) 
                 {
-                    _toggles[i].onChange = () =>
+                    _toggles[i].onChange += toggleText =>
                     {
-                        foreach (var toggle in _toggles) { toggle.isOn = false; }
+                        foreach (var toggle in _toggles)
+                        {
+                            if (toggle.text != toggleText)
+                            {
+                                toggle.isOn = false;
+                            }
+                        }
+
                         onChange?.Invoke();
                     };
                 }
-                else
-                {
-                    if (onChangeToggle != null)
-                    {
-                        _toggles[i].onChange = onChangeToggle.Invoke;
-                    }
-                }
+                
+                _toggles[i].onChange += onChangeToggle.Invoke;
             }
+            
             _arrow = Utils.FindChild<TextMeshProUGUI>(transform, "Arrow");
         }
 
