@@ -6,15 +6,15 @@ namespace Near.Models.Tokens.Filters
     {
         public string title { get; set; }
         public string ownerId { get; set; }
-        public string hand { get; set; }
-        public string player_type { get; set; }
         public long birthday_gte { get; set; }
         public long birthday_lte { get; set; }
-
-        public MarketplaceTokenFilter marketplace_data_ { get; set; }
         
         public List<string> rarity_in { get; set; }
+        public List<string> player_type_in { get; set; }
+        public List<string> hand_in { get; set; }
         public List<string> player_role_in { get; set; }
         public List<string> nationality_in { get; set; }
+        
+        public MarketplaceTokenFilter marketplace_data_ { get; set; }
     }
 }
