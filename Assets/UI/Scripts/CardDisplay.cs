@@ -1,5 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Near.Models.Tokens;
+using Near.Models.Tokens.Players;
+using Near.Models.Tokens.Players.FieldPlayer;
+using Near.Models.Tokens.Players.Goalie;
 using TMPro;
 using UI.Scripts.Card;
 using Unity.VisualScripting;
@@ -49,6 +54,67 @@ namespace UI.Scripts
             //string dateFormat = "MM/dd/yyyy";
             //string value = $"nation: {nation}\nbirthday: {birthday.ToString(dateFormat)}\nage: {age}\n";
             //_additionalInformationText.text = value;
+        }
+
+        public void SetData(Token token)
+        {
+            CardView.SetData(token);
+
+            if (token.marketplace_data == null || token.marketplace_data.price == null)
+            {
+                _priceText.text = "";
+            }
+
+            Player player = (Player) token;
+            _basicInformationText.text = "<uppercase>" + token.title + "</uppercase>\n";
+            
+            _basicInformationText.text += "role: " + player.player_role + "\n" +
+                                          "position: " + "Goalie\n" +
+                                          "hand: " + player.hand + "\n";
+
+            DateTime birthday = DateTimeOffset.FromUnixTimeSeconds(long.Parse(player.birthday)).DateTime;
+            
+            DateTime today = DateTime.Now; 
+
+            int age = today.Year - birthday.Year;
+            if (today.Month < birthday.Month)
+            {
+                age--;
+            } else if (today.Month == birthday.Month)
+            {
+                if (today.Day < birthday.Day)
+                {
+                    age--;
+                }
+            }
+            
+            _additionalInformationText.text = "nation: " + player.nationality + "\n" +
+                                              "birthday: " + birthday.Year + "/" + birthday.Month + "/" + birthday.Day +
+                                              "age: " + age;
+
+            if (token.player_type == "Goalie")
+            {
+                Goalie goalie = (Goalie)token;
+                Drawer.statistics = new List<PolygonDrawer.Statistic>
+                {
+                    new("Reflexes", (int) goalie.Stats.Reflexes),
+                    new("Puck control", (int) goalie.Stats.PuckControl),
+                    new("Strength", (int) goalie.Stats.Strength)
+                };
+            }
+            else
+            {
+                FieldPlayer fieldPlayer = (FieldPlayer)token;
+                Drawer.statistics = new List<PolygonDrawer.Statistic>
+                {
+                    new("Skating", (int) fieldPlayer.Stats.Skating),
+                    new("Shooting", (int) fieldPlayer.Stats.Shooting),
+                    new("Stick handling", (int) fieldPlayer.Stats.StickHandling),
+                    new("Strength", (int) fieldPlayer.Stats.StrengthAvg),
+                    new("IQ", (int) fieldPlayer.Stats.Iq),
+                    new("Defense", (int) fieldPlayer.Stats.Defense)
+                };
+            }
         }
 
         public void SetButton(int index, string value, UnityAction action = null)

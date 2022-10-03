@@ -237,6 +237,8 @@ namespace UI.Scripts
                     PlaySound();
                    
                     CardDisplay cardDisplay = _marketplace.SwitchPage("CardDisplay").GetComponent<CardDisplay>();
+                    cardDisplay.SetData(token);
+                    
                     switch (_marketplace.TopBar.NowPage)
                     {
                         case "BuyCards":

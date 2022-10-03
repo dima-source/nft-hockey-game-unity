@@ -40,6 +40,10 @@ namespace UI.Scripts.Card
         
         public void SetData(Token token)
         {
+            if (playerCardData == null)
+            {
+                return;
+            }
             playerCardData.name = token.title;
 
             if (!string.IsNullOrEmpty(token.media))
@@ -88,6 +92,8 @@ namespace UI.Scripts.Card
                     new CardRarenessCharacteristic(
                         global::Utils.Utils.GetRarityWithinAverageStats((int)fieldPlayer.Stats.GetAverageStats()));
             }
+            
+            viewPrototype = new CardViewPrototype(transform, playerCardData);
         }
     }
 }
