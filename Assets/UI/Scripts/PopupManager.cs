@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -193,7 +195,7 @@ namespace UI.Scripts
         }
         
         
-        public static Popup GetSellCard(this RectTransform parent, UnityAction<double> onSell)
+        public static Popup GetSellCard(this RectTransform parent, string tokenId)
         {
             _instance = GetInputNear(parent, "Sell card");
             InputNear input = Utils.FindChild<InputNear>(_instance.transform, "InputNear");
@@ -229,7 +231,7 @@ namespace UI.Scripts
                     new Popup.ButtonView(Popup.ButtonType.Positive, "Yes"),
                 };
                 info.OnButtonClick(0, info.Close);
-                info.OnButtonClick(1, () =>
+                info.OnButtonClick(1, async () =>
                 {
                     float value = input.Value;
                     
@@ -240,7 +242,26 @@ namespace UI.Scripts
                         return;
                     }
                     
-                    onSell?.Invoke(value);
+                    Dictionary<string,string> newSaleConditions = new Dictionary<string, string>
+                    {
+                        {"near", Near.NearUtils.ParseNearAmount(value.ToString()).ToString()}
+                    };
+                    try
+                    {
+                        await Near.MarketplaceContract.ContractMethods.Actions.SaleUpdate(
+                            newSaleConditions, tokenId, toggle.isOn);
+                    }
+                    catch (Exception e)
+                    {
+                        string messageError = e.Message.Contains("NotEnoughBalance")
+                            ? "Not enough balance to sign a transaction"
+                            : "Something went wrong";
+                        
+                        Popup error = parent.GetDefaultOk("Error", messageError);
+                        error.Show();
+                        return;
+                    }
+                    
                     Popup success = parent.GetDefaultOk("Success", $"You have successfully placed this card {message}");
                     success.Show();
                 });

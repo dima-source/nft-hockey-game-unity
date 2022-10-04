@@ -270,11 +270,13 @@ namespace UI.Scripts
                         case "SellCards":
                             cardDisplay.SetButton(0, "Sell", () =>
                             {
-                                Popup popup = _marketplace.GetComponent<RectTransform>().GetSellCard((value) => Debug.Log(value));
+                                Popup popup = _marketplace.GetComponent<RectTransform>().GetSellCard(token.tokenId);
                                 popup.Show();
                             });
+                            
                             cardDisplay.SetButton(1, "");
                             cardDisplay.SetButton(2, "");
+                            
                             break;
                         case "OnSale":
                             cardDisplay.SetButton(0, "Change sale conditions", () =>

@@ -16,7 +16,7 @@ namespace Near.MarketplaceContract.ContractMethods
 {
     public static class Actions
     {
-        public static async void SaleUpdate(Dictionary<string, string> newSaleConditions, string tokenId, bool isAuction)
+        public static async Task SaleUpdate(Dictionary<string, string> newSaleConditions, string tokenId, bool isAuction)
         {
             ContractNear marketContract = await NearPersistentManager.Instance.GetMarketplaceContract();
 

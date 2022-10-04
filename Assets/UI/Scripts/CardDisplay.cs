@@ -5,6 +5,7 @@ using Near.Models.Tokens;
 using Near.Models.Tokens.Players;
 using Near.Models.Tokens.Players.FieldPlayer;
 using Near.Models.Tokens.Players.Goalie;
+using NearClientUnity.Utilities;
 using TMPro;
 using UI.Scripts.Card;
 using Unity.VisualScripting;
@@ -59,10 +60,14 @@ namespace UI.Scripts
         public void SetData(Token token)
         {
             CardView.SetData(token);
-
+            
             if (token.marketplace_data == null || token.marketplace_data.price == null)
             {
                 _priceText.text = "";
+            }
+            else
+            {
+                _priceText.text = Near.NearUtils.FormatNearAmount(UInt128.Parse(token.marketplace_data.price)).ToString();
             }
 
             Player player = (Player) token;
@@ -89,7 +94,7 @@ namespace UI.Scripts
             }
             
             _additionalInformationText.text = "nation: " + player.nationality + "\n" +
-                                              "birthday: " + birthday.Year + "/" + birthday.Month + "/" + birthday.Day +
+                                              "birthday: " + birthday.Year + "/" + birthday.Month + "/" + birthday.Day + "\n" +
                                               "age: " + age;
 
             if (token.player_type == "Goalie")
