@@ -31,5 +31,10 @@ namespace UI.Main_menu
         {
             await NearPersistentManager.Instance.SignIn();
         }
+
+        public async void RequestRegister()
+        {
+            
+        }
     }
 }

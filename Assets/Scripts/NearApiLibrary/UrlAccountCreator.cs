@@ -19,7 +19,7 @@ namespace NearClientUnity
 
         public override async Task CreateAccountAsync(string newAccountId, PublicKey publicKey)
         {
-            await Web.FetchJsonAsync(_helperConnection, $@"newAccountId: {newAccountId},  newAccountPublicKey: {publicKey}");
+            await Web.FetchJsonAsync(_helperConnection, $@"{{""newAccountId"": ""{newAccountId}"",  ""newAccountPublicKey"": ""{publicKey}""}}");
         }
     }
 }

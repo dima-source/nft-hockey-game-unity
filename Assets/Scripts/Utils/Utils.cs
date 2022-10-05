@@ -1,12 +1,17 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
+using Bitcoin.BIP39;
+using Bitcoin.BIP39.Wordlists;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using Random = System.Random;
 
 namespace Utils
 {
@@ -186,6 +191,20 @@ namespace Utils
                 (>= 96 and <= 100) => "Exclusive",
                 _ => throw new ApplicationException("Incorrect average stat value")
             };
+        }
+
+        public static string GetSeedPhrase()
+        {
+            Wordlist wordlist = new English();
+            Random random = new Random();
+            string[] seedPhraseWords = new string[12];
+            for (var i = 0; i < 12; i++)
+            {
+                int index = random.Next() % 2048;
+                seedPhraseWords[i] = wordlist.GetWordAtIndex(index);
+            }
+
+            return String.Join(" ", seedPhraseWords);
         }
     }
 }

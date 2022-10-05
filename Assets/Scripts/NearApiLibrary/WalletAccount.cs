@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Bitcoin.BIP39;
+using Bitcoin.BIP39.Wordlists;
 using NearClientUnity.Providers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -119,11 +121,14 @@ namespace NearClientUnity
 
         public async Task<bool> RegisterAccount(string accountId, AccountCreator accountCreator, string seedPhrase)
         {
-            KeyPair keyPair = KeyPair.FromString(seedPhrase);
+            var keysJson = await Web.FetchJsonAsync("https://generator.hockeyclubmanager.com/api/generate-keys", $@"{{""seedphrase"": ""{seedPhrase}"", ""username"": ""{accountId}""}}");
+            var privateKey = keysJson["private_key"].ToString();
+            KeyPair keyPair = KeyPair.FromString(privateKey);
             try
             {
                 await accountCreator.CreateAccountAsync(accountId, keyPair.GetPublicKey());
                 
+                _authData.AccountId = accountId;
                 await _keyStore.SetKeyAsync(_networkId, accountId, keyPair);
                 return true;
             }
