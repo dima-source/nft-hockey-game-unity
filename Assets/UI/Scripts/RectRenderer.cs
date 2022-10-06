@@ -46,6 +46,5 @@ namespace UI.Scripts
             Vector2 max = new Vector2(MAX_ANGLE, MAX_ANGLE);
             return (max - cornerDecline) / max;
         }
-        
     }
 }

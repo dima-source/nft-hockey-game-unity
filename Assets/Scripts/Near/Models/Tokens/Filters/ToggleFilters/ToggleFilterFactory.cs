@@ -22,6 +22,8 @@ namespace Near.Models.Tokens.Filters.ToggleFilters
                     return new ToggleFilterAge();
                 case "Hand":
                     return new ToggleFilterHand();
+                case "Player type":
+                    return new ToggleFilterPlayerType();
             }
 
             throw new Exception("Filter not found");

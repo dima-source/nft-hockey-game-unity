@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Near;
+using NearClientUnity;
+using NearClientUnity.Utilities;
 using TMPro;
 using UnityEngine;
 
@@ -12,7 +15,7 @@ namespace UI.Scripts
         public class UserWallet
         {
             public string name;
-            public float balance;
+            public double balance;
         }
 
         public UserWallet userWallet;
@@ -48,6 +51,7 @@ namespace UI.Scripts
             _topBar.Bind("OnSale", () => SwitchPage("FilterCards"));
             _topBar.Bind("Draft", () => ShowOnDevelopmentPopup("Draft"));
             _topBar.Bind("Objects", () => ShowOnDevelopmentPopup("Objects"));
+            OnUpdate();
         }
 
         private void ShowOnDevelopmentPopup(string pageName)
@@ -87,8 +91,12 @@ namespace UI.Scripts
             _pages["FilterCards"] = Utils.FindChild<Transform>(pagesContainer, "FilterCards");
         }
 
-        protected override void OnUpdate()
+        protected override async void OnUpdate()
         {
+            userWallet.name = NearPersistentManager.Instance.GetAccountId();
+            AccountState accountState = await NearPersistentManager.Instance.GetAccountState();
+            userWallet.balance = NearUtils.FormatNearAmount(UInt128.Parse(accountState.Amount));
+            
             _userWalletName.text = userWallet.name;
             string pattern = "{0:0." + new String('0', balanceFractionalDisplay) + "}";
             _userWalletBalance.text = String.Format(pattern, userWallet.balance) + " <sprite name=NearLogo>";

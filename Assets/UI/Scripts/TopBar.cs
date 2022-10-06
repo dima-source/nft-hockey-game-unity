@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Runtime;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -136,6 +137,7 @@ namespace UI.Scripts
                 AudioController.LoadClip(Configurations.DefaultButtonSoundPath);
                 AudioController.source.Play();
                 // TODO: Add default action here
+                Game.LoadMainMenu();
             });
         }
 

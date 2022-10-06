@@ -20,7 +20,7 @@ namespace UI.Scripts
         public bool isOn = true;
         
         [CanBeNull] 
-        public Action onChange { get; set; }
+        public Action<string> onChange { get; set; }
 
         private TextMeshProUGUI _text;
 
@@ -47,8 +47,8 @@ namespace UI.Scripts
             AudioController.LoadClip(Configurations.DefaultButtonSoundPath);
             AudioController.source.Play();
             isOn = !isOn;
-            
-            onChange?.Invoke();
+
+            onChange?.Invoke(text);
         }
     }
 }

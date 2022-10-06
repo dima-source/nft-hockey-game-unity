@@ -51,11 +51,10 @@ namespace Near.MarketplaceContract.ContractMethods
             return teamIds;
         }
 
-        public static async Task<List<Token>> GetTokens(PlayerFilter filter, Pagination pagination)
+        public static async Task<List<Token>> GetTokens(PlayerFilter filter, Pagination pagination = null)
         {
             IQuery<Player> query = new Query<Player>("tokens")
-                .AddArguments(new { where = filter })
-                .AddArguments(pagination)
+                .AddArguments(new {where = filter})
                 .AddField(p => p.title)
                 .AddField(p => p.nationality)
                 .AddField(p => p.player_type)
@@ -75,8 +74,24 @@ namespace Near.MarketplaceContract.ContractMethods
                 .AddField(p => p.player_role)
                 .AddField(p => p.native_position)
                 .AddField(p => p.birthday)
-                .AddField(p => p.stats);
+                .AddField(p => p.stats)
+                .AddField(p => p.marketplace_data,
+                    sq => sq
+                        .AddField(p => p.id)
+                        .AddField(p => p.price)
+                        .AddField(p => p.isAuction)
+                        .AddField(p => p.offers,
+                            sqOffer => sqOffer 
+                                .AddField(o => o.price)
+                                .AddField(o => o.user, 
+                                    sqUser => sqUser
+                                        .AddField(u => u.id))));
 
+            if (pagination != null)
+            {
+                query.AddArguments(pagination);
+            }
+            
             string responseJson = await GetJSONQuery(query.Build());
             
             Debug.Log(responseJson);

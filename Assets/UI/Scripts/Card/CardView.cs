@@ -40,7 +40,22 @@ namespace UI.Scripts.Card
         
         public void SetData(Token token)
         {
-            playerCardData.name = token.title;
+            if (playerCardData == null)
+            {
+                return;
+            }
+            
+            if (token.marketplace_data != null)
+            {
+                if (token.marketplace_data.offers != null)
+                {
+                    playerCardData.isOnAuction = true;
+                }
+                else
+                {
+                    playerCardData.isOnAuction = false;
+                }
+            }
 
             if (!string.IsNullOrEmpty(token.media))
             {
@@ -52,6 +67,9 @@ namespace UI.Scripts.Card
                     }));
                 } catch (ApplicationException) {}
             }
+            
+            playerCardData.name = token.title;
+            playerCardData.tokenData = token;
             
             if (token.player_type == "Goalie")
             {
@@ -88,6 +106,8 @@ namespace UI.Scripts.Card
                     new CardRarenessCharacteristic(
                         global::Utils.Utils.GetRarityWithinAverageStats((int)fieldPlayer.Stats.GetAverageStats()));
             }
+            
+            viewPrototype = new CardViewPrototype(transform, playerCardData);
         }
     }
 }

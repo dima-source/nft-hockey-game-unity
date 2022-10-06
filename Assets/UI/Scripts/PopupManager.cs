@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
@@ -29,7 +30,6 @@ namespace UI.Scripts
            _instance.OnButtonClick(0, _instance.Close);
            return _instance;
         }
-        
         
         public static Popup GetInputNear(this RectTransform parent, string title, UnityAction<float> onChange = null,
             Func<Boolean> onValidate = null)
@@ -153,7 +153,7 @@ namespace UI.Scripts
             return _instance;
         }
 
-        public static Popup GetPlaceBet(this RectTransform parent, BetInfo[] betInfo, UnityAction<float> onPlaceBet)
+        public static Popup GetPlaceBet(this RectTransform parent, BetInfo[] betInfo, string tokenId)
         {
             _instance = GetAcceptBet(parent, betInfo, () => {});
             
@@ -184,7 +184,7 @@ namespace UI.Scripts
                     return;
                 }
                     
-                onPlaceBet?.Invoke(value);
+                Near.MarketplaceContract.ContractMethods.Actions.Offer(tokenId, "near", value.ToString());
                 Popup success = parent.GetDefaultOk("Success", "You have successfully placed the bet");
                 success.Show();
             });
@@ -193,7 +193,7 @@ namespace UI.Scripts
         }
         
         
-        public static Popup GetSellCard(this RectTransform parent, UnityAction<double> onSell)
+        public static Popup GetSellCard(this RectTransform parent, string tokenId)
         {
             _instance = GetInputNear(parent, "Sell card");
             InputNear input = Utils.FindChild<InputNear>(_instance.transform, "InputNear");
@@ -229,7 +229,7 @@ namespace UI.Scripts
                     new Popup.ButtonView(Popup.ButtonType.Positive, "Yes"),
                 };
                 info.OnButtonClick(0, info.Close);
-                info.OnButtonClick(1, () =>
+                info.OnButtonClick(1, async () =>
                 {
                     float value = input.Value;
                     
@@ -240,7 +240,26 @@ namespace UI.Scripts
                         return;
                     }
                     
-                    onSell?.Invoke(value);
+                    Dictionary<string,string> newSaleConditions = new Dictionary<string, string>
+                    {
+                        {"near", Near.NearUtils.ParseNearAmount(value.ToString()).ToString()}
+                    };
+                    try
+                    {
+                        await Near.MarketplaceContract.ContractMethods.Actions.SaleUpdate(
+                            newSaleConditions, tokenId, toggle.isOn);
+                    }
+                    catch (Exception e)
+                    {
+                        string messageError = e.Message.Contains("NotEnoughBalance")
+                            ? "Not enough balance to sign a transaction"
+                            : "Something went wrong";
+                        
+                        Popup error = parent.GetDefaultOk("Error", messageError);
+                        error.Show();
+                        return;
+                    }
+                    
                     Popup success = parent.GetDefaultOk("Success", $"You have successfully placed this card {message}");
                     success.Show();
                 });
@@ -261,6 +280,5 @@ namespace UI.Scripts
             _instance = Object.Instantiate(prefab, parent).GetComponent<Popup>();
             return _instance;
         }
-        
     }
 }

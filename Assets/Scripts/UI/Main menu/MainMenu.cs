@@ -1,4 +1,6 @@
+using Bitcoin.BIP39;
 using Near;
+using NearClientUnity.Utilities;
 using UnityEngine;
 
 namespace UI.Main_menu
