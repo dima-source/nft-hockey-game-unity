@@ -24,8 +24,8 @@ namespace Near
             UInt128 accuracyUInt128 = new UInt128(accuracy);
             
             amount *= accuracyUInt128;
-            
-            return double.Parse((amount / NearNominationExp).ToString()) / accuracy;
+            double result = double.Parse((amount / NearNominationExp).ToString()) / accuracy;
+            return result;
         }
     }
 }
