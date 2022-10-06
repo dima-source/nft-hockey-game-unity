@@ -8,7 +8,7 @@ namespace UI.Scripts.Card
 {
     public class PlayerCardData
     {
-        
+        public Token tokenData;
         public bool isOnAuction;
         public Sprite background;
         public Sprite avatar;

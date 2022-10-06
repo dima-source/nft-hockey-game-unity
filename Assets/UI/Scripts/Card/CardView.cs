@@ -44,7 +44,18 @@ namespace UI.Scripts.Card
             {
                 return;
             }
-            playerCardData.name = token.title;
+            
+            if (token.marketplace_data != null)
+            {
+                if (token.marketplace_data.offers != null)
+                {
+                    playerCardData.isOnAuction = true;
+                }
+                else
+                {
+                    playerCardData.isOnAuction = false;
+                }
+            }
 
             if (!string.IsNullOrEmpty(token.media))
             {
@@ -56,6 +67,9 @@ namespace UI.Scripts.Card
                     }));
                 } catch (ApplicationException) {}
             }
+            
+            playerCardData.name = token.title;
+            playerCardData.tokenData = token;
             
             if (token.player_type == "Goalie")
             {

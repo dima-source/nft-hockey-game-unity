@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Near.Models.Tokens;
 using Near.Models.Tokens.Filters;
 using Near.Models.Tokens.Filters.ToggleFilters;
+using TMPro;
 using UI.Scripts.Card;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -64,12 +65,15 @@ namespace UI.Scripts
         private Marketplace _marketplace;
         
         private List<CardView> _pull;
+        private int _numberOfLoadedCards;
 
         private List<Toggle> _toggles;
 
         private void Awake()
         {
             _pull = new List<CardView>();
+            _numberOfLoadedCards = 0;
+            
             _layoutContainer = Utils.FindChild<RectTransform>(transform, "Layout");
             _layout = Utils.FindChild<GridLayoutGroup>(_layoutContainer, "Content");
             Transform temp = Utils.FindChild<Transform>(transform, "FilterMenu");
@@ -95,13 +99,11 @@ namespace UI.Scripts
         
         private void OnDisable()
         {
-            foreach (Transform child in _layout.transform)
-            {
-                Destroy(child.gameObject);
-            }  
-            _currentLoad = 1;
-            _pull.Clear();
-            
+            ClearArea();
+        }
+
+        private void OnEnable()
+        {
             CallLoadNewPortion();
             ScrollRect rect = _layoutContainer.GetComponent<ScrollRect>();
             rect.verticalNormalizedPosition = 1.0f;
@@ -126,25 +128,23 @@ namespace UI.Scripts
             Settings1x1.CopyValues(_layout);
         }
 
-        public void OnSearchChanged()
+        [SerializeField] private TMP_InputField searchByName;
+        public async void OnSearchChanged()
         {
             PlaySound();
-            OnInputChanged();
-        }
-
-        private void OnInputChanged()
-        {
-            // Rebuild content here 
-            Debug.Log("changed");
-        }
-
-        private async void OnToggleChanged(string toggleText)
-        {
-            Pagination pagination = GetPagination();
-            pagination.skip = 0;
+            ClearArea();
             
             PlayerFilter filter = GetPlayerFilter();
-            
+            Pagination pagination = GetPagination();
+
+            List<Token> tokens = await Near.MarketplaceContract.ContractMethods.Views
+                .GetTokens(filter, pagination);
+
+            ShowLoadedNewPortion(tokens);
+        }
+
+        private void ClearArea()
+        {
             foreach (Transform child in _layout.transform)
             {
                 Destroy(child.gameObject);
@@ -152,6 +152,17 @@ namespace UI.Scripts
             
             _currentLoad = 1;
             _pull.Clear();
+            _numberOfLoadedCards = 0; 
+        }
+        
+        private async void OnToggleChanged(string toggleText)
+        {
+            ClearArea();
+            
+            Pagination pagination = GetPagination();
+            pagination.skip = 0;
+            
+            PlayerFilter filter = GetPlayerFilter();
             
             List<Token> tokens = await Near.MarketplaceContract.ContractMethods.Views
                 .GetTokens(filter, pagination);
@@ -226,6 +237,13 @@ namespace UI.Scripts
         {
             foreach (var token in tokens)
             {
+                _numberOfLoadedCards += 1;
+                
+                if (_marketplace.TopBar.NowPage == "SellCards" && token.marketplace_data != null)
+                {
+                    continue;
+                }
+                
                 CardView view = Instantiate(_cardViewPrefab, _layout.transform).GetComponent<CardView>();
                 view.SetData(token);
                 
@@ -255,7 +273,7 @@ namespace UI.Scripts
                                             new PopupManager.BetInfo("kasok34.near", 5),
                                             new PopupManager.BetInfo("kryakrya.near", 4.5f),
                                             new PopupManager.BetInfo("kastet01.near", 6),
-                                        }, (value) => {Debug.Log(value);});
+                                        }, token.tokenId);
                                 }
                                 else
                                 {
@@ -338,9 +356,11 @@ namespace UI.Scripts
 
         private Pagination GetPagination()
         {
-            Pagination pagination = new Pagination();
-            pagination.first = cardsValueToLoad;
-            pagination.skip = _pull.Count;
+            Pagination pagination = new Pagination
+            {
+                first = cardsValueToLoad,
+                skip = _numberOfLoadedCards
+            };
 
             return pagination;
         }
@@ -349,11 +369,21 @@ namespace UI.Scripts
         {
             PlayerFilter filter = new PlayerFilter();
 
+            string ownerId = Near.NearPersistentManager.Instance.GetAccountId();
             if (_marketplace.TopBar.NowPage is "SellCards" or "OnSale")
             {
-                filter.ownerId = Near.NearPersistentManager.Instance.GetAccountId();
+                filter.ownerId = ownerId;
+            }
+            else
+            {
+                filter.ownerId_not = ownerId;
             }
 
+            if (searchByName.text != "")
+            {
+                filter.title_starts_with_nocase = searchByName.text;
+            }
+            
             ToggleFilterFactory toggleFilterFactory = new ToggleFilterFactory();
             foreach (Transform child in _togglesContainer)
             {

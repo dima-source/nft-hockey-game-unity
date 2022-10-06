@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -31,7 +30,6 @@ namespace UI.Scripts
            _instance.OnButtonClick(0, _instance.Close);
            return _instance;
         }
-        
         
         public static Popup GetInputNear(this RectTransform parent, string title, UnityAction<float> onChange = null,
             Func<Boolean> onValidate = null)
@@ -155,7 +153,7 @@ namespace UI.Scripts
             return _instance;
         }
 
-        public static Popup GetPlaceBet(this RectTransform parent, BetInfo[] betInfo, UnityAction<float> onPlaceBet)
+        public static Popup GetPlaceBet(this RectTransform parent, BetInfo[] betInfo, string tokenId)
         {
             _instance = GetAcceptBet(parent, betInfo, () => {});
             
@@ -186,7 +184,7 @@ namespace UI.Scripts
                     return;
                 }
                     
-                onPlaceBet?.Invoke(value);
+                Near.MarketplaceContract.ContractMethods.Actions.Offer(tokenId, "near", value.ToString());
                 Popup success = parent.GetDefaultOk("Success", "You have successfully placed the bet");
                 success.Show();
             });
@@ -282,6 +280,5 @@ namespace UI.Scripts
             _instance = Object.Instantiate(prefab, parent).GetComponent<Popup>();
             return _instance;
         }
-        
     }
 }

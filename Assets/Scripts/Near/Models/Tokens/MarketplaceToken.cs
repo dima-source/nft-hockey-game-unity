@@ -4,7 +4,7 @@ namespace Near.Models.Tokens
 {
     public class MarketplaceToken
     {
-        public int id { get; set; }
+        public string id { get; set; }
         public string price { get; set; } // UInt128
         
         public Token token { get; set; }
