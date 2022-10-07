@@ -5,8 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
-using Bitcoin.BIP39;
-using Bitcoin.BIP39.Wordlists;
+using System.Threading.Tasks;
+using NearClientUnity.Utilities;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
@@ -192,19 +193,24 @@ namespace Utils
                 _ => throw new ApplicationException("Incorrect average stat value")
             };
         }
-
-        public static string GetSeedPhrase()
+        
+        public static async Task<bool> CheckAccountIdAvailability(string accountId)
         {
-            Wordlist wordlist = new English();
-            Random random = new Random();
-            string[] seedPhraseWords = new string[12];
-            for (var i = 0; i < 12; i++)
+            try
             {
-                int index = random.Next() % 2048;
-                seedPhraseWords[i] = wordlist.GetWordAtIndex(index);
+                var response = (JObject) await Web.FetchJsonAsync("https://rpc.testnet.near.org",
+                    $@"{{""method"":""query"",""params"":{{""request_type"":""view_account"",""account_id"":""{accountId}"",""finality"":""optimistic""}},""id"":1,""jsonrpc"":""2.0""}}");
+                return !response.ContainsKey("result");
             }
-
-            return String.Join(" ", seedPhraseWords);
+            catch
+            {
+                return false;
+            }
+        }
+        
+        public static void CopyToClipboard(this string str)
+        {
+            GUIUtility.systemCopyBuffer = str;
         }
     }
 }

@@ -1,4 +1,3 @@
-using Bitcoin.BIP39;
 using Near;
 using NearClientUnity.Utilities;
 using UnityEngine;

@@ -40,7 +40,7 @@ namespace Near
             {
                 NetworkId = "testnet",
                 NodeUrl = "https://rpc.testnet.near.org",
-                HelperUrl = "https://helper.nearprotocol.com",
+                HelperUrl = "https://helper.nearprotocol.com/account",
                 ProviderType = ProviderType.JsonRpc,
                 SignerType = SignerType.InMemory,
                 KeyStore = new UnencryptedFileSystemKeyStore(dirName),
