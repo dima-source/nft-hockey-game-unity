@@ -14,7 +14,6 @@ namespace UI.Scripts
 {
     public class CardsFilter : MonoBehaviour
     {
-        
         private class LayoutSettings
         {
             private int _columns;
@@ -265,20 +264,40 @@ namespace UI.Scripts
                                 Popup popup; 
                                 if (cardDisplay.CardView.playerCardData.isOnAuction)
                                 {
+                                    List<PopupManager.BetInfo> betInfo = new List<PopupManager.BetInfo>();
+
+                                    foreach (var offer in token.marketplace_data.offers)
+                                    {
+                                        betInfo.Add(new PopupManager.BetInfo(offer.user.id,
+                                            (float)Near.NearUtils.FormatNearAmount(Near.NearUtils.ParseNearAmount(offer.price))));
+                                    } 
                                     popup = _marketplace.GetComponent<RectTransform>()
-                                        .GetPlaceBet(new []
-                                        {
-                                            new PopupManager.BetInfo("kastet01.near", 2),
-                                            new PopupManager.BetInfo("kasteton.near", 3),
-                                            new PopupManager.BetInfo("kasok34.near", 5),
-                                            new PopupManager.BetInfo("kryakrya.near", 4.5f),
-                                            new PopupManager.BetInfo("kastet01.near", 6),
-                                        }, token.tokenId);
+                                        .GetPlaceBet(betInfo.ToArray(), token.tokenId);
                                 }
                                 else
                                 {
                                     popup = _marketplace.GetComponent<RectTransform>()
-                                        .GetBuy(12.3f, () => {});
+                                        .GetBuy((float)Near.NearUtils.FormatNearAmount(Near.NearUtils.ParseNearAmount(token.marketplace_data.price)), async () =>
+                                            {
+                                                try
+                                                {
+                                                    await Near.MarketplaceContract.ContractMethods.Actions.Offer(
+                                                        token.tokenId, "near", token.marketplace_data.price);
+                                                }
+                                                catch (Exception e)
+                                                {
+                                                    string messageError = e.Message.Contains("NotEnoughBalance")
+                                                        ? "Not enough balance"
+                                                        : "Something went wrong";
+                        
+                                                    Popup error = _marketplace.GetComponent<RectTransform>().GetDefaultOk("Error", messageError);
+                                                    error.Show();
+                                                    return;
+                                                }
+                    
+                                                Popup success = _marketplace.GetComponent<RectTransform>().GetDefaultOk("Success", $"You have successfully bought nft");
+                                                success.Show();
+                                            });
                                 }
                                 popup.Show();
                             });
@@ -299,28 +318,86 @@ namespace UI.Scripts
                         case "OnSale":
                             cardDisplay.SetButton(0, "Change sale conditions", () =>
                             {
-                                Popup popup = _marketplace.GetComponent<RectTransform>().GetInputNear("Enter new price", 
-                                    (value) =>
+                                Popup popup = _marketplace.GetComponent<RectTransform>().GetInputNear("Enter new price", async (value) =>
                                     {
-                                        Debug.Log(value);
+                                        Dictionary<string,string> newSaleConditions = new Dictionary<string, string>
+                                        {
+                                            {"near", Near.NearUtils.ParseNearAmount(value.ToString()).ToString()}
+                                        };
+                                        try
+                                        {
+                                            await Near.MarketplaceContract.ContractMethods.Actions.SaleUpdate(
+                                                newSaleConditions, token.tokenId, token.marketplace_data.isAuction);
+                                        }
+                                        catch (Exception e)
+                                        {
+                                            string messageError = e.Message.Contains("NotEnoughBalance")
+                                                ? "Not enough balance to sign a transaction"
+                                                : "Something went wrong";
+                        
+                                            Popup error = _marketplace.GetComponent<RectTransform>().GetDefaultOk("Error", messageError);
+                                            error.Show();
+                                            return;
+                                        }
+                    
+                                        Popup success = _marketplace.GetComponent<RectTransform>().GetDefaultOk("Success", $"You have successfully changed price to {value}N");
+                                        success.Show();
                                     });
                                 popup.Show();
                             });
                             
-                            cardDisplay.SetButton(1, "Take off the market", () => { });
+                            cardDisplay.SetButton(1, "Take off the market", async () =>
+                            {
+                                try
+                                {
+                                    await Near.MarketplaceContract.ContractMethods.Actions.RemoveSale(token.tokenId);
+                                }
+                                catch (Exception e)
+                                {
+                                    string messageError = e.Message.Contains("NotEnoughBalance")
+                                        ? "Not enough balance to sign a transaction"
+                                        : "Something went wrong";
+                        
+                                    Popup error = _marketplace.GetComponent<RectTransform>().GetDefaultOk("Error", messageError);
+                                    error.Show();
+                                    return;
+                                }
+                    
+                                Popup success = _marketplace.GetComponent<RectTransform>().GetDefaultOk("Success", $"You have successfully took off the market token ");
+                                success.Show(); 
+                            });
                             
                             if (cardDisplay.CardView.playerCardData.isOnAuction)
                             {
                                 cardDisplay.SetButton(2, "Accept the bet", () =>
                                 {
-                                    Popup popup = _marketplace.GetComponent<RectTransform>().GetAcceptBet(new []
+                                    List<PopupManager.BetInfo> betInfo = new List<PopupManager.BetInfo>();
+
+                                    foreach (var offer in token.marketplace_data.offers)
+                                    {
+                                        betInfo.Add(new PopupManager.BetInfo(offer.user.id,
+                                            (float)Near.NearUtils.FormatNearAmount(Near.NearUtils.ParseNearAmount(offer.price))));
+                                    }
+                                    Popup popup = _marketplace.GetComponent<RectTransform>().GetAcceptBet(betInfo.ToArray(), async () =>
+                                    {
+                                        try
                                         {
-                                            new PopupManager.BetInfo("kastet01.near", 2),
-                                            new PopupManager.BetInfo("kasteton.near", 3),
-                                            new PopupManager.BetInfo("kasok34.near", 5),
-                                            new PopupManager.BetInfo("kryakrya.near", 4.5f),
-                                            new PopupManager.BetInfo("kastet01.near", 6),
-                                        }, () => {});
+                                            await Near.MarketplaceContract.ContractMethods.Actions.AcceptOffer(token.tokenId);
+                                        }
+                                        catch (Exception e)
+                                        {
+                                            string messageError = e.Message.Contains("NotEnoughBalance")
+                                                ? "Not enough balance to sign a transaction"
+                                                : "Something went wrong";
+                        
+                                            Popup error = _marketplace.GetComponent<RectTransform>().GetDefaultOk("Error", messageError);
+                                            error.Show();
+                                            return;
+                                        }
+                    
+                                        Popup success = _marketplace.GetComponent<RectTransform>().GetDefaultOk("Success", $"You have successfully accepted the offer");
+                                        success.Show(); 
+                                    });
                                     popup.Show();
                                 });   
                             }

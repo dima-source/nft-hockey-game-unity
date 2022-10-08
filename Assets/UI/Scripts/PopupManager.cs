@@ -65,8 +65,8 @@ namespace UI.Scripts
                 }
                     
                 onChange?.Invoke(value);
-                Popup success = parent.GetDefaultOk("Success", $"You have successfully changed sale conditions");
-                success.Show();
+                // Popup success = parent.GetDefaultOk("Success", $"You have successfully changed sale conditions");
+                // success.Show();
             });
             
             return _instance;
@@ -173,7 +173,7 @@ namespace UI.Scripts
             };
             
             _instance.OnButtonClick(0, _instance.Close);
-            _instance.OnButtonClick(1, () =>
+            _instance.OnButtonClick(1, async () =>
             {
                 float value = input.Value;
                 float max = betInfo.Select(x => x.bet).Max();
@@ -183,8 +183,22 @@ namespace UI.Scripts
                     error.Show();
                     return;
                 }
-                    
-                Near.MarketplaceContract.ContractMethods.Actions.Offer(tokenId, "near", value.ToString());
+
+                try
+                {
+                    await Near.MarketplaceContract.ContractMethods.Actions.Offer(tokenId, "near", value.ToString());
+                }
+                catch (Exception e)
+                {
+                    string messageError = e.Message.Contains("NotEnoughBalance")
+                        ? "Not enough balance"
+                        : "Something went wrong";
+                        
+                    Popup error = parent.GetComponent<RectTransform>().GetDefaultOk("Error", messageError);
+                    error.Show();
+                    return;
+                }
+
                 Popup success = parent.GetDefaultOk("Success", "You have successfully placed the bet");
                 success.Show();
             });

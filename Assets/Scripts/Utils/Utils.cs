@@ -42,7 +42,7 @@ namespace Utils
             return path;
         }
 
-        private static Texture2D LoadTexture2D(string path)
+        public static Texture2D LoadTexture2D(string path)
         {
             if (!File.Exists(path))
                 throw new FileNotFoundException($"No file {path} was found");

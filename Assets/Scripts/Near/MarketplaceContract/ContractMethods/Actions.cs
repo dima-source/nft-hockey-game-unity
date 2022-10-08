@@ -58,7 +58,7 @@ namespace Near.MarketplaceContract.ContractMethods
             }
         }
 
-        public static async void Offer(string tokenId, string offerToken, string price)
+        public static async Task Offer(string tokenId, string offerToken, string price)
         {
             if (offerToken != "near")
             {
@@ -74,7 +74,7 @@ namespace Near.MarketplaceContract.ContractMethods
             await marketContract.Change("offer", offerArgs, NearUtils.Gas, NearUtils.ParseNearAmount(price));
         }
 
-        public static async void AcceptOffer(string tokenId)
+        public static async Task AcceptOffer(string tokenId)
         {
             ContractNear marketContract = await NearPersistentManager.Instance.GetMarketplaceContract();
             
@@ -86,7 +86,7 @@ namespace Near.MarketplaceContract.ContractMethods
             await marketContract.Change("accept_offer", acceptOfferArgs, NearUtils.Gas);
         }
 
-        public static async void RemoveSale(string tokenId)
+        public static async Task RemoveSale(string tokenId)
         {
             ContractNear marketContract = await NearPersistentManager.Instance.GetMarketplaceContract();
 
