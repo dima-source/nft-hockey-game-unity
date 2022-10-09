@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using NearClientUnity.Providers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using UnityEngine;
 
 namespace NearClientUnity
 {
@@ -94,7 +95,7 @@ namespace NearClientUnity
             return true;
         }
 
-        public async Task<bool> RequestSignIn(string contractId, string title)
+        public async Task<bool> RequestSignIn(string title)
         {
             if (!string.IsNullOrWhiteSpace(GetAccountId())) return true;
             if (await _keyStore.GetKeyAsync(_networkId, GetAccountId()) != null) return true;
@@ -115,6 +116,28 @@ namespace NearClientUnity
 
             await _keyStore.SetKeyAsync(_networkId, PendingAccessKeyPrefix + accessKey.GetPublicKey(), accessKey);
             return _authService.OpenUrl(url.Uri.AbsoluteUri);
+        }
+
+        public async Task<bool> RegisterAccount(string accountId, AccountCreator accountCreator, string seedPhrase)
+        {
+            var keysJson = await Web.FetchJsonAsync("https://generator.hockeyclubmanager.com/api/generate-keys", $@"{{""seedphrase"": ""{seedPhrase}"", ""username"": ""{accountId}""}}");
+            var privateKey = keysJson["private_key"].ToString();
+            KeyPair keyPair = KeyPair.FromString(privateKey);
+            try
+            {
+                await accountCreator.CreateAccountAsync(accountId, keyPair.GetPublicKey());
+                
+                _authData.AccountId = accountId;
+                await _keyStore.SetKeyAsync(_networkId, accountId, keyPair);
+                _authStorage.Add(_authDataKey, JsonConvert.SerializeObject(_authData));                
+                await MoveKeyFromTempToPermanent(accountId, keyPair.GetPublicKey().ToString());
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e.Message);
+                return false;
+            }
         }
 
         public async void SignOut()

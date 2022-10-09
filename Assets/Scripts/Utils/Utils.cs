@@ -1,12 +1,18 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
+using NearClientUnity.Utilities;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using Random = System.Random;
 
 namespace Utils
 {
@@ -186,6 +192,25 @@ namespace Utils
                 (>= 96 and <= 100) => "Exclusive",
                 _ => throw new ApplicationException("Incorrect average stat value")
             };
+        }
+        
+        public static async Task<bool> CheckAccountIdAvailability(string accountId)
+        {
+            try
+            {
+                var response = (JObject) await Web.FetchJsonAsync("https://rpc.testnet.near.org",
+                    $@"{{""method"":""query"",""params"":{{""request_type"":""view_account"",""account_id"":""{accountId}"",""finality"":""optimistic""}},""id"":1,""jsonrpc"":""2.0""}}");
+                return !response.ContainsKey("result");
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        
+        public static void CopyToClipboard(this string str)
+        {
+            GUIUtility.systemCopyBuffer = str;
         }
     }
 }

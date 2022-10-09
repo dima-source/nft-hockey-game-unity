@@ -40,6 +40,7 @@ namespace Near
             {
                 NetworkId = "testnet",
                 NodeUrl = "https://rpc.testnet.near.org",
+                HelperUrl = "https://helper.nearprotocol.com/account",
                 ProviderType = ProviderType.JsonRpc,
                 SignerType = SignerType.InMemory,
                 KeyStore = new UnencryptedFileSystemKeyStore(dirName),
@@ -156,10 +157,24 @@ namespace Near
         
         public async Task<bool> SignIn()
         {
-            return await WalletAccount.RequestSignIn(
-                GameContactId,
-                "Nft hockey"
-            );
+            return await WalletAccount.RequestSignIn("Nft hockey");
+        }
+
+        public async Task<bool> Register(string accountId, string seedPhrase)
+        {
+            if (_near.AccountCreator == null)
+            {
+                throw new Exception(
+                    "Must specify account creator, via helperUrl configuration setting.");
+            }
+
+            if (seedPhrase.Split(' ').Length != 12)
+            {
+                throw new Exception(
+                    "Seed phrase length not equals 12");
+            }
+
+            return await WalletAccount.RegisterAccount(accountId, _near.AccountCreator, seedPhrase);
         }
 
         public void SignOut()

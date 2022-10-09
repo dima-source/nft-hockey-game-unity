@@ -1,5 +1,6 @@
 ﻿using NearClientUnity.Utilities;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace NearClientUnity
 {
@@ -19,8 +20,7 @@ namespace NearClientUnity
 
         public override async Task CreateAccountAsync(string newAccountId, PublicKey publicKey)
         {
-            // TODO: hit url to create account.
-            throw new System.NotImplementedException();
+            await Web.FetchJsonAsync(_helperConnection, $@"{{""newAccountId"": ""{newAccountId}"", ""newAccountPublicKey"": ""{publicKey}""}}");
         }
     }
 }
