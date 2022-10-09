@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Near.Models.Tokens;
 using Near.Models.Tokens.Filters;
 using Near.Models.Tokens.Filters.ToggleFilters;
+using NearClientUnity.Utilities;
 using TMPro;
 using UI.Scripts.Card;
 using Unity.VisualScripting;
@@ -262,22 +263,24 @@ namespace UI.Scripts
                             cardDisplay.SetButton(0, "Buy", () =>
                             {
                                 Popup popup; 
-                                if (cardDisplay.CardView.playerCardData.isOnAuction)
+                                if (token.marketplace_data.isAuction)
                                 {
                                     List<PopupManager.BetInfo> betInfo = new List<PopupManager.BetInfo>();
 
                                     foreach (var offer in token.marketplace_data.offers)
                                     {
                                         betInfo.Add(new PopupManager.BetInfo(offer.user.id,
-                                            (float)Near.NearUtils.FormatNearAmount(Near.NearUtils.ParseNearAmount(offer.price))));
+                                            (float)Near.NearUtils.FormatNearAmount(UInt128.Parse(offer.price))));
                                     } 
                                     popup = _marketplace.GetComponent<RectTransform>()
                                         .GetPlaceBet(betInfo.ToArray(), token.tokenId);
                                 }
                                 else
                                 {
+                                    UInt128 price = UInt128.Parse(token.marketplace_data.price);
+                                    float formattedPrice = (float) Near.NearUtils.FormatNearAmount(price);
                                     popup = _marketplace.GetComponent<RectTransform>()
-                                        .GetBuy((float)Near.NearUtils.FormatNearAmount(Near.NearUtils.ParseNearAmount(token.marketplace_data.price)), async () =>
+                                        .GetBuy(formattedPrice, async () =>
                                             {
                                                 try
                                                 {
@@ -328,6 +331,9 @@ namespace UI.Scripts
                                         {
                                             await Near.MarketplaceContract.ContractMethods.Actions.SaleUpdate(
                                                 newSaleConditions, token.tokenId, token.marketplace_data.isAuction);
+                                            
+                                            Popup success = _marketplace.GetComponent<RectTransform>().GetDefaultOk("Success", $"You have successfully changed price to {value}N");
+                                            success.Show();
                                         }
                                         catch (Exception e)
                                         {
@@ -339,9 +345,6 @@ namespace UI.Scripts
                                             error.Show();
                                             return;
                                         }
-                    
-                                        Popup success = _marketplace.GetComponent<RectTransform>().GetDefaultOk("Success", $"You have successfully changed price to {value}N");
-                                        success.Show();
                                     });
                                 popup.Show();
                             });
@@ -367,7 +370,7 @@ namespace UI.Scripts
                                 success.Show(); 
                             });
                             
-                            if (cardDisplay.CardView.playerCardData.isOnAuction)
+                            if (token.marketplace_data.isAuction)
                             {
                                 cardDisplay.SetButton(2, "Accept the bet", () =>
                                 {
@@ -376,7 +379,7 @@ namespace UI.Scripts
                                     foreach (var offer in token.marketplace_data.offers)
                                     {
                                         betInfo.Add(new PopupManager.BetInfo(offer.user.id,
-                                            (float)Near.NearUtils.FormatNearAmount(Near.NearUtils.ParseNearAmount(offer.price))));
+                                            (float)Near.NearUtils.FormatNearAmount(UInt128.Parse(offer.price))));
                                     }
                                     Popup popup = _marketplace.GetComponent<RectTransform>().GetAcceptBet(betInfo.ToArray(), async () =>
                                     {
