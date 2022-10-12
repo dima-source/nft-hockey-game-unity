@@ -229,7 +229,7 @@ namespace Near.GameContract.ContractMethods
                     UserInGameInfo.GetQuery)
                 .AddField(p=>p.user2,
                     UserInGameInfo.GetQuery);
-              
+            
             string responseJson = await GetJSONQuery(query.Build());
             
             Debug.Log(responseJson);

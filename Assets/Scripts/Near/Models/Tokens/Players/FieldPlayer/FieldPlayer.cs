@@ -7,7 +7,7 @@ namespace Near.Models.Tokens.Players.FieldPlayer
     {
         [JsonIgnore]
         public FieldPlayerStats Stats { get; set; }
-        public int team_work { get; set; }
+        public int teamwork { get; set; }
         public string native_position { get; set; }
 
         public int  number_of_penalty_events { get; set; }
@@ -19,8 +19,20 @@ namespace Near.Models.Tokens.Players.FieldPlayer
 
         public static IQuery<FieldPlayer> GetQuery(IQuery<FieldPlayer> query)
         {
-            // TODO:
-            query.AddField(p => p.native_position);
+            query.AddField(p => p.id)
+                .AddField(p => p.img)
+                .AddField(p => p.name)
+                .AddField(p => p.teamwork)
+                .AddField(p => p.reality)
+                .AddField(p => p.nationality)
+                .AddField(p => p.birthday)
+                .AddField(p => p.player_type)
+                .AddField(p => p.number_of_penalty_events)
+                .AddField(p => p.number)
+                .AddField(p => p.hand)
+                .AddField(p => p.player_role)
+                .AddField(p => p.native_position)
+                .AddField(p => p.stats);
             return query;
         }
     }

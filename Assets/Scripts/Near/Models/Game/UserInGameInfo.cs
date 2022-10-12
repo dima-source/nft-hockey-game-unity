@@ -16,7 +16,7 @@ namespace Near.Models.Game
         {
             query.AddField(u => u.id)
                 .AddField(u => u.user, sq => sq.AddField(u => u.id))
-                .AddField(u => u.team) // TODO
+                .AddField(u => u.team, Team.Team.GetQuery) 
                 .AddField(u => u.take_to_called)
                 .AddField(u => u.coach_speech_called)
                 .AddField(u => u.is_goalie_out);

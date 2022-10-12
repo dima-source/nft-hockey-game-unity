@@ -77,7 +77,7 @@ namespace UI.Scripts
                                           "position: " + "Goalie\n" +
                                           "hand: " + player.hand + "\n";
 
-            DateTime birthday = DateTimeOffset.FromUnixTimeSeconds(long.Parse(player.birthday)).DateTime;
+            DateTime birthday = DateTimeOffset.FromUnixTimeSeconds(player.birthday).DateTime;
             
             DateTime today = DateTime.Now; 
 
