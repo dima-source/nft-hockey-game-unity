@@ -7,7 +7,7 @@ namespace Near.Models.Game.Team
 {
     public class Team
     {
-        public int id { get; set; }
+        public string id { get; set; }
         public List<Five> fives { get; set; }
         public string active_five { get; set; }
         public List<FieldPlayer> penalty_players { get; set; }

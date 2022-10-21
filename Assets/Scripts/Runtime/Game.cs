@@ -1,6 +1,5 @@
 using System;
 using Assets;
-using Near;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;

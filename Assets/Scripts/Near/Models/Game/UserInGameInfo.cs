@@ -5,7 +5,7 @@ namespace Near.Models.Game
 {
     public class UserInGameInfo
     {
-        public int id { get; set; }
+        public string id { get; set; }
         public User user { get; set; }
         public Team.Team team { get; set; }
         public bool take_to_called { get; set; }

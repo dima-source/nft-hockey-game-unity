@@ -60,7 +60,8 @@ namespace Near.GameContract.ContractMethods
             ContractNear gameContract = await NearPersistentManager.Instance.GetGameContract();
                 
             dynamic args = new ExpandoObject();
-
+            args.game_id = gameId;
+            
             await gameContract.Change("generate_event", args, NearUtils.GasMove);
         }
 

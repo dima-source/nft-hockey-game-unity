@@ -46,13 +46,12 @@ namespace UI.Main_menu.UIPopups
 
         private async void CheckGame()
         {
-            int gameId = await Near.GameContract.ContractMethods.Views.GetGameId();
+            var user = await Near.GameContract.ContractMethods.Views.GetUserInGame();
 
-            if (gameId != -1)
-            {
-                _isWaitForOpponent = false;
-                Game.LoadGame();    
-            }
+            if (user == null || user.games[0].winner_index != null) return;
+            
+            _isWaitForOpponent = false;
+            Game.LoadGame();
         }
 
         public async void MakeUnavailable()

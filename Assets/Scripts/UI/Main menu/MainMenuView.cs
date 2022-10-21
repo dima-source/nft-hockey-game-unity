@@ -24,7 +24,6 @@ namespace UI.Main_menu
         public async void LoadAccountId()
         {
             
-            await Near.GameContract.ContractMethods.Views.GetGames(new GameDataFilter());
             string accountID = NearPersistentManager.Instance.GetAccountId();
 
             accountId.text = "Welcome, " + accountID + " !";

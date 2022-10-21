@@ -4,7 +4,7 @@ namespace Near.Models.Tokens.Players
 {
     public abstract class Player : Token
     {
-        public int id { get; set; }
+        public string id { get; set; }
         public string img { get; set; }
         public string name { get; set; }
         public string nationality { get; set; }

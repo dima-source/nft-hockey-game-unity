@@ -19,6 +19,7 @@ namespace UI.Main_menu.UIPopups
         
         public new async void Show()
         {
+            /*
             try
             {
                 User user = await Near.GameContract.ContractMethods.Views.GetUser();
@@ -39,6 +40,12 @@ namespace UI.Main_menu.UIPopups
                 throw;
             }
             
+            mainMenuView.ShowPopup(transform);
+            */
+            
+            
+            requestButtons.gameObject.SetActive(false);
+            searchView.gameObject.SetActive(true);
             mainMenuView.ShowPopup(transform);
         }
         

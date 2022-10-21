@@ -14,7 +14,7 @@ namespace Near
         private NearClientUnity.Near _near;
         
         private ContractNear _gameContract;
-        private const string GameContactId = "new_game.parh.testnet";
+        private const string GameContactId = "new_hcm_game.parh.testnet";
 
         private ContractNear _marketplaceContract;
         public readonly string MarketplaceContactId = "market.parh.testnet";
