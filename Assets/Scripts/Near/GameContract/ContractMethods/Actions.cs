@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Near.Models.Game.Team;
 using NearClientUnity;
 using UnityEngine;
-using Object = System.Object;
 
 
 namespace Near.GameContract.ContractMethods
@@ -25,10 +24,10 @@ namespace Near.GameContract.ContractMethods
         
         public static async Task<dynamic> MakeAvailable(string bid)
         {
-            ContractNear gameContract = await NearPersistentManager.Instance.GetGameContract();
+            var gameContract = await NearPersistentManager.Instance.GetGameContract();
                 
             dynamic args = new ExpandoObject();
-            args.config = new Object();
+            args.config = new object();
 
             return await gameContract.Change("make_available", args, 
                 NearUtils.GasMakeAvailable,
@@ -37,7 +36,7 @@ namespace Near.GameContract.ContractMethods
 
         public static async Task<bool> MakeUnavailable(string bid)
         {
-            ContractNear gameContract = await NearPersistentManager.Instance.GetGameContract();
+            var gameContract = await NearPersistentManager.Instance.GetGameContract();
                 
             dynamic args = new ExpandoObject();
             args.bid = bid + "000000000000000000000000";

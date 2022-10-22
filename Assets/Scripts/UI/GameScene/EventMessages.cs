@@ -10,6 +10,7 @@ namespace UI.GameScene
 
         private List<EventMessage> _messages;
         private string _accountId;
+        private bool flag;
 
         private void Awake()
         {
@@ -21,11 +22,18 @@ namespace UI.GameScene
         {
             for (int i = _messages.Count; i < events.Count; i++)
             {
+                if (flag)
+                {
+                    Debug.Log("Number of events: " + i);
+                }
+                
                 EventMessage message = Instantiate(Game.AssetRoot.gameAsset.eventMessage, content);
                 message.SetData(events[i], _accountId);
                 
                 _messages.Add(message);
             }
+
+            flag = true;
         }
     }
 }

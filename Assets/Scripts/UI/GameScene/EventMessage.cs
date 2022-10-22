@@ -8,14 +8,15 @@ namespace UI.GameScene
         [SerializeField] private TextMeshProUGUI messageText;
         
         [SerializeField] private Color opponentMessageColor;
-        [SerializeField] private Color messageColor;
+        [SerializeField] private Color userMessageColor;
+        [SerializeField] private Color defaultMessageColor;
 
         public void SetData(Near.Models.Game.Event eventData, string accountId)
         {
-            if (eventData.user1.user.id == accountId)
+            messageText.text = eventData.action;
+            if (eventData.player_with_puck != null)
             {
-                
-            }
+            } 
         }
     }
 }

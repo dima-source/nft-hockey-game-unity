@@ -117,7 +117,6 @@ namespace Near.MarketplaceContract.ContractMethods
             args.nft_contact_id = NearPersistentManager.Instance.nftContactId;
             args.market_contract_id = NearPersistentManager.Instance.MarketplaceContactId;
             var result = await nftContract.Change("manage_team", args, NearUtils.Gas);
-            Debug.Log(result);
         }
         
         /// <summary>

@@ -42,7 +42,6 @@ namespace UI.Scripts
         {
             helper.Clear();
             TriangulateConcavePolygon(helper);
-            Debug.Log("pop");
         }
         
         

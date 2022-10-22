@@ -21,7 +21,6 @@ namespace UI.Scripts
             }
 
             SetPositions(CalculatePositions());
-            Debug.Log("in start");
         }
         
         protected override void OnValidate()

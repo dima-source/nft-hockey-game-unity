@@ -293,12 +293,11 @@ namespace UI.ManageTeam
             }
 
             _currentLineNumber = parsedLine;
-            Debug.Log(number);
 
-            bool alreadySet = _fivesTactics.TryGetValue(_currentLineNumber, out string tactic);
+            var alreadySet = _fivesTactics.TryGetValue(_currentLineNumber, out string tactic);
             if (alreadySet)
             {
-                int value = tactic switch
+                var value = tactic switch
                 {
                     "Safe" => 1,
                     "Defensive" => 2,

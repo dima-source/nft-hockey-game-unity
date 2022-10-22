@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -9,72 +8,70 @@ using System.Threading.Tasks;
 using GraphQL.Query.Builder;
 using Near.MarketplaceContract.Parsers;
 using Near.Models.Game;
-using Near.Models.Game.Bid;
-using Near.Models.Game.Team;
-using Near.Models.Game.TeamIds;
 using Near.Models.Tokens.Filters;
 using Near.Models.Tokens.Players.FieldPlayer;
-using NearClientUnity;
 using Newtonsoft.Json;
-using UnityEngine;
 using Event = Near.Models.Game.Event;
 
 namespace Near.GameContract.ContractMethods
 {
     public static class Views
     {
-        public const string Url = "https://api.thegraph.com/subgraphs/name/nft-hockey/game";
-        
-        public static async Task<string> GetJSONQuery(string json)
+        private const string Url = "https://api.thegraph.com/subgraphs/name/nft-hockey/game";
+
+        private static async Task<string> GetJSONQuery(string json)
         {
             json = "{\"query\": \"{" + json.Replace("\"", "\\\"") + "}\"}";
 
-            using (var client = new HttpClient())
-            {
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            using var client = new HttpClient();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                HttpResponseMessage response;
-                HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
-                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                response = await client.PostAsync(Url, content);
+            HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            var response = await client.PostAsync(Url, content);
 
-                return await response.Content.ReadAsStringAsync();
-            }
+            return await response.Content.ReadAsStringAsync();
         }
 
 
         /// <returns>If user is not in the game returns null</returns>
         public static async Task<User> GetUserInGame()
         {
-            string accountId = NearPersistentManager.Instance.GetAccountId();
+            var accountId = NearPersistentManager.Instance.GetAccountId();
 
-            UserFilter filter = new UserFilter()
+            var filter = new UserFilter()
             {
                 id = accountId
             };
-
-            List<User> users = await GetUsers(filter);
+            
+            var gamePagination = new Pagination
+            {
+                orderDirection = OrderDirection.desc,
+                orderBy = "id"
+            };
+            
+            var users = await GetUsers(filter, gamePagination);
             if (users.Count != 1)
             {
                 throw new Exception("Can't find ");
             }
 
-            if (users.Count == 0)
+            if (users[0].games[0].winner_index != null)
             {
                 return null;
             }
-
-            return users[0];
+            
+            return users.Count == 0 ? null : users[0];
         }
         public static async Task<User> GetUser()
         {
-            string accountId = NearPersistentManager.Instance.GetAccountId();
-            UserFilter filter = new UserFilter()
+            var accountId = NearPersistentManager.Instance.GetAccountId();
+            var filter = new UserFilter()
             {
                 id = accountId
             };
 
-            List<User> users = await GetUsers(filter);
+            var users = await GetUsers(filter);
 
             if (users.Count != 1)
             {
@@ -84,14 +81,10 @@ namespace Near.GameContract.ContractMethods
             return users.First();
         }
 
-        public static async Task<List<User>> GetUsers(UserFilter filter)
+        public static async Task<List<User>> GetUsers(UserFilter filter, Pagination gamePagination = null)
         {
-            IQuery<User> query = new Query<User>("users")
+            var query = new Query<User>("users")
                 .AddArguments(new {where = filter})
-                .AddField(p => p.games,
-                    sq => sq
-                        .AddField(g => g.id)
-                        .AddField(g => g.winner_index))
                 .AddField(p => p.id)
                 .AddField(p => p.is_available)
                 .AddField(p => p.deposit)
@@ -109,19 +102,28 @@ namespace Near.GameContract.ContractMethods
                     .AddField(u => u.from)
                     .AddField(u => u.deposit)
                     .AddField(u => u.to));
-
-            string responseJson = await GetJSONQuery(query.Build());
-
-            Debug.Log(responseJson);
-
-            var GetUsers = JsonConvert.DeserializeObject<List<User>>(responseJson, new UserGameContractConverter());
-
-            if (GetUsers == null)
+            
+            if (gamePagination == null)
             {
-                return new List<User>();
+                query.AddField(p => p.games,
+                    sq => sq
+                        .AddField(g => g.id)
+                        .AddField(g => g.winner_index));
             }
+            else
+            {
+                query.AddField(p => p.games,
+                    sq => sq
+                        .AddArguments(gamePagination)
+                        .AddField(g => g.id)
+                        .AddField(g => g.winner_index));
+            }
+            
+            var responseJson = await GetJSONQuery(query.Build());
 
-            return GetUsers;
+            var getUsers = JsonConvert.DeserializeObject<List<User>>(responseJson, new UserGameContractConverter());
+
+            return getUsers ?? new List<User>();
         }
 
         public static async Task<GameData> GetGame(GameDataFilter filter)
@@ -135,9 +137,9 @@ namespace Near.GameContract.ContractMethods
             throw new Exception("Can't find game");
         }
 
-        public static async Task<List<GameData>> GetGames(GameDataFilter filter, Pagination pagination = null)
+        private static async Task<List<GameData>> GetGames(GameDataFilter filter, Pagination pagination = null)
         {
-            IQuery<GameData> query = new Query<GameData>("games")
+            var query = new Query<GameData>("games")
                 .AddArguments(new {where = filter})
                 .AddField(p => p.id)
                 .AddField(p => p.reward)
@@ -158,18 +160,11 @@ namespace Near.GameContract.ContractMethods
                 query.AddArguments(pagination);
             }
 
-            string responseJson = await GetJSONQuery(query.Build());
-
-            Debug.Log(responseJson);
+            var responseJson = await GetJSONQuery(query.Build());
 
             var gameDatas = JsonConvert.DeserializeObject<List<GameData>>(responseJson, new GameDataConverter());
 
-            if (gameDatas == null)
-            {
-                return new List<GameData>();
-            }
-
-            return gameDatas;
+            return gameDatas ?? new List<GameData>();
         }
     }
 }

@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Near;
-using Near.Models.Game;
-using NearClientUnity.Utilities;
 using UnityEngine;
 
 namespace UI.Main_menu.UIPopups

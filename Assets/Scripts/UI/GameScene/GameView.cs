@@ -1,9 +1,8 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using Near;
+using System.Threading;
+using System.Threading.Tasks;
 using Near.Models.Game;
 using UnityEngine;
-using Event = Near.Models.Game.Event;
 
 namespace UI.GameScene
 {
@@ -21,7 +20,8 @@ namespace UI.GameScene
             if (user != null && user.games[0].winner_index == null)
             {
                 _gameId = user.games[0].id;
-                //StartCoroutine(GenerateEvent());
+                
+                Task.Run(GenerateEvent);
                 UpdateGameData();
             }
             else
@@ -30,15 +30,15 @@ namespace UI.GameScene
             }
         }
 
-        private IEnumerator GenerateEvent()
+        private void GenerateEvent()
         {
-            while (_gameData.winner_index != null)
+            do
             {
-                Debug.Log("1");
+                Debug.Log("Generate event");
                 Near.GameContract.ContractMethods.Actions.GenerateEvent(_gameId);
 
-                yield return new WaitForSeconds(1);
-            }
+                Thread.Sleep(1000);
+            } while (_gameData?.winner_index == null);
         }
 
         private async void UpdateGameData()
@@ -48,18 +48,16 @@ namespace UI.GameScene
                 id = _gameId
             };
             
-            _gameData = await Near.GameContract.ContractMethods.Views.GetGame(filter);
-            
-            while (_gameData.winner_index != null)
+            do
             {
+                Debug.Log("Update indexer");
                 _gameData = await Near.GameContract.ContractMethods.Views.GetGame(filter);
                 RenderEvents(_gameData);
-            }
+            } while (_gameData.winner_index == null);
         }
 
         private void RenderEvents(GameData gameData)
         {
-            Debug.Log("1");
             if (eventMessages.enabled)
             {
                 eventMessages.RenderMessages(gameData.events);

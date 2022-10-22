@@ -1,4 +1,5 @@
 ﻿using GraphQL.Query.Builder;
+using Near.Models.Tokens.Filters;
 using Near.Models.Tokens.Players.FieldPlayer;
 
 namespace Near.Models.Game
@@ -6,6 +7,7 @@ namespace Near.Models.Game
     public class Event
     {
         public string id { get; set; }
+        public int event_number { get; set; }
         public UserInGameInfo user1 { get; set; }
         public UserInGameInfo user2 { get; set; }
         public FieldPlayer player_with_puck { get; set; }
@@ -15,7 +17,14 @@ namespace Near.Models.Game
 
         public static IQuery<Event> GetQuery(IQuery<Event> query)
         {
-            query.AddField(e => e.id)
+            EventPagination eventPagination = new EventPagination()
+            {
+                orderBy = "event_number"
+            };
+            
+            query.AddArguments(eventPagination)
+                .AddField(e => e.id)
+                .AddField(e => e.event_number)
                 .AddField(e => e.user1, UserInGameInfo.GetQuery)
                 .AddField(e => e.user2, UserInGameInfo.GetQuery)
                 .AddField(e => e.player_with_puck, FieldPlayer.GetQuery)
