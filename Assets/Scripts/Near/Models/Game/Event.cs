@@ -1,4 +1,5 @@
-﻿using GraphQL.Query.Builder;
+﻿using System;
+using GraphQL.Query.Builder;
 using Near.Models.Tokens.Filters;
 using Near.Models.Tokens.Players.FieldPlayer;
 
@@ -33,6 +34,19 @@ namespace Near.Models.Game
                 .AddField(e => e.time);
             
             return query;
+        }
+
+        public string FormattedAction(string playerId)
+        {
+            return action switch
+            {
+                "StartGame" => "Start game",
+                "EndOfPeriod" => "End of period",
+                "Overtime" => "Overtime",
+                "GameOver" => "GAME OVER",
+                
+                _ => throw new Exception("Action not found. Event number: " + event_number)
+            };
         }
     }
 }

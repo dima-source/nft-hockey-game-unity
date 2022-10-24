@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using GraphQL.Query.Builder;
 using Near.Models.Tokens.Players.FieldPlayer;
 using Near.Models.Tokens.Players.Goalie;
@@ -26,6 +27,23 @@ namespace Near.Models.Game.Team
                 .AddField(t => t.score);
             
             return query;
+        }
+
+        public PlayerOnPosition GetPlayerOnPositionInActiveFiveById(string playerId)
+        {
+            var activeFive = GetActiveFive();
+            return activeFive.GetPlayerOnPositionById(playerId);
+        }
+
+        public PlayerOnPosition GetPlayerOnPositionInActiveFiveByPosition(string position)
+        {
+            var activeFive = GetActiveFive();
+            return activeFive.GetPlayerOnPositionByPosition(position);
+        }
+
+        private Five GetActiveFive()
+        {
+            return fives.Find(five => five.number == active_five);
         }
     }
 }

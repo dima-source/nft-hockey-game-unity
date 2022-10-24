@@ -1,4 +1,5 @@
 using GraphQL.Query.Builder;
+using Near.Models.Game;
 using Newtonsoft.Json;
 
 namespace Near.Models.Tokens.Players.FieldPlayer
@@ -9,7 +10,7 @@ namespace Near.Models.Tokens.Players.FieldPlayer
         public FieldPlayerStats Stats { get; set; }
         public float teamwork { get; set; }
         public string native_position { get; set; }
-
+        public UserInGameInfo user_in_game_info { get; set; }
         public int  number_of_penalty_events { get; set; }
 
         public override void SetStats(string jsonStats)
@@ -21,6 +22,9 @@ namespace Near.Models.Tokens.Players.FieldPlayer
         {
             query.AddField(p => p.id)
                 .AddField(p => p.img)
+                .AddField(p => p.user_in_game_info,
+                    sq => 
+                        sq.AddField(u => u.id))
                 .AddField(p => p.name)
                 .AddField(p => p.teamwork)
                 .AddField(p => p.reality)
