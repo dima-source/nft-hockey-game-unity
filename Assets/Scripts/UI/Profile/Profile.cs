@@ -9,5 +9,10 @@ namespace UI.Profile
         {
             SceneManager.LoadScene("MainMenu");
         }
+
+        public void ShowPopup(Transform popupTransform)
+        {
+            popupTransform.gameObject.SetActive(true);
+        }
     }
 }
