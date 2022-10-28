@@ -47,7 +47,7 @@ namespace UI.Profile
                 .AddField(p => p.already_set_team);
             var responseJson = await GetJsonQuery(query.Build().Trim());
             Debug.Log(responseJson);
-            RewardsUser user = JsonConvert.DeserializeObject<RewardsUser>(responseJson);
+            RewardsUser user = JsonConvert.DeserializeObject<RewardsUser>(responseJson, new RewardsUserConverter());
             return user;
         }
     }

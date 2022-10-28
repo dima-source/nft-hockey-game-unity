@@ -1,8 +1,6 @@
-﻿using System;
-using TMPro;
+﻿using TMPro;
 using UI.Profile.Models;
 using UI.Scripts;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -16,12 +14,22 @@ namespace UI.Profile
 
         private IRewardsRepository _repository = new IndexerRewardsRepository();
         private RewardsUser _rewardsUser;
+        private LevelCalculator _levelCalculator;
+
+        private void SetInitialValues()
+        {
+            Debug.Log(_levelCalculator.GetLevelProgress());
+            LevelNumber.text = _levelCalculator.GetLevelString();
+            LevelSlider.value = _levelCalculator.GetLevelProgress();
+        }
         
         protected override async void Initialize()
         {
             LevelNumber = Scripts.Utils.FindChild<TMP_Text>(transform, "LevelNumber");
             LevelSlider = Scripts.Utils.FindChild<Slider>(transform, "Progress");
             _rewardsUser = await _repository.GetUser();
+            _levelCalculator = new LevelCalculator(_rewardsUser);
+            SetInitialValues();
         }
 
         public void GoMainMenu()
