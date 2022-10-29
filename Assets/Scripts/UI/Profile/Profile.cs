@@ -1,5 +1,8 @@
-﻿using TMPro;
+﻿using System.Collections.Generic;
+using Runtime;
+using TMPro;
 using UI.Profile.Models;
+using UI.Profile.Rewards;
 using UI.Scripts;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,14 +14,15 @@ namespace UI.Profile
     {
         [SerializeField] private TMP_Text LevelNumber;
         [SerializeField] private Slider LevelSlider;
+        [SerializeField] private Transform _rewardsParent;
 
         private IRewardsRepository _repository = new IndexerRewardsRepository();
         private RewardsUser _rewardsUser;
         private LevelCalculator _levelCalculator;
+        private List<BaseReward> _rewardsPrototypes;
 
         private void SetInitialValues()
         {
-            Debug.Log(_levelCalculator.GetLevelProgress());
             LevelNumber.text = _levelCalculator.GetLevelString();
             LevelSlider.value = _levelCalculator.GetLevelProgress();
         }
@@ -27,9 +31,13 @@ namespace UI.Profile
         {
             LevelNumber = Scripts.Utils.FindChild<TMP_Text>(transform, "LevelNumber");
             LevelSlider = Scripts.Utils.FindChild<Slider>(transform, "Progress");
+            _rewardsParent = Scripts.Utils.FindChild<Transform>(transform, "RewardsContent");
             _rewardsUser = await _repository.GetUser();
+            _rewardsPrototypes = await _repository.GetRewards();
+            Debug.Log(_rewardsPrototypes.Count);
             _levelCalculator = new LevelCalculator(_rewardsUser);
             SetInitialValues();
+            InitRewards();
         }
 
         public void GoMainMenu()
@@ -40,6 +48,21 @@ namespace UI.Profile
         public void ShowPopup(Transform popupTransform)
         {
             popupTransform.gameObject.SetActive(true);
+        }
+
+        private void InitRewards()
+        {
+            foreach (var reward in _rewardsPrototypes)
+            {
+                CreateReward(reward);
+            }
+        }
+
+        private RewardView CreateReward(BaseReward reward)
+        {
+            RewardView rewardView = Instantiate(Game.AssetRoot.profileAsset.rewardView, _rewardsParent);
+            reward.SetForView(rewardView, _rewardsUser);
+            return rewardView;
         }
     }
 }

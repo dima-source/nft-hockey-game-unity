@@ -1,14 +1,14 @@
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using GraphQL.Query.Builder;
 using Near;
-using Near.MarketplaceContract;
-using Near.Models.Game.TeamIds;
 using Newtonsoft.Json;
 using UI.Profile.Models;
+using UI.Profile.Rewards;
+using UI.Profile.Rewards.SpecificRewards;
 using UnityEngine;
 
 namespace UI.Profile
@@ -39,6 +39,7 @@ namespace UI.Profile
                 .AddField(p => p.id)
                 .AddField(p => p.points)
                 .AddField(p => p.wins)
+                .AddField(p => p.max_wins_in_line)
                 .AddField(p => p.wins_in_line)
                 .AddField(p => p.games)
                 .AddField(p => p.players_sold)
@@ -49,6 +50,37 @@ namespace UI.Profile
             Debug.Log(responseJson);
             RewardsUser user = JsonConvert.DeserializeObject<RewardsUser>(responseJson, new RewardsUserConverter());
             return user;
+        }
+
+        public Task<List<BaseReward>> GetRewards()
+        {
+            return Task.FromResult(new List<BaseReward>()
+            {
+                new RookieAward(),
+                new SkilledAward(),
+                new MasterAward(),
+                new ProAward(),
+                new VeteranAward(),
+
+                new HatTrickAward(),
+                new PentaTrickAward(),
+                new GoatAward(),
+
+                new StarterAward(),
+                new FreshmanAward(),
+                new SophomoreAward(),
+                new JuniorAward(),
+                new SeniorAward(),
+
+                new AgentAward(),
+                new TraderAward(),
+                new MoneypuckAward(),
+
+                new MateAward(),
+                new PalAward(),
+                new FellowAward(),
+                new FriendAward()
+            });
         }
     }
 }

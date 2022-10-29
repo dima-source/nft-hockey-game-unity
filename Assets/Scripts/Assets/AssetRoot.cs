@@ -1,6 +1,7 @@
 using UI.GameScene;
 using UI.Main_menu;
 using UI.ManageTeam;
+using UI.Profile;
 using UnityEngine;
 
 namespace Assets
@@ -11,5 +12,6 @@ namespace Assets
         public GameAsset gameAsset;
         public MainMenuAsset mainMenuAsset;
         public ManageTeamAsset manageTeamAsset;
+        public ProfileAsset profileAsset;
     }
 }

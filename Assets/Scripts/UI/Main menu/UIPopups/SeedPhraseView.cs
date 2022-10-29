@@ -1,7 +1,5 @@
-using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
 using Utils;
 
 namespace UI.Main_menu.UIPopups
