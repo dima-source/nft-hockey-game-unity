@@ -61,6 +61,7 @@ namespace UI.Profile
         private RewardView CreateReward(BaseReward reward)
         {
             RewardView rewardView = Instantiate(Game.AssetRoot.profileAsset.rewardView, _rewardsParent);
+            rewardView.rewardInfoPopup = _rewardsInfoPopup;
             reward.SetForView(rewardView, _rewardsUser);
             return rewardView;
         }

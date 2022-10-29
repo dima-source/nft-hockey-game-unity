@@ -1,3 +1,4 @@
+using System;
 using UI.Profile.Popups;
 using UI.Scripts;
 using UnityEngine;
@@ -13,8 +14,8 @@ namespace UI.Profile.Rewards
         public string Description;
         public bool Obtained;
         private Image _rewardImage;
-        private Transform _notObtainedForeground;
-        private RewardInfoPopup _rewardInfoPopup;
+        private Image _notObtainedForeground;
+        public RewardInfoPopup rewardInfoPopup;
         private Button _showPopupButton;
         
 
@@ -29,24 +30,25 @@ namespace UI.Profile.Rewards
         protected override void Initialize()
         {
             _rewardImage = Scripts.Utils.FindChild<Image>(transform, "RewardImage");
-            _notObtainedForeground = Scripts.Utils.FindChild<Transform>(transform, "NotObtainedForeground");
-            _rewardInfoPopup = Scripts.Utils.FindChild<RewardInfoPopup>(transform.root, "TrophyPopup");
+            _notObtainedForeground = Scripts.Utils.FindChild<Image>(transform, "NotObtainedForeground");
             _showPopupButton = GetComponent<Button>();
             _showPopupButton.onClick.AddListener(ShowPopup);
         }
 
         private void ShowPopup()
         {
-            _rewardInfoPopup.Show(SpriteName, RewardTitle, Description, Obtained);
+            if (rewardInfoPopup != null)
+            {
+                rewardInfoPopup.Show(SpriteName, RewardTitle, Description, Obtained);
+            }
         }
 
         protected override void OnUpdate()
         {
-            var foreground = _notObtainedForeground.GetComponent<Image>();
-            var color = foreground.color;
+            var color = _notObtainedForeground.color;
             if (Obtained) color.a = 0f;
             else color.a = .75f;
-            foreground.color = color;
+            _notObtainedForeground.color = color;
             
             _rewardImage.sprite = GetRewardSprite();
         }

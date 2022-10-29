@@ -41,7 +41,14 @@ namespace UI.Profile.Popups
         
         protected override void OnUpdate()
         {
-            Image.sprite = Scripts.Utils.LoadSprite(SPRITES_PATH + _spriteName);
+            if (_obtained)
+            {
+                Image.sprite = Scripts.Utils.LoadSprite(SPRITES_PATH + _spriteName);
+            }
+            else
+            {
+                Image.sprite = Scripts.Utils.LoadSprite(SPRITES_PATH + "Square");
+            }
             Title.text = _title;
             Description.text = _description;
         }
