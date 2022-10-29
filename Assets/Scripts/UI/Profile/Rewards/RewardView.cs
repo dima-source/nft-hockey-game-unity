@@ -1,3 +1,4 @@
+using UI.Profile.Popups;
 using UI.Scripts;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +14,9 @@ namespace UI.Profile.Rewards
         public bool Obtained;
         private Image _rewardImage;
         private Transform _notObtainedForeground;
+        private RewardInfoPopup _rewardInfoPopup;
+        private Button _showPopupButton;
+        
 
         public void SetData(string spriteName, string title, string description, bool obtained)
         {
@@ -26,6 +30,14 @@ namespace UI.Profile.Rewards
         {
             _rewardImage = Scripts.Utils.FindChild<Image>(transform, "RewardImage");
             _notObtainedForeground = Scripts.Utils.FindChild<Transform>(transform, "NotObtainedForeground");
+            _rewardInfoPopup = Scripts.Utils.FindChild<RewardInfoPopup>(transform.root, "TrophyPopup");
+            _showPopupButton = GetComponent<Button>();
+            _showPopupButton.onClick.AddListener(ShowPopup);
+        }
+
+        private void ShowPopup()
+        {
+            _rewardInfoPopup.Show(SpriteName, RewardTitle, Description, Obtained);
         }
 
         protected override void OnUpdate()
