@@ -17,11 +17,13 @@ namespace UI.Profile
         [SerializeField] private Slider LevelSlider;
         [SerializeField] private Transform _rewardsParent;
         [SerializeField] private RewardInfoPopup _rewardsInfoPopup;
+        [SerializeField] private Transform _createLogoPopup;
 
         private IRewardsRepository _repository = new IndexerRewardsRepository();
         private RewardsUser _rewardsUser;
         private LevelCalculator _levelCalculator;
         private List<BaseReward> _rewardsPrototypes;
+        private Button _logoButton;
 
         private void SetInitialValues()
         {
@@ -35,11 +37,14 @@ namespace UI.Profile
             LevelSlider = Scripts.Utils.FindChild<Slider>(transform, "Progress");
             _rewardsParent = Scripts.Utils.FindChild<Transform>(transform, "RewardsContent");
             _rewardsInfoPopup = Scripts.Utils.FindChild<RewardInfoPopup>(transform.parent, "TrophyPopup");
+            _createLogoPopup = Scripts.Utils.FindChild<Transform>(transform.parent, "CreateLogoPopup");
+            _logoButton = Scripts.Utils.FindChild<Button>(transform, "Logo");
             _rewardsUser = await _repository.GetUser();
             _rewardsPrototypes = await _repository.GetRewards();
             _levelCalculator = new LevelCalculator(_rewardsUser);
             SetInitialValues();
             InitRewards();
+            _logoButton.onClick.AddListener(() => ShowPopup(_createLogoPopup));
         }
 
         public void GoMainMenu()

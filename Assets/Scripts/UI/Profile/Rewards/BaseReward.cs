@@ -10,7 +10,7 @@ namespace UI.Profile.Rewards
         
         public abstract bool IsObtained(RewardsUser user);
 
-        public void SetForView(RewardView view, RewardsUser user)
+        public void SetForView(IRewardDataReceiver view, RewardsUser user)
         {
             view.SetData(SpriteName, Title, Description, IsObtained(user));
         }

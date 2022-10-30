@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace UI.Profile.Rewards
 {
-    public class RewardView: UiComponent
+    public class RewardView: UiComponent, IRewardDataReceiver
     {
         private static readonly string SPRITES_PATH = Configurations.SpritesFolderPath + "SpriteSheet/";
         public string SpriteName;
