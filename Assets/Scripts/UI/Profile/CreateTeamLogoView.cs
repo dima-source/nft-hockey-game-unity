@@ -16,7 +16,7 @@ namespace UI.Profile
         private string _formName = "Square"; 
         private string _patternName = "1";
         private ILogoSaver _logoSaver = new ConsoleLogoSaver();
-        private ILogoLoader _logoLoader = new MockLogoLoader();
+        private ILogoLoader _logoLoader = new IndexerLogoLoader();
         private Button _saveButton;
         private Button _resetButton;
         private Button _background;
@@ -61,6 +61,7 @@ namespace UI.Profile
         public async void Load()
         {
             TeamLogo logoData = await _logoLoader.LoadLogo();
+            Debug.Log(logoData.form_name);
             Load(logoData);
         }
 
