@@ -38,7 +38,6 @@ namespace UI.Profile
                 .AddField(p => p.first_layer_color_number)
                 .AddField(p => p.second_layer_color_number);
             var responseJson = await GetJsonQuery(query.Build().Trim());
-            Debug.Log(responseJson);
             return JsonConvert.DeserializeObject<TeamLogo>(responseJson, new TeamLogoConverter());
         }
     }

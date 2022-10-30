@@ -3,6 +3,7 @@ using System.Dynamic;
 using System.Threading.Tasks;
 using Near.Models.Game.Team;
 using NearClientUnity;
+using UI.Profile.Models;
 using UnityEngine;
 
 
@@ -44,6 +45,28 @@ namespace Near.GameContract.ContractMethods
             try
             {
                 await gameContract.Change("make_unavailable", args);
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e.Message);
+                return false;
+            }
+
+            return true;
+        }
+
+        public static async Task<bool> SetTeamLogo(TeamLogo teamLogo)
+        {
+            var gameContract = await NearPersistentManager.Instance.GetGameContract(); 
+            dynamic args = new ExpandoObject();
+            // set_team_logo(&self, form_name: &str, patter_name: &str, first_layer_color_numer: &str, second_layer_color_number: &str)
+            args.form_name = teamLogo.form_name;
+            args.pattern_name = teamLogo.pattern_name;
+            args.first_layer_color_number = teamLogo.first_layer_color_number;
+            args.second_layer_color_number = teamLogo.second_layer_color_number;
+            try
+            {
+                await gameContract.Change("set_team_logo", args);
             }
             catch (Exception e)
             {

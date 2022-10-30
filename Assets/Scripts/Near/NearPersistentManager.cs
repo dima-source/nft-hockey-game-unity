@@ -14,7 +14,7 @@ namespace Near
         private NearClientUnity.Near _near;
         
         private ContractNear _gameContract;
-        private const string GameContactId = "new_hcm_game.parh.testnet";
+        private const string GameContactId = "game_meta_new.parh.testnet";
 
         private ContractNear _marketplaceContract;
         public readonly string MarketplaceContactId = "market.parh.testnet";
@@ -81,7 +81,7 @@ namespace Near
                     "coach_speech", "goalie_out", "goalie_back", 
                     "send_friend_request", "accept_friend_request", "decline_friend_request", 
                     "send_request_play", "accept_request_play", "decline_request_play",
-                    "register_account", "remove_friend"
+                    "register_account", "remove_friend", "set_team_logo"
                 }
             };
         

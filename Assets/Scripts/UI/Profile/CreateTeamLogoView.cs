@@ -15,7 +15,7 @@ namespace UI.Profile
         private readonly string _pathPattern = "/Assets/Sprites/Profile";
         private string _formName = "Square"; 
         private string _patternName = "1";
-        private ILogoSaver _logoSaver = new ConsoleLogoSaver();
+        private ILogoSaver _logoSaver = new ContractLogoSaver();
         private ILogoLoader _logoLoader = new IndexerLogoLoader();
         private Button _saveButton;
         private Button _resetButton;
@@ -36,7 +36,6 @@ namespace UI.Profile
         
         private void Awake()
         {
-            ChangeForm("Star");
             _saveButton = Scripts.Utils.FindChild<Button>(transform, "SaveButton");
             _resetButton = Scripts.Utils.FindChild<Button>(transform, "ResetButton");
             _background = Scripts.Utils.FindChild<Button>(transform, "MainBackground");
@@ -46,6 +45,7 @@ namespace UI.Profile
             _background.onClick.AddListener(Close);
             _closePopupButton.onClick.AddListener(Close);
             Load();
+            // ChangeForm("Star");
         }
 
         private void OnEnable()
@@ -67,10 +67,14 @@ namespace UI.Profile
 
         private void Load(TeamLogo teamLogo)
         {
+            firstLayerImg.gameObject.SetActive(false);
+            secondLayerImg.gameObject.SetActive(false);
             ChangeForm(teamLogo.form_name);
             ChangePattern(teamLogo.pattern_name);
             ChangeFirstLayerColor(teamLogo.first_layer_color_number);
             ChangeSecondLayerColor(teamLogo.second_layer_color_number);
+            firstLayerImg.gameObject.SetActive(true);
+            secondLayerImg.gameObject.SetActive(true);
         }
         
         public async void Save()
