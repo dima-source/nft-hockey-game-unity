@@ -2,6 +2,7 @@ using System.IO;
 using UI.Profile.Models;
 using UnityEngine;
 using UnityEngine.UI;
+using Color = UnityEngine.Color;
 
 namespace UI.Profile
 {
@@ -36,6 +37,16 @@ namespace UI.Profile
         
         private void Awake()
         {
+
+            Color color1 = new Color()
+            {
+                r = 0.55f,
+                g = 0.235f,
+                b = 0.155f,
+                a = 1
+                
+            };
+            firstLayerImg.color = color1;
             _saveButton = Scripts.Utils.FindChild<Button>(transform, "SaveButton");
             _resetButton = Scripts.Utils.FindChild<Button>(transform, "ResetButton");
             _background = Scripts.Utils.FindChild<Button>(transform, "MainBackground");
@@ -123,7 +134,7 @@ namespace UI.Profile
             switch (number)
             {
                 case "1":
-                    firstLayerImg.color = Color.yellow;
+                    firstLayerImg.color = Color.HSVToRGB(223,178,125);
                     break;
                 case "2":
                     firstLayerImg.color = Color.blue;
@@ -153,7 +164,7 @@ namespace UI.Profile
             switch (number) 
             {
                 case "1":
-                    secondLayerImg.color = Color.yellow;
+                    secondLayerImg.color = Color.HSVToRGB(223,178,125);
                     break;
                 case "2":
                     secondLayerImg.color = Color.blue;
