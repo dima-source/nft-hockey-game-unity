@@ -37,16 +37,6 @@ namespace UI.Profile
         
         private void Awake()
         {
-
-            Color color1 = new Color()
-            {
-                r = 0.55f,
-                g = 0.235f,
-                b = 0.155f,
-                a = 1
-                
-            };
-            firstLayerImg.color = color1;
             _saveButton = Scripts.Utils.FindChild<Button>(transform, "SaveButton");
             _resetButton = Scripts.Utils.FindChild<Button>(transform, "ResetButton");
             _background = Scripts.Utils.FindChild<Button>(transform, "MainBackground");
@@ -156,6 +146,15 @@ namespace UI.Profile
                     break;
 
             }
+            
+            Color color1 = new Color()
+            {
+                r = (float)55 / 255,
+                g = (float)235 / 255,
+                b = (float)155 / 255,
+                a = 1
+            };
+            firstLayerImg.color = color1;
         }
         
         public void ChangeSecondLayerColor(string number)
