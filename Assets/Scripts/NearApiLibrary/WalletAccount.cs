@@ -123,21 +123,13 @@ namespace NearClientUnity
             var keysJson = await Web.FetchJsonAsync("https://generator.hockeyclubmanager.com/api/generate-keys", $@"{{""seedphrase"": ""{seedPhrase}"", ""username"": ""{accountId}""}}");
             var privateKey = keysJson["private_key"].ToString();
             KeyPair keyPair = KeyPair.FromString(privateKey);
-            try
-            {
-                await accountCreator.CreateAccountAsync(accountId, keyPair.GetPublicKey());
-                
-                _authData.AccountId = accountId;
-                await _keyStore.SetKeyAsync(_networkId, accountId, keyPair);
-                _authStorage.Add(_authDataKey, JsonConvert.SerializeObject(_authData));                
-                await MoveKeyFromTempToPermanent(accountId, keyPair.GetPublicKey().ToString());
-                return true;
-            }
-            catch (Exception e)
-            {
-                Debug.Log(e.Message);
-                return false;
-            }
+            await accountCreator.CreateAccountAsync(accountId, keyPair.GetPublicKey());
+            
+            _authData.AccountId = accountId;
+            await _keyStore.SetKeyAsync(_networkId, accountId, keyPair);
+            _authStorage.Add(_authDataKey, JsonConvert.SerializeObject(_authData));                
+            await MoveKeyFromTempToPermanent(accountId, keyPair.GetPublicKey().ToString());
+            return true;
         }
 
         public async void SignOut()
