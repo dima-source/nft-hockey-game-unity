@@ -180,6 +180,9 @@ namespace Near
         public void SignOut()
         {
             WalletAccount.SignOut();
+            Instance._marketplaceContract = null;
+            Instance._gameContract = null;
+            Instance._nftContract = null;
         }
     }
 

@@ -128,7 +128,6 @@ namespace NearClientUnity
             _authData.AccountId = accountId;
             await _keyStore.SetKeyAsync(_networkId, accountId, keyPair);
             _authStorage.Add(_authDataKey, JsonConvert.SerializeObject(_authData));                
-            await MoveKeyFromTempToPermanent(accountId, keyPair.GetPublicKey().ToString());
             return true;
         }
 
