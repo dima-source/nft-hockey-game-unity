@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Near.Models.Game;
 using UnityEngine;
 
@@ -21,7 +19,7 @@ namespace UI.GameScene
             {
                 _gameId = user.games[0].id;
 
-                //Task.Run(GenerateEvent);
+                Task.Run(GenerateEvent);
                 UpdateGameData();
             }
             else

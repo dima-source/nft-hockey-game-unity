@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Near;
+using NearClientUnity.Utilities;
+using Runtime;
 using UnityEngine;
 
 namespace UI.Main_menu.UIPopups
@@ -16,19 +19,22 @@ namespace UI.Main_menu.UIPopups
         
         public new async void Show()
         {
-            /*
             try
             {
-                User user = await Near.GameContract.ContractMethods.Views.GetUser();
+                var user = await Near.GameContract.ContractMethods.Views.GetUser();
             
                 if (user.is_available)
                 {
-                    UInt128 deposit = UInt128.Parse(user.deposit);
-                    string formatDeposit = NearUtils.FormatNearAmount(deposit).ToString();
+                    var deposit = UInt128.Parse(user.deposit);
+                    var formatDeposit = NearUtils.FormatNearAmount(deposit).ToString();
                     
                     searchView.SetBidText(formatDeposit);
                     requestButtons.gameObject.SetActive(false);
                     searchView.gameObject.SetActive(true);
+                } 
+                else if (user.games.Count != 0 && user.games[0].winner_index == null)
+                {
+                    Game.LoadGame();
                 }
             }
             catch (Exception e)
@@ -37,12 +43,6 @@ namespace UI.Main_menu.UIPopups
                 throw;
             }
             
-            mainMenuView.ShowPopup(transform);
-            */
-            
-            
-            requestButtons.gameObject.SetActive(false);
-            searchView.gameObject.SetActive(true);
             mainMenuView.ShowPopup(transform);
         }
         
@@ -64,10 +64,13 @@ namespace UI.Main_menu.UIPopups
             {
                 if (e.Message.Contains("NotEnoughBalance"))
                 {
+                    uiPopupError.SetTitle("Not enough money. \nFund deposit or select another bid");
                     uiPopupError.Show();
                 }
                 else
                 {
+                    uiPopupError.SetTitle("Something went wrong");
+                    uiPopupError.Show();
                     Debug.Log(e.Message);
                 }
                 loading.gameObject.SetActive(false);

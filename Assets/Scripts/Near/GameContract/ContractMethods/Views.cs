@@ -56,13 +56,14 @@ namespace Near.GameContract.ContractMethods
                 throw new Exception("Can't find ");
             }
 
-            if (users[0].games[0].winner_index != null)
+            if (users[0].games.Count == 0 || users[0].games[0].winner_index != null)
             {
                 return null;
             }
             
             return users.Count == 0 ? null : users[0];
         }
+        
         public static async Task<User> GetUser()
         {
             var accountId = NearPersistentManager.Instance.GetAccountId();
@@ -71,7 +72,13 @@ namespace Near.GameContract.ContractMethods
                 id = accountId
             };
 
-            var users = await GetUsers(filter);
+            var gamePagination = new Pagination
+            {
+                orderDirection = OrderDirection.desc,
+                orderBy = "id"
+            };
+            
+            var users = await GetUsers(filter, gamePagination);
 
             if (users.Count != 1)
             {
