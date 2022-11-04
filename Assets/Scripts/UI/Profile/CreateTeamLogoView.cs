@@ -3,40 +3,31 @@ using UI.Profile.Models;
 using UnityEngine;
 using UnityEngine.UI;
 using Color = UnityEngine.Color;
+using UnityEngine.EventSystems;
 
 namespace UI.Profile
 {
     public class CreateTeamLogoView : MonoBehaviour
     {
-        [SerializeField] private Image firstLayerImg;
-        [SerializeField] private Image secondLayerImg;
         private string firstLayerColorNumber;
         private string secondLayerColorNumber;
+        private string inputLayerColorNumber;
+        private string inputGroundColorNumber;
+        private LogoPrefab _logoPrefab;
         private readonly string _pathForm = "/Assets/Sprites/Profile/Form/";
         private readonly string _pathPattern = "/Assets/Sprites/Profile";
-        private string _formName = "Square"; 
-        private string _patternName = "1";
-        private ILogoSaver _logoSaver = new ContractLogoSaver();
-        private ILogoLoader _logoLoader = new IndexerLogoLoader();
+        private ILogoSaver _logoSaver = new ConsoleLogoSaver();
+        private ILogoLoader _logoLoader = new MockLogoLoader();
         private Button _saveButton;
         private Button _resetButton;
         private Button _background;
         private Button _closePopupButton;
 
-        public TeamLogo GetTeamLogo()
-        {
-            TeamLogo logoData = new TeamLogo()
-            {
-                form_name = _formName,
-                pattern_name = _patternName,
-                first_layer_color_number = firstLayerColorNumber,
-                second_layer_color_number = secondLayerColorNumber
-            };
-            return logoData;
-        }
+       
         
         private void Awake()
         {
+            _logoPrefab = Scripts.Utils.FindChild<LogoPrefab>(transform, "Logo");
             _saveButton = Scripts.Utils.FindChild<Button>(transform, "SaveButton");
             _resetButton = Scripts.Utils.FindChild<Button>(transform, "ResetButton");
             _background = Scripts.Utils.FindChild<Button>(transform, "MainBackground");
@@ -46,7 +37,6 @@ namespace UI.Profile
             _background.onClick.AddListener(Close);
             _closePopupButton.onClick.AddListener(Close);
             Load();
-            // ChangeForm("Star");
         }
 
         private void OnEnable()
@@ -54,137 +44,38 @@ namespace UI.Profile
             Load();
         }
 
-        public void Close()
-        {
-            gameObject.SetActive(false);
-        }
-
-        public async void Load()
+        public async void Load() // тут пока
         {
             TeamLogo logoData = await _logoLoader.LoadLogo();
             Debug.Log(logoData.form_name);
             Load(logoData);
         }
 
-        private void Load(TeamLogo teamLogo)
+        private void Load(TeamLogo teamLogo) 
         {
-            firstLayerImg.gameObject.SetActive(false);
-            secondLayerImg.gameObject.SetActive(false);
-            ChangeForm(teamLogo.form_name);
-            ChangePattern(teamLogo.pattern_name);
-            ChangeFirstLayerColor(teamLogo.first_layer_color_number);
-            ChangeSecondLayerColor(teamLogo.second_layer_color_number);
-            firstLayerImg.gameObject.SetActive(true);
-            secondLayerImg.gameObject.SetActive(true);
+            _logoPrefab.SetData(teamLogo, _pathForm, _pathPattern);
         }
         
         public async void Save()
         {
-            await _logoSaver.SaveLogo(GetTeamLogo());
+            await _logoSaver.SaveLogo(_logoPrefab.GetTeamLogo());
             gameObject.SetActive(false);
         }
-
+        
+        public void Close()
+        {
+            gameObject.SetActive(false);
+        }
+        
         public void ChangeForm(string form)
         {
-            _formName = form;
-            ChangeLayerForm();
+            _logoPrefab.ChangeLayerForm(form);
         }
 
         public void ChangePattern(string pattern)
         {
-            _patternName = pattern;
-            ChangeLayerPattern();
+            _logoPrefab.ChangeLayerPattern(pattern);
         }
-        
-        private void ChangeLayerForm()
-        {
-            string directoryPath = Directory.GetCurrentDirectory();
-            string newPath = directoryPath + _pathForm + "/"+ _formName + ".png";
-            
-            Texture2D texture = Utils.ImageLoader.LoadTexture2D(newPath);
-            Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
-            firstLayerImg.sprite = sprite;
-            
-            ChangeLayerPattern();
-        }
-        
-        private void ChangeLayerPattern()
-        {
-            string directoryPath = Directory.GetCurrentDirectory();
-            string newPath = directoryPath + _pathPattern + "/" + _formName + "/" + _patternName + ".png";
-            
-            Texture2D texture = Utils.ImageLoader.LoadTexture2D(newPath);
-            Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
-            secondLayerImg.sprite = sprite;
-        }
-
-        public void ChangeFirstLayerColor(string number)
-        {
-            firstLayerColorNumber = number;
-            switch (number)
-            {
-                case "1":
-                    firstLayerImg.color = Color.HSVToRGB(223,178,125);
-                    break;
-                case "2":
-                    firstLayerImg.color = Color.blue;
-                    break;
-                case "3":
-                    firstLayerImg.color = Color.green;
-                    break;
-                case "4":
-                    firstLayerImg.color = Color.black;
-                    break;
-                case "5":
-                    firstLayerImg.color = Color.cyan;
-                    break;
-                case "6":
-                    firstLayerImg.color = Color.grey;
-                    break;
-                case "7":
-                    firstLayerImg.color = Color.magenta;
-                    break;
-
-            }
-            
-            Color color1 = new Color()
-            {
-                r = (float)55 / 255,
-                g = (float)235 / 255,
-                b = (float)155 / 255,
-                a = 1
-            };
-            firstLayerImg.color = color1;
-        }
-        
-        public void ChangeSecondLayerColor(string number)
-        {
-            secondLayerColorNumber = number;
-            switch (number) 
-            {
-                case "1":
-                    secondLayerImg.color = Color.HSVToRGB(223,178,125);
-                    break;
-                case "2":
-                    secondLayerImg.color = Color.blue;
-                    break;
-                case "3":
-                    secondLayerImg.color = Color.green;
-                    break;
-                case "4":
-                    secondLayerImg.color = Color.black;
-                    break;
-                case "5":
-                    secondLayerImg.color = Color.cyan;
-                    break;
-                case "6":
-                    secondLayerImg.color = Color.grey;
-                    break;
-                case "7":
-                    secondLayerImg.color = Color.magenta;
-                    break;
-            }
-        }
-        
+       
     }
 }
