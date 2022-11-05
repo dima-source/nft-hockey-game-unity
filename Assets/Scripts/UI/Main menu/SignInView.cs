@@ -15,13 +15,14 @@ namespace UI.Main_menu
         [SerializeField] private Text inputUri;
         [SerializeField] private TMP_InputField accountIdInput;
         [SerializeField] private TMP_Text inputDescription;
-        [SerializeField] private Transform inputPopup;
+        [SerializeField] private InputPopup inputPopup;
         [SerializeField] private Transform infoPopup;
 
         [SerializeField] private SeedPhraseView seedPhrase;
+        
         private void Start()
         {
-            // Application.deepLinkActivated += url => CompleteSignIn(url);
+            inputPopup.HideSpinner();
         }
         
         public async void CompleteSignIn()
@@ -45,8 +46,10 @@ namespace UI.Main_menu
         private async Task<bool> ValidateAccountId()
         {
             string accountId = accountIdInput.text.Trim();
+            var inputDescriptionParent = inputDescription.transform.parent;
             if (accountId.Length > 64)
             {
+                inputDescriptionParent.gameObject.SetActive(true);
                 inputDescription.text = "Account id must be longer than 2 and less than 64 symbols";
                 return false;
             }
@@ -54,12 +57,14 @@ namespace UI.Main_menu
             string[] parts = accountId.Split(".");
             if (parts.Length != 2)
             {
+                inputDescriptionParent.gameObject.SetActive(true);
                 inputDescription.text = "Incorrect input";
                 return false;
             }
 
             if (parts[1] != "testnet")
             {
+                inputDescriptionParent.gameObject.SetActive(true);
                 inputDescription.text = "Account id must end with \"testnet\"";
                 return false;
             }
@@ -67,12 +72,14 @@ namespace UI.Main_menu
             Regex regex = new(@"^(([a-z\d]+[\-_])*[a-z\d]+\.)*([a-z\d]+[\-_])*[a-z\d]+$");
             if (!regex.IsMatch(accountId))
             {
+                inputDescriptionParent.gameObject.SetActive(true);
                 inputDescription.text = "Invalid account id format";
                 return false;
             }
             
             if (await Utils.Utils.CheckAccountIdAvailability(accountId))
             {
+                inputDescriptionParent.gameObject.SetActive(true);
                 inputDescription.text = "Such account already exists";
                 return false;
             }
@@ -81,8 +88,10 @@ namespace UI.Main_menu
 
         public async void RegisterAccount()
         {
+            inputPopup.ShowSpinner();
             if (!await ValidateAccountId())
             {
+                inputPopup.HideSpinner();
                 return;
             }
 
@@ -91,6 +100,7 @@ namespace UI.Main_menu
             string accountId = accountIdInput.text.Trim();
             await NearPersistentManager.Instance.Register(accountId, seedPhrase.SeedPhraseText.text);
             mainMenuView.LoadAccountId();
+            inputPopup.HideSpinner();
             
             inputPopup.gameObject.SetActive(false);
             infoPopup.gameObject.SetActive(true);
