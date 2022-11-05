@@ -20,15 +20,21 @@ namespace UI.Main_menu
         [SerializeField] private Text balance;
 
         [SerializeField] private List<Transform> popups;
+        [SerializeField] private Transform loadingPopup;
 
         public async void LoadAccountId()
         {
-            
+            loadingPopup.gameObject.SetActive(true);
             string accountID = NearPersistentManager.Instance.GetAccountId();
 
             accountId.text = "Welcome, " + accountID + " !";
 
             AccountState accountState = await NearPersistentManager.Instance.GetAccountState();
+            if (SceneManager.GetActiveScene().name != "MainMenu")
+            {
+                loadingPopup.gameObject.SetActive(false);
+                return;
+            }
             balance.text = "Your balance: " + NearUtils.FormatNearAmount(UInt128.Parse(accountState.Amount)) + " NEAR";
 
             var isGameAccountRegistered = await CheckGameAccount(accountID);
@@ -47,7 +53,7 @@ namespace UI.Main_menu
             {
                 firstEntryPopup.gameObject.SetActive(true);
             }
-
+            loadingPopup.gameObject.SetActive(false);
         }
         
         /// <summary>
@@ -128,7 +134,12 @@ namespace UI.Main_menu
 
         public void Exit()
         {
-            Application.Quit();
+            #if UNITY_STANDALONE
+                Application.Quit();
+            #endif
+            #if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+            #endif
         }
     }
 }
