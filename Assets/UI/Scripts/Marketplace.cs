@@ -23,7 +23,6 @@ namespace UI.Scripts
         [SerializeField]
         private int balanceFractionalDisplay = 2;
 
-        [SerializeField] private Camera mainCamera;
         [SerializeField] private Transform buyPacksScrollable;
         [SerializeField] private Transform buyPacksNonScrollable;
         
@@ -42,7 +41,6 @@ namespace UI.Scripts
             _userWalletName = Utils.FindChild<TextMeshProUGUI>(transform, "Wallet");
             _userWalletBalance = Utils.FindChild<TextMeshProUGUI>(transform, "Balance");
             _breadcrumbs = Utils.FindChild<TextMeshProUGUI>(transform, "Breadcrumbs");
-            mainCamera = FindObjectOfType<Camera>().GetComponent<Camera>();
             buyPacksNonScrollable = Utils.FindChild<Transform>(transform, "BuyPacksNonScrollable");
             buyPacksScrollable = Utils.FindChild<Transform>(transform, "BuyPacksScrollable");
             InitializePages();
@@ -100,7 +98,6 @@ namespace UI.Scripts
 
         private void ShowPacksContent()
         {
-            Debug.Log(Camera.main.aspect);
             if (Camera.main.aspect >= 1.5) // ratio 16:9 and 3:2
             {
                 buyPacksNonScrollable.gameObject.SetActive(true);
