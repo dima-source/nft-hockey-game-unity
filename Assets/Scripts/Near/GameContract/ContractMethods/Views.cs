@@ -151,12 +151,7 @@ namespace Near.GameContract.ContractMethods
                 .AddField(p => p.id)
                 .AddField(p => p.reward)
                 .AddField(p => p.winner_index)
-                .AddField(p => p.last_event_generation_time)
-                .AddField(p => p.turns)
-                .AddField(p => p.zone_number)
                 .AddField(p => p.events, Event.GetQuery)
-                .AddField(p => p.player_with_puck,
-                    FieldPlayer.GetQuery)
                 .AddField(p => p.user1,
                     UserInGameInfo.GetQuery)
                 .AddField(p => p.user2,

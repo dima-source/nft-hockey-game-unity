@@ -14,7 +14,9 @@ namespace Near.Models.Game
         public FieldPlayer player_with_puck { get; set; }
         public string action { get; set; }
         public int zone_number { get; set; }
-        private string time { get; set; }
+        public string time { get; set; }
+        public string event_generation_delay { get; set; }
+        
 
         public static IQuery<Event> GetQuery(IQuery<Event> query)
         {
@@ -31,7 +33,8 @@ namespace Near.Models.Game
                 .AddField(e => e.player_with_puck, FieldPlayer.GetQuery)
                 .AddField(e => e.action)
                 .AddField(e => e.zone_number)
-                .AddField(e => e.time);
+                .AddField(e => e.time)
+                .AddField(e => e.event_generation_delay);
             
             return query;
         }

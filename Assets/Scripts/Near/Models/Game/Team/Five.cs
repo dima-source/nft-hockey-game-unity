@@ -25,15 +25,5 @@ namespace Near.Models.Game.Team
             
             return query;
         }
-
-         public PlayerOnPosition GetPlayerOnPositionById(string playerId)
-         {
-             return field_players.Find(playerOnPosition => playerOnPosition.player.id == playerId);
-         }
-
-         public PlayerOnPosition GetPlayerOnPositionByPosition(string position)
-         {
-             return field_players.Find(playerOnPosition => playerOnPosition.position == position);
-         }
     }
 }
