@@ -76,6 +76,15 @@ namespace UI.Profile
         {
             _logoPrefab.ChangeLayerPattern(pattern);
         }
-       
+
+        public void ChangeFirstLayerColor(string colorNumber)
+        {
+            _logoPrefab.ChangeFirstLayerColor(colorNumber);
+        }
+        
+        public void ChangeSecondLayerColor(string colorNumber)
+        {
+            _logoPrefab.ChangeSecondLayerColor(colorNumber);
+        }
     }
 }
