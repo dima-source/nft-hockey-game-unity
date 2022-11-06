@@ -5,6 +5,7 @@ using Near.Models.Tokens;
 using Near.Models.Tokens.Filters;
 using Near.Models.Tokens.Filters.ToggleFilters;
 using NearClientUnity.Utilities;
+using Runtime;
 using TMPro;
 using UI.Scripts.Card;
 using Unity.VisualScripting;
@@ -108,6 +109,7 @@ namespace UI.Scripts
             ScrollRect rect = _layoutContainer.GetComponent<ScrollRect>();
             rect.verticalNormalizedPosition = 1.0f;
             Settings3x3.CopyValues(_layout);
+            _marketplace.TopBar.SetBackButtonAction(() => Game.LoadMainMenu());
         }
 
         public void OnGrid3x3Click()

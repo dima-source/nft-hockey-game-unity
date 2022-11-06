@@ -22,6 +22,10 @@ namespace UI.Scripts
         [Range(1, 5)]
         [SerializeField]
         private int balanceFractionalDisplay = 2;
+
+        [SerializeField] private Camera mainCamera;
+        [SerializeField] private Transform buyPacksScrollable;
+        [SerializeField] private Transform buyPacksNonScrollable;
         
         private Dictionary<string, Transform> _pages;
         private TopBar _topBar;
@@ -38,6 +42,9 @@ namespace UI.Scripts
             _userWalletName = Utils.FindChild<TextMeshProUGUI>(transform, "Wallet");
             _userWalletBalance = Utils.FindChild<TextMeshProUGUI>(transform, "Balance");
             _breadcrumbs = Utils.FindChild<TextMeshProUGUI>(transform, "Breadcrumbs");
+            mainCamera = FindObjectOfType<Camera>().GetComponent<Camera>();
+            buyPacksNonScrollable = Utils.FindChild<Transform>(transform, "BuyPacksNonScrollable");
+            buyPacksScrollable = Utils.FindChild<Transform>(transform, "BuyPacksScrollable");
             InitializePages();
         }
 
@@ -91,6 +98,21 @@ namespace UI.Scripts
             _pages["FilterCards"] = Utils.FindChild<Transform>(pagesContainer, "FilterCards");
         }
 
+        private void ShowPacksContent()
+        {
+            Debug.Log(Camera.main.aspect);
+            if (Camera.main.aspect >= 1.5) // ratio 16:9 and 3:2
+            {
+                buyPacksNonScrollable.gameObject.SetActive(true);
+                buyPacksScrollable.gameObject.SetActive(false);
+            }
+            else // ratio ~4:3
+            {
+                buyPacksNonScrollable.gameObject.SetActive(false);
+                buyPacksScrollable.gameObject.SetActive(true);
+            }
+        }
+
         protected override async void OnUpdate()
         {
             userWallet.name = NearPersistentManager.Instance.GetAccountId();
@@ -101,6 +123,8 @@ namespace UI.Scripts
             string pattern = "{0:0." + new String('0', balanceFractionalDisplay) + "}";
             _userWalletBalance.text = String.Format(pattern, userWallet.balance) + " <sprite name=NearLogo>";
             _breadcrumbs.text = "Marketplace <sprite name=RightArrow> " + _topBar.SelectedFormatted;
+            
+            ShowPacksContent();
         }
     }
 }
