@@ -1,5 +1,8 @@
 namespace Near.Models.Game.Actions {
-    public class Overtime {
-        public string action_type { get; set; }
+    public class Overtime : Action {
+        public override string GetMessage(string accountId)
+        {
+            return $"{DefaultColor} Overtime";
+        }
     }
 }

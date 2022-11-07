@@ -1,6 +1,10 @@
 namespace Near.Models.Game.Actions {
-    public class EndOfPeriod {
-        public string action_type { get; set; }
+    public class EndOfPeriod : Action {
         public int number { get; set; }
+        
+        public override string GetMessage(string accountId)
+        {
+            return $"{DefaultColor}Period {number} ended";
+        }
     }
 }

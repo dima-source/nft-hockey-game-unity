@@ -24,8 +24,12 @@ namespace Near.Models.Game.Team
         {
             query.AddField(t => t.id)
                 .AddField(t => t.fives, Five.GetQuery)
-                .AddField(t => t.active_five)
+                .AddField(t => t.active_five, ActiveFive.GetQuery)
                 .AddField(t => t.penalty_players, FieldPlayer.GetQuery)
+                .AddField(t => t.players_to_big_penalty, FieldPlayer.GetQuery)
+                .AddField(t => t.players_to_small_penalty, FieldPlayer.GetQuery)
+                .AddField(t => t.goalie_substitutions, GoalieSubstitution.GetQuery)
+                .AddField(t => t.active_goalie_substitution)
                 .AddField(t => t.goalies, Goalie.GetQuery)
                 .AddField(t => t.active_goalie)
                 .AddField(t => t.score);

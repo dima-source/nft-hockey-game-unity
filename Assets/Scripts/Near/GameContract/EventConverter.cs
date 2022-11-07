@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Near.Models.Game;
 using Newtonsoft.Json;
@@ -6,7 +6,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Near.GameContract
 {
-    public class GameDataConverter : JsonConverter
+    public class EventConverter : JsonConverter
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
@@ -16,20 +16,20 @@ namespace Near.GameContract
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var data = JObject.Load(reader);
-            var gameDatas = data["data"]?["games"];
+            var events = data["data"]?["events"];
 
-            List<GameData> result = new List<GameData>();
+            List<Event> result = new List<Event>();
 
-            if (gameDatas == null)
+            if (events == null)
             {
                 return result;
             }
             
-            foreach (var jGameData in gameDatas)
+            foreach (var jEvent in events)
             {
-                var json = jGameData.ToString();
-                var gameData = JsonConvert.DeserializeObject<GameData>(json);
-                result.Add(gameData);
+                var json = jEvent.ToString();
+                var eventData = JsonConvert.DeserializeObject<Event>(json);
+                result.Add(eventData);
             }
 
             return result;
@@ -37,7 +37,7 @@ namespace Near.GameContract
 
         public override bool CanConvert(Type objectType)
         {
-            return (objectType == typeof(List<GameData>));
+            return (objectType == typeof(List<Event>));
         }
     }
 }

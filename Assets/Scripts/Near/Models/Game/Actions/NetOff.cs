@@ -1,5 +1,8 @@
 namespace Near.Models.Game.Actions {
-    public class NetOff {
-        public string action_type { get; set; }
+    public class NetOff : Action {
+        public override string GetMessage(string accountId)
+        {
+            return $"{DefaultColor} net-off";
+        }
     }
 }

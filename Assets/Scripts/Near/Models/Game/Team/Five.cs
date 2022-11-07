@@ -11,7 +11,6 @@ namespace Near.Models.Game.Team
         public List<PlayerOnPosition> field_players { get; set; }
         public string number { get; set; }
         public string ice_time_priority { get; set; }
-        public int time_field { get; set; }
         public string tactic { get; set; }
         
          public static IQuery<Five> GetQuery(IQuery<Five> query)
@@ -20,8 +19,7 @@ namespace Near.Models.Game.Team
                  .AddField(f => f.field_players, PlayerOnPosition.GetQuery)
                  .AddField(f => f.number)
                  .AddField(f => f.ice_time_priority)
-                 .AddField(f => f.tactic)
-                 .AddField(f => f.time_field);
+                 .AddField(f => f.tactic);
             
             return query;
         }

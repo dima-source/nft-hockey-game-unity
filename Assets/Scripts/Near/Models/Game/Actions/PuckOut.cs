@@ -1,5 +1,8 @@
 namespace Near.Models.Game.Actions {
-    public class PuckOut {
-        public string action_type { get; set; }
+    public class PuckOut : Action {
+        public override string GetMessage(string accountId)
+        {
+            return $"{DefaultColor} puck out";
+        }
     }
 }
