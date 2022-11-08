@@ -14,7 +14,7 @@ namespace Near.Models.Game.Actions {
 
         private string ColorizeMessage(string color)
         {
-            return $"{color} take time-out";
+            return $"{color}Takes time-out";
         }
     }
 }

@@ -8,7 +8,7 @@ namespace UI.GameScene
 {
     public class GameView : MonoBehaviour
     {
-        [FormerlySerializedAs("eventMessages")] [SerializeField] private ActionMessages actionMessages;
+        [SerializeField] private ActionMessages actionMessages;
 
         private int _gameId;
         private bool _isGameFinished;
@@ -23,10 +23,8 @@ namespace UI.GameScene
                 _gameId = user.games[0].id;
                 _events = new List<Event>();
 
-                /*
                 var generateEventTask = new Task(GenerateEvent);
-                generateEventTask.Start();
-                */
+                //generateEventTask.Start();
                 
                 UpdateGameData();
             }
@@ -43,22 +41,41 @@ namespace UI.GameScene
                 Debug.Log("Generate event");
                 Near.GameContract.ContractMethods.Actions.GenerateEvent(_gameId);
 
+                return;
                 await Task.Delay(1500);
             }
+            
+            Near.GameContract.ContractMethods.Actions.GenerateEvent(_gameId);
         }
 
         private async void UpdateGameData()
         {
             do
             {
-                Debug.Log("Update indexer");
                 var generatedEvents = await Near.GameContract.ContractMethods.Views
                     .GetGameEvents(_gameId, _events.Count);
                 
                 _events.AddRange(generatedEvents);
                 
+                CheckGameFinished(_events);
                 RenderEvents(_events);
-            } while (_isGameFinished);
+
+                await Task.Delay(500);
+            } while (!_isGameFinished);
+        }
+
+        private void CheckGameFinished(List<Event> events)
+        {
+            if (events.Count == 0) return;
+
+            var lastEvent = events[^1];
+            if (lastEvent.Actions.Count == 0) return;
+
+            var lastAction = lastEvent.Actions[^1];
+            if (lastAction.action_type == "GameFinished")
+            {
+                _isGameFinished = true;
+            }
         }
 
         private void RenderEvents(List<Event> events)

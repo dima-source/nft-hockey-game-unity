@@ -4,17 +4,7 @@ namespace Near.Models.Game.Actions {
         
         public override string GetMessage(string accountId)
         {
-            if (accountId == account_id)
-            {
-                return ColorizeMessage(UserColor);
-            }
-            
-            return ColorizeMessage(UserColor);
-        }
-
-        private string ColorizeMessage(string color)
-        {
-            return $"{color} Coach speech";
+            return "";
         }
     }
 }

@@ -1,6 +1,7 @@
 namespace Near.Models.Game.Actions {
     public class FaceOffWin : Action {
         public string account_id { get; set; }
+        public int zone_number { get; set; }
         public int player_number { get; set; }
         public string player_position { get; set; }
         

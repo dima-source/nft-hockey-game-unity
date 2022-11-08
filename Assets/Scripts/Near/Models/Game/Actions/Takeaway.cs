@@ -17,9 +17,9 @@ namespace Near.Models.Game.Actions {
             return ColorizeMessage(OpponentColor, UserColor);
         }
 
-        private string ColorizeMessage(string color1, string color2)
+        private string ColorizeMessage(string userColor, string opponentColor)
         {
-            return $"{color1}{player_number2} takeaway {color2}{player_number1}";
+            return $"{userColor}{player_number2} takeaway {opponentColor}{player_number1}";
         }
     }
 }

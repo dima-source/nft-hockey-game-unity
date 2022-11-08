@@ -19,10 +19,10 @@ namespace Near.Models.Game.Actions {
 
         private string ColorizeMessage(string color)
         { 
-            string result = $"{color} scored a goal";
+            string result = $"{color}{player_name1} scored a goal";
             if (player_number2 != 0) 
             {
-                result += $", {player_number2} goal pass";
+                result += $", {player_number2} assist";
             }
 
             return result;

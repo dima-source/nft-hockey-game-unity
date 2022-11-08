@@ -14,7 +14,7 @@ namespace Near.Models.Game.Actions {
 
         private string ColorizeMessage(string color)
         {
-            return $"{color} goalie back";
+            return $"{color}empty net";
         }
     }
 }

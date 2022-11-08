@@ -4,7 +4,7 @@ namespace Near.Models.Game.Actions {
         
         public override string GetMessage(string accountId)
         {
-            return $"{DefaultColor}Period {number} ended";
+            return $"{DefaultColor}{number} period ended";
         }
     }
 }

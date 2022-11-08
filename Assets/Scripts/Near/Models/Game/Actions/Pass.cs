@@ -19,7 +19,7 @@ namespace Near.Models.Game.Actions {
 
         private string ColorizeMessage(string color)
         {
-            return $"{color}Pass from {from_player_number} to {to_player_number}";
+            return $"{color}{from_player_number} pass to {to_player_number}";
         }
     }
 }

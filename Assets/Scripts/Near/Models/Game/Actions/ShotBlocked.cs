@@ -1,24 +1,29 @@
-using UnityEngine.UIElements;
-
 namespace Near.Models.Game.Actions {
     public class ShotBlocked : Action {
         public string account_id { get; set; }
+        
+        // The player who received the puck
+        private string opponent_number { get; set; }
+        private string opponent_position { get; set; }
+        
+        // The player who shot
         public int player_number { get; set; }
-        public string player_position { get; set; }
+        
         
         public override string GetMessage(string accountId)
         {
             if (accountId == account_id)
             {
-                return ColorizeMessage(UserColor);
+                return ColorizeMessage(UserColor, OpponentColor);
             }
             
-            return ColorizeMessage(OpponentColor);
+            return ColorizeMessage(OpponentColor, UserColor);
         }
 
-        private string ColorizeMessage(string color)
+        private string ColorizeMessage(string userColor, string opponentColor)
         {
-            return $"{color}{player_number} blocked a shot";
+            return $"{userColor}{player_number} shot\n" +
+                   $"{opponentColor}{opponentColor} shot blocked";
         }
     }
 }

@@ -12,15 +12,16 @@ namespace Near.Models.Game.Actions {
         {
             if (accountId == account_id)
             {
-                return ColorizeMessage(UserColor);
+                return ColorizeMessage( OpponentColor, UserColor);
             }
             
-            return ColorizeMessage(OpponentColor);
+            return ColorizeMessage(UserColor, OpponentColor);
         }
 
-        private string ColorizeMessage(string color)
+        private string ColorizeMessage(string userColor, string opponentColor)
         {
-            return $"{color}{caught_player_number} caught a pass from {from_player_number}";
+            return $"{userColor}{from_player_number} pass to {to_player_number}\n" +
+                   $"{opponentColor}{caught_player_number} intercepts the puck";
         }
     }
 }

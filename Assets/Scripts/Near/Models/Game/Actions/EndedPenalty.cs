@@ -15,7 +15,7 @@ namespace Near.Models.Game.Actions {
 
         private string ColorizeMessage(string color)
         {
-            return $"{color} Ended penalty for {player_number}";
+            return $"{color}{player_number} penalty finished";
         }
     }
 }

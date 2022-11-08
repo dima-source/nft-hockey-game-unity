@@ -16,7 +16,8 @@ namespace Near.Models.Game.Actions {
 
         private string ColorizeMessage(string color)
         {
-            return $"{color}{player_number} missed shot";
+            return $"{color}{player_number} shot\n" +
+                   $"{player_number}shot missed";
         }
     }
 }

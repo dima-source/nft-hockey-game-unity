@@ -20,7 +20,8 @@ namespace Near.Models.Game
         public string time { get; set; }
         public string event_generation_delay { get; set; }
         public List<string> actions { get; set; }
-        
+        public List<int> random_numbers { get; set; }
+
         [JsonIgnore]
         public List<Action> Actions { get; set; }
         
@@ -36,7 +37,8 @@ namespace Near.Models.Game
                 .AddField(e => e.actions)
                 .AddField(e => e.zone_number)
                 .AddField(e => e.time)
-                .AddField(e => e.event_generation_delay);
+                .AddField(e => e.event_generation_delay)
+                .AddField(e => e.random_numbers);
             
             return query;
         }
