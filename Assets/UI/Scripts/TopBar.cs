@@ -79,7 +79,10 @@ namespace UI.Scripts
             {
                 AudioController.LoadClip(Configurations.DefaultButtonSoundPath);
                 AudioController.source.Play();
-                SetSelected(buttonId);
+                if (NowPage != buttonId)
+                {
+                    SetSelected(buttonId);
+                }
                 NowPage = buttonId;
                 action();
             });

@@ -31,7 +31,7 @@ namespace UI.Scripts.Card
         {
             isOnAuction = false;
             background = Utils.LoadSprite(Configurations.SpritesFolderPath + "background");
-            avatar = Utils.LoadSprite(Configurations.SpritesFolderPath + "TestPlayer");
+            avatar = Utils.LoadSprite(Configurations.SpritesFolderPath + "Transparent");
             name = "Player Name";
             position = new("RW");
             number = new(99);
@@ -44,12 +44,12 @@ namespace UI.Scripts.Card
         {
             statistics = new CardStatistic[]
             {
-                new SkatingStatistic(44),
-                new StickHandlingStatistic(11),
-                new ShootingStatistic(65),
-                new HockeyIqStatistic(23),
-                new StrengthStatistic(54),
-                new DefenceStatistic(99)
+                new SkatingStatistic(0),
+                new StickHandlingStatistic(0),
+                new ShootingStatistic(0),
+                new HockeyIqStatistic(0),
+                new StrengthStatistic(0),
+                new DefenceStatistic(0)
             };
         }
 

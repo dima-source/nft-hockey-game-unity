@@ -94,7 +94,6 @@ namespace UI.Scripts
                 Destroy(child.gameObject);
             }
             
-            CallLoadNewPortion();
             Settings3x3.CopyValues(_layout);
         }
         
@@ -463,7 +462,7 @@ namespace UI.Scripts
 
             if (searchByName.text != "")
             {
-                filter.title_starts_with_nocase = searchByName.text;
+                filter.title_contains_nocase = searchByName.text;
             }
             
             ToggleFilterFactory toggleFilterFactory = new ToggleFilterFactory();

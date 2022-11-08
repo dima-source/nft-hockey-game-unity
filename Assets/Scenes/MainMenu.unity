@@ -17081,7 +17081,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1233740244
 RectTransform:
   m_ObjectHideFlags: 0
@@ -22104,6 +22104,18 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1686831797}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
         m_CallState: 2
       - m_Target: {fileID: 223302179}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
@@ -30577,7 +30589,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2501c09c2be40e597b027c843948954, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  titleText: {fileID: 0}
+  titleText: {fileID: 1857876445}
 --- !u!1 &2044665035
 GameObject:
   m_ObjectHideFlags: 0
