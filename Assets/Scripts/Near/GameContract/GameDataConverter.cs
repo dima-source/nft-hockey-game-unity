@@ -4,7 +4,7 @@ using Near.Models.Game;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Near.MarketplaceContract.Parsers
+namespace Near.GameContract
 {
     public class GameDataConverter : JsonConverter
     {

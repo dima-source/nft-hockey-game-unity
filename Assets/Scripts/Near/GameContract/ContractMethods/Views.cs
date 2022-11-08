@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using GraphQL.Query.Builder;
-using Near.MarketplaceContract.Parsers;
 using Near.Models.Game;
 using Near.Models.Tokens.Filters;
-using Near.Models.Tokens.Players.FieldPlayer;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Action = Near.Models.Game.Actions.Action;
 using Event = Near.Models.Game.Event;
 
 namespace Near.GameContract.ContractMethods
@@ -151,12 +152,7 @@ namespace Near.GameContract.ContractMethods
                 .AddField(p => p.id)
                 .AddField(p => p.reward)
                 .AddField(p => p.winner_index)
-                .AddField(p => p.last_event_generation_time)
-                .AddField(p => p.turns)
-                .AddField(p => p.zone_number)
                 .AddField(p => p.events, Event.GetQuery)
-                .AddField(p => p.player_with_puck,
-                    FieldPlayer.GetQuery)
                 .AddField(p => p.user1,
                     UserInGameInfo.GetQuery)
                 .AddField(p => p.user2,
@@ -170,8 +166,66 @@ namespace Near.GameContract.ContractMethods
             var responseJson = await GetJSONQuery(query.Build());
 
             var gameDatas = JsonConvert.DeserializeObject<List<GameData>>(responseJson, new GameDataConverter());
-
+            
             return gameDatas ?? new List<GameData>();
+        }
+
+        public static async Task<List<Event>> GetGameEvents(int gameId, int numberOfRenderedEvents)
+        {
+            var filter = new EventFilter
+            {
+                game_id = gameId
+            };
+
+            var pagination = new Pagination()
+            {
+                orderDirection = OrderDirection.asc,
+                skip = numberOfRenderedEvents,
+                first = 100,
+                orderBy = "event_number",
+            };
+        
+            var query = Event.GetQuery(new Query<Event>("events")
+                .AddArguments(pagination)
+                .AddArguments(new {where = filter})
+            );
+
+            var response = await GetJSONQuery(query.Build());
+
+            var events = JsonConvert.DeserializeObject<List<Event>>(response, new EventConverter());
+
+            if (events != null)
+            {
+                return ParseActionData(events);
+            }
+
+            return new List<Event>();
+        }
+
+        private static List<Event> ParseActionData(List<Event> events)
+        {
+            var subclassTypes = Assembly
+                .GetAssembly(typeof(Action))
+                .GetTypes()
+                .Where(t => t.IsSubclassOf(typeof(Action)));
+            
+            foreach (var item in events)
+            {
+                item.Actions = new List<Action>();
+                
+                foreach (var actionString in item.actions)
+                {
+                    var actionJson = JObject.Parse(actionString);
+                    var typeJToken = actionJson.Properties().First().Name;
+                    Type actionType = subclassTypes.First(x => x.Name == typeJToken);
+
+                    var action =  JsonConvert.DeserializeObject(actionJson[typeJToken].ToString(), actionType);
+                    
+                    item.Actions.Add((Action) action);
+                }
+            }
+
+            return events;
         }
     }
 }

@@ -77,7 +77,7 @@ namespace Near.GameContract.ContractMethods
             return true;
         }
 
-        public static async void GenerateEvent(int gameId)
+        public static async Task GenerateEvent(int gameId)
         {
             ContractNear gameContract = await NearPersistentManager.Instance.GetGameContract();
                 
