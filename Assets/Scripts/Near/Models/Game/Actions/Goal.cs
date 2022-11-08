@@ -5,7 +5,7 @@ namespace Near.Models.Game.Actions {
         public string player_img { get; set; }
         public int player_number1 { get; set; }
         public string player_name2 { get; set; }
-        public int player_number2 { get; set; }
+        public string player_number2 { get; set; }
         
         public override string GetMessage(string accountId)
         {
@@ -20,7 +20,7 @@ namespace Near.Models.Game.Actions {
         private string ColorizeMessage(string color)
         { 
             string result = $"{color}{player_name1} scored a goal";
-            if (player_number2 != 0) 
+            if (player_number2 != null) 
             {
                 result += $", {player_number2} assist";
             }

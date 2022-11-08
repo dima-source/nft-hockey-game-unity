@@ -24,7 +24,7 @@ namespace UI.GameScene
                 _events = new List<Event>();
 
                 var generateEventTask = new Task(GenerateEvent);
-                //generateEventTask.Start();
+                generateEventTask.Start();
                 
                 UpdateGameData();
             }
@@ -39,13 +39,8 @@ namespace UI.GameScene
             while (!_isGameFinished)
             {
                 Debug.Log("Generate event");
-                Near.GameContract.ContractMethods.Actions.GenerateEvent(_gameId);
-
-                return;
-                await Task.Delay(1500);
+                await Near.GameContract.ContractMethods.Actions.GenerateEvent(_gameId);
             }
-            
-            Near.GameContract.ContractMethods.Actions.GenerateEvent(_gameId);
         }
 
         private async void UpdateGameData()
