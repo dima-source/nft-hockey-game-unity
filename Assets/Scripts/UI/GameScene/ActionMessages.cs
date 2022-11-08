@@ -20,7 +20,7 @@ namespace UI.GameScene
             _content = Scripts.Utils.FindChild<Transform>(transform, "Content");
         }
 
-        private void Awake()
+        protected override void OnAwake()
         {
             _messages = new List<ActionMessage>();
             _accountId = Near.NearPersistentManager.Instance.GetAccountId();

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Event = Near.Models.Game.Event;
 
 namespace UI.GameScene
