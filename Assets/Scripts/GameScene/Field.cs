@@ -91,6 +91,10 @@ namespace GameScene
         {
             puck.transform.position = new Vector3(0, 0.18f, 0);
             var puckPosition = puck.transform.position;
+
+            var rndZ = Random.Range(-30, 30);
+            var rndX = Random.Range(-12, 12);
+            puckTest.transform.position = new Vector3(rndX, puckPosition.y, rndZ);
             var destination = puckTest.transform.position;
             const int numberOfVectors = 100;
             var randomNumbers = GetRandomNumbers();

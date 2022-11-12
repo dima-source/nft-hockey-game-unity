@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace GameScene.Puck
@@ -37,14 +36,10 @@ namespace GameScene.Puck
             if (trajectory == null || trajectory.Count == 0) return new List<Vector3>();
 
             var startPoint = trajectory[0];
-            
-            // Angle between start and destination coordinate and horizontal line
-            var alpha1 = GetAngle(destination, startPoint);
-            
-            var dAlpha = GetAngle(trajectory.Last(), startPoint);
+            var relativeAngle = GetRelativeAngle(destination, startPoint);
             
             // The angle by which the entire trajectory must be rotated
-            var alpha = alpha1 - dAlpha;
+            var alpha = GetAngle(destination, startPoint) + relativeAngle; 
             
             var result = new List<Vector3> {startPoint};
             for (int i = 1; i < trajectory.Count; i++)
@@ -55,9 +50,8 @@ namespace GameScene.Puck
                 var distance1 = Mathf.Cos(dAlphaPoint) * distance;
                
                 var alphaPoint = alpha - dAlphaPoint;
-                var angle = GetConvertedAngle(alphaPoint, destination, startPoint);
-                var x = Mathf.Sin(angle) * distance1 + startPoint.x;
-                var z = Mathf.Cos(angle) * distance1 + startPoint.z;
+                var x = Mathf.Sin(alphaPoint) * distance1 + startPoint.x;
+                var z = Mathf.Cos(alphaPoint) * distance1 + startPoint.z;
 
                 var convertedPoint = new Vector3(x, trajectory[i].y, z);
 
@@ -79,15 +73,16 @@ namespace GameScene.Puck
             return result;
         }
 
-        private static float GetConvertedAngle(float angle, Vector3 destination, Vector3 start)
+        private static float GetRelativeAngle(Vector3 destination, Vector3 start)
         {
             if (destination.z < start.z && destination.x > start.x || destination.z < start.z && destination.x < start.x)
             {
-                return angle + Mathf.PI;
+                return Mathf.PI;
             }
 
-            return angle;
+            return 0;
         }
+        
         private static float GetDistance(Vector3 destination, Vector3 start)
         {
             var xSide = Mathf.Pow(destination.x - start.x, 2);
