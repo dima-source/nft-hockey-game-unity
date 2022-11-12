@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace GameScene.Puck
@@ -39,7 +40,8 @@ namespace GameScene.Puck
             var relativeAngle = GetRelativeAngle(destination, startPoint);
             
             // The angle by which the entire trajectory must be rotated
-            var alpha = GetAngle(destination, startPoint) + relativeAngle; 
+            var alpha1 = GetAngle(trajectory.Last(), startPoint);
+            var alpha = GetAngle(destination, startPoint) - relativeAngle + alpha1; 
             
             var result = new List<Vector3> {startPoint};
             for (int i = 1; i < trajectory.Count; i++)
