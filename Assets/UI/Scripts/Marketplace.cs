@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Near;
+using Near.Models.Tokens;
 using NearClientUnity;
 using NearClientUnity.Utilities;
 using TMPro;
@@ -25,7 +26,7 @@ namespace UI.Scripts
 
         [SerializeField] private Transform buyPacksScrollable;
         [SerializeField] private Transform buyPacksNonScrollable;
-        
+
         private Dictionary<string, Transform> _pages;
         private TopBar _topBar;
         
@@ -87,6 +88,64 @@ namespace UI.Scripts
             return _pages[pageId];
         }
 
+        private void FindPacks()
+        {
+            List<Transform> containers = new List<Transform>()
+            {
+                Utils.FindChild<Transform>(buyPacksScrollable, "Content"),
+                Utils.FindChild<Transform>(buyPacksNonScrollable, "Content")
+            };
+            List<PackTypes> packTypes = new List<PackTypes>()
+            {
+                PackTypes.Bronze,
+                PackTypes.Silver,
+                PackTypes.Gold,
+                PackTypes.Platinum,
+                PackTypes.Brilliant
+            };
+            List<string> descriptions = new List<string>()
+            {
+                "20%  chance to get an uncommon card",
+                "5%  chance to get a super rare card",
+                "5%  chance to get an unique card",
+                "10%  chance to get an exclusive card",
+                "20%  chance to get an exclusive card"
+            };
+            List<int> prices = new List<int>() {7, 10, 13, 15, 20};
+            for (int containerNumber = 0; containerNumber < 2; containerNumber++)
+            {
+                var container = containers[containerNumber];
+                var content = Utils.FindChild<Transform>(container, "Content").GetComponentsInChildren<PackView>();
+                var previousVisibility = container.gameObject.activeSelf;
+                container.gameObject.SetActive(true);
+                for (int i = 0; i < 5; i++)
+                {
+                    PackView pack = content[i];
+                    var packType = packTypes[i];
+                    pack.SetData(
+                        packTypes[i],
+                        prices[i],
+                        descriptions[i],
+                        ShowBuyingPack,
+                        ShowBoughtPack
+                        );
+                }
+                container.gameObject.SetActive(previousVisibility);
+            }
+        }
+
+        public void ShowBuyingPack(PackTypes packType)
+        {
+            // TODO @udovenkodima7@gmail.com enable loading popup
+            Debug.Log("Buying pack");
+        }
+
+        public void ShowBoughtPack(List<Token> tokens, PackTypes packType)
+        {
+            // TODO @udovenkodima7@gmail.com disable loading popup and show popup with pack opening animation
+            Debug.Log($"Bought {packType.ToString()} pack");
+        }
+
         private void InitializePages()
         {
             _pages = new();
@@ -94,6 +153,7 @@ namespace UI.Scripts
             _pages["BuyPacks"] = Utils.FindChild<Transform>(pagesContainer, "BuyPacks");
             _pages["CardDisplay"] = Utils.FindChild<Transform>(pagesContainer, "CardDisplay");
             _pages["FilterCards"] = Utils.FindChild<Transform>(pagesContainer, "FilterCards");
+            FindPacks();
         }
 
         private void ShowPacksContent()

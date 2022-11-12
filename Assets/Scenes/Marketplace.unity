@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3708985, g: 0.3783704, b: 0.35722548, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311915, g: 0.3807396, b: 0.35872662, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1834,8 +1834,24 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3315438887365182853, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: m_text
+      value: 1 N
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315438887365182853, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_fontSize
       value: 67.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843690526117778734, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: price
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843690526117778734, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: description
+      value: 20%  chance to get an uncommon card
+      objectReference: {fileID: 0}
+    - target: {fileID: 7278802741781838482, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: m_text
+      value: 20%  chance to get an uncommon card
       objectReference: {fileID: 0}
     - target: {fileID: 7278802741781838482, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_fontSize
@@ -5951,16 +5967,36 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3315438887365182853, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: m_text
+      value: 10 N
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315438887365182853, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_fontSize
-      value: 67.5
+      value: 44.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843690526117778734, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: type
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843690526117778734, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: price
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843690526117778734, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: description
+      value: 10%  chance to get an exclusive card
       objectReference: {fileID: 0}
     - target: {fileID: 6328655769140657357, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: e7701f7bdb54ac3459f45517ed7905f2, type: 3}
+      objectReference: {fileID: 21300000, guid: dc67b8a29590644ec91acc8cbe50512a, type: 3}
+    - target: {fileID: 7278802741781838482, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: m_text
+      value: 10%  chance to get an exclusive card
+      objectReference: {fileID: 0}
     - target: {fileID: 7278802741781838482, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_fontSize
-      value: 32.55
+      value: 30.3
       objectReference: {fileID: 0}
     - target: {fileID: 7711825451065344404, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_AnchorMax.y
@@ -6619,7 +6655,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1936396583638922838, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_fontSize
-      value: 47.05
+      value: 29.5
       objectReference: {fileID: 0}
     - target: {fileID: 2387974072465541498, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -6650,16 +6686,36 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3315438887365182853, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: m_text
+      value: 5 N
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315438887365182853, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_fontSize
-      value: 67.5
+      value: 44.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843690526117778734, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843690526117778734, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: price
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843690526117778734, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: description
+      value: 5%  chance to get an unique card
       objectReference: {fileID: 0}
     - target: {fileID: 6328655769140657357, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: b59572a08163d3d418e6947ae3f6b5e7, type: 3}
+      objectReference: {fileID: 21300000, guid: 647028b7ceec54815ba6ef402a8a522d, type: 3}
+    - target: {fileID: 7278802741781838482, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: m_text
+      value: 5%  chance to get an unique card
+      objectReference: {fileID: 0}
     - target: {fileID: 7278802741781838482, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_fontSize
-      value: 32.55
+      value: 30.3
       objectReference: {fileID: 0}
     - target: {fileID: 7711825451065344404, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_AnchorMax.y
@@ -11227,7 +11283,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1936396583638922838, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_fontSize
-      value: 47.05
+      value: 29.5
       objectReference: {fileID: 0}
     - target: {fileID: 2387974072465541498, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -11258,16 +11314,36 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3315438887365182853, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: m_text
+      value: 10 N
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315438887365182853, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_fontSize
-      value: 67.5
+      value: 44.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843690526117778734, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: type
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843690526117778734, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: price
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843690526117778734, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: description
+      value: 10%  chance to get an exclusive card
       objectReference: {fileID: 0}
     - target: {fileID: 6328655769140657357, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: e7701f7bdb54ac3459f45517ed7905f2, type: 3}
+      objectReference: {fileID: 21300000, guid: dc67b8a29590644ec91acc8cbe50512a, type: 3}
+    - target: {fileID: 7278802741781838482, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: m_text
+      value: 10%  chance to get an exclusive card
+      objectReference: {fileID: 0}
     - target: {fileID: 7278802741781838482, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_fontSize
-      value: 32.55
+      value: 30.3
       objectReference: {fileID: 0}
     - target: {fileID: 7711825451065344404, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_AnchorMax.y
@@ -13006,7 +13082,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1936396583638922838, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_fontSize
-      value: 47.05
+      value: 29.5
       objectReference: {fileID: 0}
     - target: {fileID: 2387974072465541498, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -13037,16 +13113,36 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3315438887365182853, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: m_text
+      value: 15 N
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315438887365182853, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_fontSize
-      value: 67.5
+      value: 44.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843690526117778734, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: type
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843690526117778734, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: price
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843690526117778734, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: description
+      value: 20%  chance to get an exclusive card
       objectReference: {fileID: 0}
     - target: {fileID: 6328655769140657357, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 8349347e9586a5849b56969767d74c90, type: 3}
+      objectReference: {fileID: 21300000, guid: f3efcbc12d3f84a8885f806d46087654, type: 3}
+    - target: {fileID: 7278802741781838482, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: m_text
+      value: 20%  chance to get an exclusive card
+      objectReference: {fileID: 0}
     - target: {fileID: 7278802741781838482, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_fontSize
-      value: 32.55
+      value: 30.3
       objectReference: {fileID: 0}
     - target: {fileID: 7711825451065344404, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_AnchorMax.y
@@ -13609,7 +13705,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1936396583638922838, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_fontSize
-      value: 47.05
+      value: 29.5
       objectReference: {fileID: 0}
     - target: {fileID: 2387974072465541498, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -13640,16 +13736,36 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3315438887365182853, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: m_text
+      value: 2 N
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315438887365182853, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_fontSize
-      value: 67.5
+      value: 44.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843690526117778734, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843690526117778734, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: price
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843690526117778734, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: description
+      value: 5 %  chance to get a super rare card
       objectReference: {fileID: 0}
     - target: {fileID: 6328655769140657357, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: fe8d1a3f45c1af64fafb08078182cf94, type: 3}
+      objectReference: {fileID: 21300000, guid: a39d59d116a3f4943891c6564353de5c, type: 3}
+    - target: {fileID: 7278802741781838482, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: m_text
+      value: 5 %  chance to get a super rare card
+      objectReference: {fileID: 0}
     - target: {fileID: 7278802741781838482, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_fontSize
-      value: 32.55
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 7711825451065344404, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_AnchorMax.y
@@ -13879,8 +13995,24 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3315438887365182853, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: m_text
+      value: 1 N
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315438887365182853, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_fontSize
       value: 67.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843690526117778734, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: price
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843690526117778734, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: description
+      value: 20%  chance to get an uncommon card
+      objectReference: {fileID: 0}
+    - target: {fileID: 7278802741781838482, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: m_text
+      value: 20%  chance to get an uncommon card
       objectReference: {fileID: 0}
     - target: {fileID: 7278802741781838482, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_fontSize
@@ -14495,16 +14627,36 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3315438887365182853, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: m_text
+      value: 15 N
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315438887365182853, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_fontSize
-      value: 67.5
+      value: 44.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843690526117778734, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: type
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843690526117778734, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: price
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843690526117778734, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: description
+      value: 20%  chance to get an exclusive card
       objectReference: {fileID: 0}
     - target: {fileID: 6328655769140657357, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 8349347e9586a5849b56969767d74c90, type: 3}
+      objectReference: {fileID: 21300000, guid: f3efcbc12d3f84a8885f806d46087654, type: 3}
+    - target: {fileID: 7278802741781838482, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: m_text
+      value: 20%  chance to get an exclusive card
+      objectReference: {fileID: 0}
     - target: {fileID: 7278802741781838482, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_fontSize
-      value: 32.55
+      value: 30.3
       objectReference: {fileID: 0}
     - target: {fileID: 7711825451065344404, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_AnchorMax.y
@@ -16093,16 +16245,36 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3315438887365182853, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: m_text
+      value: 5 N
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315438887365182853, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_fontSize
-      value: 67.5
+      value: 44.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843690526117778734, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843690526117778734, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: price
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843690526117778734, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: description
+      value: 5%  chance to get an unique card
       objectReference: {fileID: 0}
     - target: {fileID: 6328655769140657357, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: b59572a08163d3d418e6947ae3f6b5e7, type: 3}
+      objectReference: {fileID: 21300000, guid: 647028b7ceec54815ba6ef402a8a522d, type: 3}
+    - target: {fileID: 7278802741781838482, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: m_text
+      value: 5%  chance to get an unique card
+      objectReference: {fileID: 0}
     - target: {fileID: 7278802741781838482, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_fontSize
-      value: 32.55
+      value: 30.3
       objectReference: {fileID: 0}
     - target: {fileID: 7711825451065344404, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_AnchorMax.y
@@ -17468,16 +17640,36 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3315438887365182853, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: m_text
+      value: 2 N
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315438887365182853, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_fontSize
-      value: 67.5
+      value: 44.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843690526117778734, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843690526117778734, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: price
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3843690526117778734, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: description
+      value: 5 %  chance to get a super rare card
       objectReference: {fileID: 0}
     - target: {fileID: 6328655769140657357, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: fe8d1a3f45c1af64fafb08078182cf94, type: 3}
+      objectReference: {fileID: 21300000, guid: a39d59d116a3f4943891c6564353de5c, type: 3}
+    - target: {fileID: 7278802741781838482, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
+      propertyPath: m_text
+      value: 5 %  chance to get a super rare card
+      objectReference: {fileID: 0}
     - target: {fileID: 7278802741781838482, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_fontSize
-      value: 32.55
+      value: 30.3
       objectReference: {fileID: 0}
     - target: {fileID: 7711825451065344404, guid: a721e5070604bf44b9f6acbd78db4d86, type: 3}
       propertyPath: m_AnchorMax.y
