@@ -92,13 +92,12 @@ namespace GameScene
             puck.transform.position = new Vector3(0, 0.18f, 0);
             var puckPosition = puck.transform.position;
 
-            var rndZ = Random.Range(-30, 30);
-            var rndX = Random.Range(-12, 12);
+            var rndZ = Random.Range(12f, 14f);
+            var rndX = Random.Range(-5.5f, 5.5f);
             puckTest.transform.position = new Vector3(rndX, puckPosition.y, rndZ);
             var destination = puckTest.transform.position;
             const int numberOfVectors = 100;
-            var randomNumbers = GetRandomNumbers();
-            var dangleMovement = new DangleMovement(puckPosition, destination, randomNumbers, numberOfVectors);
+            var dangleMovement = new DangleMovement(puckPosition, destination, numberOfVectors);
             
             var coordinates = dangleMovement.GetTrajectory();
 
@@ -109,19 +108,6 @@ namespace GameScene
             };
             
             await puck.Move(trajectory);
-        }
-
-        private List<int> GetRandomNumbers()
-        {
-            var result = new List<int>();
-            
-            for (int i = 0; i < 32; i++)
-            {
-                var rnd = Random.Range(0, 255);
-                result.Add(rnd);
-            }
-
-            return result;
         }
     }
 }

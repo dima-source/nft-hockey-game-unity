@@ -90,5 +90,33 @@ namespace GameScene.Puck
 
             return Mathf.Sqrt(xSide + zSide);
         }
+
+        public static Vector3 GetRandomPoint(Vector3 destination, Vector3 start)
+        {
+            var xRnd = Random.Range(start.x -1f, start.x + 1f);
+            
+            float zRnd;
+            if (destination.z > start.z)
+            {
+                zRnd = Random.Range(start.z, destination.z);
+            }
+            else
+            {
+                zRnd = Random.Range(destination.z, start.z);
+            }
+
+            return new Vector3(xRnd, destination.y, zRnd);
+        }
+
+        public static float GetRandomShiftPhase()
+        {
+            return Random.Range(-Mathf.PI, Mathf.PI);
+        }
+        
+        public static bool IsProbabilityInRandomRange(float probability)
+        {
+            var rnd = Random.Range(0, 100);
+            return probability > rnd;
+        }
     }
 }
