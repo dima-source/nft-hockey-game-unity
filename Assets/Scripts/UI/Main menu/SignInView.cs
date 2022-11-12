@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using dotnetstandard_bip39;
@@ -17,6 +19,7 @@ namespace UI.Main_menu
         [SerializeField] private TMP_Text inputDescription;
         [SerializeField] private InputPopup inputPopup;
         [SerializeField] private Transform infoPopup;
+        [SerializeField] private TMP_Dropdown accountsDropdown;
 
         [SerializeField] private SeedPhraseView seedPhrase;
         
@@ -24,7 +27,15 @@ namespace UI.Main_menu
         {
             inputPopup.HideSpinner();
         }
-        
+
+        private async void OnEnable()
+        {
+            List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
+            foreach (var accountId in await NearPersistentManager.Instance.GetAvailableAccounts())
+                options.Add(new TMP_Dropdown.OptionData(accountId));
+            accountsDropdown.options = options;
+        }
+
         public async void CompleteSignIn()
         {
             // Application.deepLinkActivated -= CompleteSignIn;
@@ -84,6 +95,16 @@ namespace UI.Main_menu
                 return false;
             }
             return true;
+        }
+
+        public async void LoadAccount()
+        {
+            var accountId = (await NearPersistentManager.Instance.GetAvailableAccounts())[accountsDropdown.value];
+            Debug.Log(accountId);
+            await NearPersistentManager.Instance.LoadAccount(accountId);
+            mainMenuView.LoadAccountId();
+            gameObject.SetActive(false);
+            mainMenuView.gameObject.SetActive(true);
         }
 
         public async void RegisterAccount()

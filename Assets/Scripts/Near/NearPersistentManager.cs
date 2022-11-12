@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using NearClientUnity;
 using NearClientUnity.KeyStores;
@@ -183,6 +184,20 @@ namespace Near
             Instance._marketplaceContract = null;
             Instance._gameContract = null;
             Instance._nftContract = null;
+        }
+
+        public async Task<string[]> GetAvailableAccounts()
+        {
+            return await _near.Config.KeyStore.GetAccountsAsync(_near.Config.NetworkId);
+        }
+
+        public async Task LoadAccount(string accountId)
+        {
+            if (!(await GetAvailableAccounts()).Contains(accountId))
+            {
+                throw new ApplicationException($"No account with name \"{accountId}\" saved");
+            }
+            await WalletAccount.LoadAccount(accountId);
         }
     }
 

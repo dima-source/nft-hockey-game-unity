@@ -84,6 +84,16 @@ namespace NearClientUnity
             }
         }
 
+        public async Task LoadAccount(string accountId)
+        {
+            KeyPair keyPair = await _keyStore.GetKeyAsync(_networkId, accountId);
+            Debug.Log(keyPair.GetPublicKey());
+            Debug.Log(keyPair.ToString());
+
+            _authData.AccountId = accountId;
+            _authStorage.Add(_authDataKey, JsonConvert.SerializeObject(_authData));                
+        }
+
         public string GetAccountId()
         {
             return _authData.AccountId ?? "";
@@ -131,13 +141,12 @@ namespace NearClientUnity
             return true;
         }
 
-        public async void SignOut()
+        public void SignOut()
         {
             _authData = new ExpandoObject();
             _authData.AccountId = null;
             _authData.AllKeys = null;
             _authStorage.DeleteKey(_authDataKey);
-            await _keyStore.ClearAsync();
         }
 
         private async Task MoveKeyFromTempToPermanent(string accountId, string publicKey)
