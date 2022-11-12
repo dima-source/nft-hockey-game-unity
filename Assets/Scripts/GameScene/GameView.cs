@@ -1,14 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using GameScene.UI;
 using UnityEngine;
 using Event = Near.Models.Game.Event;
 
-namespace UI.GameScene
+namespace GameScene
 {
     public class GameView : MonoBehaviour
     {
         [SerializeField] private ActionMessages actionMessages;
-
+        [SerializeField] private Field field;
+        
         private int _gameId;
         private bool _isGameFinished;
         private int _numberOfRenderedEvents;
@@ -16,6 +18,8 @@ namespace UI.GameScene
 
         private async void Awake()
         {
+            return;
+            
             var user = await Near.GameContract.ContractMethods.Views.GetUserInGame();
             if (user != null && user.games[0].winner_index == null)
             {
@@ -53,8 +57,6 @@ namespace UI.GameScene
                 
                 CheckGameFinished(_events);
                 RenderEvents(_events);
-
-                await Task.Delay(500);
             } while (!_isGameFinished);
         }
 
@@ -78,6 +80,8 @@ namespace UI.GameScene
             {
                 actionMessages.RenderMessages(events);
             }
+            
+            field.UpdateEventsData(events);
         }
     }
 }

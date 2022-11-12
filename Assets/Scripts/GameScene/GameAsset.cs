@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using GameScene.UI;
+using UnityEngine;
 
-namespace UI.GameScene
+namespace GameScene
 {
     [CreateAssetMenu(menuName = "Assets/Asset ManageTeam", fileName = "Asset ManageTeam")]
     public class GameAsset : ScriptableObject

@@ -5,6 +5,7 @@ using Near.Models.Game;
 using NearClientUnity;
 using NearClientUnity.Utilities;
 using Runtime;
+using UI.Main_menu.UIPopups;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
