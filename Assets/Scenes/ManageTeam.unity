@@ -2645,6 +2645,7 @@ GameObject:
   - component: {fileID: 368531993}
   - component: {fileID: 368531995}
   - component: {fileID: 368531994}
+  - component: {fileID: 368531996}
   m_Layer: 5
   m_Name: Bench
   m_TagString: Untagged
@@ -2733,6 +2734,19 @@ MonoBehaviour:
   m_FlexibleWidth: 1
   m_FlexibleHeight: 1
   m_LayoutPriority: 1
+--- !u!114 &368531996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 368531990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2468ab2d2dd41679ef9ec714e42b1b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  manageTeamView: {fileID: 1339640826}
 --- !u!1 &371966542
 GameObject:
   m_ObjectHideFlags: 0
@@ -9542,6 +9556,7 @@ MonoBehaviour:
   powerPlayersBenchContent: {fileID: 1402593510}
   penaltyKillBenchContent: {fileID: 284401225}
   goaliesContent: {fileID: 1157983503}
+  benchesContent: {fileID: 368531991}
   tactictsDropdown: {fileID: 1291850990}
   iceTimePriority: {fileID: 673235381}
   iceTimePrioritySlider: {fileID: 1548394570}

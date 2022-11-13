@@ -119,44 +119,53 @@ namespace UI.ManageTeam.DragAndDrop
             }
             
             // moving card from five to bench
-            if (draggableCardDropped.uiSlot.transform.parent.parent == manageTeamView.teamView &&
-                transform.parent == manageTeamView.fieldPlayersBenchContent.transform)
+            // if (draggableCardDropped.uiSlot.transform.parent.parent == manageTeamView.teamView &&
+            if (Scripts.Utils.FindChild<Transform>(manageTeamView.teamView, draggableCardDropped.uiSlot.transform.parent.name) &&
+                transform.parent == manageTeamView.CurrentBench.transform)
             {
                 draggableCardDropped.uiSlot.draggableCard = null;
-                manageTeamView.fieldPlayersBenchContent.AddPlayer(draggableCardDropped);
-                manageTeamView.RemoveFieldPlayerFromTeam(draggableCardDropped);
-                manageTeamView.ShowStatsChanges(draggableCardDropped);
+                manageTeamView.CurrentBench.AddPlayer(draggableCardDropped);
+                if (manageTeamView.CurrentBench.transform == manageTeamView.fieldPlayersBenchContent.transform)
+                {
+                    manageTeamView.RemoveFieldPlayerFromTeam(draggableCardDropped);
+                    manageTeamView.ShowStatsChanges(draggableCardDropped);
+                }
+                else if (manageTeamView.CurrentBench.transform == manageTeamView.powerPlayersBenchContent.transform ||
+                         manageTeamView.CurrentBench.transform == manageTeamView.penaltyKillBenchContent.transform)
+                {
+                    manageTeamView.ShowStatsChanges(draggableCardDropped);
+                } 
                 return;
             }
 
-            // moving card from goalies to bench
-            if (draggableCardDropped.uiSlot.transform.parent.parent.parent == manageTeamView.teamView &&
-                transform.parent == manageTeamView.goaliesBenchContent.transform)
-            {
-                draggableCardDropped.uiSlot.draggableCard = null;
-                manageTeamView.goaliesBenchContent.AddPlayer(draggableCardDropped);
-                return;
-            }
+            // // moving card from goalies to bench
+            // if (draggableCardDropped.uiSlot.transform.parent.parent.parent == manageTeamView.teamView &&
+            //     transform.parent == manageTeamView.goaliesBenchContent.transform)
+            // {
+            //     draggableCardDropped.uiSlot.draggableCard = null;
+            //     manageTeamView.goaliesBenchContent.AddPlayer(draggableCardDropped);
+            //     return;
+            // }
             
             // moving card from PP to bench
-            if (draggableCardDropped.uiSlot.transform.parent.parent == manageTeamView.teamView &&
-                transform.parent == manageTeamView.powerPlayersBenchContent.transform)
-            {
-                draggableCardDropped.uiSlot.draggableCard = null;
-                manageTeamView.powerPlayersBenchContent.AddPlayer(draggableCardDropped);
-                manageTeamView.ShowStatsChanges(draggableCardDropped);
-                return;
-            }
+            // if (draggableCardDropped.uiSlot.transform.parent.parent == manageTeamView.teamView &&
+            //     transform.parent == manageTeamView.powerPlayersBenchContent.transform)
+            // {
+            //     draggableCardDropped.uiSlot.draggableCard = null;
+            //     manageTeamView.powerPlayersBenchContent.AddPlayer(draggableCardDropped);
+            //     manageTeamView.ShowStatsChanges(draggableCardDropped);
+            //     return;
+            // }
             
             // moving card from PK to bench
-            if (draggableCardDropped.uiSlot.transform.parent.parent == manageTeamView.teamView &&
-                transform.parent == manageTeamView.penaltyKillBenchContent.transform)
-            {
-                draggableCardDropped.uiSlot.draggableCard = null;
-                manageTeamView.penaltyKillBenchContent.AddPlayer(draggableCardDropped);
-                manageTeamView.ShowStatsChanges(draggableCardDropped);
-                return;
-            }
+            // if (draggableCardDropped.uiSlot.transform.parent.parent == manageTeamView.teamView &&
+            //     transform.parent == manageTeamView.penaltyKillBenchContent.transform)
+            // {
+            //     draggableCardDropped.uiSlot.draggableCard = null;
+            //     manageTeamView.penaltyKillBenchContent.AddPlayer(draggableCardDropped);
+            //     manageTeamView.ShowStatsChanges(draggableCardDropped);
+            //     return;
+            // }
             
             // swap cards inside five or goalies
             if ((draggableCardDropped.uiSlot.transform.parent.parent == transform.parent.parent || 
@@ -199,8 +208,5 @@ namespace UI.ManageTeam.DragAndDrop
             FinalizeDrop(draggableCardDropped);
             manageTeamView.ShowStatsChanges(draggableCardDropped);
         }
-
-
-
     }
 }

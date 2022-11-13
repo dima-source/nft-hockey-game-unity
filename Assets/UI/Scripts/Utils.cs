@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
@@ -40,6 +41,33 @@ namespace UI.Scripts
             }
             
             return component;
+        }
+
+        public static T FindParent<T>(Transform current, string parentName)
+        {
+            Transform[] parents = current.GetComponentsInParent<Transform>(true)
+                .Where(t => t.name == parentName)
+                .ToArray();
+            
+            if (parents == null || parents.Length == 0)
+            {
+                throw new ApplicationException($"Parent with name '{parentName}' does not exist");
+            }
+
+            // TODO: think if we should allow to have multiple parents with the same name
+            if (parents.Length > 1)
+            {
+                throw new ApplicationException($"Multiple parents with the same name '{parentName}' found");
+            }
+            
+            T component = parents[0].GetComponent<T>();
+
+            if (component == null)
+            {
+                throw new ApplicationException($"Parent '{parentName}' has not got component '{typeof(T).Name}'");
+            }
+            
+            return component; 
         }
 
         public static T LoadResource<T>(string path) where T : Object

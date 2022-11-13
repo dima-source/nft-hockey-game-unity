@@ -51,6 +51,7 @@ namespace UI.ManageTeam
         [SerializeField] public Bench powerPlayersBenchContent;
         [SerializeField] public Bench penaltyKillBenchContent;
         [SerializeField] public Transform goaliesContent;
+        [SerializeField] public Transform benchesContent;
 
         [SerializeField] private TMP_Dropdown tactictsDropdown;
         [SerializeField] private Text iceTimePriority;
@@ -66,19 +67,11 @@ namespace UI.ManageTeam
         {
             get
             {
-                var benches = new List<Bench> {fieldPlayersBenchContent, goaliesBenchContent, 
-                    powerPlayersBenchContent, penaltyKillBenchContent};
-                foreach (var bench in benches)
-                {
-                    if (bench.gameObject.activeSelf)
-                    {
-                        return bench;
-                    }
-                }
-                
-                throw new ApplicationException("No active bench");
+                var activeBenches = GetComponentsInChildren<Bench>().Where((bench) => bench.gameObject.activeSelf).ToList();
+                if (activeBenches.Count() != 1)
+                    throw new ApplicationException($"Must be only one active bench. Got {activeBenches.Count()}");
+                return activeBenches.First();
             }
-            set {}
         }
 
         private TeamIds _team;
