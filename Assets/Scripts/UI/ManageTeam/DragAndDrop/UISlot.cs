@@ -120,7 +120,7 @@ namespace UI.ManageTeam.DragAndDrop
             
             // moving card from five to bench
             // if (draggableCardDropped.uiSlot.transform.parent.parent == manageTeamView.teamView &&
-            if (Scripts.Utils.FindChild<Transform>(manageTeamView.teamView, draggableCardDropped.uiSlot.transform.parent.name) &&
+            if (Scripts.Utils.HasChild(manageTeamView.teamView, draggableCardDropped.uiSlot.transform.parent.name) &&
                 transform.parent == manageTeamView.CurrentBench.transform)
             {
                 draggableCardDropped.uiSlot.draggableCard = null;

@@ -209,5 +209,13 @@ namespace Utils
         {
             GUIUtility.systemCopyBuffer = str;
         }
+        
+        
+        public static string PascalToCapitalized(string value)
+        {
+            var result = value.SelectMany((c, i) => i != 0 && char.IsUpper(c) && !char.IsUpper(value[i - 1]) ? new char[] { ' ', c } : new char[] { c });
+            return new String(result.ToArray());
+        }
+        
     }
 }

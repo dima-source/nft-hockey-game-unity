@@ -314,7 +314,7 @@ namespace UI.ManageTeam
                     "SuperHighPriority" => 5
                 };
                 iceTimePrioritySlider.SetValueWithoutNotify(value );
-                iceTimePriority.text = PascalToCapitalized(priority);
+                iceTimePriority.text = Utils.Utils.PascalToCapitalized(priority);
             }
             UpdateTeamWork();
         }
@@ -396,12 +396,6 @@ namespace UI.ManageTeam
             
         }
 
-        private string PascalToCapitalized(string value)
-        {
-            var result = value.SelectMany((c, i) => i != 0 && char.IsUpper(c) && !char.IsUpper(value[i - 1]) ? new char[] { ' ', c } : new char[] { c });
-            return new String(result.ToArray());
-        }
-        
         // updates benches
         public void AddFieldPlayerToTeam(DraggableCard player)
         {
@@ -495,7 +489,7 @@ namespace UI.ManageTeam
         public void OnChangeIceTimePriority()
         {
             string currentPriority = Utils.Utils.GetIceTimePriority((int) iceTimePrioritySlider.value);
-            iceTimePriority.text = PascalToCapitalized(currentPriority);
+            iceTimePriority.text = Utils.Utils.PascalToCapitalized(currentPriority);
             bool added = _fivesIceTimePriority.TryAdd(_currentLineNumber, currentPriority);
             if (!added)
             {
@@ -823,7 +817,6 @@ namespace UI.ManageTeam
                     }
                 }
             }
-
             
             if (percent > 100)
             {
@@ -836,7 +829,7 @@ namespace UI.ManageTeam
             }
         }
 
-        public void SaveTeam()
+        public async void SaveTeam()
         {
             List<string> fieldPlayers = new();
             TeamIds teamIds = new();
@@ -849,7 +842,7 @@ namespace UI.ManageTeam
 
                     if (!playersOnPositions[position].draggableCard) // if ui player not set
                     {
-                        Debug.LogError($"{lineNumber.ToString()} line not fully set");
+                        OnNotEverythingSet($"{Utils.Utils.PascalToCapitalized(lineNumber.ToString())} line not fully set");
                         return;
                     }
                     fiveIds.field_players.Add(position.ToString(),
@@ -860,13 +853,19 @@ namespace UI.ManageTeam
                 bool added;
                 added = _fivesTactics.TryGetValue(lineNumber, out string tactics);
                 if (!added)
-                    throw new ApplicationException($"Tactics not set for line \"{lineNumber.ToString()}\"");
+                {
+                    OnNotEverythingSet($"Tactics not set for line \"{Utils.Utils.PascalToCapitalized(lineNumber.ToString())}\"");
+                    return;
+                }
                 fiveIds.tactic = tactics;
                 fiveIds.number = lineNumber.ToString();
                 
                 added = _fivesIceTimePriority.TryGetValue(lineNumber, out string iceTimePriorityValue);
                 if (!added)
-                    throw new ApplicationException($"Ice time priority not set for line \"{lineNumber.ToString()}\"");
+                {
+                    OnNotEverythingSet($"Ice time priority not set for line \"{Utils.Utils.PascalToCapitalized(lineNumber.ToString())}\"");
+                    return;
+                }
                 fiveIds.ice_time_priority = iceTimePriorityValue;
                 
                 teamIds.fives.Add(lineNumber.ToString(), fiveIds);
@@ -876,7 +875,7 @@ namespace UI.ManageTeam
             {
                 if (!goalieSlot.draggableCard)
                 {
-                    Debug.LogError($"{goalieSlot.slotPosition.ToString()} not set");
+                    OnNotEverythingSet($"{Utils.Utils.PascalToCapitalized(goalieSlot.slotPosition.ToString())} not set");
                     return;
                 }
                 if (goalieSlot.slotPosition == SlotPositionEnum.MainGoalkeeper 
@@ -887,8 +886,35 @@ namespace UI.ManageTeam
                     teamIds.goalie_substitutions.Add(goalieSlot.slotPosition.ToString(), goalieSlot.draggableCard.CardData.tokenId);
                 
             }
-            Debug.Log("Calculated");
-            Near.MarketplaceContract.ContractMethods.Actions.ManageTeam(teamIds);
+            OnSaving();
+            try
+            {
+                await Near.MarketplaceContract.ContractMethods.Actions.ManageTeam(teamIds);
+            }
+            catch (Exception e)
+            {
+                OnSavingError(e);
+            }
+            OnSaved();
+        }
+
+        private void OnNotEverythingSet(string message)
+        {
+            Debug.LogError(message);
+        }
+
+        private void OnSaving()
+        {
+            Debug.Log("Calculated"); 
+        }
+
+        private void OnSavingError(Exception e)
+        {
+            Debug.Log($"Got error while saving {e.Message}");
+        }
+
+        private void OnSaved()
+        {
             Debug.Log("saved");
         }
         

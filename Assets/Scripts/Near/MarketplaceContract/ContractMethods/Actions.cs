@@ -108,7 +108,7 @@ namespace Near.MarketplaceContract.ContractMethods
             }
         }
 
-        public static async void ManageTeam(TeamIds teamIds)
+        public static async Task ManageTeam(TeamIds teamIds)
         {
             ContractNear nftContract = await NearPersistentManager.Instance.GetNftContract();
             var accountId = NearPersistentManager.Instance.GetAccountId();

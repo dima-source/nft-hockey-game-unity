@@ -42,6 +42,26 @@ namespace UI.Scripts
             
             return component;
         }
+        
+        public static bool HasChild(Transform parent, string childName)
+        {
+            Transform[] children = parent.GetComponentsInChildren<Transform>(true)
+                .Where(t => t.name == childName)
+                .ToArray();
+            
+            if (children == null || children.Length == 0)
+            {
+                return false;
+            }
+
+            // TODO: think if we should allow to have multiple children with the same name
+            if (children.Length > 1)
+            {
+                throw new ApplicationException($"Multiple children with the same name '{childName}' found");
+            }
+
+            return true;
+        }
 
         public static T FindParent<T>(Transform current, string parentName)
         {
@@ -68,6 +88,26 @@ namespace UI.Scripts
             }
             
             return component; 
+        }
+        
+        public static bool HasParent(Transform current, string parentName)
+        {
+            Transform[] parents = current.GetComponentsInParent<Transform>(true)
+                .Where(t => t.name == parentName)
+                .ToArray();
+            
+            if (parents == null || parents.Length == 0)
+            {
+                return false;
+            }
+
+            // TODO: think if we should allow to have multiple parents with the same name
+            if (parents.Length > 1)
+            {
+                throw new ApplicationException($"Multiple parents with the same name '{parentName}' found");
+            }
+
+            return true;
         }
 
         public static T LoadResource<T>(string path) where T : Object
