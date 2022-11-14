@@ -313,8 +313,14 @@ namespace UI.ManageTeam
                     "HighPriority" => 4,
                     "SuperHighPriority" => 5
                 };
-                iceTimePrioritySlider.SetValueWithoutNotify(value );
+                iceTimePrioritySlider.SetValueWithoutNotify(value);
                 iceTimePriority.text = Utils.Utils.PascalToCapitalized(priority);
+            }
+            else
+            {
+                _fivesIceTimePriority.Add(_currentLineNumber, Utils.Utils.GetIceTimePriority(3));
+                iceTimePrioritySlider.SetValueWithoutNotify(3);
+                iceTimePriority.text = Utils.Utils.PascalToCapitalized(Utils.Utils.GetIceTimePriority(3)); 
             }
             UpdateTeamWork();
         }
