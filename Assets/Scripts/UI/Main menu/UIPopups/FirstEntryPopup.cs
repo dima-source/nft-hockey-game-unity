@@ -1,23 +1,20 @@
 ﻿using System.Collections.Generic;
 using Near.Models.Tokens;
 using Runtime;
+using UI.Main_menu.UIPopups;
+using UI.Scripts;
 using UnityEngine;
 
 namespace UI.Main_menu
 {
-    public class FirstEntryPopup : MonoBehaviour
+    public class FirstEntryPopup : UiComponent
     {
         [SerializeField] private Transform cardsContent;
+        private FirstEntryPopupAnimation _firstEntryPopupAnimation;
         
-        public async void LoadCardsFromPack()
+        protected override void Initialize()
         {
-            List<Token> tokens = await Near.MarketplaceContract.ContractMethods.Actions.RegisterAccount();
-
-            foreach (var token in tokens)
-            {
-                CardInPackUI card = Instantiate(Game.AssetRoot.mainMenuAsset.cardInPackUI, cardsContent);
-                card.SetData(token);
-            }
+            
         }
     }
 }
