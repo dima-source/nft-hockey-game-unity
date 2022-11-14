@@ -1,11 +1,14 @@
 using System.Collections.Generic;
+using System.Linq;
+using TMPro;
+using UI.Scripts;
 using UI.Scripts.Card;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace UI.ManageTeam.DragAndDrop
 {
-    public class UISlot : MonoBehaviour, IDropHandler
+    public class UISlot : UiComponent, IDropHandler
     {
         public ManageTeamView manageTeamView;
         public RectTransform RectTransform;
@@ -13,11 +16,34 @@ namespace UI.ManageTeam.DragAndDrop
         public SlotPositionEnum slotPosition;
         
         public DraggableCard draggableCard;
+        [SerializeField] private TMP_Text positionText;
 
-        protected void Awake()
+        protected override void Initialize()
         {
             RectTransform = GetComponent<RectTransform>();
             manageTeamView = GetComponentInParent<ManageTeamView>();
+            positionText = Scripts.Utils.FindChild<TMP_Text>(transform, "PositionText");
+        }
+
+        protected override void OnUpdate()
+        {
+            UpdatePositionText();
+        }
+
+        private void UpdatePositionText()
+        {
+            List<SlotPositionEnum> fieldPositions = new List<SlotPositionEnum>()
+            {
+                SlotPositionEnum.LeftWing,
+                SlotPositionEnum.Center,
+                SlotPositionEnum.RightWing,
+                SlotPositionEnum.LeftDefender,
+                SlotPositionEnum.RightDefender
+            };
+            if (fieldPositions.Contains(slotPosition))
+            {
+                positionText.text = string.Join("", slotPosition.ToString().Where(c => char.IsUpper(c)));
+            }
         }
 
         private void EndDrop(DraggableCard draggableCardDropped)
