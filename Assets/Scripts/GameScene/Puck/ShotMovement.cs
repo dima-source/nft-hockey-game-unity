@@ -22,14 +22,21 @@ namespace GameScene.Puck
         {
             var accelerationZone = _numberOfVectors / 100.0f;
             
-            // 0.116633698
-            var acceleration = 0.0116633698f;
-            var deceleration = acceleration / 50;
             
             var currentVz = 0.0f;
             var currentCoordinates = _startPoint;
             var result = new List<Vector3> {_startPoint};
             var convertedZ = TrajectoryUtils.GetConvertedZDestination(_startPoint, _destinationPoints[0]);
+            
+            // 0.116633698
+            var acceleration = 0.0116633698f;
+            var deceleration = acceleration / 50;
+
+            if (convertedZ < _startPoint.z)
+            {
+                acceleration *= -1;
+                deceleration *= -1;
+            }
             
             for (int i = 1; i < _numberOfVectors; i++)
             {

@@ -18,11 +18,10 @@ namespace GameScene.Puck
         
         public List<Vector3> GetTrajectory()
         {
-            var convertedZ = TrajectoryUtils.GetConvertedZDestination(_startCoordinates, _destinationCoordinates);
-            var distance = convertedZ - _startCoordinates.z;
+            var convertedZ = Mathf.Abs(TrajectoryUtils.GetConvertedZDestination(_startCoordinates, _destinationCoordinates));
 
             var numberOfSplinePoints = 7;
-            var stepSpline = distance / numberOfSplinePoints;
+            var stepSpline = convertedZ / numberOfSplinePoints;
 
             var zSpline = new float[numberOfSplinePoints];
             var xSpline = new float[numberOfSplinePoints];
@@ -40,7 +39,7 @@ namespace GameScene.Puck
             spline.BuildSpline(zSpline, xSpline, numberOfSplinePoints);
 
             var result = new List<Vector3>();
-            var step = distance / _numberOfVectors;
+            var step = convertedZ / _numberOfVectors;
             var currentCoordinates = _startCoordinates;
             for (int i = 0; i < _numberOfVectors; i++)
             {
