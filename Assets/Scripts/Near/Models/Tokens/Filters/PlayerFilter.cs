@@ -5,7 +5,7 @@ namespace Near.Models.Tokens.Filters
     public class PlayerFilter
     {
         public string title { get; set; }
-        public string title_starts_with_nocase { get; set; }
+        public string title_contains_nocase { get; set; }
         public string ownerId { get; set; }
         public string ownerId_not { get; set; }
         public long birthday_gte { get; set; } = 0;
