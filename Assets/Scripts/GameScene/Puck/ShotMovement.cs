@@ -20,28 +20,18 @@ namespace GameScene.Puck
 
         public List<Vector3> GetTrajectory()
         {
-            var zLenght = TrajectoryUtils.GetZLenght(_destinationPoints, _startPoint);
-            var vAvg = zLenght / _numberOfVectors;
-            var maxV = Random.Range(10.0f, 20.0f) * vAvg;
-            var endV = (1 / Random.Range(3.0f, 4.0f)) * vAvg;
-
-            var accelerationZone = _numberOfVectors / 20.0f;
-            var accelerationZoneLenght = zLenght / 20;
+            var accelerationZone = _numberOfVectors / 100.0f;
             
-            var decelerationZone = _numberOfVectors - accelerationZone;
-            var decelerationZoneLenght = zLenght - accelerationZoneLenght;
-            
-            var acceleration = -TrajectoryUtils.GetAcceleration(accelerationZoneLenght, maxV, accelerationZone);
-            var deceleration = TrajectoryUtils.GetAcceleration(decelerationZoneLenght, endV, decelerationZone);
-
-            var angle = TrajectoryUtils.GetAngle(_destinationPoints[0], _startPoint);
-            var relativeAngle = TrajectoryUtils.GetRelativeAngle(_destinationPoints[0], _startPoint);
-            angle += relativeAngle;
+            // 0.116633698
+            var acceleration = 0.0116633698f;
+            var deceleration = acceleration / 50;
             
             var currentVz = 0.0f;
             var currentCoordinates = _startPoint;
-            var result = new List<Vector3>();
-            for (int i = 0; i < _numberOfVectors; i++)
+            var result = new List<Vector3> {_startPoint};
+            var convertedZ = TrajectoryUtils.GetConvertedZDestination(_startPoint, _destinationPoints[0]);
+            
+            for (int i = 1; i < _numberOfVectors; i++)
             {
                 if (accelerationZone > i)
                 {
@@ -51,21 +41,18 @@ namespace GameScene.Puck
                 {
                    currentVz -= deceleration;
                 }
-                var distance1 = TrajectoryUtils.GetDistance(_destinationPoints[0], currentCoordinates);
                 
                 currentCoordinates.z += currentVz;
-                currentCoordinates.x = Mathf.Tan(angle) * currentCoordinates.z;
                 
-                var distance2 = TrajectoryUtils.GetDistance(_destinationPoints[0], currentCoordinates);
-                if (distance2 > distance1)
+                if (Mathf.Abs(convertedZ) <= Mathf.Abs(currentCoordinates.z))
                 {
-                    currentCoordinates.z = _destinationPoints[0].z;
-                    currentCoordinates.x = _destinationPoints[0].x;
-                    result.Add(currentCoordinates);
                     break;
                 }
                 result.Add(currentCoordinates);
             }
+
+            result = TrajectoryUtils.RotateTrajectory(result, _destinationPoints[0]);
+            
             
             return result;
         }

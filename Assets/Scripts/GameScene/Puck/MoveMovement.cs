@@ -33,16 +33,16 @@ namespace GameScene.Puck
             for (int i = 1; i < numberOfSplinePoints; i++)
             {
                 zSpline[i] = zSpline[i-1] + stepSpline;
-                xSpline[i] = Random.Range(-1.5f, 1.5f);
+                xSpline[i] = Random.Range(-2f, 2f);
             }
 
             CubicSpline spline = new CubicSpline();
             spline.BuildSpline(zSpline, xSpline, numberOfSplinePoints);
 
             var result = new List<Vector3>();
-            var step = distance / _numberOfVectors;
+            var step = distance / (_numberOfVectors - 100);
             var currentCoordinates = _startCoordinates;
-            for (int i = 0; i < _numberOfVectors; i++)
+            for (int i = 0; i < (_numberOfVectors - 100); i++)
             {
                 currentCoordinates.z += step;
                 currentCoordinates.x = (float)spline.Interpolate(currentCoordinates.z);

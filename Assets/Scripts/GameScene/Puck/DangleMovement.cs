@@ -21,7 +21,7 @@ namespace GameScene.Puck
             var convertedZ = TrajectoryUtils.GetConvertedZDestination(_startCoordinates, _destinationCoordinates);
             var distance = convertedZ - _startCoordinates.z;
 
-            var numberOfSplinePoints = 10;
+            var numberOfSplinePoints = 7;
             var stepSpline = distance / numberOfSplinePoints;
 
             var zSpline = new float[numberOfSplinePoints];

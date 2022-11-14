@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using GameScene.Puck;
 using UnityEngine;
 using Event = Near.Models.Game.Event;
@@ -89,13 +90,13 @@ namespace GameScene
 
         public async void MockMove()
         {
-            //MockShot();
-            MockMoveTest();
+            await MockMoveTest();
+            await MockShot();
         }
 
-        private async void MockShot()
+        private async Task MockShot()
         {
-            puck.transform.position = new Vector3(0, 0.18f, 0);
+            //puck.transform.position = new Vector3(0, 0.18f, 13);
             var puckPosition = puck.transform.position;
 
             var rndZ = Random.Range(27.2f, 27.3f);
@@ -111,12 +112,13 @@ namespace GameScene
             {
                 Coordinates = coordinates,
                 RenderingSpeed = 1000,
+                NumberOfPoints = 1000,
             };
             
             await puck.Move(trajectory);
         }
         
-        private async void MockMoveTest()
+        private async Task MockMoveTest()
         {
             puck.transform.position = new Vector3(0, 0.18f, 0);
             var puckPosition = puck.transform.position;
@@ -126,7 +128,7 @@ namespace GameScene
             puckTest.transform.position = new Vector3(rndX, puckPosition.y, rndZ);
             var destination = puckTest.transform.position;
             const int numberOfVectors = 1000;
-            var dangleMovement = new MoveTest(puckPosition, destination, numberOfVectors);
+            var dangleMovement = new DangleMovement(puckPosition, destination, numberOfVectors);
             
             var coordinates = dangleMovement.GetTrajectory();
 
@@ -134,6 +136,31 @@ namespace GameScene
             {
                 Coordinates = coordinates,
                 RenderingSpeed = 1000,
+                NumberOfPoints = 1000,
+            };
+            
+            await puck.Move(trajectory);
+        }
+        
+        private async Task MockDumpTest()
+        {
+            puck.transform.position = new Vector3(14.29f, 0.18f, -4.96f);
+            var puckPosition = puck.transform.position;
+
+            var rndZ = Random.Range(-30f, -29.96f);
+            var rndX = Random.Range(-3.08f, -5f);
+            puckTest.transform.position = new Vector3(rndX, puckPosition.y, rndZ);
+            var destination = puckTest.transform.position;
+            const int numberOfVectors = 1000;
+            var dangleMovement = new DumpMovement(puckPosition, destination, numberOfVectors);
+
+            var coordinates = dangleMovement.GetTrajectory();
+
+            var trajectory = new Trajectory()
+            {
+                Coordinates = coordinates,
+                RenderingSpeed = 1000,
+                NumberOfPoints = 1000,
             };
             
             await puck.Move(trajectory);

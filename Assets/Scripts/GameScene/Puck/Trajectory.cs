@@ -7,6 +7,7 @@ namespace GameScene.Puck
     {
         public List<Vector3> Coordinates { get; set; }
         public int RenderingSpeed { get; set; }
+        public int NumberOfPoints { get; set; }
 
         public float GetTrajectoryLenght()
         {
