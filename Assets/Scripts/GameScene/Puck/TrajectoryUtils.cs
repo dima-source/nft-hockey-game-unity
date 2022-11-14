@@ -63,7 +63,7 @@ namespace GameScene.Puck
             return result;
         }
 
-        private static float GetAngle(Vector3 destination, Vector3 start)
+        public static float GetAngle(Vector3 destination, Vector3 start)
         {
             var xH = destination.x - start.x;
             var zH = destination.z - start.z;
@@ -75,7 +75,7 @@ namespace GameScene.Puck
             return result;
         }
 
-        private static float GetRelativeAngle(Vector3 destination, Vector3 start)
+        public static float GetRelativeAngle(Vector3 destination, Vector3 start)
         {
             if (destination.z < start.z && destination.x > start.x || destination.z < start.z && destination.x < start.x)
             {
@@ -85,7 +85,7 @@ namespace GameScene.Puck
             return 0;
         }
         
-        private static float GetDistance(Vector3 destination, Vector3 start)
+        public static float GetDistance(Vector3 destination, Vector3 start)
         {
             var xSide = Mathf.Pow(destination.x - start.x, 2);
             var zSide = Mathf.Pow(destination.z - start.z, 2);
@@ -93,6 +93,22 @@ namespace GameScene.Puck
             return Mathf.Sqrt(xSide + zSide);
         }
 
+        public static float GetZLenght(List<Vector3> coordinates, Vector3 startPoint)
+        {
+            if (coordinates == null || coordinates.Count == 0) return 0;
+
+            var currentCoordinates = startPoint; 
+            float result = 0;
+
+            for (int i = 0; i < coordinates.Count; i++)
+            {
+                result += Mathf.Abs(currentCoordinates.z - coordinates[i].z);
+                currentCoordinates = coordinates[i];
+            }
+
+            return result;
+        }
+        
         public static Vector3 GetRandomPoint(Vector3 destination, Vector3 start)
         {
             var xRnd = Random.Range(start.x -1f, start.x + 1f);
@@ -119,6 +135,11 @@ namespace GameScene.Puck
         {
             var rnd = Random.Range(0, 100);
             return probability > rnd;
+        }
+
+        public static float GetAcceleration(float s, float v, float t)
+        {
+            return 2 * (s - v * t) / Mathf.Pow(t, 2);
         }
     }
 }

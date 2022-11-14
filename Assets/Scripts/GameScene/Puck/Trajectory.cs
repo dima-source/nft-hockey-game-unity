@@ -17,8 +17,6 @@ namespace GameScene.Puck
             
             for (int i = 1; i < Coordinates.Count; i++)
             {
-                if (i + 1 > Coordinates.Count) break;
-
                 var xSide = Mathf.Pow(currentCoordinates.x - Coordinates[i].x, 2);
                 var zSide = Mathf.Pow(currentCoordinates.z - Coordinates[i].z, 2);
                 var distance = Mathf.Sqrt(xSide + zSide);

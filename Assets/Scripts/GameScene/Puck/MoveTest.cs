@@ -3,13 +3,13 @@ using UnityEngine;
 
 namespace GameScene.Puck
 {
-    public class MoveMovement : IPuckMovement
+    public class MoveTest : IPuckMovement
     {
         private readonly Vector3 _startCoordinates;
         private readonly Vector3 _destinationCoordinates;
         private readonly int _numberOfVectors;
 
-        public MoveMovement(Vector3 startCoordinates, Vector3 destinationCoordinates, int numberOfVectors)
+        public MoveTest(Vector3 startCoordinates, Vector3 destinationCoordinates, int numberOfVectors)
         {
             _startCoordinates = startCoordinates;
             _destinationCoordinates = destinationCoordinates;

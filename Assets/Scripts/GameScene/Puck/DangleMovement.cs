@@ -20,20 +20,32 @@ namespace GameScene.Puck
         {
             var convertedZ = TrajectoryUtils.GetConvertedZDestination(_startCoordinates, _destinationCoordinates);
             var distance = convertedZ - _startCoordinates.z;
-            var step = (distance) / _numberOfVectors;
-            
-            var result = new List<Vector3>();
-            var currentCoordinates = _startCoordinates;
 
-            var rndZ = Random.Range(0.7f, 1f);
-            var rndY = Random.Range(1.5f, 2.5f);
-            var shiftPhase = TrajectoryUtils.GetRandomShiftPhase();
+            var numberOfSplinePoints = 10;
+            var stepSpline = distance / numberOfSplinePoints;
+
+            var zSpline = new float[numberOfSplinePoints];
+            var xSpline = new float[numberOfSplinePoints];
+
+            zSpline[0] = _startCoordinates.z;
+            xSpline[0] = _startCoordinates.x;
             
+            for (int i = 1; i < numberOfSplinePoints; i++)
+            {
+                zSpline[i] = zSpline[i-1] + stepSpline;
+                xSpline[i] = Random.Range(-3f, 3f);
+            }
+
+            CubicSpline spline = new CubicSpline();
+            spline.BuildSpline(zSpline, xSpline, numberOfSplinePoints);
+
+            var result = new List<Vector3>();
+            var step = distance / _numberOfVectors;
+            var currentCoordinates = _startCoordinates;
             for (int i = 0; i < _numberOfVectors; i++)
             {
                 currentCoordinates.z += step;
-                currentCoordinates.x = Mathf.Sin(rndZ * currentCoordinates.z + shiftPhase)*rndY;
-
+                currentCoordinates.x = (float)spline.Interpolate(currentCoordinates.z);
                 result.Add(currentCoordinates);
             }
 

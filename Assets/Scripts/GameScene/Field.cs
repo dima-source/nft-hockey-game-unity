@@ -89,15 +89,44 @@ namespace GameScene
 
         public async void MockMove()
         {
+            //MockShot();
+            MockMoveTest();
+        }
+
+        private async void MockShot()
+        {
             puck.transform.position = new Vector3(0, 0.18f, 0);
             var puckPosition = puck.transform.position;
 
-            var rndZ = Random.Range(-14f, -12f);
-            var rndX = Random.Range(-5.5f, 5.5f);
+            var rndZ = Random.Range(27.2f, 27.3f);
+            var rndX = Random.Range(-1.2f, 1.2f);
             puckTest.transform.position = new Vector3(rndX, puckPosition.y, rndZ);
             var destination = puckTest.transform.position;
-            const int numberOfVectors = 100;
-            var dangleMovement = new DangleMovement(puckPosition, destination, numberOfVectors);
+            const int numberOfVectors = 1000;
+            var dangleMovement = new ShotMovement(new List<Vector3> {destination}, puckPosition, puckPosition, numberOfVectors);
+            
+            var coordinates = dangleMovement.GetTrajectory();
+
+            var trajectory = new Trajectory()
+            {
+                Coordinates = coordinates,
+                RenderingSpeed = 1000,
+            };
+            
+            await puck.Move(trajectory);
+        }
+        
+        private async void MockMoveTest()
+        {
+            puck.transform.position = new Vector3(0, 0.18f, 0);
+            var puckPosition = puck.transform.position;
+
+            var rndZ = Random.Range(20.2f, 20.3f);
+            var rndX = Random.Range(-5f, 5f);
+            puckTest.transform.position = new Vector3(rndX, puckPosition.y, rndZ);
+            var destination = puckTest.transform.position;
+            const int numberOfVectors = 1000;
+            var dangleMovement = new MoveTest(puckPosition, destination, numberOfVectors);
             
             var coordinates = dangleMovement.GetTrajectory();
 

@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace GameScene.Puck
@@ -10,18 +12,18 @@ namespace GameScene.Puck
         public async Task Move(Trajectory trajectory)
         {
             var trajectoryLenght = trajectory.GetTrajectoryLenght();
-            
+            var delay = (float)trajectory.RenderingSpeed / trajectory.Coordinates.Count;
             foreach (var coordinates in trajectory.Coordinates)
             {
                 puckTrack.DrawTrack(transform.position);
 
+                /*
                 var delay = CalculateDelay(transform.position, coordinates,
                     trajectory.RenderingSpeed, trajectoryLenght);
-                
+                */
                 transform.position = coordinates;
                 
-                
-                await Task.Delay(delay);
+                await Task.Delay((int)delay);
             }
             
             puckTrack.ClearTrack();
