@@ -135,38 +135,10 @@ namespace UI.ManageTeam.DragAndDrop
                 {
                     manageTeamView.ShowStatsChanges(draggableCardDropped);
                 } 
+                manageTeamView.UpdateTeamWork();
                 return;
             }
 
-            // // moving card from goalies to bench
-            // if (draggableCardDropped.uiSlot.transform.parent.parent.parent == manageTeamView.teamView &&
-            //     transform.parent == manageTeamView.goaliesBenchContent.transform)
-            // {
-            //     draggableCardDropped.uiSlot.draggableCard = null;
-            //     manageTeamView.goaliesBenchContent.AddPlayer(draggableCardDropped);
-            //     return;
-            // }
-            
-            // moving card from PP to bench
-            // if (draggableCardDropped.uiSlot.transform.parent.parent == manageTeamView.teamView &&
-            //     transform.parent == manageTeamView.powerPlayersBenchContent.transform)
-            // {
-            //     draggableCardDropped.uiSlot.draggableCard = null;
-            //     manageTeamView.powerPlayersBenchContent.AddPlayer(draggableCardDropped);
-            //     manageTeamView.ShowStatsChanges(draggableCardDropped);
-            //     return;
-            // }
-            
-            // moving card from PK to bench
-            // if (draggableCardDropped.uiSlot.transform.parent.parent == manageTeamView.teamView &&
-            //     transform.parent == manageTeamView.penaltyKillBenchContent.transform)
-            // {
-            //     draggableCardDropped.uiSlot.draggableCard = null;
-            //     manageTeamView.penaltyKillBenchContent.AddPlayer(draggableCardDropped);
-            //     manageTeamView.ShowStatsChanges(draggableCardDropped);
-            //     return;
-            // }
-            
             // swap cards inside five or goalies
             if ((draggableCardDropped.uiSlot.transform.parent.parent == transform.parent.parent || 
                  draggableCardDropped.uiSlot.transform.parent.parent.parent == transform.parent.parent.parent) &&

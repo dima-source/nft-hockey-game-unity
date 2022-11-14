@@ -29,6 +29,7 @@ namespace UI.ManageTeam.DragAndDrop
             {
                 manageTeamView.ShowStatsChanges(draggableCardDropped);
             } 
+            manageTeamView.UpdateTeamWork();
         }
     }
 }
