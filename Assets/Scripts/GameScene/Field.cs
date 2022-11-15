@@ -90,8 +90,9 @@ namespace GameScene
 
         public async void MockMove()
         {
-            await MockMoveTest();
-            await MockShot();
+            //await MockMoveTest();
+            //await MockShot();
+            await MockDumpTest();
         }
 
         private async Task MockShot()
@@ -99,12 +100,12 @@ namespace GameScene
             //puck.transform.position = new Vector3(0, 0.18f, 13);
             var puckPosition = puck.transform.position;
 
-            var rndZ = Random.Range(27.2f, 27.3f);
+            var rndZ = Random.Range(-27.3f, -27.2f);
             var rndX = Random.Range(-1.2f, 1.2f);
             puckTest.transform.position = new Vector3(rndX, puckPosition.y, rndZ);
             var destination = puckTest.transform.position;
             const int numberOfVectors = 1000;
-            var dangleMovement = new ShotMovement(new List<Vector3> {destination}, puckPosition, puckPosition, numberOfVectors);
+            var dangleMovement = new ShotMovement(new List<Vector3> {destination}, puckPosition, numberOfVectors);
             
             var coordinates = dangleMovement.GetTrajectory();
 
@@ -123,7 +124,7 @@ namespace GameScene
             puck.transform.position = new Vector3(0, 0.18f, 0);
             var puckPosition = puck.transform.position;
 
-            var rndZ = Random.Range(20.2f, 20.3f);
+            var rndZ = Random.Range(-20.3f, -20.2f);
             var rndX = Random.Range(-5f, 5f);
             puckTest.transform.position = new Vector3(rndX, puckPosition.y, rndZ);
             var destination = puckTest.transform.position;
@@ -144,15 +145,16 @@ namespace GameScene
         
         private async Task MockDumpTest()
         {
-            puck.transform.position = new Vector3(14.29f, 0.18f, -4.96f);
+            puck.transform.position = new Vector3(4.5f, 0.18f, -7.8f);
             var puckPosition = puck.transform.position;
 
-            var rndZ = Random.Range(-30f, -29.96f);
-            var rndX = Random.Range(-3.08f, -5f);
-            puckTest.transform.position = new Vector3(rndX, puckPosition.y, rndZ);
-            var destination = puckTest.transform.position;
             const int numberOfVectors = 1000;
-            var dangleMovement = new DumpMovement(puckPosition, destination, numberOfVectors);
+            var dangleMovement = new ShotMovement(new List<Vector3>
+            {
+                new (14.45f, 0.18f, +13.85f),
+                new (7.59f, 0.18f, +29.56f),
+                new (2.49f, 0.18f, +20.55f),
+            }, puckPosition, numberOfVectors);
 
             var coordinates = dangleMovement.GetTrajectory();
 
