@@ -44,6 +44,10 @@ namespace UI.ManageTeam.DragAndDrop
             {
                 positionText.text = string.Join("", slotPosition.ToString().Where(c => char.IsUpper(c)));
             }
+            else
+            {
+                positionText.text = "";
+            }
         }
 
         private void EndDrop(DraggableCard draggableCardDropped)

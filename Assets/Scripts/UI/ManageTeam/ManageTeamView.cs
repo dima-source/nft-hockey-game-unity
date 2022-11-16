@@ -628,6 +628,7 @@ namespace UI.ManageTeam
                 return;
             
             var currentFive = fives[_currentLineNumber].Values.ToList().Where(x => x != slot);
+            var currentFiveFiltered = currentFive.Where(x => x.draggableCard);
 
             // if player moved to bench
             if (slot.slotPosition == SlotPositionEnum.Bench)
@@ -779,8 +780,7 @@ namespace UI.ManageTeam
                     else playersPercent.Add(player, 10);
                 }
 
-                if (currentFive.Where(x => x.draggableCard)
-                        .Count(x => ((Player) x.draggableCard.CardData).player_role is "ToughGuy" or "Enforcer") > 0)
+                if (currentFiveFiltered.Count(x => ((Player) x.draggableCard.CardData).player_role is "ToughGuy" or "Enforcer") > 0)
                 {
                     if (((Player) player.CardData).player_role is "Playmaker" or "Shooter")
                     {
@@ -792,7 +792,7 @@ namespace UI.ManageTeam
                     }
                 }
 
-                int toughGuysAndEnforcers = currentFive.Where(x => x.draggableCard).Count(x =>
+                int toughGuysAndEnforcers = currentFiveFiltered.Count(x =>
                     ((Player) x.draggableCard.CardData).player_role is "TryHarder" or "TwoWay");
                 for (int i = 0; i < toughGuysAndEnforcers; i++)
                 {
@@ -801,7 +801,7 @@ namespace UI.ManageTeam
 
                 if ((player.uiSlot.slotPosition == SlotPositionEnum.LeftDefender ||
                     player.uiSlot.slotPosition == SlotPositionEnum.RightDefender) && 
-                    currentFive.Count(x => ((Player) x.draggableCard.CardData).player_role is "DefensiveForward") > 0)
+                    currentFiveFiltered.Count(x => ((Player) x.draggableCard.CardData).player_role is "DefensiveForward") > 0)
                 {
                     percent += 20;
                 }

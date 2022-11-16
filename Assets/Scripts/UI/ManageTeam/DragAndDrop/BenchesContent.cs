@@ -18,6 +18,10 @@ namespace UI.ManageTeam.DragAndDrop
         {
             DraggableCard draggableCardDropped = eventData.pointerDrag.GetComponent<DraggableCard>();
             draggableCardDropped.uiSlot.draggableCard = null;
+            if (manageTeamView.CurrentBench.Slots.Contains(draggableCardDropped.uiSlot))
+            {
+                return;
+            }
             manageTeamView.CurrentBench.AddPlayer(draggableCardDropped);
             if (manageTeamView.CurrentBench.transform == manageTeamView.fieldPlayersBenchContent.transform)
             {
