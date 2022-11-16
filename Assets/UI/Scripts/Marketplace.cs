@@ -34,6 +34,8 @@ namespace UI.Scripts
         private TextMeshProUGUI _userWalletBalance;
         private TextMeshProUGUI _breadcrumbs;
 
+        public Transform popupLoading;
+        public Transform popupAnimation;
         public TopBar TopBar => _topBar;
         
         protected override void Initialize()
@@ -134,14 +136,45 @@ namespace UI.Scripts
             }
         }
 
-        public void ShowBuyingPack(PackTypes packType)
+        public void BuyButton(string packType)
+        {
+            if (packType == "Bronze")
+            {
+                ShowBuyingPack(PackTypes.Bronze);
+            }
+            else if (packType == "Silver")
+            {
+                ShowBuyingPack(PackTypes.Silver);
+            }
+            else if (packType == "Gold")
+            {
+                ShowBuyingPack(PackTypes.Gold);
+            }
+            else if (packType == "Platinum")
+            {
+                ShowBuyingPack(PackTypes.Platinum);
+            }
+            else if (packType == "Brilliant")
+            {
+                ShowBuyingPack(PackTypes.Brilliant);
+            }
+        }
+
+        public async void ShowBuyingPack(PackTypes packType)
         {
             // TODO @udovenkodima7@gmail.com enable loading popup
+            popupLoading.gameObject.SetActive(true);
+            // todosomething
+            List<Token> tokens = await Near.MarketplaceContract.ContractMethods.Actions.BuyPack(((int)packType).ToString());
+            
+            ShowBoughtPack(tokens, packType);
             Debug.Log("Buying pack");
         }
 
         public void ShowBoughtPack(List<Token> tokens, PackTypes packType)
         {
+            popupLoading.gameObject.SetActive(false);
+            popupAnimation.gameObject.SetActive(true);
             // TODO @udovenkodima7@gmail.com disable loading popup and show popup with pack opening animation
             Debug.Log($"Bought {packType.ToString()} pack");
         }
