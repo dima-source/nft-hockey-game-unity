@@ -141,5 +141,14 @@ namespace GameScene.Puck
         {
             return 2 * (s - v * t) / Mathf.Pow(t, 2);
         }
+        
+        /// <summary>
+        /// Mirrors the coordinate relative to the start
+        /// </summary>
+        public static float MirrorCoordinate(float startCoordinate, float coordinate)
+        {
+            float distance = startCoordinate - coordinate;
+            return startCoordinate + distance;
+        }
     }
 }

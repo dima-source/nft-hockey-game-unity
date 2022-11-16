@@ -92,9 +92,38 @@ namespace GameScene
         {
             //await MockMoveTest();
             //await MockShot();
-            await MockDumpTest();
+            //await MockDumpTest();
+            await MockPockCheck();
         }
 
+        private async Task MockPockCheck()
+        {
+            puck.transform.position = new Vector3(-10.5f, 0.18f, 6.1f);
+            var puckPosition = puck.transform.position;
+
+            var rndZ = Random.Range(-19f, -12.2f);
+            var rndX = Random.Range(-12f, -6f);
+            puckTest.transform.position = new Vector3(rndX, puckPosition.y, rndZ);
+            var dangleDestination = puckTest.transform.position;
+            
+            var drndX = Random.Range(-14f, -1f);
+            var drndZ = Random.Range(-7f, -5f);
+            var destination = new Vector3(drndX, puckPosition.y, drndZ);
+            const int numberOfVectors = 1000;
+            var dangleMovement = new Hit(puckPosition, dangleDestination, destination, numberOfVectors);
+            
+            var coordinates = dangleMovement.GetTrajectory();
+
+            var trajectory = new Trajectory()
+            {
+                Coordinates = coordinates,
+                RenderingSpeed = 1000,
+                NumberOfPoints = 1000,
+            };
+            
+            await puck.Move(trajectory);
+        }
+        
         private async Task MockShot()
         {
             //puck.transform.position = new Vector3(0, 0.18f, 13);

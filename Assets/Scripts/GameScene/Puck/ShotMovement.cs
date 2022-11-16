@@ -9,12 +9,14 @@ namespace GameScene.Puck
         private readonly List<Vector3> _destinationPoints;
         private readonly Vector3 _startPoint;
         private readonly int _numberOfVectors;
+        private float _acceleration;
 
-        public ShotMovement(List<Vector3> destinationPoints, Vector3 startPoint, int numberOfVectors)
+        public ShotMovement(List<Vector3> destinationPoints, Vector3 startPoint, int numberOfVectors, float acceleration = 0.0116633698f)
         {
             _destinationPoints = destinationPoints;
             _startPoint = startPoint;
             _numberOfVectors = numberOfVectors;
+            _acceleration = acceleration;
         }
 
         public List<Vector3> GetTrajectory()
@@ -28,14 +30,12 @@ namespace GameScene.Puck
             var startCoordinates = _startPoint;
             var result = new List<Vector3> {_startPoint};
             
-            // 0.116633698
-            var acceleration = 0.0116633698f;
-            var deceleration = acceleration / 120;
+            var deceleration = _acceleration / 120;
 
             var convertedZ = TrajectoryUtils.GetConvertedZDestination(_startPoint, _destinationPoints[0]);
             if (convertedZ < _startPoint.z)
             {
-                acceleration *= -1;
+                _acceleration *= -1;
                 deceleration *= -1;
             }
 
@@ -45,7 +45,7 @@ namespace GameScene.Puck
             {
                 if (accelerationZone > i)
                 { 
-                    currentVz += acceleration;
+                    currentVz += _acceleration;
                 }
                 else
                 {
@@ -86,14 +86,14 @@ namespace GameScene.Puck
                     convertedZ = TrajectoryUtils
                         .GetConvertedZDestination(startCoordinates, _destinationPoints[currentDestinationIndex]);
                     
-                    if (convertedZ < startCoordinates.z && acceleration > 0)
+                    if (convertedZ < startCoordinates.z && _acceleration > 0)
                     {
-                        acceleration *= -1;
+                        _acceleration *= -1;
                         deceleration *= -1;
                         currentVz *= -1;
-                    } else if (convertedZ > startCoordinates.z && acceleration < 0)
+                    } else if (convertedZ > startCoordinates.z && _acceleration < 0)
                     {
-                        acceleration *= -1;
+                        _acceleration *= -1;
                         deceleration *= -1;
                         currentVz *= -1;
                     }

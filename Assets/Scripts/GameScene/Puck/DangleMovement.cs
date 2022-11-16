@@ -41,10 +41,18 @@ namespace GameScene.Puck
             var result = new List<Vector3>();
             var step = convertedZ / _numberOfVectors;
             var currentCoordinates = _startCoordinates;
+            
+            bool isMirror = TrajectoryUtils.IsProbabilityInRandomRange(50);
             for (int i = 0; i < _numberOfVectors; i++)
             {
                 currentCoordinates.z += step;
-                currentCoordinates.x = (float)spline.Interpolate(currentCoordinates.z);
+                currentCoordinates.x = (float) spline.Interpolate(currentCoordinates.z);
+                
+                if (isMirror)
+                {
+                    currentCoordinates.x = TrajectoryUtils.MirrorCoordinate(_startCoordinates.x, currentCoordinates.x);
+                }
+                
                 result.Add(currentCoordinates);
             }
 

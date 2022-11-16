@@ -21,7 +21,7 @@ namespace GameScene.Puck
 
         private void Update()
         {
-            if (!_isDrawing && _linePositions.Count > 0)
+            if (!_isDrawing && _linePositions.Count > 0 || _linePositions.Count > 1000)
             {
                 _linePositions.Remove(_linePositions.First());
                 _lineRenderer.SetPositions(_linePositions.ToArray());

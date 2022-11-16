@@ -88,6 +88,6 @@
             double dx = x - s.x;
             
             return s.a + (s.b + (s.c / 2.0 + s.d * dx / 6.0) * dx) * dx; 
-        } 
+        }
     }
 }
