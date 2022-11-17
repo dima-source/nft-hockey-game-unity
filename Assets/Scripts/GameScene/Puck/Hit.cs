@@ -34,6 +34,5 @@ namespace GameScene.Puck
 
             return result;
         }
-
     }
 }
