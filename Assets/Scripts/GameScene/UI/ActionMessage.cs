@@ -2,7 +2,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace UI.GameScene
+namespace GameScene.UI
 {
     public class ActionMessage : MonoBehaviour
     {
