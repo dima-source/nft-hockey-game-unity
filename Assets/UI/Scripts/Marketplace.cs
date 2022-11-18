@@ -29,6 +29,7 @@ namespace UI.Scripts
 
         private Dictionary<string, Transform> _pages;
         private TopBar _topBar;
+        private PackAnimation _packAnimation;
         
         private TextMeshProUGUI _userWalletName;
         private TextMeshProUGUI _userWalletBalance;
@@ -44,8 +45,10 @@ namespace UI.Scripts
             _userWalletName = Utils.FindChild<TextMeshProUGUI>(transform, "Wallet");
             _userWalletBalance = Utils.FindChild<TextMeshProUGUI>(transform, "Balance");
             _breadcrumbs = Utils.FindChild<TextMeshProUGUI>(transform, "Breadcrumbs");
+            _packAnimation = Utils.FindChild<PackAnimation>(transform, "SoldPopupAnimation");
             buyPacksNonScrollable = Utils.FindChild<Transform>(transform, "BuyPacksNonScrollable");
             buyPacksScrollable = Utils.FindChild<Transform>(transform, "BuyPacksScrollable");
+            
             InitializePages();
         }
 
@@ -136,6 +139,7 @@ namespace UI.Scripts
             }
         }
 
+        // -> PackAnimation
         public void BuyButton(string packType)
         {
             if (packType == "Bronze")
@@ -159,7 +163,7 @@ namespace UI.Scripts
                 ShowBuyingPack(PackTypes.Brilliant);
             }
         }
-
+        
         public async void ShowBuyingPack(PackTypes packType)
         {
             // TODO @udovenkodima7@gmail.com enable loading popup
@@ -175,6 +179,8 @@ namespace UI.Scripts
         {
             popupLoading.gameObject.SetActive(false);
             popupAnimation.gameObject.SetActive(true);
+            _packAnimation.SetData(tokens);
+            _packAnimation.Play();
             // TODO @udovenkodima7@gmail.com disable loading popup and show popup with pack opening animation
             Debug.Log($"Bought {packType.ToString()} pack");
         }
