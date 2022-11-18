@@ -5,44 +5,45 @@ namespace UI.Scripts
 {
     public class SwitchToggle : UiComponent
     {
-        private Button _onActiveButton;
-        private Transform _onInactive;
-        private Button _offActiveButton;
-        private Transform _offInactive;
+        private Button _onActivateButton;
+        private Transform _onActive;
+        private Button _offActivateButton;
+        private Transform _offActive;
 
         private bool _isActive;
+        public bool IsActive => _isActive;
         
         protected override void Initialize()
         {
-            _onActiveButton = Utils.FindChild<Button>(transform, "OnActiveButton");
-            _onInactive = Utils.FindChild<Transform>(transform, "OnInactive");
-            _offActiveButton = Utils.FindChild<Button>(transform, "OffActiveButton");
-            _offInactive = Utils.FindChild<Transform>(transform, "OffInactive");
-            
-            _onActiveButton.onClick.AddListener(Off);
-            _offActiveButton.onClick.AddListener(On);
+            _onActivateButton = Utils.FindChild<Button>(transform, "OnActivateButton");
+            _onActive = Utils.FindChild<Transform>(transform, "OnActive");
+            _offActivateButton = Utils.FindChild<Button>(transform, "OffActivateButton");
+            _offActive = Utils.FindChild<Transform>(transform, "OffActive");
+
+            _onActivateButton.onClick.AddListener(On);
+            _offActivateButton.onClick.AddListener(Off);
         }
 
         protected override void OnUpdate()
         {
             if (_isActive)
             {
-                _onActiveButton.gameObject.SetActive(true);
-                _onInactive.gameObject.SetActive(false);
+                _onActivateButton.gameObject.SetActive(false);
+                _onActive.gameObject.SetActive(true);
                 
-                _offActiveButton.gameObject.SetActive(false);
-                _offInactive.gameObject.SetActive(true);
+                _offActivateButton.gameObject.SetActive(true);
+                _offActive.gameObject.SetActive(false);
             }
             else
             {
-                _onActiveButton.gameObject.SetActive(false);
-                _onInactive.gameObject.SetActive(true);
+                _onActivateButton.gameObject.SetActive(true);
+                _onActive.gameObject.SetActive(false);
                 
-                _offActiveButton.gameObject.SetActive(true);
-                _offInactive.gameObject.SetActive(false);
+                _offActivateButton.gameObject.SetActive(false);
+                _offActive.gameObject.SetActive(true);
             }
         }
-
+        
         private void On()
         {
             _isActive = true;
