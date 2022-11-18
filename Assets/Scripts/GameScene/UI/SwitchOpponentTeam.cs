@@ -12,7 +12,7 @@ namespace GameScene.UI
         protected override void Initialize()
         {
             _toggle = global::UI.Scripts.Utils.FindChild<SwitchToggle>(transform, "SwitchToggle");
-            _opponentTeam = global::UI.Scripts.Utils.FindChild<Transform>(transform, "CardSet");
+            _opponentTeam = global::UI.Scripts.Utils.FindChild<Transform>(transform, "OpponentTeam");
             _actionMessages = global::UI.Scripts.Utils.FindChild<Transform>(transform, "ActionMessages");
         }
 
