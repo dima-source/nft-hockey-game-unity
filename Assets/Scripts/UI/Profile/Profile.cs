@@ -31,7 +31,7 @@ namespace UI.Profile
             LevelSlider.value = _levelCalculator.GetLevelProgress();
         }
         
-        protected override async void Initialize()
+        protected override void Initialize()
         {
             LevelNumber = Scripts.Utils.FindChild<TMP_Text>(transform, "LevelNumber");
             LevelSlider = Scripts.Utils.FindChild<Slider>(transform, "Progress");
@@ -39,12 +39,15 @@ namespace UI.Profile
             _rewardsInfoPopup = Scripts.Utils.FindChild<RewardInfoPopup>(transform.parent, "TrophyPopup");
             _createLogoPopup = Scripts.Utils.FindChild<Transform>(transform.parent, "CreateLogoPopup");
             _logoButton = Scripts.Utils.FindChild<Button>(transform, "Logo");
-            _rewardsUser = await _repository.GetUser();
-            _rewardsPrototypes = await _repository.GetRewards();
             _levelCalculator = new LevelCalculator(_rewardsUser);
             SetInitialValues();
-            InitRewards();
             _logoButton.onClick.AddListener(() => ShowPopup(_createLogoPopup));
+        }
+        protected override async void OnAwake()
+        {
+            _rewardsUser = await _repository.GetUser();
+            _rewardsPrototypes = await _repository.GetRewards();
+            InitRewards();
         }
 
         public void GoMainMenu()

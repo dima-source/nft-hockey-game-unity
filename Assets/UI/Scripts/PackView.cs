@@ -13,11 +13,11 @@ namespace UI.Scripts
 {
     public enum PackTypes
     {
-        Bronze,
-        Silver,
-        Gold,
-        Platinum,
-        Brilliant
+        Bronze = 7,
+        Silver = 10,
+        Gold = 13,
+        Platinum = 15,
+        Brilliant = 20,
     }
     public class PackView: UiComponent
     {

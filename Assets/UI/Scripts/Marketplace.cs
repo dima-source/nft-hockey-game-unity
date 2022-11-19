@@ -29,11 +29,14 @@ namespace UI.Scripts
 
         private Dictionary<string, Transform> _pages;
         private TopBar _topBar;
+        private PackAnimation _packAnimation;
         
         private TextMeshProUGUI _userWalletName;
         private TextMeshProUGUI _userWalletBalance;
         private TextMeshProUGUI _breadcrumbs;
 
+        public Transform popupLoading;
+        public Transform popupAnimation;
         public TopBar TopBar => _topBar;
         
         protected override void Initialize()
@@ -42,8 +45,10 @@ namespace UI.Scripts
             _userWalletName = Utils.FindChild<TextMeshProUGUI>(transform, "Wallet");
             _userWalletBalance = Utils.FindChild<TextMeshProUGUI>(transform, "Balance");
             _breadcrumbs = Utils.FindChild<TextMeshProUGUI>(transform, "Breadcrumbs");
+            _packAnimation = Utils.FindChild<PackAnimation>(transform, "SoldPopupAnimation");
             buyPacksNonScrollable = Utils.FindChild<Transform>(transform, "BuyPacksNonScrollable");
             buyPacksScrollable = Utils.FindChild<Transform>(transform, "BuyPacksScrollable");
+            
             InitializePages();
         }
 
@@ -134,14 +139,48 @@ namespace UI.Scripts
             }
         }
 
-        public void ShowBuyingPack(PackTypes packType)
+        // -> PackAnimation
+        public void BuyButton(string packType)
+        {
+            if (packType == "Bronze")
+            {
+                ShowBuyingPack(PackTypes.Bronze);
+            }
+            else if (packType == "Silver")
+            {
+                ShowBuyingPack(PackTypes.Silver);
+            }
+            else if (packType == "Gold")
+            {
+                ShowBuyingPack(PackTypes.Gold);
+            }
+            else if (packType == "Platinum")
+            {
+                ShowBuyingPack(PackTypes.Platinum);
+            }
+            else if (packType == "Brilliant")
+            {
+                ShowBuyingPack(PackTypes.Brilliant);
+            }
+        }
+        
+        public async void ShowBuyingPack(PackTypes packType)
         {
             // TODO @udovenkodima7@gmail.com enable loading popup
+            popupLoading.gameObject.SetActive(true);
+            // todosomething
+            List<Token> tokens = await Near.MarketplaceContract.ContractMethods.Actions.BuyPack(((int)packType).ToString());
+            
+            ShowBoughtPack(tokens, packType);
             Debug.Log("Buying pack");
         }
 
         public void ShowBoughtPack(List<Token> tokens, PackTypes packType)
         {
+            popupLoading.gameObject.SetActive(false);
+            popupAnimation.gameObject.SetActive(true);
+            _packAnimation.SetData(tokens);
+            _packAnimation.Play();
             // TODO @udovenkodima7@gmail.com disable loading popup and show popup with pack opening animation
             Debug.Log($"Bought {packType.ToString()} pack");
         }
