@@ -18,23 +18,22 @@ using UnityEngine.UI;
 namespace UI.ManageTeam
 {
     
-    public class ManageTeamView : UiComponent
+    public class ManageTeamView : MonoBehaviour
     {
         
         private ManageTeamController _controller;
 
         public Transform forwardsCanvasContent;
         
-        [SerializeField] private List<UISlot> goalies = new();
+        [SerializeField] private List<UISlot> Goalies = new();
 
-        public List<Token> userNfts;
+        public List<Token> UserNfts;
         
         [SerializeField] public Transform canvasContent;
         [SerializeField] public Bench fieldPlayersBenchContent;
         [SerializeField] public Bench goaliesBenchContent;
         [SerializeField] public Bench powerPlayersBenchContent;
         [SerializeField] public Bench penaltyKillBenchContent;
-        [SerializeField] public Transform goaliesContent;
 
         [SerializeField] private TMP_Dropdown tactictsDropdown;
         [SerializeField] private Text iceTimePriority;
@@ -60,52 +59,10 @@ namespace UI.ManageTeam
         public TeamIds Team;
         private LineNumbers _currentLineNumber;
         
-        protected override void Initialize()
+        private void Awake()
         {
             teamView = Scripts.Utils.FindChild<TeamView>(transform, "Team");
-        }
-
-        private void InitGoalie(UISlot slot)
-        {
-            string goalieToken = null;
-            if (slot.slotPosition == SlotPositionEnum.MainGoalkeeper
-                || slot.slotPosition == SlotPositionEnum.SubstituteGoalkeeper)
-            {
-                Team.goalies.TryGetValue(slot.slotPosition.ToString(), out goalieToken);
-            }
-            else if (slot.slotPosition == SlotPositionEnum.GoalieSubstitution1
-                     || slot.slotPosition == SlotPositionEnum.GoalieSubstitution2)
-            {
-                Team.goalie_substitutions.TryGetValue(slot.slotPosition.ToString(), out goalieToken);
-            }
-
-            if (goalieToken == null)
-            {
-                return;
-            }
-            
-            var card = userNfts.Find(nft => nft.tokenId == goalieToken);
-            DraggableCard player = Instantiate(Game.AssetRoot.manageTeamAsset.fieldCard, slot.transform);
-            player.CardData = card;
-            player.SetData(card);
-            player.canvasContent = canvasContent;
-            player.transform.SetParent(slot.transform);
-            player.transform.localPosition = Vector3.zero;
-            player.rectTransform.sizeDelta = slot.RectTransform.sizeDelta;
-            player.rectTransform.localScale = slot.RectTransform.localScale;
-                
-            slot.draggableCard = player;
-            slot.draggableCard.uiSlot = slot; 
-        }
-
-        private void InitGoalies()
-        {
-            goaliesContent.gameObject.SetActive(true);
-            foreach (UISlot goalieSlot in goalies)
-            {
-                InitGoalie(goalieSlot);
-            }
-            goaliesContent.gameObject.SetActive(false);
+            _controller = new ManageTeamController();
         }
 
         private void InitTopPanels()
@@ -121,11 +78,6 @@ namespace UI.ManageTeam
             }
         }
 
-        protected override void OnAwake()
-        {
-            _controller = new ManageTeamController();
-        }
-
         private async void Start()
         {
             PlayerFilter filter = new()
@@ -136,10 +88,10 @@ namespace UI.ManageTeam
             {
                 first = 100
             };
-            userNfts = await _controller.LoadUserNFTs(filter, pagination);
+            UserNfts = await _controller.LoadUserNFTs(filter, pagination);
             Team = await _controller.LoadUserTeam();
             teamView.InitFives();
-            InitGoalies();
+            teamView.InitGoalies();
             InitTopPanels();
 
             _currentLineNumber = LineNumbers.First;
@@ -217,8 +169,8 @@ namespace UI.ManageTeam
         {
             if (Team.fives.Count == 0)
             {
-                List<Token> fieldPlayers = userNfts.Where(x => x.player_type == "FieldPlayer").ToList();
-                List<Token> goalies = userNfts.Where(x => x.player_type == "Goalie").ToList();
+                List<Token> fieldPlayers = UserNfts.Where(x => x.player_type == "FieldPlayer").ToList();
+                List<Token> goalies = UserNfts.Where(x => x.player_type == "Goalie").ToList();
                 fieldPlayersBenchContent.Cards = fieldPlayers;
                 goaliesBenchContent.Cards = goalies;
                 return;
@@ -264,15 +216,15 @@ namespace UI.ManageTeam
             }
             
             
-            List<Token> fieldPlayersBench = userNfts.Where(x => x.player_type == "FieldPlayer" &&
+            List<Token> fieldPlayersBench = UserNfts.Where(x => x.player_type == "FieldPlayer" &&
                                                                  !fieldPlayersTokensInTeam.Contains(x.tokenId) ).ToList();
-            List<Token> goaliesBench = userNfts.Where(x => x.player_type == "Goalie" && !goaliesTokensInTeam.Contains(x.tokenId)).ToList();
-            goaliesBench.AddRange(userNfts.Where(x => fieldPlayersTokensInTeam.Contains(x.tokenId) && 
+            List<Token> goaliesBench = UserNfts.Where(x => x.player_type == "Goalie" && !goaliesTokensInTeam.Contains(x.tokenId)).ToList();
+            goaliesBench.AddRange(UserNfts.Where(x => fieldPlayersTokensInTeam.Contains(x.tokenId) && 
                                                        !goaliesTokensInTeam.Contains(x.tokenId)));
             
-            List<Token> powerPlayersBench = userNfts.Where(x => fieldPlayersTokensInTeam.Contains(x.tokenId))
+            List<Token> powerPlayersBench = UserNfts.Where(x => fieldPlayersTokensInTeam.Contains(x.tokenId))
                 .Where(x => !powerPlayersTokensInTeam.Contains(x.tokenId)).ToList();
-            List<Token> penaltyKillBench = userNfts.Where(x => fieldPlayersTokensInTeam.Contains(x.tokenId))
+            List<Token> penaltyKillBench = UserNfts.Where(x => fieldPlayersTokensInTeam.Contains(x.tokenId))
                 .Where(x => !penaltyKillTokensInTeam.Contains(x.tokenId)).ToList();
             
             fieldPlayersBenchContent.Cards = fieldPlayersBench;
@@ -291,6 +243,7 @@ namespace UI.ManageTeam
         }
 
         // updates benches
+        // TODO: move to TeamView
         public void RemoveFieldPlayerFromTeam(DraggableCard player)
         {
             try
@@ -304,7 +257,7 @@ namespace UI.ManageTeam
             }
             
             // removing player from goalie slot if it is in it
-            foreach (var goalieSlot in goalies)
+            foreach (var goalieSlot in Goalies)
             {
                 if (!goalieSlot.draggableCard)
                     continue;
@@ -504,7 +457,7 @@ namespace UI.ManageTeam
         public void ShowStatsChanges(DraggableCard player, bool switched = false)
         {
             var slot = player.uiSlot;
-            if (goalies.Contains(slot))
+            if (Goalies.Contains(slot))
                 return;
             
             var currentFive = teamView.Fives[_currentLineNumber].Values.ToList().Where(x => x != slot);
@@ -716,6 +669,7 @@ namespace UI.ManageTeam
             }
         }
 
+        // TODO: move building teamIds object to TeamView
         public async void SaveTeam()
         {
             List<string> fieldPlayers = new();
@@ -758,7 +712,7 @@ namespace UI.ManageTeam
                 teamIds.fives.Add(lineNumber.ToString(), fiveIds);
             }
             
-            foreach (var goalieSlot in goalies)
+            foreach (var goalieSlot in Goalies)
             {
                 if (!goalieSlot.draggableCard)
                 {

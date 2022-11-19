@@ -50,7 +50,7 @@ namespace UI.ManageTeam
             manageTeamView.Team.fives.TryGetValue(line.ToString(), out data);
 
             string tokenId = data.field_players[position.ToString()];
-            var card = manageTeamView.userNfts.Find(nft => nft.tokenId == tokenId);
+            var card = manageTeamView.UserNfts.Find(nft => nft.tokenId == tokenId);
             DraggableCard player = Instantiate(Game.AssetRoot.manageTeamAsset.fieldCard, slot.transform);
             player.CardData = card;
             player.SetData(card);
