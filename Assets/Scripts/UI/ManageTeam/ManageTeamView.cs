@@ -95,75 +95,65 @@ namespace UI.ManageTeam
             InitTopPanels();
 
             _currentLineNumber = LineNumbers.First;
-            ShowLine(_currentLineNumber.ToString());
+            teamView.ShowLine(_currentLineNumber);
             InitBenches();
             fieldPlayersBenchContent.gameObject.SetActive(true);
             
             UpdateTeamWork();
         }
 
-        public void HideCurrentFive()
-        {
-            Dictionary<SlotPositionEnum, UISlot> five = teamView.Fives[_currentLineNumber];
-            five.Values.ToList().ForEach(slot => slot.gameObject.SetActive(false));
-            iceTimePrioritySlider.SetValueWithoutNotify(0f);
-            iceTimePriority.text = "Select ice time priority";
-            tactictsDropdown.SetValueWithoutNotify(0);
-        }
-
-        public void ShowLine(string number)
-        {
-            if (number == "G")
-            {
-                _teamworkText.text = "";
-                return;
-            }
-            // TODO: leave only the next 3 lines here (or even only 2)
-            LineNumbers parsedLine = Utils.Utils.StringToLineNumber(number);
-            teamView.ShowLine(parsedLine);
-
-            _currentLineNumber = parsedLine;
-
-            // TODO: move working with tactics to another place
-            var alreadySet = _fivesTactics.TryGetValue(_currentLineNumber, out string tactic);
-            if (alreadySet)
-            {
-                var value = tactic switch
-                {
-                    "Safe" => 1,
-                    "Defensive" => 2,
-                    "Neutral" => 3,
-                    "Offensive" => 4,
-                    "Aggressive" => 5
-                };
-                tactictsDropdown.SetValueWithoutNotify(value);
-            }
-
-            alreadySet = _fivesIceTimePriority.TryGetValue(_currentLineNumber, out string priority);
-            if (alreadySet)
-            {
-                
-                int value = priority switch
-                {
-                    "SuperLowPriority" => 1,
-                    "LowPriority" => 2,
-                    "Normal" => 3,
-                    "HighPriority" => 4,
-                    "SuperHighPriority" => 5
-                };
-                iceTimePrioritySlider.SetValueWithoutNotify(value);
-                iceTimePriority.text = Utils.Utils.PascalToCapitalized(priority);
-            }
-            else
-            {
-                _fivesIceTimePriority.Add(_currentLineNumber, Utils.Utils.GetIceTimePriority(3));
-                iceTimePrioritySlider.SetValueWithoutNotify(3);
-                iceTimePriority.text = Utils.Utils.PascalToCapitalized(Utils.Utils.GetIceTimePriority(3)); 
-            }
-            
-            // TODO: move working with teamwork to another place
-            UpdateTeamWork();
-        }
+        // public void ShowLine(string number)
+        // {
+        //     if (number == "G")
+        //     {
+        //         _teamworkText.text = "";
+        //         return;
+        //     }
+        //     LineNumbers parsedLine = Utils.Utils.StringToLineNumber(number);
+        //     teamView.ShowLine(parsedLine);
+        //
+        //     _currentLineNumber = parsedLine;
+        //
+        //     // TODO: move working with tactics to another place
+        //     var alreadySet = _fivesTactics.TryGetValue(_currentLineNumber, out string tactic);
+        //     if (alreadySet)
+        //     {
+        //         var value = tactic switch
+        //         {
+        //             "Safe" => 1,
+        //             "Defensive" => 2,
+        //             "Neutral" => 3,
+        //             "Offensive" => 4,
+        //             "Aggressive" => 5
+        //         };
+        //         tactictsDropdown.SetValueWithoutNotify(value);
+        //     }
+        //
+        //     alreadySet = _fivesIceTimePriority.TryGetValue(_currentLineNumber, out string priority);
+        //     if (alreadySet)
+        //     {
+        //         
+        //         int value = priority switch
+        //         {
+        //             "SuperLowPriority" => 1,
+        //             "LowPriority" => 2,
+        //             "Normal" => 3,
+        //             "HighPriority" => 4,
+        //             "SuperHighPriority" => 5
+        //         };
+        //         iceTimePrioritySlider.SetValueWithoutNotify(value);
+        //         iceTimePriority.text = Utils.Utils.PascalToCapitalized(priority);
+        //     }
+        //     else
+        //     {
+        //         _fivesIceTimePriority.Add(_currentLineNumber, Utils.Utils.GetIceTimePriority(3));
+        //         iceTimePrioritySlider.SetValueWithoutNotify(3);
+        //         iceTimePriority.text = Utils.Utils.PascalToCapitalized(Utils.Utils.GetIceTimePriority(3)); 
+        //     }
+        //     
+        //     // TODO: move working with teamwork to another place
+        //     UpdateTeamWork();
+        // }
         
         private void InitBenches()
         {
