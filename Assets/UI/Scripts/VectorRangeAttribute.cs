@@ -15,7 +15,6 @@ namespace UI.Scripts
             this.fMinY = fMinY;
             this.fMaxY = fMaxY;
         }
-        
     }
 
     [CustomPropertyDrawer(typeof(VectorRangeAttribute))]

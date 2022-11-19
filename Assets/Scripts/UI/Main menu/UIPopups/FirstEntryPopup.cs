@@ -5,7 +5,7 @@ using UI.Main_menu.UIPopups;
 using UI.Scripts;
 using UnityEngine;
 
-namespace UI.Main_menu
+namespace UI.Main_menu.UIPopups
 {
     public class FirstEntryPopup : UiComponent
     {

@@ -44,13 +44,13 @@ namespace Near.GameContract.ContractMethods
             {
                 id = accountId
             };
-            
+
             var gamePagination = new Pagination
             {
                 orderDirection = OrderDirection.desc,
                 orderBy = "id"
             };
-            
+
             var users = await GetUsers(filter, gamePagination);
             if (users.Count != 1)
             {
@@ -61,10 +61,10 @@ namespace Near.GameContract.ContractMethods
             {
                 return null;
             }
-            
+
             return users.Count == 0 ? null : users[0];
         }
-        
+
         public static async Task<User> GetUser()
         {
             var accountId = NearPersistentManager.Instance.GetAccountId();
@@ -78,7 +78,7 @@ namespace Near.GameContract.ContractMethods
                 orderDirection = OrderDirection.desc,
                 orderBy = "id"
             };
-            
+
             var users = await GetUsers(filter, gamePagination);
 
             if (users.Count != 1)
@@ -110,7 +110,7 @@ namespace Near.GameContract.ContractMethods
                     .AddField(u => u.from)
                     .AddField(u => u.deposit)
                     .AddField(u => u.to));
-            
+
             if (gamePagination == null)
             {
                 query.AddField(p => p.games,
@@ -126,7 +126,7 @@ namespace Near.GameContract.ContractMethods
                         .AddField(g => g.id)
                         .AddField(g => g.winner_index));
             }
-            
+
             var responseJson = await GetJSONQuery(query.Build());
 
             var getUsers = JsonConvert.DeserializeObject<List<User>>(responseJson, new UserGameContractConverter());
@@ -166,7 +166,7 @@ namespace Near.GameContract.ContractMethods
             var responseJson = await GetJSONQuery(query.Build());
 
             var gameDatas = JsonConvert.DeserializeObject<List<GameData>>(responseJson, new GameDataConverter());
-            
+
             return gameDatas ?? new List<GameData>();
         }
 
@@ -184,7 +184,7 @@ namespace Near.GameContract.ContractMethods
                 first = 100,
                 orderBy = "event_number",
             };
-        
+
             var query = Event.GetQuery(new Query<Event>("events")
                 .AddArguments(pagination)
                 .AddArguments(new {where = filter})
@@ -204,28 +204,38 @@ namespace Near.GameContract.ContractMethods
 
         private static List<Event> ParseActionData(List<Event> events)
         {
-            var subclassTypes = Assembly
-                .GetAssembly(typeof(Action))
-                .GetTypes()
-                .Where(t => t.IsSubclassOf(typeof(Action)));
-            
             foreach (var item in events)
             {
                 item.Actions = new List<Action>();
-                
+
                 foreach (var actionString in item.actions)
                 {
-                    var actionJson = JObject.Parse(actionString);
-                    var typeJToken = actionJson.Properties().First().Name;
-                    Type actionType = subclassTypes.First(x => x.Name == typeJToken);
-
-                    var action =  JsonConvert.DeserializeObject(actionJson[typeJToken].ToString(), actionType);
+                    var action = CreateAction(item, actionString);
+                    if (action == null) continue;
                     
-                    item.Actions.Add((Action) action);
+                    item.Actions.Add(action);
                 }
             }
 
             return events;
+        }
+
+        private static Action CreateAction(Event eventData, string actionString)
+        {
+            var subclassTypes = Assembly
+                .GetAssembly(typeof(Action))
+                .GetTypes()
+                .Where(t => t.IsSubclassOf(typeof(Action)));
+
+            var actionJson = JObject.Parse(actionString);
+            var typeJToken = actionJson.Properties().First().Name;
+            var actionType = subclassTypes.First(x => x.Name == typeJToken);
+            if (actionJson[typeJToken] == null) return null;
+
+            var actionObject = JsonConvert.DeserializeObject(actionJson[typeJToken].ToString(), actionType);
+            var action = (Action) actionObject;
+
+            return action;
         }
     }
 }

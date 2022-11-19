@@ -1,4 +1,4 @@
-using UI.GameScene;
+using GameScene;
 using UI.Main_menu;
 using UI.ManageTeam;
 using UI.Profile;

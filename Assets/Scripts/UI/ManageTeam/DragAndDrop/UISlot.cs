@@ -1,11 +1,14 @@
 using System.Collections.Generic;
+using System.Linq;
+using TMPro;
+using UI.Scripts;
 using UI.Scripts.Card;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace UI.ManageTeam.DragAndDrop
 {
-    public class UISlot : MonoBehaviour, IDropHandler
+    public class UISlot : UiComponent, IDropHandler
     {
         public ManageTeamView manageTeamView;
         public RectTransform RectTransform;
@@ -13,11 +16,38 @@ namespace UI.ManageTeam.DragAndDrop
         public SlotPositionEnum slotPosition;
         
         public DraggableCard draggableCard;
+        [SerializeField] private TMP_Text positionText;
 
-        protected void Awake()
+        protected override void Initialize()
         {
             RectTransform = GetComponent<RectTransform>();
             manageTeamView = GetComponentInParent<ManageTeamView>();
+            positionText = Scripts.Utils.FindChild<TMP_Text>(transform, "PositionText");
+        }
+
+        protected override void OnUpdate()
+        {
+            UpdatePositionText();
+        }
+
+        private void UpdatePositionText()
+        {
+            List<SlotPositionEnum> fieldPositions = new List<SlotPositionEnum>()
+            {
+                SlotPositionEnum.LeftWing,
+                SlotPositionEnum.Center,
+                SlotPositionEnum.RightWing,
+                SlotPositionEnum.LeftDefender,
+                SlotPositionEnum.RightDefender
+            };
+            if (fieldPositions.Contains(slotPosition))
+            {
+                positionText.text = string.Join("", slotPosition.ToString().Where(c => char.IsUpper(c)));
+            }
+            else
+            {
+                positionText.text = "";
+            }
         }
 
         private void EndDrop(DraggableCard draggableCardDropped)
@@ -135,38 +165,10 @@ namespace UI.ManageTeam.DragAndDrop
                 {
                     manageTeamView.ShowStatsChanges(draggableCardDropped);
                 } 
+                manageTeamView.UpdateTeamWork();
                 return;
             }
 
-            // // moving card from goalies to bench
-            // if (draggableCardDropped.uiSlot.transform.parent.parent.parent == manageTeamView.teamView &&
-            //     transform.parent == manageTeamView.goaliesBenchContent.transform)
-            // {
-            //     draggableCardDropped.uiSlot.draggableCard = null;
-            //     manageTeamView.goaliesBenchContent.AddPlayer(draggableCardDropped);
-            //     return;
-            // }
-            
-            // moving card from PP to bench
-            // if (draggableCardDropped.uiSlot.transform.parent.parent == manageTeamView.teamView &&
-            //     transform.parent == manageTeamView.powerPlayersBenchContent.transform)
-            // {
-            //     draggableCardDropped.uiSlot.draggableCard = null;
-            //     manageTeamView.powerPlayersBenchContent.AddPlayer(draggableCardDropped);
-            //     manageTeamView.ShowStatsChanges(draggableCardDropped);
-            //     return;
-            // }
-            
-            // moving card from PK to bench
-            // if (draggableCardDropped.uiSlot.transform.parent.parent == manageTeamView.teamView &&
-            //     transform.parent == manageTeamView.penaltyKillBenchContent.transform)
-            // {
-            //     draggableCardDropped.uiSlot.draggableCard = null;
-            //     manageTeamView.penaltyKillBenchContent.AddPlayer(draggableCardDropped);
-            //     manageTeamView.ShowStatsChanges(draggableCardDropped);
-            //     return;
-            // }
-            
             // swap cards inside five or goalies
             if ((draggableCardDropped.uiSlot.transform.parent.parent == transform.parent.parent || 
                  draggableCardDropped.uiSlot.transform.parent.parent.parent == transform.parent.parent.parent) &&
