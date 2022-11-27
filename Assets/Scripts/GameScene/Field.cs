@@ -91,9 +91,9 @@ namespace GameScene
         public async void MockMove()
         {
             //await MockMoveTest();
-            //await MockShot();
+            // await MockShot();
             //await MockDumpTest();
-            // await MockPockCheck();
+            //await MockPockCheck();
             await MockPenaltyShot();
         }
 
@@ -101,24 +101,20 @@ namespace GameScene
         {
             puck.transform.position = new Vector3(0f, 0.18f, 0f);
             var puckPosition = puck.transform.position;
-
-            var rndZ = Random.Range(-19f, -12.2f);
-            var rndX = Random.Range(-12f, -6f);
-            puckTest.transform.position = new Vector3(rndX, puckPosition.y, rndZ);
-            var shotCoordinates = puckTest.transform.position;
             
-            var drndX = Random.Range(-14f, -1f);
-            var drndZ = Random.Range(-7f, -5f);
-            var destination = new Vector3(drndX, puckPosition.y, drndZ);
-            const int numberOfVectors = 1000;
-            var dangleMovement = new PenaltyShotMovement(puckPosition, shotCoordinates, destination, numberOfVectors);
+            var rndX = Random.Range(-1.27f, 1.27f);
             
-            var coordinates = dangleMovement.GetTrajectory();
+            puckTest.transform.position = new Vector3(rndX, puckPosition.y, -27.3f);
+            var destination = new Vector3(rndX, puckPosition.y, -27.3f);
+            
+            var penaltyShotMovement = new PenaltyShotMovement(puckPosition, destination);
+            
+            var coordinates = penaltyShotMovement.GetTrajectory();
 
             var trajectory = new Trajectory()
             {
                 Coordinates = coordinates,
-                RenderingSpeed = 1000,
+                RenderingSpeed = 2000,
                 NumberOfPoints = 1000,
             };
             
