@@ -12,7 +12,7 @@ namespace Near.Models.Game.Actions
         // Color for messages
         protected readonly string UserColor = "<color=#0968dc>";
         protected readonly string OpponentColor = "<color=#bb461b>";
-        protected readonly string DefaultColor = "<color=#6f6967>";
+        protected readonly string DefaultColor = "";
         
         public abstract string GetMessage(string accountId);
         

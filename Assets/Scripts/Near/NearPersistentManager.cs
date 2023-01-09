@@ -18,10 +18,10 @@ namespace Near
         private const string GameContactId = "hcm_game_new.parh.testnet";
 
         private ContractNear _marketplaceContract;
-        public readonly string MarketplaceContactId = "market.parh.testnet";
+        public readonly string MarketplaceContactId = "market_nft.parh.testnet";
 
         private ContractNear _nftContract;
-        public readonly string nftContactId = "hcm.parh.testnet";
+        public readonly string nftContactId = "nft_nft.parh.testnet";
         
         private async void Awake()
         {

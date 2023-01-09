@@ -88,16 +88,32 @@ namespace GameScene
             return lastActionType == "GameFinished";
         }
 
-        public async void MockMove()
+        public async void MockPockCheck()
         {
-            //await MockMoveTest();
-            //await MockShot();
-            //await MockDumpTest();
-            // await MockPockCheck();
-            await MockPenaltyShot();
+            await MockPockCheckTest();
         }
 
-        private async Task MockPenaltyShot()
+        public async void MockShot()
+        {
+            await MockShotTest();
+        }
+
+        public async void MockPenaltyShot()
+        {
+            await MockPenaltyShotTest();
+        }
+
+        public async void MockMove()
+        {
+            await MockMoveTest();
+        }
+
+        public async void MockDump()
+        {
+            await MockDumpTest();
+        }
+
+        private async Task MockPenaltyShotTest()
         {
             puck.transform.position = new Vector3(0f, 0.18f, 0f);
             var puckPosition = puck.transform.position;
@@ -125,7 +141,7 @@ namespace GameScene
             await puck.Move(trajectory);
         }
         
-        private async Task MockPockCheck()
+        private async Task MockPockCheckTest()
         {
             puck.transform.position = new Vector3(-10.5f, 0.18f, 6.1f);
             var puckPosition = puck.transform.position;
@@ -153,7 +169,7 @@ namespace GameScene
             await puck.Move(trajectory);
         }
         
-        private async Task MockShot()
+        private async Task MockShotTest()
         {
             //puck.transform.position = new Vector3(0, 0.18f, 13);
             var puckPosition = puck.transform.position;
