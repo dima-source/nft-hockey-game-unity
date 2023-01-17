@@ -24,7 +24,7 @@ namespace UI.Profile
         private LevelCalculator _levelCalculator;
         private List<BaseReward> _rewardsPrototypes;
         private Button _logoButton;
-
+        public Button ClosePopup;
         private void SetInitialValues()
         {
             LevelNumber.text = _levelCalculator.GetLevelString();
@@ -72,6 +72,10 @@ namespace UI.Profile
             rewardView.rewardInfoPopup = _rewardsInfoPopup;
             reward.SetForView(rewardView, _rewardsUser);
             return rewardView;
+        }
+        public void Close()
+        {
+            gameObject.SetActive(false);
         }
     }
 }
