@@ -3,6 +3,7 @@ using Near.Models.Tokens;
 using UI.Scripts;
 using UI.Scripts.Card;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace UI.Main_menu.UIPopups
 {
@@ -70,6 +71,10 @@ namespace UI.Main_menu.UIPopups
 
         public void OnClick()
         {
+        }
+        public void GoManageTeam()
+        {
+            SceneManager.LoadScene("ManageTeam");
         }
     }
 }

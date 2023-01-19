@@ -4,6 +4,8 @@ using Runtime;
 using UI.Main_menu.UIPopups;
 using UI.Scripts;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 namespace UI.Main_menu.UIPopups
 {
@@ -15,6 +17,10 @@ namespace UI.Main_menu.UIPopups
         protected override void Initialize()
         {
             
+        }
+        public void GoManageTeam()
+        {
+            SceneManager.LoadScene("ManageTeam");
         }
     }
 }
