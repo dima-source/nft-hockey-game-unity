@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace UI.Scripts
 {
@@ -79,12 +81,18 @@ namespace UI.Scripts
             {
                 Vector2 start = maxPolygon.GetCorner(i);
                 Vector2 end = minPolygon.GetCorner(i);
-                CircleRenderer circleRenderer = GenerateVertex(i, vertexRadius, start, end);
+                CircleRenderer circleRenderer = GenerateVertex(i, vertexRadius, start, end, ShowStatsPopup);
+                
                 vertexPositions.Add(circleRenderer.GetComponent<RectTransform>().anchoredPosition);
             }
             
             GenerateConvexPolygon(initialSize, vertexPositions);
             GenerateOverall(30);
+        }
+
+        private void ShowStatsPopup()
+        {
+            Debug.Log("test");
         }
 
         private CircleRenderer GeneratePolygon(int id, Vector2 size)
@@ -94,7 +102,7 @@ namespace UI.Scripts
             circleRenderer.color = Color.gray;
             return circleRenderer;
         }
-
+        
         private TextMeshProUGUI GenerateOverall(int textSize)
         {
             int sum = Mathf.RoundToInt(statistics.Select(x => (float) x.value).Sum() / statistics.Count);
@@ -104,17 +112,19 @@ namespace UI.Scripts
             return overall;
         }
 
-        private CircleRenderer GenerateVertex(int index, float size, Vector2 start, Vector2 end)
+        private CircleRenderer GenerateVertex(int index, float size, Vector2 start, Vector2 end, UnityAction action = null)
         {
             CircleRenderer circleRenderer = GenerateCircle($"Vertex{index}", 
-                new Vector2(size, size), 180, 0);
+                new Vector2(size, size), 180, 0, action: action);
             circleRenderer.fill = true;
             circleRenderer.color = Color.black;
-            
+           
+
             float scale = (MAX_STAT_VALUE - statistics[index].value) / (float) (MAX_STAT_VALUE - MIN_STAT_VALUE);
             float radius = Vector2.Distance(start, end) * scale;
             float angle = index * Mathf.PI * 2 / statistics.Count;
             Vector2 position = Utils.ToCartesian(radius, angle);
+            
             
             RectTransform rectTransform = circleRenderer.GetComponent<RectTransform>();
             rectTransform.anchoredPosition = start + position;
@@ -131,6 +141,7 @@ namespace UI.Scripts
             labelRect.anchoredPosition = labelPosition;
             label.enableAutoSizing = true;
             label.fontSizeMax = labelTextSize;
+          
             
             return circleRenderer;
         }
@@ -185,7 +196,7 @@ namespace UI.Scripts
         }
 
         private CircleRenderer GenerateCircle(string objName, Vector2 size, 
-            int segments, int thickness, Transform parent = null)
+            int segments, int thickness, Transform parent = null, UnityAction action = null)
         {
             GameObject go = new GameObject(objName);
             go.transform.SetParent(parent ? parent : transform, false);
@@ -194,12 +205,21 @@ namespace UI.Scripts
             baseRenderer.segments = segments;
             baseRenderer.thickness = thickness;
             
+            if (action != null)
+            {
+                Button button = go.AddComponent<Button>();
+                button.targetGraphic = baseRenderer;
+                button.onClick.AddListener(() =>
+                {
+                    action.Invoke();
+                });
+            }
+            
             RectTransform rectTransform = go.GetComponent<RectTransform>();
             rectTransform.anchoredPosition = Vector2.zero;
             rectTransform.sizeDelta = size;
 
             return baseRenderer;
         }
-
     }
 }

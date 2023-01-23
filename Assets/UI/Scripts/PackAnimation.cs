@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Near.Models.Tokens;
 using UI.Scripts.Card;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace UI.Scripts
 {
@@ -30,6 +31,10 @@ namespace UI.Scripts
             {
                 _cards[i].SetData(tokens[i]);
             }
+        }
+        public void GoManageTeam()
+        {
+            SceneManager.LoadScene("ManageTeam");
         }
 
         public void Play()

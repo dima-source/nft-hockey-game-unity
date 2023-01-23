@@ -22,7 +22,7 @@ namespace UI.Scripts
             segments = Mathf.Clamp(segments, 3, 360);
             thickness = (int)Mathf.Clamp(thickness, 1, rectTransform.rect.width / 2);
         }
-
+        
         private UIVertex[] GetQuad(Vector2[] positions)
         {
             Vector2[] uvs = {
@@ -107,6 +107,5 @@ namespace UI.Scripts
             float radius = (CalculateOuterBoundSize() + CalculateInnerBoundSize()) / 2;
             return Utils.ToCartesian(radius, angle);
         }
-        
     }
 }
