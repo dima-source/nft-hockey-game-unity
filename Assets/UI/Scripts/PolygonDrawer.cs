@@ -5,10 +5,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using Object = UnityEngine.Object;
 
 namespace UI.Scripts
 {
-    public class PolygonDrawer : MonoBehaviour
+    public class PolygonDrawer : UiComponent
     {
 
         [SerializeField] private int polygonLineThickness = 30;
@@ -32,23 +33,51 @@ namespace UI.Scripts
         {
             public string label;
             public int value;
-
-            public Statistic(string label, int value)
+            public SubStatistic[] SubStatistics;
+            
+            public struct SubStatistic
+            {
+                public string Label;
+                public int Value;
+            }
+            
+            public Statistic(string label, int value, SubStatistic[] subStatistics)
             {
                 this.label = label;
-                if (value < MIN_STAT_VALUE || value > MAX_STAT_VALUE)
+                if (value is < MIN_STAT_VALUE or > MAX_STAT_VALUE)
                 {
                     throw new ApplicationException();
                 }
                 this.value = value;
+
+                SubStatistics = subStatistics;
             }
         }
-        
-        public List<Statistic> statistics;
 
+        private static readonly string Path = Configurations.PrefabsFolderPath + "InfoPopup";
+        private PopupInfo _popupInfo;
+        private Button[] _vertexButtons;
+        private Transform _vertexButtonsContainer;
+        public List<Statistic> statistics;
+        
 
         private const int MIN_STAT_VALUE = 0;
         private const int MAX_STAT_VALUE = 99;
+
+        protected override void Initialize()
+        {
+            _vertexButtonsContainer = Utils.FindChild<Transform>(transform, "VertexButtonContainer");
+            _vertexButtons = new Button[_vertexButtonsContainer.childCount];
+            for (int i = 0; i < _vertexButtonsContainer.childCount; i++)
+            {
+                _vertexButtons[i] = _vertexButtonsContainer.GetChild(i).GetComponent<Button>();
+            }
+        }
+        
+        protected override void OnUpdate()
+        {
+            _vertexButtonsContainer.transform.SetAsLastSibling();
+        }
         
         private void OnEnable()
         {
@@ -58,7 +87,15 @@ namespace UI.Scripts
         private void OnDisable()
         {
             foreach (Transform child in transform) {
-                Destroy(child.gameObject);
+                if (child.name != "VertexButtonContainer" && child.name != "InfoPopup")
+                {
+                    Destroy(child.gameObject);
+                }
+            }
+
+            foreach (var button in _vertexButtons)
+            {
+                button.gameObject.SetActive(false);
             }
         }
 
@@ -81,7 +118,12 @@ namespace UI.Scripts
             {
                 Vector2 start = maxPolygon.GetCorner(i);
                 Vector2 end = minPolygon.GetCorner(i);
-                CircleRenderer circleRenderer = GenerateVertex(i, vertexRadius, start, end, ShowStatsPopup);
+
+                var index = i;
+                CircleRenderer circleRenderer = GenerateVertex(i, vertexRadius, start, end, () =>
+                {
+                    ShowStatsPopup(index);
+                });
                 
                 vertexPositions.Add(circleRenderer.GetComponent<RectTransform>().anchoredPosition);
             }
@@ -90,9 +132,35 @@ namespace UI.Scripts
             GenerateOverall(30);
         }
 
-        private void ShowStatsPopup()
+        private void ShowStatsPopup(int index)
         {
-            Debug.Log("test");
+            if (_popupInfo != null)
+            {
+                Destroy(_popupInfo.gameObject);
+            }
+            
+            GameObject prefab = Utils.LoadResource<GameObject>(Path);
+            _popupInfo = Instantiate(prefab, transform).GetComponent<PopupInfo>();
+            var popupRectTransform = _popupInfo.GetComponent<RectTransform>();
+            
+            CircleRenderer vertex = Utils.FindChild<CircleRenderer>(transform, $"Vertex{index}");
+            var vertexRectTransform = vertex.GetComponent<RectTransform>();
+
+            var anchoredPosition = vertexRectTransform.anchoredPosition;
+            var sizeDelta = popupRectTransform.sizeDelta;
+            popupRectTransform.anchoredPosition = new Vector2(
+                (float) (anchoredPosition.x - sizeDelta.x / 1.5),
+                (float) (anchoredPosition.y )
+                );
+
+            var info = "";
+            foreach (var statistic in statistics[index].SubStatistics)
+            {
+                info += statistic.Label + ": " + statistic.Value + "\n";
+            }
+            _popupInfo.SetTitle(statistics[index].label + ": "+ statistics[index].value);
+            
+            _popupInfo.SetInfo(info);
         }
 
         private CircleRenderer GeneratePolygon(int id, Vector2 size)
@@ -115,7 +183,7 @@ namespace UI.Scripts
         private CircleRenderer GenerateVertex(int index, float size, Vector2 start, Vector2 end, UnityAction action = null)
         {
             CircleRenderer circleRenderer = GenerateCircle($"Vertex{index}", 
-                new Vector2(size, size), 180, 0, action: action);
+                new Vector2(size, size), 180, 0);
             circleRenderer.fill = true;
             circleRenderer.color = Color.black;
            
@@ -125,11 +193,22 @@ namespace UI.Scripts
             float angle = index * Mathf.PI * 2 / statistics.Count;
             Vector2 position = Utils.ToCartesian(radius, angle);
             
-            
             RectTransform rectTransform = circleRenderer.GetComponent<RectTransform>();
             rectTransform.anchoredPosition = start + position;
             GenerateText("Statistic", statistics[index].value.ToString(), rectTransform);
             
+            if (action != null)
+            {
+                _vertexButtons[index].gameObject.SetActive(true);
+                
+                var buttonRectTransform = _vertexButtons[index].GetComponent<RectTransform>();
+                buttonRectTransform.anchoredPosition = rectTransform.anchoredPosition;
+                
+                _vertexButtons[index].onClick.AddListener(() =>
+                {
+                    action.Invoke();
+                });
+            }
             
             Vector2 labelSize = new Vector2(150, 100);
             int labelTextSize = 30;
@@ -196,7 +275,7 @@ namespace UI.Scripts
         }
 
         private CircleRenderer GenerateCircle(string objName, Vector2 size, 
-            int segments, int thickness, Transform parent = null, UnityAction action = null)
+            int segments, int thickness, Transform parent = null)
         {
             GameObject go = new GameObject(objName);
             go.transform.SetParent(parent ? parent : transform, false);
@@ -204,17 +283,7 @@ namespace UI.Scripts
             CircleRenderer baseRenderer = go.AddComponent<CircleRenderer>();
             baseRenderer.segments = segments;
             baseRenderer.thickness = thickness;
-            
-            if (action != null)
-            {
-                Button button = go.AddComponent<Button>();
-                button.targetGraphic = baseRenderer;
-                button.onClick.AddListener(() =>
-                {
-                    action.Invoke();
-                });
-            }
-            
+
             RectTransform rectTransform = go.GetComponent<RectTransform>();
             rectTransform.anchoredPosition = Vector2.zero;
             rectTransform.sizeDelta = size;

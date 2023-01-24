@@ -102,9 +102,99 @@ namespace UI.Scripts
                 Goalie goalie = (Goalie)token;
                 Drawer.statistics = new List<PolygonDrawer.Statistic>
                 {
-                    new("Reflexes", (int) goalie.Stats.Reflexes),
-                    new("Puck control", (int) goalie.Stats.PuckControl),
-                    new("Strength", (int) goalie.Stats.Strength)
+                    new("Reflexes", (int) goalie.Stats.Reflexes,
+                        new PolygonDrawer.Statistic.SubStatistic[]
+                        {
+                            new()
+                            {
+                                Label = "Angles",
+                                Value = (int)goalie.Stats.Angles
+                            },
+                            new()
+                            {
+                                Label = "Breakaway",
+                                Value = (int)goalie.Stats.Breakaway
+                            },
+                            new ()
+                            {
+                                Label = "Five Hole",
+                                Value = (int)goalie.Stats.FiveHole
+                            }
+                        }),
+                    new("Puck control", (int) goalie.Stats.PuckControl,
+                        new PolygonDrawer.Statistic.SubStatistic[]
+                        {
+                            new()
+                            {
+                                Label = "Passing",
+                                Value = (int)goalie.Stats.Passing
+                            },
+                            new()
+                            {
+                                Label = "Poise",
+                                Value = (int)goalie.Stats.Poise
+                            },
+                            new()
+                            {
+                                Label = "PuckPlaying",
+                                Value = (int)goalie.Stats.PuckPlaying
+                            },
+                            new()
+                            {
+                                Label = "Recover",
+                                Value = (int)goalie.Stats.Recover
+                            },
+                            new()
+                            {
+                                Label = "ReboundControl",
+                                Value = (int)goalie.Stats.ReboundControl
+                            },
+                            new ()
+                            {
+                                Label = "PokeCheck",
+                                Value = (int)goalie.Stats.PokeCheck
+                            }
+                        }),
+                    new("Strength", (int) goalie.Stats.Strength,
+                        new PolygonDrawer.Statistic.SubStatistic[]
+                        {
+                            new()
+                            {
+                                Label = "Aggressiveness",
+                                Value = (int)goalie.Stats.Aggressiveness
+                            },
+                            new()
+                            {
+                                Label = "Agility",
+                                Value = (int)goalie.Stats.Agility
+                            },
+                            new()
+                            {
+                                Label = "Durability",
+                                Value = (int)goalie.Stats.Durability
+                            },
+                            new()
+                            {
+                                Label = "Endurance",
+                                Value = (int)goalie.Stats.Endurance
+                            },
+                            new()
+                            {
+                                Label = "Speed",
+                                Value = (int)goalie.Stats.Speed
+                            },
+                            new()
+                            {
+                                Label = "Morale",
+                                Value = (int)goalie.Stats.Morale
+                            },
+                            new ()
+                            {
+                                Label = "Vision",
+                                Value = (int)goalie.Stats.Vision
+                            }
+                        }),
+                        
                 };
             }
             else
@@ -112,12 +202,160 @@ namespace UI.Scripts
                 FieldPlayer fieldPlayer = (FieldPlayer)token;
                 Drawer.statistics = new List<PolygonDrawer.Statistic>
                 {
-                    new("Skating", (int) fieldPlayer.Stats.Skating),
-                    new("Shooting", (int) fieldPlayer.Stats.Shooting),
-                    new("Stick handling", (int) fieldPlayer.Stats.StickHandling),
-                    new("Strength", (int) fieldPlayer.Stats.StrengthAvg),
-                    new("IQ", (int) fieldPlayer.Stats.Iq),
-                    new("Defense", (int) fieldPlayer.Stats.Defense)
+                    new("Skating", (int) fieldPlayer.Stats.Skating,
+                        new PolygonDrawer.Statistic.SubStatistic[]
+                        {
+                            new()
+                            {
+                                Label = "Acceleration",
+                                Value = (int)fieldPlayer.Stats.Acceleration
+                            },
+                            new()
+                            {
+                                Label = "Agility",
+                                Value = (int)fieldPlayer.Stats.Agility
+                            },
+                            new()
+                            {
+                                Label = "Balance",
+                                Value = (int)fieldPlayer.Stats.Balance
+                            },
+                            new()
+                            {
+                                Label = "Endurance",
+                                Value = (int)fieldPlayer.Stats.Endurance
+                            },
+                            new()
+                            {
+                                Label = "Speed",
+                                Value = (int)fieldPlayer.Stats.Speed
+                            }
+                        }),
+                    new("Shooting", (int) fieldPlayer.Stats.Shooting,
+                        new PolygonDrawer.Statistic.SubStatistic[]
+                        {
+                            new()
+                            {
+                                Label = "SlapShotAccuracy",
+                                Value = (int)fieldPlayer.Stats.SlapShotAccuracy
+                            },
+                            new()
+                            {
+                                Label = "SlapShotPower",
+                                Value = (int)fieldPlayer.Stats.SlapShotPower
+                            },
+                            new()
+                            {
+                                Label = "WristShotAccuracy",
+                                Value = (int)fieldPlayer.Stats.WristShotAccuracy
+                            },
+                            new()
+                            {
+                                Label = "WristShotPower",
+                                Value = (int)fieldPlayer.Stats.WristShotPower
+                            }
+                        }),
+                    new("Stick handling", (int) fieldPlayer.Stats.StickHandling,
+                        new PolygonDrawer.Statistic.SubStatistic[]
+                        {
+                            new()
+                            {
+                                Label = "Deking",
+                                Value = (int)fieldPlayer.Stats.Deking
+                            },
+                            new()
+                            {
+                                Label = "HandEye",
+                                Value = (int)fieldPlayer.Stats.HandEye
+                            },
+                            new()
+                            {
+                                Label = "Passing",
+                                Value = (int)fieldPlayer.Stats.Passing
+                            },
+                            new()
+                            {
+                                Label = "PuckControl",
+                                Value = (int)fieldPlayer.Stats.PuckControl
+                            }
+                        }),
+                    new("Strength", (int) fieldPlayer.Stats.StrengthAvg,
+                        new PolygonDrawer.Statistic.SubStatistic[]
+                        {
+                            new()
+                            {
+                                Label = "Aggressiveness",
+                                Value = (int)fieldPlayer.Stats.Aggressiveness
+                            },
+                            new()
+                            {
+                                Label = "BodyChecking",
+                                Value = (int)fieldPlayer.Stats.BodyChecking
+                            },
+                            new()
+                            {
+                                Label = "Durability",
+                                Value = (int)fieldPlayer.Stats.Durability
+                            },
+                            new()
+                            {
+                                Label = "FightingSkill",
+                                Value = (int)fieldPlayer.Stats.FightingSkill
+                            },
+                            new()
+                            {
+                                Label = "Strength",
+                                Value = (int)fieldPlayer.Stats.Strength
+                            }
+                        }),
+                    new("IQ", (int) fieldPlayer.Stats.Iq,
+                        new PolygonDrawer.Statistic.SubStatistic[]
+                        {
+                            new()
+                            {
+                                Label = "Discipline",
+                                Value = (int)fieldPlayer.Stats.Discipline
+                            },
+                            new()
+                            {
+                                Label = "Poise",
+                                Value = (int)fieldPlayer.Stats.Poise
+                            },
+                            new()
+                            {
+                                Label = "Morale",
+                                Value = (int)fieldPlayer.Stats.Morale
+                            },
+                            new()
+                            {
+                                Label = "Offensive",
+                                Value = (int)fieldPlayer.Stats.Offensive
+                            }
+                        }),
+                    new("Defense", (int) fieldPlayer.Stats.Defense,
+                        new PolygonDrawer.Statistic.SubStatistic[]
+                        {
+                            new()
+                            {
+                                Label = "DefensiveAwareness",
+                                Value = (int)fieldPlayer.Stats.DefensiveAwareness
+                            },
+                            new()
+                            {
+                                Label = "FaceOffs",
+                                Value = (int)fieldPlayer.Stats.FaceOffs
+                            },
+                            new()
+                            {
+                                Label = "ShotBlocking",
+                                Value = (int)fieldPlayer.Stats.ShotBlocking
+                            },
+                            new()
+                            {
+                                Label = "StickChecking",
+                                Value = (int)fieldPlayer.Stats.StickChecking
+                            }
+                        })
                 };
             }
         }

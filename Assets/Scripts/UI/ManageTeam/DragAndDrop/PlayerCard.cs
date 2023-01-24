@@ -22,7 +22,7 @@ namespace UI.ManageTeam.DragAndDrop
             {
                 try
                 {
-                    StartCoroutine(ImageLoader.LoadImage(token.media, (sprite) =>
+                    StartCoroutine(ImageLoader.LoadImage(token.media + "?width=495&height=700", (sprite) =>
                     {
                         playerCardData.avatar = sprite;
                     }));
