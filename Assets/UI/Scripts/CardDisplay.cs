@@ -236,22 +236,22 @@ namespace UI.Scripts
                         {
                             new()
                             {
-                                Label = "SlapShotAccuracy",
+                                Label = "Slap Shot Accuracy",
                                 Value = (int)fieldPlayer.Stats.SlapShotAccuracy
                             },
                             new()
                             {
-                                Label = "SlapShotPower",
+                                Label = "Slap Shot Power",
                                 Value = (int)fieldPlayer.Stats.SlapShotPower
                             },
                             new()
                             {
-                                Label = "WristShotAccuracy",
+                                Label = "Wrist Shot Accuracy",
                                 Value = (int)fieldPlayer.Stats.WristShotAccuracy
                             },
                             new()
                             {
-                                Label = "WristShotPower",
+                                Label = "Wrist Shot Power",
                                 Value = (int)fieldPlayer.Stats.WristShotPower
                             }
                         }),
@@ -265,7 +265,7 @@ namespace UI.Scripts
                             },
                             new()
                             {
-                                Label = "HandEye",
+                                Label = "Hand Eye",
                                 Value = (int)fieldPlayer.Stats.HandEye
                             },
                             new()
@@ -275,7 +275,7 @@ namespace UI.Scripts
                             },
                             new()
                             {
-                                Label = "PuckControl",
+                                Label = "Puck Control", 
                                 Value = (int)fieldPlayer.Stats.PuckControl
                             }
                         }),
@@ -289,7 +289,7 @@ namespace UI.Scripts
                             },
                             new()
                             {
-                                Label = "BodyChecking",
+                                Label = "Body Checking",
                                 Value = (int)fieldPlayer.Stats.BodyChecking
                             },
                             new()
@@ -299,7 +299,7 @@ namespace UI.Scripts
                             },
                             new()
                             {
-                                Label = "FightingSkill",
+                                Label = "Fighting Skill",
                                 Value = (int)fieldPlayer.Stats.FightingSkill
                             },
                             new()
@@ -337,22 +337,22 @@ namespace UI.Scripts
                         {
                             new()
                             {
-                                Label = "DefensiveAwareness",
+                                Label = "Defensive Awareness",
                                 Value = (int)fieldPlayer.Stats.DefensiveAwareness
                             },
                             new()
                             {
-                                Label = "FaceOffs",
+                                Label = "Face Offs",
                                 Value = (int)fieldPlayer.Stats.FaceOffs
                             },
                             new()
                             {
-                                Label = "ShotBlocking",
+                                Label = "Shot Blocking",
                                 Value = (int)fieldPlayer.Stats.ShotBlocking
                             },
                             new()
                             {
-                                Label = "StickChecking",
+                                Label = "Stick Checking",
                                 Value = (int)fieldPlayer.Stats.StickChecking
                             }
                         })
