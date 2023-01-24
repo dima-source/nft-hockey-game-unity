@@ -19,16 +19,20 @@ namespace UI.Scripts
         Platinum = 15,
         Brilliant = 20,
     }
+    
     public class PackView: UiComponent
     {
         private static readonly string SPRITES_PATH = Configurations.SpritesFolderPath + "Marketplace/";
-        [SerializeField] private PackTypes type = PackTypes.Bronze;
+        //[SerializeField]
+        private PackTypes type;
         private Image _packImage;
         private TMP_Text _description;
         private TMP_Text _price;
         private Button _buyButton;
-        [SerializeField] private string description;
-        [SerializeField] private int price;
+        //[SerializeField] 
+        private string description;
+        //[SerializeField] 
+        private int price;
         private string PuckSpritePath => SPRITES_PATH + type + "Pack";
         public UnityAction<List<Token>, PackTypes> BoughtCallback;
         public UnityAction<PackTypes> BuyingCallback;
@@ -45,7 +49,7 @@ namespace UI.Scripts
         protected override void Initialize()
         {
             _packImage = Utils.FindChild<Image>(transform, "PackIcon");
-            _packImage.sprite = Utils.LoadSprite(PuckSpritePath);
+            //_packImage.sprite = Utils.LoadSprite(PuckSpritePath);
             _description = Utils.FindChild<TMP_Text>(transform, "Description");
             _price = Utils.FindChild<TMP_Text>(transform, "PriceText");
             _buyButton = Utils.FindChild<Button>(transform, "BuyButton");

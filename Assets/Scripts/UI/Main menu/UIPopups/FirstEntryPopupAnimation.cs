@@ -17,8 +17,8 @@ namespace UI.Main_menu.UIPopups
         {
             for (int i = 1; i <= 6; i++)
             {
-                CardInPackUI card = UI.Scripts.Utils.FindChild<CardInPackUI>(transform, $"Card{i}");
-                _cards.Add(card);
+                //CardInPackUI card = UI.Scripts.Utils.FindChild<CardInPackUI>(transform, $"Card{i}");
+                // _cards.Add(card);
             }
         }
 

@@ -36,6 +36,10 @@ namespace UI.Scripts
         {
             SceneManager.LoadScene("ManageTeam");
         }
+        public void GoMarketPlace()
+        {
+            SceneManager.LoadScene("Marketplace");
+        }
 
         public void Play()
         {

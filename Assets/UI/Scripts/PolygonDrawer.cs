@@ -89,6 +89,7 @@ namespace UI.Scripts
             foreach (Transform child in transform) {
                 if (child.name != "VertexButtonContainer" && child.name != "InfoPopup")
                 {
+                    Debug.Log("Destroy");
                     Destroy(child.gameObject);
                 }
             }

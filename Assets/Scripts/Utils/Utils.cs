@@ -20,7 +20,7 @@ namespace Utils
         // retrieves the filename of url without GET params
         private static string GetFilenameFromUrl(string url)
         {
-            return url.Split("/").Last().Split("&").First();
+            return url.Split("/").Last().Split("?").First();
         }
 
         static ImageLoader()
