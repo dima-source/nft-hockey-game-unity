@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Near.Models.Tokens;
 using UI.Scripts;
 using UI.Scripts.Card;
@@ -9,44 +10,40 @@ namespace UI.Main_menu.UIPopups
 {
     public class FirstEntryPopupAnimation : UiComponent
     {
-     
         public Transform LoadingPopup;
-        private List<CardInPackUI> _cards;
+        private List<CardView> _cards;
         public Animation Animation;
 
-        private void Awake()
+        public new async void Awake()
         {
             LoadingPopup.gameObject.SetActive(true);
-            LoadCardsFromPack();
+            await LoadCardsFromPack();
             LoadingPopup.gameObject.SetActive(false);
-            
         }
         
         protected override void Initialize()
         {
+            _cards = new List<CardView>();
             
             for (int i = 1; i <= 6; i++)
             {
-                CardInPackUI card = UI.Scripts.Utils.FindChild<CardInPackUI>(transform, $"Card{i}");
+                CardView card = UI.Scripts.Utils.FindChild<CardView>(transform, $"Card{i}");
                 _cards.Add(card);
             }
-            
         }
 
-        public async void LoadCardsFromPack()
+        private async Task LoadCardsFromPack()
         {
-
             List<Token> tokens = await Near.MarketplaceContract.ContractMethods.Actions.RegisterAccount();
             
-            if (tokens.Count == 0) LoadCardsFromPack();
+            if (tokens.Count == 0) await LoadCardsFromPack();
 
             var tokensToDisplay = GetSixCards(tokens);
             
-            for (int i = 0; i < tokens.Count; i++)
+            for (int i = 0; i < tokensToDisplay.Count; i++)
             {
                 _cards[i].SetData(tokensToDisplay[i]);
             }
-
         }
 
         private List<Token> GetSixCards(List<Token> tokens)

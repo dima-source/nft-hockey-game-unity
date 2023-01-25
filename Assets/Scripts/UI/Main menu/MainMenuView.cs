@@ -14,7 +14,7 @@ namespace UI.Main_menu
 {
     public class MainMenuView : MonoBehaviour
     {
-        [SerializeField] private FirstEntryPopup firstEntryPopup;
+        [SerializeField] private FirstEntryPopupAnimation firstEntryPopup;
         [SerializeField] private SignInView signInView;
 
         [SerializeField] private Text accountId;
