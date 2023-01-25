@@ -147,7 +147,7 @@ namespace UI.Scripts
         {
             string path = type switch
             {
-                ButtonType.Positive => Configurations.MaterialsFolderPath + "AccentBackground1",
+                ButtonType.Positive => Configurations.MaterialsFolderPath + "SecondaryBackground",
                 ButtonType.Neutral => Configurations.MaterialsFolderPath + "PrimaryBackground",
                 ButtonType.Negative => Configurations.MaterialsFolderPath + "AccentBackground2",
                 _ => throw new ApplicationException("Unsupported type")
@@ -156,6 +156,5 @@ namespace UI.Scripts
             Image image = button.GetComponentInChildren<Image>();
             image.material = Utils.LoadResource<Material>(path);
         }
-
     }
 }
