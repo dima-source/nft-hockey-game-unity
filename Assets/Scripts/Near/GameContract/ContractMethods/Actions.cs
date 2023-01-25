@@ -55,11 +55,14 @@ namespace Near.GameContract.ContractMethods
             return true;
         }
 
+        // TODO: fix usage of TeamLogo from Profile module. Here must be used either custom TeamLogo that
+        // TODO: duplicates one from Profile or TeamLogo from Profile's must be declared in another module 
         public static async Task<bool> SetTeamLogo(TeamLogo teamLogo)
         {
             var gameContract = await NearPersistentManager.Instance.GetGameContract(); 
             dynamic args = new ExpandoObject();
             // set_team_logo(&self, form_name: &str, patter_name: &str, first_layer_color_numer: &str, second_layer_color_number: &str)
+            args.team_name = teamLogo.team_name;
             args.form_name = teamLogo.form_name;
             args.pattern_name = teamLogo.pattern_name;
             args.first_layer_color_number = teamLogo.first_layer_color_number;

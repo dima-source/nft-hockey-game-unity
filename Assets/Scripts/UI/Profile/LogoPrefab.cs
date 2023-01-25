@@ -15,6 +15,7 @@ namespace UI.Profile
          private Image _textArea;
          private Image _textGround;
          private TextMeshProUGUI _textTeamName;
+         private string _teamName;
          private string _pathForm;
          private string _pathPattern;
          private string _formName = "Square"; 
@@ -37,6 +38,7 @@ namespace UI.Profile
         {
             TeamLogo logoData = new TeamLogo()
             {
+                team_name = _teamName,
                 form_name = _formName,
                 pattern_name = _patternName,
                 first_layer_color_number = firstLayerColorNumber,
@@ -55,6 +57,7 @@ namespace UI.Profile
             ChangeLayerPattern(teamLogo.pattern_name);
             ChangeFirstLayerColor(teamLogo.first_layer_color_number); 
             ChangeSecondLayerColor(teamLogo.second_layer_color_number); 
+            ChangeTeamName(teamLogo.team_name);
             _firstLayerImg.gameObject.SetActive(true);
             _secondLayerImg.gameObject.SetActive(true);
         }
@@ -71,6 +74,7 @@ namespace UI.Profile
             
             ChangeLayerPattern(_patternName);
         }
+        
         public void ChangeLayerPattern(string patternName)
         {
             _patternName = patternName;
@@ -81,6 +85,12 @@ namespace UI.Profile
             Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
             _secondLayerImg.sprite = sprite;
         }
+
+        public void ChangeTeamName(string teamName)
+        {
+            _textTeamName.SetText(teamName);
+        }
+        
         public void ChangeFirstLayerColor(string number)
         {
             firstLayerColorNumber = number;

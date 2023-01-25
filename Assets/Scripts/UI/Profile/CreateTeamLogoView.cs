@@ -1,9 +1,6 @@
-using System.IO;
 using UI.Profile.Models;
 using UnityEngine;
 using UnityEngine.UI;
-using Color = UnityEngine.Color;
-using UnityEngine.EventSystems;
 
 namespace UI.Profile
 {
@@ -16,8 +13,8 @@ namespace UI.Profile
         private LogoPrefab _logoPrefab;
         private readonly string _pathForm = "/Assets/Sprites/Profile/Form/";
         private readonly string _pathPattern = "/Assets/Sprites/Profile";
-        private ILogoSaver _logoSaver = new ConsoleLogoSaver();
-        private ILogoLoader _logoLoader = new MockLogoLoader();
+        private ILogoSaver _logoSaver = new ContractLogoSaver();
+        private ILogoLoader _logoLoader = new IndexerLogoLoader();
         private Button _saveButton;
         private Button _resetButton;
         private Button _background;

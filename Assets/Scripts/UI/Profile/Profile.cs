@@ -44,6 +44,7 @@ namespace UI.Profile
         private List<BaseReward> _rewardsPrototypes;
         private Button _logoButton;
         public Button ClosePopup;
+        
         private void SetInitialValues()
         {
             LevelNumber.text = _levelCalculator.GetLevelString();
@@ -64,6 +65,7 @@ namespace UI.Profile
             _userWalletName = Scripts.Utils.FindChild<TextMeshProUGUI>(transform, "Wallet");
             _userWalletBalance = Scripts.Utils.FindChild<TextMeshProUGUI>(transform, "Balance");
         }
+        
         protected override async void OnAwake()
         {
             _rewardsUser = await _repository.GetUser();
@@ -95,6 +97,7 @@ namespace UI.Profile
             reward.SetForView(rewardView, _rewardsUser);
             return rewardView;
         }
+        
         public void Close()
         {
             gameObject.SetActive(false);
@@ -109,7 +112,5 @@ namespace UI.Profile
             string pattern = "{0:0." + new String('0', balanceFractionalDisplay) + "}";
             _userWalletBalance.text = String.Format(pattern, userWallet.balance) + " <sprite name=NearLogo>";
         }
-
-       
     }
 }
