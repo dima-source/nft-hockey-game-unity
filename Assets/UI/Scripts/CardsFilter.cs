@@ -268,11 +268,18 @@ namespace UI.Scripts
                                 {
                                     List<PopupManager.BetInfo> betInfo = new List<PopupManager.BetInfo>();
 
+                                    float minBid = 0;
                                     foreach (var offer in token.marketplace_data.offers)
                                     {
-                                        betInfo.Add(new PopupManager.BetInfo(offer.user.id,
-                                            (float)Near.NearUtils.FormatNearAmount(UInt128.Parse(offer.price))));
-                                    } 
+                                        float bet = (float) Near.NearUtils.FormatNearAmount(UInt128.Parse(offer.price));
+                                        betInfo.Add(new PopupManager.BetInfo(offer.user.id, bet));
+
+                                        if (bet > minBid)
+                                        {
+                                            minBid = bet;
+                                        }
+                                    }
+                                    
                                     popup = _marketplace.GetComponent<RectTransform>()
                                         .GetPlaceBet(betInfo.ToArray(), token.tokenId);
                                 }
@@ -282,26 +289,11 @@ namespace UI.Scripts
                                     float formattedPrice = (float) Near.NearUtils.FormatNearAmount(price);
                                     popup = _marketplace.GetComponent<RectTransform>()
                                         .GetBuy(formattedPrice, async () =>
-                                            {
-                                                try
-                                                {
-                                                    await Near.MarketplaceContract.ContractMethods.Actions.Offer(
-                                                        token.tokenId, "near", token.marketplace_data.price);
-                                                }
-                                                catch (Exception e)
-                                                {
-                                                    string messageError = e.Message.Contains("NotEnoughBalance")
-                                                        ? "Not enough balance"
-                                                        : "Something went wrong";
-                        
-                                                    Popup error = _marketplace.GetComponent<RectTransform>().GetDefaultOk("Error", messageError);
-                                                    error.Show();
-                                                    return;
-                                                }
-                    
-                                                Popup success = _marketplace.GetComponent<RectTransform>().GetDefaultOk("Success", $"You have successfully bought nft");
-                                                success.Show();
-                                            });
+                                        {
+                                            await AcceptOffer(token.tokenId, token.marketplace_data.price);
+                                            Popup success = _marketplace.GetComponent<RectTransform>().GetDefaultOk("Success", $"You have successfully bought nft");
+                                            success.Show();
+                                        });
                                 }
                                 popup.Show();
                             });
@@ -425,6 +417,25 @@ namespace UI.Scripts
             }
         }
 
+        private async Task AcceptOffer(string tokenId, string price)
+        {
+            try
+            {
+                await Near.MarketplaceContract.ContractMethods.Actions.Offer(
+                    tokenId,  price);
+            }
+            catch (Exception e)
+            {
+                string messageError = e.Message.Contains("NotEnoughBalance")
+                    ? "Not enough balance"
+                    : "Something went wrong";
+                        
+                Popup error = _marketplace.GetComponent<RectTransform>().GetDefaultOk("Error", messageError);
+                error.Show();
+                return;
+            }
+        }
+        
         private async Task<List<Token>> LoadNewCards()
         {
             Pagination pagination = GetPagination();

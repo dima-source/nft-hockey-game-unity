@@ -9,21 +9,33 @@ namespace UI.Main_menu.UIPopups
 {
     public class FirstEntryPopupAnimation : UiComponent
     {
-        public Animation anim;
-        
+     
+        public Transform LoadingPopup;
         private List<CardInPackUI> _cards;
+        public Animation Animation;
 
+        private void Awake()
+        {
+            LoadingPopup.gameObject.SetActive(true);
+            LoadCardsFromPack();
+            LoadingPopup.gameObject.SetActive(false);
+            
+        }
+        
         protected override void Initialize()
         {
+            
             for (int i = 1; i <= 6; i++)
             {
-                //CardInPackUI card = UI.Scripts.Utils.FindChild<CardInPackUI>(transform, $"Card{i}");
-                // _cards.Add(card);
+                CardInPackUI card = UI.Scripts.Utils.FindChild<CardInPackUI>(transform, $"Card{i}");
+                _cards.Add(card);
             }
+            
         }
 
         public async void LoadCardsFromPack()
         {
+
             List<Token> tokens = await Near.MarketplaceContract.ContractMethods.Actions.RegisterAccount();
             
             if (tokens.Count == 0) LoadCardsFromPack();
@@ -34,6 +46,7 @@ namespace UI.Main_menu.UIPopups
             {
                 _cards[i].SetData(tokensToDisplay[i]);
             }
+
         }
 
         private List<Token> GetSixCards(List<Token> tokens)
@@ -58,23 +71,14 @@ namespace UI.Main_menu.UIPopups
             return result;
         }
         
-        private void Awake()
+        public void GoManageTeam()
         {
-            // var isPlaying = anim.Play();
-            //Debug.Log(isPlaying.ToString());
-        }
-
-        public void OnTrigger()
-        {
-            anim.Stop();
+            SceneManager.LoadScene("ManageTeam");
         }
 
         public void OnClick()
         {
-        }
-        public void GoManageTeam()
-        {
-            SceneManager.LoadScene("ManageTeam");
+            Animation.Play();
         }
     }
 }

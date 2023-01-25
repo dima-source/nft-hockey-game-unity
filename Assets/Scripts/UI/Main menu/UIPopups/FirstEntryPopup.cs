@@ -11,16 +11,13 @@ namespace UI.Main_menu.UIPopups
 {
     public class FirstEntryPopup : UiComponent
     {
-        [SerializeField] private Transform cardsContent;
+        
         private FirstEntryPopupAnimation _firstEntryPopupAnimation;
         
         protected override void Initialize()
         {
             
         }
-        public void GoManageTeam()
-        {
-            SceneManager.LoadScene("ManageTeam");
-        }
+       
     }
 }

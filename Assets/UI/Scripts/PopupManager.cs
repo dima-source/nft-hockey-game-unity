@@ -186,7 +186,7 @@ namespace UI.Scripts
 
                 try
                 {
-                    await Near.MarketplaceContract.ContractMethods.Actions.Offer(tokenId, "near", value.ToString());
+                    await Near.MarketplaceContract.ContractMethods.Actions.Offer(tokenId, value.ToString());
                 }
                 catch (Exception e)
                 {

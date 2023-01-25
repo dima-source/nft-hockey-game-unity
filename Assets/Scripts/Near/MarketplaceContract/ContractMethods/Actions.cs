@@ -58,12 +58,14 @@ namespace Near.MarketplaceContract.ContractMethods
             }
         }
 
-        public static async Task Offer(string tokenId, string offerToken, string price)
+        public static async Task Offer(string tokenId, string price)
         {
+            /*
             if (offerToken != "near")
             {
                 throw new Exception("currently only accepting NEAR offers");
             }
+            */
             
             ContractNear marketContract = await NearPersistentManager.Instance.GetMarketplaceContract();
 

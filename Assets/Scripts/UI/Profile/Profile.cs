@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Near;
+using NearClientUnity;
+using NearClientUnity.Utilities;
 using Runtime;
 using TMPro;
 using UI.Profile.Models;
@@ -13,6 +17,21 @@ namespace UI.Profile
 {
     public class Profile : UiComponent
     {
+        [Serializable]
+        public class UserWallet
+        {
+            public string name;
+            public double balance;
+        }
+        public UserWallet userWallet;
+        
+        [Range(1, 5)]
+        [SerializeField]
+        private int balanceFractionalDisplay = 2;
+        
+        private TextMeshProUGUI _userWalletName;
+        private TextMeshProUGUI _userWalletBalance;
+        
         [SerializeField] private TMP_Text LevelNumber;
         [SerializeField] private Slider LevelSlider;
         [SerializeField] private Transform _rewardsParent;
@@ -38,15 +57,18 @@ namespace UI.Profile
             _rewardsParent = Scripts.Utils.FindChild<Transform>(transform, "RewardsContent");
             _rewardsInfoPopup = Scripts.Utils.FindChild<RewardInfoPopup>(transform.parent, "TrophyPopup");
             _createLogoPopup = Scripts.Utils.FindChild<Transform>(transform.parent, "CreateLogoPopup");
-            _logoButton = Scripts.Utils.FindChild<Button>(transform, "Logo");
+            _logoButton = Scripts.Utils.FindChild<Button>(transform, "LogoContainer");
             _levelCalculator = new LevelCalculator(_rewardsUser);
             SetInitialValues();
             _logoButton.onClick.AddListener(() => ShowPopup(_createLogoPopup));
+            _userWalletName = Scripts.Utils.FindChild<TextMeshProUGUI>(transform, "Wallet");
+            _userWalletBalance = Scripts.Utils.FindChild<TextMeshProUGUI>(transform, "Balance");
         }
         protected override async void OnAwake()
         {
             _rewardsUser = await _repository.GetUser();
             _rewardsPrototypes = await _repository.GetRewards();
+            OnUpdate();
             InitRewards();
         }
 
@@ -77,5 +99,17 @@ namespace UI.Profile
         {
             gameObject.SetActive(false);
         }
+
+        protected override async void OnUpdate()
+        {
+            userWallet.name = NearPersistentManager.Instance.GetAccountId();
+            AccountState accountState = await NearPersistentManager.Instance.GetAccountState();
+            userWallet.balance = NearUtils.FormatNearAmount(UInt128.Parse(accountState.Amount));
+            _userWalletName.text = userWallet.name;
+            string pattern = "{0:0." + new String('0', balanceFractionalDisplay) + "}";
+            _userWalletBalance.text = String.Format(pattern, userWallet.balance) + " <sprite name=NearLogo>";
+        }
+
+       
     }
 }
