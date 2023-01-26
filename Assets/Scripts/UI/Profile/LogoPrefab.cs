@@ -38,7 +38,7 @@ namespace UI.Profile
         {
             TeamLogo logoData = new TeamLogo()
             {
-                team_name = _teamName,
+                team_name = _teamName ?? "",
                 form_name = _formName,
                 pattern_name = _patternName,
                 first_layer_color_number = firstLayerColorNumber,

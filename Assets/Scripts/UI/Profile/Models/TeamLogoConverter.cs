@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using UnityEngine;
 
 namespace UI.Profile.Models
 {
@@ -21,8 +22,8 @@ namespace UI.Profile.Models
         {
             var data = JObject.Load(reader);
             var user = data["data"]?["teamLogo"];
-
-            if (!user.Any())
+            
+            if (user == null || !user.Any())
             {
                 return new TeamLogo();
             }
