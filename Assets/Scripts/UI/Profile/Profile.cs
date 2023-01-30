@@ -1,14 +1,18 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Near;
 using NearClientUnity;
 using NearClientUnity.Utilities;
 using Runtime;
 using TMPro;
+using UI.Main_menu;
 using UI.Profile.Models;
 using UI.Profile.Popups;
 using UI.Profile.Rewards;
 using UI.Scripts;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -37,13 +41,18 @@ namespace UI.Profile
         [SerializeField] private Transform _rewardsParent;
         [SerializeField] private RewardInfoPopup _rewardsInfoPopup;
         [SerializeField] private Transform _createLogoPopup;
-
+        [SerializeField] private SignInView signInView;
+        
         private IRewardsRepository _repository = new IndexerRewardsRepository();
         private RewardsUser _rewardsUser;
         private LevelCalculator _levelCalculator;
         private List<BaseReward> _rewardsPrototypes;
         private Button _logoButton;
-        public Button ClosePopup;
+        //public Button ClosePopup;
+        private ILogoLoader _logoLoader = new IndexerLogoLoader();
+        private LogoPrefab _logoPrefab;
+        private readonly string _pathForm = "/Assets/Sprites/Profile/Form/";
+        private readonly string _pathPattern = "/Assets/Sprites/Profile";
         
         private void SetInitialValues()
         {
@@ -64,16 +73,52 @@ namespace UI.Profile
             _logoButton.onClick.AddListener(() => ShowPopup(_createLogoPopup));
             _userWalletName = Scripts.Utils.FindChild<TextMeshProUGUI>(transform, "Wallet");
             _userWalletBalance = Scripts.Utils.FindChild<TextMeshProUGUI>(transform, "Balance");
+            _logoPrefab = Scripts.Utils.FindChild<LogoPrefab>(transform, "Logo");
         }
         
         protected override async void OnAwake()
         {
             _rewardsUser = await _repository.GetUser();
             _rewardsPrototypes = await _repository.GetRewards();
-            OnUpdate();
+            StartCoroutine(UpdateProfile());
             InitRewards();
         }
 
+        private IEnumerator UpdateProfile()
+        {
+            while (gameObject.activeSelf)
+            {
+                OnUpdate();
+                yield return new WaitForSeconds(1);
+            }
+        }
+        
+        protected override async void OnUpdate()
+        {
+            userWallet.name = NearPersistentManager.Instance.GetAccountId();
+            AccountState accountState = await NearPersistentManager.Instance.GetAccountState();
+            userWallet.balance = NearUtils.FormatNearAmount(UInt128.Parse(accountState.Amount));
+            _userWalletName.text = userWallet.name;
+            string pattern = "{0:0." + new String('0', balanceFractionalDisplay) + "}";
+            _userWalletBalance.text = String.Format(pattern, userWallet.balance) + " <sprite name=NearLogo>";
+            await Load();
+        }
+        
+        private async Task Load() 
+        {
+            TeamLogo logoData = await _logoLoader.LoadLogo();
+            Debug.Log(logoData.form_name);
+            Load(logoData);
+        }
+        
+        private void Load(TeamLogo teamLogo) 
+        {
+            if (!_logoPrefab.IsDestroyed())
+            {
+                _logoPrefab.SetData(teamLogo, _pathForm, _pathPattern);
+            }
+        }
+        
         public void GoMainMenu()
         {
             SceneManager.LoadScene("MainMenu");
@@ -82,6 +127,17 @@ namespace UI.Profile
         public void ShowPopup(Transform popupTransform)
         {
             popupTransform.gameObject.SetActive(true);
+        }
+        public void ClosePopup(Transform popupTransform)
+        {
+            popupTransform.gameObject.SetActive(false);
+        }
+        public void SignOut()
+        {
+            NearPersistentManager.Instance.SignOut();
+
+            gameObject.SetActive(false);
+            signInView.gameObject.SetActive(true);
         }
 
         private void InitRewards()
@@ -101,16 +157,6 @@ namespace UI.Profile
         public void Close()
         {
             gameObject.SetActive(false);
-        }
-
-        protected override async void OnUpdate()
-        {
-            userWallet.name = NearPersistentManager.Instance.GetAccountId();
-            AccountState accountState = await NearPersistentManager.Instance.GetAccountState();
-            userWallet.balance = NearUtils.FormatNearAmount(UInt128.Parse(accountState.Amount));
-            _userWalletName.text = userWallet.name;
-            string pattern = "{0:0." + new String('0', balanceFractionalDisplay) + "}";
-            _userWalletBalance.text = String.Format(pattern, userWallet.balance) + " <sprite name=NearLogo>";
         }
     }
 }

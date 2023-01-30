@@ -268,16 +268,10 @@ namespace UI.Scripts
                                 {
                                     List<PopupManager.BetInfo> betInfo = new List<PopupManager.BetInfo>();
 
-                                    float minBid = 0;
                                     foreach (var offer in token.marketplace_data.offers)
                                     {
                                         float bet = (float) Near.NearUtils.FormatNearAmount(UInt128.Parse(offer.price));
                                         betInfo.Add(new PopupManager.BetInfo(offer.user.id, bet));
-
-                                        if (bet > minBid)
-                                        {
-                                            minBid = bet;
-                                        }
                                     }
                                     
                                     popup = _marketplace.GetComponent<RectTransform>()
@@ -290,7 +284,7 @@ namespace UI.Scripts
                                     popup = _marketplace.GetComponent<RectTransform>()
                                         .GetBuy(formattedPrice, async () =>
                                         {
-                                            await AcceptOffer(token.tokenId, token.marketplace_data.price);
+                                            await Offer(token.tokenId, token.marketplace_data.price);
                                             Popup success = _marketplace.GetComponent<RectTransform>().GetDefaultOk("Success", $"You have successfully bought nft");
                                             success.Show();
                                         });
@@ -417,7 +411,7 @@ namespace UI.Scripts
             }
         }
 
-        private async Task AcceptOffer(string tokenId, string price)
+        private async Task Offer(string tokenId, string price)
         {
             try
             {

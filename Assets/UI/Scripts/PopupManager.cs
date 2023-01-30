@@ -23,7 +23,7 @@ namespace UI.Scripts
             
             _instance.buttons = new[]
             {
-                new Popup.ButtonView(Popup.ButtonType.Positive, "Okay")
+                new Popup.ButtonView(UiButton.ButtonType.Positive, "Okay")
             };
 
             _instance.onClose = onClose;
@@ -40,8 +40,8 @@ namespace UI.Scripts
             
             _instance.buttons = new[]
             {
-                new Popup.ButtonView(Popup.ButtonType.Neutral, "Go back"),
-                new Popup.ButtonView(Popup.ButtonType.Positive, "Okay")
+                new Popup.ButtonView(UiButton.ButtonType.Neutral, "Go back"),
+                new Popup.ButtonView(UiButton.ButtonType.Positive, "Okay")
             };
 
             string path = Configurations.PrefabsFolderPath + "Inputs/InputNear";
@@ -97,8 +97,8 @@ namespace UI.Scripts
             _instance.SetMessage($"Do you really want to buy this card for {value} <sprite name=NearLogo> ?");
             _instance.buttons = new[]
             {
-                new Popup.ButtonView(Popup.ButtonType.Neutral, "Go back"),
-                new Popup.ButtonView(Popup.ButtonType.Positive, "Buy")
+                new Popup.ButtonView(UiButton.ButtonType.Neutral, "Go back"),
+                new Popup.ButtonView(UiButton.ButtonType.Positive, "Buy")
             };
             _instance.OnButtonClick(0, _instance.Close);
             _instance.OnButtonClick(1, () =>
@@ -119,8 +119,8 @@ namespace UI.Scripts
             
             _instance.buttons = new[]
             {
-                new Popup.ButtonView(Popup.ButtonType.Neutral, "Go back"),
-                new Popup.ButtonView(Popup.ButtonType.Positive, "Accept a bet")
+                new Popup.ButtonView(UiButton.ButtonType.Neutral, "Go back"),
+                new Popup.ButtonView(UiButton.ButtonType.Positive, "Accept a bet")
             };
             
             _instance.OnButtonClick(0, _instance.Close);
@@ -164,12 +164,14 @@ namespace UI.Scripts
             Transform inputObj = Object.Instantiate(prefab, parent).transform;
             inputObj.name = "InputNear"; 
             _instance.AddAdditional(inputObj);
+            
+            // Add new area for bid text and user account id.
             InputNear input = Utils.FindChild<InputNear>(_instance.transform, "InputNear");
             
             _instance.buttons = new[]
             {
-                new Popup.ButtonView(Popup.ButtonType.Neutral, "Go back"),
-                new Popup.ButtonView(Popup.ButtonType.Positive, "Set"),
+                new Popup.ButtonView(UiButton.ButtonType.Neutral, "Go back"),
+                new Popup.ButtonView(UiButton.ButtonType.Positive, "Set"),
             };
             
             _instance.OnButtonClick(0, _instance.Close);
@@ -229,8 +231,8 @@ namespace UI.Scripts
             
             _instance.buttons = new[]
             {
-                new Popup.ButtonView(Popup.ButtonType.Neutral, "Go back"),
-                new Popup.ButtonView(Popup.ButtonType.Positive, "Sell"),
+                new Popup.ButtonView(UiButton.ButtonType.Neutral, "Go back"),
+                new Popup.ButtonView(UiButton.ButtonType.Positive, "Sell"),
             };
             _instance.OnButtonClick(0, _instance.Close);
             _instance.OnButtonClick(1, () =>
@@ -239,8 +241,8 @@ namespace UI.Scripts
                 Popup info = parent.GetDefaultOk("Confirm action", $"Do you really want to place this card {message}?");
                 info.buttons = new[]
                 {
-                    new Popup.ButtonView(Popup.ButtonType.Neutral, "No"),
-                    new Popup.ButtonView(Popup.ButtonType.Positive, "Yes"),
+                    new Popup.ButtonView(UiButton.ButtonType.Neutral, "No"),
+                    new Popup.ButtonView(UiButton.ButtonType.Positive, "Yes"),
                 };
                 info.OnButtonClick(0, info.Close);
                 info.OnButtonClick(1, async () =>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using GameScene.UI;
 using UnityEngine;
@@ -18,17 +19,13 @@ namespace GameScene
 
         private async void Awake()
         {
-            return;
-            
             var user = await Near.GameContract.ContractMethods.Views.GetUserInGame();
             if (user != null && user.games[0].winner_index == null)
             {
                 _gameId = user.games[0].id;
                 _events = new List<Event>();
 
-                var generateEventTask = new Task(GenerateEvent);
-                generateEventTask.Start();
-                
+                GenerateEvent();
                 UpdateGameData();
             }
             else
@@ -37,27 +34,42 @@ namespace GameScene
             }
         }
 
-        public async void GenerateEvent()
+        private async Task GenerateEvent()
         {
             while (!_isGameFinished)
             {
-                Debug.Log("Generate event");
-                await Near.GameContract.ContractMethods.Actions.GenerateEvent(_gameId);
+                try
+                {
+                    Debug.Log("Generate event");
+                    await Near.GameContract.ContractMethods.Actions.GenerateEvent(_gameId);
+                    await UpdateGameData();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
             }
         }
 
-        private async void UpdateGameData()
+        private async Task UpdateGameData()
         {
-            do
+            List<Event> generatedEvents;
+            try
             {
-                var generatedEvents = await Near.GameContract.ContractMethods.Views
+                Debug.Log("Update event");
+                generatedEvents = await Near.GameContract.ContractMethods.Views
                     .GetGameEvents(_gameId, _events.Count);
-                
-                _events.AddRange(generatedEvents);
-                
-                CheckGameFinished(_events);
-                RenderEvents(_events);
-            } while (!_isGameFinished);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return;
+            }
+            
+            _events.AddRange(generatedEvents);
+           
+            CheckGameFinished(_events);
+            RenderEvents(_events);
         }
 
         private void CheckGameFinished(List<Event> events)

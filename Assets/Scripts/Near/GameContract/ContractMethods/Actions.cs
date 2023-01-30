@@ -88,8 +88,15 @@ namespace Near.GameContract.ContractMethods
                 
             dynamic args = new ExpandoObject();
             args.game_id = gameId;
-            
-            await gameContract.Change("generate_event", args, NearUtils.GasMove);
+
+            try
+            {
+                await gameContract.Change("generate_event", args, NearUtils.GasMove);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         public static async Task TakeTO(int gameId)

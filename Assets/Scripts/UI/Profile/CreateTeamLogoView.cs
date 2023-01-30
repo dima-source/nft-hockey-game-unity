@@ -41,7 +41,7 @@ namespace UI.Profile
             Load();
         }
 
-        public async void Load() // тут пока
+        public async void Load() 
         {
             TeamLogo logoData = await _logoLoader.LoadLogo();
             Debug.Log(logoData.form_name);
@@ -57,6 +57,7 @@ namespace UI.Profile
         {
             await _logoSaver.SaveLogo(_logoPrefab.GetTeamLogo());
             gameObject.SetActive(false);
+            
         }
         
         public void Close()

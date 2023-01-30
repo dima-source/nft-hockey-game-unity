@@ -9,22 +9,17 @@ namespace UI.Scripts
 {
     public class Popup : UiComponent
     {
-        public enum ButtonType
-        {
-            Positive,
-            Neutral,
-            Negative
-        }
+
 
         [Serializable]
         public class ButtonView
         {
-            public ButtonType type;
+            public UiButton.ButtonType type;
             public string text;
 
             public ButtonView() { }
             
-            public ButtonView(ButtonType type, string text)
+            public ButtonView(UiButton.ButtonType type, string text)
             {
                 this.type = type;
                 this.text = text;
@@ -143,18 +138,18 @@ namespace UI.Scripts
             }
         }
 
-        private static void SetButtonBackground(Button button, ButtonType type)
+        private static void SetButtonBackground(Button button, UiButton.ButtonType type)
         {
             string path = type switch
             {
-                ButtonType.Positive => Configurations.MaterialsFolderPath + "SecondaryBackground",
-                ButtonType.Neutral => Configurations.MaterialsFolderPath + "PrimaryBackground",
-                ButtonType.Negative => Configurations.MaterialsFolderPath + "AccentBackground2",
+                UiButton.ButtonType.Positive => Configurations.MaterialsFolderPath + "AccentBackgroundCold",
+                UiButton.ButtonType.Neutral => Configurations.MaterialsFolderPath + "PrimaryBackground",
+                UiButton.ButtonType.Negative => Configurations.MaterialsFolderPath + "AccentBackground2",
                 _ => throw new ApplicationException("Unsupported type")
             }; 
             
             Image image = button.GetComponentInChildren<Image>();
-            image.material = Utils.LoadResource<Material>(path);
+            //image.material = Utils.LoadResource<Material>(path);
         }
     }
 }

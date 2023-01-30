@@ -21,8 +21,8 @@ namespace GameScene.UI
 
         protected override void OnAwake()
         {
-            //_messages = new List<ActionMessage>();
-            //_accountId = Near.NearPersistentManager.Instance.GetAccountId();
+            _messages = new List<ActionMessage>();
+            _accountId = Near.NearPersistentManager.Instance.GetAccountId();
         }
 
         public void RenderMessages(List<Near.Models.Game.Event> events)
