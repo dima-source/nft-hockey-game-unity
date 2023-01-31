@@ -16,10 +16,11 @@ namespace UI.Scripts
         }
 
         [SerializeField] private ButtonType buttonType = ButtonType.Neutral;
+        [SerializeField] private TextMeshProUGUI text;
         private Image _stroke;
         private Image _background;
         private float _widthStroke = 5;
-        private TextMeshProUGUI _text;
+        
         public Action ONClick { get; set; }
          
         private const string DefaultSound = "click v1";
@@ -28,56 +29,54 @@ namespace UI.Scripts
         {
             _stroke = GetComponent<Image>();
             _background = Utils.FindChild<Image>(transform, "MainArea");
-            
+            text =  Utils.FindChild<TextMeshProUGUI>(transform, "Text");
             var strokeRect = GetComponent<RectTransform>();
             var backgroundRect = Utils.FindChild<RectTransform>(transform, "MainArea");
-            var sizeDelta = strokeRect.sizeDelta;
-            backgroundRect.sizeDelta = new Vector2(sizeDelta.x - _widthStroke,
-                sizeDelta.y - _widthStroke);
+            var sizeDeltaStroke = strokeRect.sizeDelta;
+            var sizeDeltaBackground = backgroundRect.sizeDelta;
+            _widthStroke = sizeDeltaStroke.x / 40;
+            
+            backgroundRect.sizeDelta = new Vector2(sizeDeltaStroke.x - _widthStroke,
+               sizeDeltaStroke.y - _widthStroke);
+       
             
             ONClick = () => { };
+            
+            SetButtonType(buttonType, text.text);
+        }
+        
+        public void SetButtonType(ButtonType type, string textString)
+        {
+            buttonType = type;
+            text.text = textString;
+            
+            SetMaterials();
+            SetSprites();
         }
 
+        private void SetMaterials()
+        {
+            string pathBackground = ButtonUtils.BackgroundMatPath[buttonType];
+            _background.material = Utils.LoadResource<Material>(pathBackground);
+
+            string pathStroke = ButtonUtils.StrokeMatPath[buttonType];
+            _background.material = Utils.LoadResource<Material>(pathStroke);
+        }
+
+        private void SetSprites()
+        {
+            string pathBackground = ButtonUtils.BackgroundSpritePath[buttonType];
+            _background.sprite = Utils.LoadResource<Sprite>(pathBackground);
+
+            string pathStroke = ButtonUtils.StrokeSpritePath[buttonType];
+            _background.sprite= Utils.LoadResource<Sprite>(pathStroke);
+        }
+        
         public void OnPointerClick(PointerEventData eventData)
         {
             AudioController.LoadClip(Configurations.MusicFolderPath + DefaultSound);
             AudioController.source.Play();
             ONClick?.Invoke();
-        }
-        
-        public void SetButtonType(Enum buttonType, string text)
-        {
-            _text.text = text;
-            SetMaterial(buttonType);
-        }
-
-        public void SetMaterial(Enum buttonType)
-        {
-            
-            string pathBackground = buttonType switch
-            {
-                ButtonType.Positive => Configurations.MaterialsFolderPath + "AccentBackgroundCold",
-                ButtonType.Neutral => Configurations.MaterialsFolderPath + "PrimaryBackground",
-                ButtonType.Negative => Configurations.MaterialsFolderPath + "AccentBackground2",
-                _ => throw new ApplicationException("Unsupported type")
-            }; 
-            
-            _background.material = Utils.LoadResource<Material>(pathBackground);
-            
-            string pathStroke = buttonType switch
-            {
-                ButtonType.Positive => Configurations.MaterialsFolderPath + "AccentBackgroundCold",
-                ButtonType.Neutral => Configurations.MaterialsFolderPath + "PrimaryBackground",
-                ButtonType.Negative => Configurations.MaterialsFolderPath + "AccentBackground2",
-                _ => throw new ApplicationException("Unsupported type")
-            }; 
-            
-            _background.material = Utils.LoadResource<Material>(pathStroke);
-        }
-        
-        public void ChangeStrokeMaterial()
-        {
-            
         }
     }
 }
