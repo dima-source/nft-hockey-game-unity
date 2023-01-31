@@ -16,11 +16,14 @@ namespace UI.Main_menu.UIPopups
         
         private User _user;
         private List<FriendItem> _friendItems;
+        private FriendItem _friendItemPrefab;
         
         private void Awake()
         {
             _friendItems = new List<FriendItem>();
             ShowRequestFriends();
+            string path = Configurations.PrefabsFolderPath + "MainMenu/Friend";
+            _friendItemPrefab = Scripts.Utils.LoadResource<FriendItem>(path);
         }
         
         public async void ShowRequestFriends()
@@ -30,7 +33,7 @@ namespace UI.Main_menu.UIPopups
             
             foreach (var friend in _user.friend_requests_received)
             {
-                FriendItem friendItem = Instantiate(Game.AssetRoot.mainMenuAsset.friendItem, friendsContent);
+                FriendItem friendItem = Instantiate(_friendItemPrefab, friendsContent);
                 
                 friendItem.Init(FriendItem.ButtonAction.AcceptFriendRequest, 
                     FriendItem.CancelButtonAction.DeclineFriendRequest,
@@ -49,7 +52,7 @@ namespace UI.Main_menu.UIPopups
             
             foreach (var friend in _user.requests_play_received)
             {
-                FriendItem friendItem = Instantiate(Game.AssetRoot.mainMenuAsset.friendItem, friendsContent);
+                FriendItem friendItem = Instantiate(_friendItemPrefab, friendsContent);
                 
                 friendItem.Init(FriendItem.ButtonAction.AcceptPlayRequest, 
                     FriendItem.CancelButtonAction.DeclinePlayRequest,
