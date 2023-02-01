@@ -31,7 +31,9 @@ namespace GameScene.UI
             {
                 foreach (var action in events[i].Actions)
                 {
-                    ActionMessage message = Instantiate(Game.AssetRoot.gameAsset.actionMessage, _content);
+                    string path = Configurations.PrefabsFolderPath + "Game/MessageText";
+                    ActionMessage prefab = global::UI.Scripts.Utils.LoadResource<ActionMessage>(path);
+                    ActionMessage message = Instantiate(prefab, _content);
                     message.SetData(action, _accountId);
                 
                     _messages.Add(message);

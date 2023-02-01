@@ -17,11 +17,14 @@ namespace UI.Main_menu.UIPopups
         
         private User _user;
         private List<FriendItem> _friendItems;
+        private FriendItem _friendItemPrefab;
         
         private void Awake()
         {
             _friendItems = new List<FriendItem>();
             ShowFriends();
+            string path = Configurations.PrefabsFolderPath + "MainMenu/Friend";
+            _friendItemPrefab = Scripts.Utils.LoadResource<FriendItem>(path);
         }
 
         public async void ShowFriends()
@@ -31,7 +34,7 @@ namespace UI.Main_menu.UIPopups
             
             foreach (var friend in _user.friends)
             {
-                FriendItem friendItem = Instantiate(Game.AssetRoot.mainMenuAsset.friendItem, friendsContent);
+                FriendItem friendItem = Instantiate(_friendItemPrefab, friendsContent);
                 
                 friendItem.Init(FriendItem.ButtonAction.SendPlayRequest, 
                     FriendItem.CancelButtonAction.RemoveFriend,
@@ -50,7 +53,7 @@ namespace UI.Main_menu.UIPopups
             
             foreach (var friend in _user.sent_friend_requests)
             {
-                FriendItem friendItem = Instantiate(Game.AssetRoot.mainMenuAsset.friendItem, friendsContent);
+                FriendItem friendItem = Instantiate(_friendItemPrefab, friendsContent);
                 
                 friendItem.Init(FriendItem.ButtonAction.Default, 
                     FriendItem.CancelButtonAction.DeclineFriendRequest,
@@ -69,7 +72,7 @@ namespace UI.Main_menu.UIPopups
             
             foreach (var friend in _user.sent_requests_play)
             {
-                FriendItem friendItem = Instantiate(Game.AssetRoot.mainMenuAsset.friendItem, friendsContent);
+                FriendItem friendItem = Instantiate(_friendItemPrefab, friendsContent);
                 
                 friendItem.Init(FriendItem.ButtonAction.Default, 
                     FriendItem.CancelButtonAction.DeclinePlayRequest,
@@ -94,7 +97,7 @@ namespace UI.Main_menu.UIPopups
             
             foreach (var user in users)
             {
-                FriendItem friendItem = Instantiate(Game.AssetRoot.mainMenuAsset.friendItem, friendsContent);
+                FriendItem friendItem = Instantiate(_friendItemPrefab, friendsContent);
                 
                 if (_user.friends.Count(x => x.id == _user.id) != 0)
                 {

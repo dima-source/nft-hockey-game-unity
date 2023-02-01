@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Near;
@@ -48,6 +47,9 @@ namespace UI.Profile
         private LevelCalculator _levelCalculator;
         private List<BaseReward> _rewardsPrototypes;
         private Button _logoButton;
+        private RewardView _rewardViewPrefab;
+        public Button ClosePopup;
+
         //public Button ClosePopup;
         private ILogoLoader _logoLoader = new IndexerLogoLoader();
         private LogoPrefab _logoPrefab;
@@ -73,6 +75,8 @@ namespace UI.Profile
             _logoButton.onClick.AddListener(() => ShowPopup(_createLogoPopup));
             _userWalletName = Scripts.Utils.FindChild<TextMeshProUGUI>(transform, "Wallet");
             _userWalletBalance = Scripts.Utils.FindChild<TextMeshProUGUI>(transform, "Balance");
+            string path = Configurations.PrefabsFolderPath + "Profile/RewardView";
+            _rewardViewPrefab = Scripts.Utils.LoadResource<RewardView>(path);
             _logoPrefab = Scripts.Utils.FindChild<LogoPrefab>(transform, "Logo");
         }
         
@@ -148,7 +152,7 @@ namespace UI.Profile
 
         private RewardView CreateReward(BaseReward reward)
         {
-            RewardView rewardView = Instantiate(Game.AssetRoot.profileAsset.rewardView, _rewardsParent);
+            RewardView rewardView = Instantiate(_rewardViewPrefab, _rewardsParent);
             rewardView.rewardInfoPopup = _rewardsInfoPopup;
             reward.SetForView(rewardView, _rewardsUser);
             return rewardView;
