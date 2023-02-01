@@ -8,7 +8,7 @@ namespace UI.Scripts.Card.CardStatistics
     public abstract class CardStatistic : CharacteristicImpl<int>, IFormattable
     {
 
-        private static readonly string SPRITES_PATH = Configurations.SpritesFolderPath + "SpriteSheet/";
+        private static readonly string SPRITES_PATH = Configurations.SpritesFolderPath + "SpriteSheets/PlayerCardSpriteSheet/";
 
         private static readonly int LOW_NUMBER_BOUND = 0;
         private static readonly int UPPER_NUMBER_BOUND = 100;

@@ -31,21 +31,5 @@ namespace Runtime
         {
             SceneManager.LoadSceneAsync("Game");
         }
-
-        private static void StartPlayer(AsyncOperation operation)
-        {
-            if (!operation.isDone)
-            {
-                throw new Exception("Can't load scene");
-            }
-            
-            _runner = Object.FindObjectOfType<Runner>();
-            _runner.StartRunning();
-        }
-
-        public static void TickController(IController controller)
-        {
-            _runner.TickController(controller);
-        }
     }
 }

@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Near;
 using NearClientUnity;
 using NearClientUnity.Utilities;
-using Runtime;
 using TMPro;
 using UI.Main_menu;
 using UI.Profile.Models;
@@ -48,7 +48,6 @@ namespace UI.Profile
         private List<BaseReward> _rewardsPrototypes;
         private Button _logoButton;
         private RewardView _rewardViewPrefab;
-        public Button ClosePopup;
 
         //public Button ClosePopup;
         private ILogoLoader _logoLoader = new IndexerLogoLoader();
@@ -132,10 +131,12 @@ namespace UI.Profile
         {
             popupTransform.gameObject.SetActive(true);
         }
+        
         public void ClosePopup(Transform popupTransform)
         {
             popupTransform.gameObject.SetActive(false);
         }
+        
         public void SignOut()
         {
             NearPersistentManager.Instance.SignOut();
