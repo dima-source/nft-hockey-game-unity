@@ -41,7 +41,7 @@ namespace UI.Scripts.Card.CardStatistics
         private Sprite GetStatisticSprite()
         {
             string spritePath = SPRITES_PATH + SpriteName;
-            return Utils.LoadSprite(spritePath);
+            return UiUtils.LoadSprite(spritePath);
         }
         
     }

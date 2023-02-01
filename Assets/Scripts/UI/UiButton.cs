@@ -28,10 +28,10 @@ namespace UI.Scripts
         protected override void Initialize()
         {
             _stroke = GetComponent<Image>();
-            _background = Utils.FindChild<Image>(transform, "MainArea");
-            text =  Utils.FindChild<TextMeshProUGUI>(transform, "Text");
+            _background = UiUtils.FindChild<Image>(transform, "MainArea");
+            text =  UiUtils.FindChild<TextMeshProUGUI>(transform, "Text");
             var strokeRect = GetComponent<RectTransform>();
-            var backgroundRect = Utils.FindChild<RectTransform>(transform, "MainArea");
+            var backgroundRect = UiUtils.FindChild<RectTransform>(transform, "MainArea");
             var sizeDeltaStroke = strokeRect.sizeDelta;
             var sizeDeltaBackground = backgroundRect.sizeDelta;
             _widthStroke = sizeDeltaStroke.x / 40;
@@ -57,19 +57,19 @@ namespace UI.Scripts
         private void SetMaterials()
         {
             string pathBackground = ButtonUtils.BackgroundMatPath[buttonType];
-            _background.material = Utils.LoadResource<Material>(pathBackground);
+            _background.material = UiUtils.LoadResource<Material>(pathBackground);
 
             string pathStroke = ButtonUtils.StrokeMatPath[buttonType];
-            _background.material = Utils.LoadResource<Material>(pathStroke);
+            _background.material = UiUtils.LoadResource<Material>(pathStroke);
         }
 
         private void SetSprites()
         {
             string pathBackground = ButtonUtils.BackgroundSpritePath[buttonType];
-            _background.sprite = Utils.LoadResource<Sprite>(pathBackground);
+            _background.sprite = UiUtils.LoadResource<Sprite>(pathBackground);
 
             string pathStroke = ButtonUtils.StrokeSpritePath[buttonType];
-            _background.sprite= Utils.LoadResource<Sprite>(pathStroke);
+            _background.sprite= UiUtils.LoadResource<Sprite>(pathStroke);
         }
         
         public void OnPointerClick(PointerEventData eventData)

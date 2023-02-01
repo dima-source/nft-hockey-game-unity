@@ -20,11 +20,11 @@ namespace UI.Profile.Popups
 
         protected override void Initialize()
         {
-            Image = Scripts.Utils.FindChild<Image>(transform, "IMGArea");
-            Title = Scripts.Utils.FindChild<TMP_Text>(transform, "name");
-            Description = Scripts.Utils.FindChild<TMP_Text>(transform, "desc");
-            ClosePopup = Scripts.Utils.FindChild<Button>(transform, "ClosePopup");
-            MainBackground = Scripts.Utils.FindChild<Button>(transform, "MainBackground");
+            Image = Scripts.UiUtils.FindChild<Image>(transform, "IMGArea");
+            Title = Scripts.UiUtils.FindChild<TMP_Text>(transform, "name");
+            Description = Scripts.UiUtils.FindChild<TMP_Text>(transform, "desc");
+            ClosePopup = Scripts.UiUtils.FindChild<Button>(transform, "ClosePopup");
+            MainBackground = Scripts.UiUtils.FindChild<Button>(transform, "MainBackground");
             
             ClosePopup.onClick.AddListener(Close);
             MainBackground.onClick.AddListener(Close);
@@ -43,11 +43,11 @@ namespace UI.Profile.Popups
         {
             if (_obtained)
             {
-                Image.sprite = Scripts.Utils.LoadSprite(SPRITES_PATH + _spriteName);
+                Image.sprite = Scripts.UiUtils.LoadSprite(SPRITES_PATH + _spriteName);
             }
             else
             {
-                Image.sprite = Scripts.Utils.LoadSprite(SPRITES_PATH + "Square");
+                Image.sprite = Scripts.UiUtils.LoadSprite(SPRITES_PATH + "Square");
             }
             Title.text = _title;
             Description.text = _description;

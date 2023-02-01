@@ -48,17 +48,17 @@ namespace UI.Scripts
         
         protected override void Initialize()
         {
-            _packImage = Utils.FindChild<Image>(transform, "PackIcon");
+            _packImage = UiUtils.FindChild<Image>(transform, "PackIcon");
             //_packImage.sprite = Utils.LoadSprite(PuckSpritePath);
-            _description = Utils.FindChild<TMP_Text>(transform, "Description");
-            _price = Utils.FindChild<TMP_Text>(transform, "PriceText");
-            _buyButton = Utils.FindChild<Button>(transform, "BuyButton");
+            _description = UiUtils.FindChild<TMP_Text>(transform, "Description");
+            _price = UiUtils.FindChild<TMP_Text>(transform, "PriceText");
+            _buyButton = UiUtils.FindChild<Button>(transform, "BuyButton");
             _buyButton.onClick.AddListener(BuyPack);
         }
 
         protected override void OnUpdate()
         {
-            _packImage.sprite = Utils.LoadSprite(PuckSpritePath);
+            _packImage.sprite = UiUtils.LoadSprite(PuckSpritePath);
             _description.text = description;
             _price.text = GetPriceString();
         }

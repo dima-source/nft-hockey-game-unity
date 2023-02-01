@@ -53,7 +53,7 @@ namespace UI.ManageTeam.DragAndDrop
 
         protected override void Initialize()
         {
-            _text = UI.Scripts.Utils.FindChild<TextMeshProUGUI>(transform, "Text");
+            _text = UI.Scripts.UiUtils.FindChild<TextMeshProUGUI>(transform, "Text");
             _background = gameObject.GetComponent<Image>();
             _background.type = Image.Type.Sliced;
         }
@@ -64,8 +64,8 @@ namespace UI.ManageTeam.DragAndDrop
             _text.fontStyle = fontStyle;
             _text.enableWordWrapping = !oneLined;
             _background.enabled = displayed;
-            _background.sprite = UI.Scripts.Utils.LoadSprite(ConvertToPath(type));
-            _background.material = UI.Scripts.Utils.LoadResource<Material>(ConvertToPath(material));
+            _background.sprite = UI.Scripts.UiUtils.LoadSprite(ConvertToPath(type));
+            _background.material = UI.Scripts.UiUtils.LoadResource<Material>(ConvertToPath(material));
 
             Color color = _background.color;
             color.a = alpha;

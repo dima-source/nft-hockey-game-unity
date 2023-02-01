@@ -26,7 +26,7 @@ namespace UI.Scripts
 
         protected override void Initialize()
         {
-            _text = Utils.FindChild<TextMeshProUGUI>(transform, "Label");
+            _text = UiUtils.FindChild<TextMeshProUGUI>(transform, "Label");
         }
 
         protected override void OnUpdate()

@@ -10,7 +10,7 @@ namespace UI.Scripts
 
         public static void LoadClip(string path)
         {
-            source.clip = Utils.LoadResource<AudioClip>(path);
+            source.clip = UiUtils.LoadResource<AudioClip>(path);
         }
 
         private static AudioSource CreateSource()

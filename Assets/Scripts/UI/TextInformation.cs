@@ -45,7 +45,7 @@ namespace UI.Scripts
                 textMeshPro.fontSizeMin = minSize;
                 textMeshPro.fontSizeMax = maxSize;
                 textMeshPro.enableAutoSizing = autoSize;
-                textMeshPro.spriteAsset = Utils.LoadResource<TMP_SpriteAsset>(Configurations.SpritesFolderPath + "SpriteAsset");
+                textMeshPro.spriteAsset = UiUtils.LoadResource<TMP_SpriteAsset>(Configurations.SpritesFolderPath + "SpriteAsset");
                 textMeshPro.alignment = alignmentOptions;
                 textMeshPro.fontStyle = fontStyle;
                 textMeshPro.enableWordWrapping = !oneLined;
@@ -67,7 +67,7 @@ namespace UI.Scripts
             public void CopyValues(Image image)
             {
                 image.enabled = displayed;
-                image.sprite = Utils.LoadSprite(ConvertToPath(type));
+                image.sprite = UiUtils.LoadSprite(ConvertToPath(type));
                 image.material = material;
                 SetAlpha(image, alpha);
                 image.pixelsPerUnitMultiplier = MAX_BORDER_RANGE / borderRadius;
@@ -96,7 +96,7 @@ namespace UI.Scripts
 
         protected override void Initialize()
         {
-            _textMeshPro = Utils.FindChild<TextMeshProUGUI>(transform, "Text");
+            _textMeshPro = UiUtils.FindChild<TextMeshProUGUI>(transform, "Text");
             _background = gameObject.GetComponent<Image>();
             _background.type = Image.Type.Sliced;
         }

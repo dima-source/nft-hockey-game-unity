@@ -66,7 +66,7 @@ namespace UI.Scripts
 
         protected override void Initialize()
         {
-            _vertexButtonsContainer = Utils.FindChild<Transform>(transform, "VertexButtonContainer");
+            _vertexButtonsContainer = UiUtils.FindChild<Transform>(transform, "VertexButtonContainer");
             _vertexButtons = new Button[_vertexButtonsContainer.childCount];
             for (int i = 0; i < _vertexButtonsContainer.childCount; i++)
             {
@@ -140,11 +140,11 @@ namespace UI.Scripts
                 Destroy(_popupInfo.gameObject);
             }
             
-            GameObject prefab = Utils.LoadResource<GameObject>(Path);
+            GameObject prefab = UiUtils.LoadResource<GameObject>(Path);
             _popupInfo = Instantiate(prefab, transform).GetComponent<PopupInfo>();
             var popupRectTransform = _popupInfo.GetComponent<RectTransform>();
             
-            CircleRenderer vertex = Utils.FindChild<CircleRenderer>(transform, $"Vertex{index}");
+            CircleRenderer vertex = UiUtils.FindChild<CircleRenderer>(transform, $"Vertex{index}");
             var vertexRectTransform = vertex.GetComponent<RectTransform>();
 
             var anchoredPosition = vertexRectTransform.anchoredPosition;
@@ -192,7 +192,7 @@ namespace UI.Scripts
             float scale = (MAX_STAT_VALUE - statistics[index].value) / (float) (MAX_STAT_VALUE - MIN_STAT_VALUE);
             float radius = Vector2.Distance(start, end) * scale;
             float angle = index * Mathf.PI * 2 / statistics.Count;
-            Vector2 position = Utils.ToCartesian(radius, angle);
+            Vector2 position = UiUtils.ToCartesian(radius, angle);
             
             RectTransform rectTransform = circleRenderer.GetComponent<RectTransform>();
             rectTransform.anchoredPosition = start + position;
@@ -213,7 +213,7 @@ namespace UI.Scripts
             
             Vector2 labelSize = new Vector2(150, 100);
             int labelTextSize = 30;
-            Vector2 labelPosition = Utils.ToCartesian(size * 1.5f, angle) * -1;
+            Vector2 labelPosition = UiUtils.ToCartesian(size * 1.5f, angle) * -1;
 
             TextMeshProUGUI label = GenerateText("Label", statistics[index].label, rectTransform, labelTextSize);
             RectTransform labelRect = label.GetComponent<RectTransform>();

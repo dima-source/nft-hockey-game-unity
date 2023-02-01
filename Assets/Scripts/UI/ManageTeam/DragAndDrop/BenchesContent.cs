@@ -11,7 +11,7 @@ namespace UI.ManageTeam.DragAndDrop
 
         protected override void Initialize()
         {
-            manageTeamView = Scripts.Utils.FindParent<ManageTeamView>(transform, "ManageTeam");
+            manageTeamView = Scripts.UiUtils.FindParent<ManageTeamView>(transform, "ManageTeam");
         }
 
         public void OnDrop(PointerEventData eventData)

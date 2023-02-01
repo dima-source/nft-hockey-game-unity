@@ -41,13 +41,13 @@ namespace UI.Scripts
         
         protected override void Initialize()
         {
-            _topBar = Utils.FindChild<TopBar>(transform, "TopBar");
-            _userWalletName = Utils.FindChild<TextMeshProUGUI>(transform, "Wallet");
-            _userWalletBalance = Utils.FindChild<TextMeshProUGUI>(transform, "Balance");
-            _breadcrumbs = Utils.FindChild<TextMeshProUGUI>(transform, "Breadcrumbs");
-            _packAnimation = Utils.FindChild<PackAnimation>(transform, "SoldPopupAnimation");
-            buyPacksNonScrollable = Utils.FindChild<Transform>(transform, "BuyPacksNonScrollable");
-            buyPacksScrollable = Utils.FindChild<Transform>(transform, "BuyPacksScrollable");
+            _topBar = UiUtils.FindChild<TopBar>(transform, "TopBar");
+            _userWalletName = UiUtils.FindChild<TextMeshProUGUI>(transform, "Wallet");
+            _userWalletBalance = UiUtils.FindChild<TextMeshProUGUI>(transform, "Balance");
+            _breadcrumbs = UiUtils.FindChild<TextMeshProUGUI>(transform, "Breadcrumbs");
+            _packAnimation = UiUtils.FindChild<PackAnimation>(transform, "SoldPopupAnimation");
+            buyPacksNonScrollable = UiUtils.FindChild<Transform>(transform, "BuyPacksNonScrollable");
+            buyPacksScrollable = UiUtils.FindChild<Transform>(transform, "BuyPacksScrollable");
             
             InitializePages();
         }
@@ -97,8 +97,8 @@ namespace UI.Scripts
         {
             List<Transform> containers = new List<Transform>()
             {
-                Utils.FindChild<Transform>(buyPacksScrollable, "Content"),
-                Utils.FindChild<Transform>(buyPacksNonScrollable, "Content")
+                UiUtils.FindChild<Transform>(buyPacksScrollable, "Content"),
+                UiUtils.FindChild<Transform>(buyPacksNonScrollable, "Content")
             };
             List<PackTypes> packTypes = new List<PackTypes>()
             {
@@ -120,7 +120,7 @@ namespace UI.Scripts
             for (int containerNumber = 0; containerNumber < 2; containerNumber++)
             {
                 var container = containers[containerNumber];
-                var content = Utils.FindChild<Transform>(container, "Content").GetComponentsInChildren<PackView>();
+                var content = UiUtils.FindChild<Transform>(container, "Content").GetComponentsInChildren<PackView>();
                 var previousVisibility = container.gameObject.activeSelf;
                 container.gameObject.SetActive(true);
                 for (int i = 0; i < 5; i++)
@@ -188,10 +188,10 @@ namespace UI.Scripts
         private void InitializePages()
         {
             _pages = new();
-            Transform pagesContainer = Utils.FindChild<Transform>(transform, "Main");
-            _pages["BuyPacks"] = Utils.FindChild<Transform>(pagesContainer, "BuyPacks");
-            _pages["CardDisplay"] = Utils.FindChild<Transform>(pagesContainer, "CardDisplay");
-            _pages["FilterCards"] = Utils.FindChild<Transform>(pagesContainer, "FilterCards");
+            Transform pagesContainer = UiUtils.FindChild<Transform>(transform, "Main");
+            _pages["BuyPacks"] = UiUtils.FindChild<Transform>(pagesContainer, "BuyPacks");
+            _pages["CardDisplay"] = UiUtils.FindChild<Transform>(pagesContainer, "CardDisplay");
+            _pages["FilterCards"] = UiUtils.FindChild<Transform>(pagesContainer, "FilterCards");
             FindPacks();
         }
 

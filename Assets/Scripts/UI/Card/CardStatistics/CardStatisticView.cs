@@ -38,11 +38,11 @@ namespace UI.Scripts.Card.CardStatistics
         protected override void Initialize()
         {
             SetEqualDistributedGradientPalette(Color.red, Color.yellow, Color.green);
-            fillBar = Utils.FindChild<Image>(transform, "FillStripe");
+            fillBar = UiUtils.FindChild<Image>(transform, "FillStripe");
             fillBar.type = Image.Type.Filled;
             fillBar.fillOrigin = (int)Image.Origin180.Top;
-            spriteDisplay = Utils.FindChild<Image>(transform, "SpriteImage");
-            criticalTextMeshPro = Utils.FindChild<TextMeshProUGUI>(transform, "BoostText");
+            spriteDisplay = UiUtils.FindChild<Image>(transform, "SpriteImage");
+            criticalTextMeshPro = UiUtils.FindChild<TextMeshProUGUI>(transform, "BoostText");
         }
 
         protected override void OnUpdate()

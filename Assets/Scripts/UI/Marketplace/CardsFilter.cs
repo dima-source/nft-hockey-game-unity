@@ -75,11 +75,11 @@ namespace UI.Scripts
             _pull = new List<CardView>();
             _numberOfLoadedCards = 0;
             
-            _layoutContainer = Utils.FindChild<RectTransform>(transform, "Layout");
-            _layout = Utils.FindChild<GridLayoutGroup>(_layoutContainer, "Content");
-            Transform temp = Utils.FindChild<Transform>(transform, "FilterMenu");
-            _togglesContainer = Utils.FindChild<RectTransform>(temp, "Content");
-            _cardViewPrefab = Utils.LoadResource<GameObject>(Configurations.PrefabsFolderPath + "Marketplace/CardView");
+            _layoutContainer = UiUtils.FindChild<RectTransform>(transform, "Layout");
+            _layout = UiUtils.FindChild<GridLayoutGroup>(_layoutContainer, "Content");
+            Transform temp = UiUtils.FindChild<Transform>(transform, "FilterMenu");
+            _togglesContainer = UiUtils.FindChild<RectTransform>(temp, "Content");
+            _cardViewPrefab = UiUtils.LoadResource<GameObject>(Configurations.PrefabsFolderPath + "Marketplace/CardView");
 
             _marketplace = FindObjectOfType(typeof(Marketplace)).GetComponent<Marketplace>();
             

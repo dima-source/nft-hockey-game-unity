@@ -27,7 +27,7 @@ namespace UI.Main_menu.UIPopups
             
             for (int i = 1; i <= 6; i++)
             {
-                CardView card = UI.Scripts.Utils.FindChild<CardView>(transform, $"Card{i}");
+                CardView card = UI.Scripts.UiUtils.FindChild<CardView>(transform, $"Card{i}");
                 _cards.Add(card);
             }
         }

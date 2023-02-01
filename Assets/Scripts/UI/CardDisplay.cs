@@ -31,14 +31,14 @@ namespace UI.Scripts
 
         protected override void Initialize()
         {
-            CardView = Utils.FindChild<CardView>(transform, "CardView");
-            Drawer = Utils.FindChild<PolygonDrawer>(transform, "GraphContainer");
-            _priceText = Utils.FindChild<TextMeshProUGUI>(transform, "Price");
-            _basicInformationText = Utils.FindChild<TextMeshProUGUI>(transform, "Basic");
-            _additionalInformationText = Utils.FindChild<TextMeshProUGUI>(transform, "Secondary");
+            CardView = UiUtils.FindChild<CardView>(transform, "CardView");
+            Drawer = UiUtils.FindChild<PolygonDrawer>(transform, "GraphContainer");
+            _priceText = UiUtils.FindChild<TextMeshProUGUI>(transform, "Price");
+            _basicInformationText = UiUtils.FindChild<TextMeshProUGUI>(transform, "Basic");
+            _additionalInformationText = UiUtils.FindChild<TextMeshProUGUI>(transform, "Secondary");
             SetInformation();
 
-           Transform buttonsContainer = Utils.FindChild<Transform>(transform, "ButtonContainer");
+           Transform buttonsContainer = UiUtils.FindChild<Transform>(transform, "ButtonContainer");
             _buttons = new Button[buttonsContainer.childCount];
             for (int i = 0; i < buttonsContainer.childCount; i++)
             {

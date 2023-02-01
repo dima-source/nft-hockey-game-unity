@@ -28,9 +28,9 @@ namespace UI.Scripts
             base.Initialize();
             _inputField = gameObject.GetComponent<TMP_InputField>();
             _inputField.placeholder = _textMeshPro;
-            RectTransform textArea = Utils.FindChild<RectTransform>(transform, "TextArea");
+            RectTransform textArea = UiUtils.FindChild<RectTransform>(transform, "TextArea");
             _inputField.textViewport = textArea;
-            _input = Utils.FindChild<TextMeshProUGUI>(textArea, "Input");
+            _input = UiUtils.FindChild<TextMeshProUGUI>(textArea, "Input");
             _inputField.textComponent = _input;
             _inputField.onValueChanged.AddListener(OnValueChanged);
             _inputField.onSubmit.AddListener(OnSubmit);

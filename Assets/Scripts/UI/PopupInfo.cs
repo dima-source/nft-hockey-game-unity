@@ -11,9 +11,9 @@ namespace UI.Scripts
         
         protected override void Initialize()
         {
-            _titleText = Utils.FindChild<TMP_Text>(transform, "TitleText");
-            _infoText = Utils.FindChild<TMP_Text>(transform, "InfoText");
-            _closeButton = Utils.FindChild<Button>(transform, "GoBack");
+            _titleText = UiUtils.FindChild<TMP_Text>(transform, "TitleText");
+            _infoText = UiUtils.FindChild<TMP_Text>(transform, "InfoText");
+            _closeButton = UiUtils.FindChild<Button>(transform, "GoBack");
             _closeButton.onClick.AddListener(ClosePopup);
         }
 

@@ -27,11 +27,11 @@ namespace UI.Profile
          
         protected override void Initialize()
         {
-            _firstLayerImg = Scripts.Utils.FindChild<Image>(transform, "FirstLayer");
-            _secondLayerImg = Scripts.Utils.FindChild<Image>(transform, "SecondLayer");
-            _textArea = Scripts.Utils.FindChild<Image>(transform, "TextArea");
-            _textGround = Scripts.Utils.FindChild<Image>(transform, "TextGround");
-            _textTeamName = Scripts.Utils.FindChild<TextMeshProUGUI>(transform, "TeamName"); 
+            _firstLayerImg = Scripts.UiUtils.FindChild<Image>(transform, "FirstLayer");
+            _secondLayerImg = Scripts.UiUtils.FindChild<Image>(transform, "SecondLayer");
+            _textArea = Scripts.UiUtils.FindChild<Image>(transform, "TextArea");
+            _textGround = Scripts.UiUtils.FindChild<Image>(transform, "TextGround");
+            _textTeamName = Scripts.UiUtils.FindChild<TextMeshProUGUI>(transform, "TeamName"); 
         }
         
         public TeamLogo GetTeamLogo()

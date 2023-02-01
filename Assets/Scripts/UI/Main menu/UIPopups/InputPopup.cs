@@ -12,10 +12,10 @@ namespace UI.Main_menu.UIPopups
         
         protected override void Initialize()
         {
-            _spinner = Scripts.Utils.FindChild<Loading>(transform, "Loading");
-            _textArea = Scripts.Utils.FindChild<Transform>(transform, "TextArea");
-            _footer = Scripts.Utils.FindChild<Transform>(transform, "Footer");
-            _inputArea = Scripts.Utils.FindChild<Transform>(transform, "InputArea");
+            _spinner = Scripts.UiUtils.FindChild<Loading>(transform, "Loading");
+            _textArea = Scripts.UiUtils.FindChild<Transform>(transform, "TextArea");
+            _footer = Scripts.UiUtils.FindChild<Transform>(transform, "Footer");
+            _inputArea = Scripts.UiUtils.FindChild<Transform>(transform, "InputArea");
         }
 
         public void ShowSpinner()

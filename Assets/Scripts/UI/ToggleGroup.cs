@@ -39,8 +39,8 @@ namespace UI.Scripts
 
         protected override void Initialize()
         {
-            _toggleGroupName = Utils.FindChild<TextMeshProUGUI>(transform, "ToggleGroupName");
-            _toggleContainer = Utils.FindChild<Transform>(transform, "ToggleContainer");
+            _toggleGroupName = UiUtils.FindChild<TextMeshProUGUI>(transform, "ToggleGroupName");
+            _toggleContainer = UiUtils.FindChild<Transform>(transform, "ToggleContainer");
             _toggles = new Toggle[_toggleContainer.childCount];
             
             for (int i = 0; i < _toggles.Length; i++)
@@ -69,7 +69,7 @@ namespace UI.Scripts
                 _toggles[i].onChange += onChangeToggle.Invoke;
             }
             
-            _arrow = Utils.FindChild<TextMeshProUGUI>(transform, "Arrow");
+            _arrow = UiUtils.FindChild<TextMeshProUGUI>(transform, "Arrow");
         }
 
         public bool[] GetValues()

@@ -105,7 +105,7 @@ namespace UI.Scripts
         {
             float angle = 2 * Mathf.PI * (segment % segments) / segments;
             float radius = (CalculateOuterBoundSize() + CalculateInnerBoundSize()) / 2;
-            return Utils.ToCartesian(radius, angle);
+            return UiUtils.ToCartesian(radius, angle);
         }
     }
 }

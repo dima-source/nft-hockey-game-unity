@@ -45,12 +45,12 @@ namespace UI.Scripts
             };
 
             string path = Configurations.PrefabsFolderPath + "Inputs/InputNear";
-            GameObject prefab = Utils.LoadResource<GameObject>(path);
+            GameObject prefab = UiUtils.LoadResource<GameObject>(path);
             Transform inputObj = Object.Instantiate(prefab, parent).transform;
             inputObj.name = "InputNear"; 
             _instance.AddAdditional(inputObj);
             
-            InputNear input = Utils.FindChild<InputNear>(_instance.transform, "InputNear");
+            InputNear input = UiUtils.FindChild<InputNear>(_instance.transform, "InputNear");
             
             _instance.OnButtonClick(0, _instance.Close);
             _instance.OnButtonClick(1, () =>
@@ -132,12 +132,12 @@ namespace UI.Scripts
             });
             
             string path = Configurations.PrefabsFolderPath + "VerticalScrollView";
-            GameObject prefab = Utils.LoadResource<GameObject>(path);
+            GameObject prefab = UiUtils.LoadResource<GameObject>(path);
             Transform scrollText = Object.Instantiate(prefab, parent).transform;
-            Transform content = Utils.FindChild<Transform>(scrollText, "Content");
+            Transform content = UiUtils.FindChild<Transform>(scrollText, "Content");
             _instance.AddAdditional(scrollText);
 
-            TMP_SpriteAsset spriteAsset = Utils.LoadResource<TMP_SpriteAsset>(Configurations.SpritesFolderPath + "SpriteAsset");
+            TMP_SpriteAsset spriteAsset = UiUtils.LoadResource<TMP_SpriteAsset>(Configurations.SpritesFolderPath + "SpriteAsset");
             foreach (var info in betInfo)
             {
                 GameObject obj = new GameObject("Text");
@@ -160,13 +160,13 @@ namespace UI.Scripts
             _instance.SetTitle("Set a new bet?");
             
             string path = Configurations.PrefabsFolderPath + "Inputs/InputNear";
-            GameObject prefab = Utils.LoadResource<GameObject>(path);
+            GameObject prefab = UiUtils.LoadResource<GameObject>(path);
             Transform inputObj = Object.Instantiate(prefab, parent).transform;
             inputObj.name = "InputNear"; 
             _instance.AddAdditional(inputObj);
             
             // Add new area for bid text and user account id.
-            InputNear input = Utils.FindChild<InputNear>(_instance.transform, "InputNear");
+            InputNear input = UiUtils.FindChild<InputNear>(_instance.transform, "InputNear");
             
             _instance.buttons = new[]
             {
@@ -212,10 +212,10 @@ namespace UI.Scripts
         public static Popup GetSellCard(this RectTransform parent, string tokenId)
         {
             _instance = GetInputNear(parent, "Sell card");
-            InputNear input = Utils.FindChild<InputNear>(_instance.transform, "InputNear");
+            InputNear input = UiUtils.FindChild<InputNear>(_instance.transform, "InputNear");
             
             string path = Configurations.PrefabsFolderPath + "Toggle";
-            GameObject prefab = Utils.LoadResource<GameObject>(path);
+            GameObject prefab = UiUtils.LoadResource<GameObject>(path);
             Transform obj = Object.Instantiate(prefab, parent).transform;
             _instance.AddAdditional(obj);
 
@@ -225,7 +225,7 @@ namespace UI.Scripts
             
             var element = obj.AddComponent<LayoutElement>();
             element.preferredHeight = 30;
-            TextMeshProUGUI text = Utils.FindChild<TextMeshProUGUI>(obj, "Label");
+            TextMeshProUGUI text = UiUtils.FindChild<TextMeshProUGUI>(obj, "Label");
             text.margin = new Vector4(0, 20, 0, 20);
             text.horizontalAlignment = HorizontalAlignmentOptions.Left;
             
@@ -292,7 +292,7 @@ namespace UI.Scripts
                 Object.Destroy(_instance.gameObject);
             }
 
-            GameObject prefab = Utils.LoadResource<GameObject>(PATH);
+            GameObject prefab = UiUtils.LoadResource<GameObject>(PATH);
             _instance = Object.Instantiate(prefab, parent).GetComponent<Popup>();
             return _instance;
         }

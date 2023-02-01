@@ -42,12 +42,12 @@ namespace UI.Scripts
 
         protected override void Initialize()
         {
-            _title = Utils.FindChild<TextMeshProUGUI>(transform, "TitleText");
-            _message = Utils.FindChild<TextMeshProUGUI>(transform, "MessageText");
-            Button background = Utils.FindChild<Button>(transform, "Background");
+            _title = UiUtils.FindChild<TextMeshProUGUI>(transform, "TitleText");
+            _message = UiUtils.FindChild<TextMeshProUGUI>(transform, "MessageText");
+            Button background = UiUtils.FindChild<Button>(transform, "Background");
             background.onClick.RemoveAllListeners();
             background.onClick.AddListener(Close);
-            _buttonsContainer = Utils.FindChild<Transform>(transform, "ButtonsContainer");
+            _buttonsContainer = UiUtils.FindChild<Transform>(transform, "ButtonsContainer");
             foreach (Transform child in _buttonsContainer)
             {
                 if (child.GetComponent<Button>() == null)
@@ -96,7 +96,7 @@ namespace UI.Scripts
 
         public void AddAdditional(Transform go)
         {
-            Transform additional = Utils.FindChild<Transform>(transform, "Additional");
+            Transform additional = UiUtils.FindChild<Transform>(transform, "Additional");
             int position = additional.childCount - 1;
             go.SetParent(additional, false);
             go.SetSiblingIndex(Math.Max(0, position));

@@ -17,8 +17,8 @@ namespace UI.Scripts
         
         protected override void Initialize()
         {
-            _onActivateButton = Utils.FindChild<Button>(transform, "OnActivateButton");
-            _offActivateButton = Utils.FindChild<Button>(transform, "OffActivateButton");
+            _onActivateButton = UiUtils.FindChild<Button>(transform, "OnActivateButton");
+            _offActivateButton = UiUtils.FindChild<Button>(transform, "OffActivateButton");
 
             _animation = GetComponent<Animation>();
             _onActivateButton.onClick.AddListener(On);

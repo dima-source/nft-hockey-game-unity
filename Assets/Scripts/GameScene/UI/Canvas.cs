@@ -7,8 +7,8 @@ namespace GameScene.UI
     {
         protected override void Initialize()
         {
-            var phoneLayout = global::UI.Scripts.Utils.FindChild<GameView>(transform, "PhoneLayout");
-            var tabletLayout = global::UI.Scripts.Utils.FindChild<GameView>(transform, "TabletLayout");
+            var phoneLayout = global::UI.Scripts.UiUtils.FindChild<GameView>(transform, "PhoneLayout");
+            var tabletLayout = global::UI.Scripts.UiUtils.FindChild<GameView>(transform, "TabletLayout");
 
             var rectTransform = GetComponent<RectTransform>();
             var rect = rectTransform.rect;
@@ -24,8 +24,8 @@ namespace GameScene.UI
                 phoneLayout.gameObject.SetActive(false);
                 tabletLayout.gameObject.SetActive(true);
                 
-                var tabletBottom = global::UI.Scripts.Utils.FindChild<Transform>(transform, "BottomPanelTablet");
-                var pcBottom = global::UI.Scripts.Utils.FindChild<Transform>(transform, "BottomPanelPC");
+                var tabletBottom = global::UI.Scripts.UiUtils.FindChild<Transform>(transform, "BottomPanelTablet");
+                var pcBottom = global::UI.Scripts.UiUtils.FindChild<Transform>(transform, "BottomPanelPC");
                 
                 if (aspectRatio >= 1.6)
                 {

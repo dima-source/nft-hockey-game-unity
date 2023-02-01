@@ -11,7 +11,7 @@ using Object = UnityEngine.Object;
 
 namespace UI.Scripts
 {
-    public static class Utils
+    public static class UiUtils
     {
         
         private static readonly Dictionary<string, Object> resourcesCache = new();

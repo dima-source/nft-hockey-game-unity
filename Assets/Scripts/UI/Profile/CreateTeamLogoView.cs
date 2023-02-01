@@ -24,11 +24,11 @@ namespace UI.Profile
         
         private void Awake()
         {
-            _logoPrefab = Scripts.Utils.FindChild<LogoPrefab>(transform, "Logo");
-            _saveButton = Scripts.Utils.FindChild<Button>(transform, "SaveButton");
-            _resetButton = Scripts.Utils.FindChild<Button>(transform, "ResetButton");
-            _background = Scripts.Utils.FindChild<Button>(transform, "MainBackground");
-            _closePopupButton = Scripts.Utils.FindChild<Button>(transform, "ClosePopup");
+            _logoPrefab = Scripts.UiUtils.FindChild<LogoPrefab>(transform, "Logo");
+            _saveButton = Scripts.UiUtils.FindChild<Button>(transform, "SaveButton");
+            _resetButton = Scripts.UiUtils.FindChild<Button>(transform, "ResetButton");
+            _background = Scripts.UiUtils.FindChild<Button>(transform, "MainBackground");
+            _closePopupButton = Scripts.UiUtils.FindChild<Button>(transform, "ClosePopup");
             _saveButton.onClick.AddListener(Save);
             _resetButton.onClick.AddListener(Load);
             _background.onClick.AddListener(Close);

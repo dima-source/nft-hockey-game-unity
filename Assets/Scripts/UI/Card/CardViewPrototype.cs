@@ -38,17 +38,17 @@ namespace UI.Scripts.Card
 
             public Graphic(Transform transform)
             {
-                background = Utils.FindChild<Image>(transform, "BackgroundImage");
-                avatar = Utils.FindChild<Image>(transform, "AvatarImage");
+                background = UiUtils.FindChild<Image>(transform, "BackgroundImage");
+                avatar = UiUtils.FindChild<Image>(transform, "AvatarImage");
                 InitializeRarenessIndicators(transform);
             }
 
             private void InitializeRarenessIndicators(Transform transform)
             {
                 rarenessIndicators = new RectRenderer[3];
-                rarenessIndicators[0] = Utils.FindChild<StraightTrapezoidRenderer>(transform, "LeftTrapezoid");
-                rarenessIndicators[1] = Utils.FindChild<ParallelogramRenderer>(transform, "Parallelogram");
-                rarenessIndicators[2] = Utils.FindChild<StraightTrapezoidRenderer>(transform, "UpTrapezoid");
+                rarenessIndicators[0] = UiUtils.FindChild<StraightTrapezoidRenderer>(transform, "LeftTrapezoid");
+                rarenessIndicators[1] = UiUtils.FindChild<ParallelogramRenderer>(transform, "Parallelogram");
+                rarenessIndicators[2] = UiUtils.FindChild<StraightTrapezoidRenderer>(transform, "UpTrapezoid");
             }
         }
             
@@ -61,17 +61,17 @@ namespace UI.Scripts.Card
                 
             public Text(Transform transform)
             {
-                name = Utils.FindChild<TextMeshProUGUI>(transform, "Name");
-                position = Utils.FindChild<TextMeshProUGUI>(transform, "Position");
-                playerNumber = Utils.FindChild<TextMeshProUGUI>(transform, "Number");
-                playerRole = Utils.FindChild<TextMeshProUGUI>(transform, "Role");
+                name = UiUtils.FindChild<TextMeshProUGUI>(transform, "Name");
+                position = UiUtils.FindChild<TextMeshProUGUI>(transform, "Position");
+                playerNumber = UiUtils.FindChild<TextMeshProUGUI>(transform, "Number");
+                playerRole = UiUtils.FindChild<TextMeshProUGUI>(transform, "Role");
             }
         }
 
         private void FindCardStatisticViews()
         {
             
-            Transform statisticsContainer = Utils.FindChild<Transform>(transform, "StatisticsContainer");
+            Transform statisticsContainer = UiUtils.FindChild<Transform>(transform, "StatisticsContainer");
             if (playerCardData.position.ToString() != "G")
             {
                 int indexCounter = 0;

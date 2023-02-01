@@ -63,20 +63,20 @@ namespace UI.Profile
         
         protected override void Initialize()
         {
-            LevelNumber = Scripts.Utils.FindChild<TMP_Text>(transform, "LevelNumber");
-            LevelSlider = Scripts.Utils.FindChild<Slider>(transform, "Progress");
-            _rewardsParent = Scripts.Utils.FindChild<Transform>(transform, "RewardsContent");
-            _rewardsInfoPopup = Scripts.Utils.FindChild<RewardInfoPopup>(transform.parent, "TrophyPopup");
-            _createLogoPopup = Scripts.Utils.FindChild<Transform>(transform.parent, "CreateLogoPopup");
-            _logoButton = Scripts.Utils.FindChild<Button>(transform, "LogoContainer");
+            LevelNumber = Scripts.UiUtils.FindChild<TMP_Text>(transform, "LevelNumber");
+            LevelSlider = Scripts.UiUtils.FindChild<Slider>(transform, "Progress");
+            _rewardsParent = Scripts.UiUtils.FindChild<Transform>(transform, "RewardsContent");
+            _rewardsInfoPopup = Scripts.UiUtils.FindChild<RewardInfoPopup>(transform.parent, "TrophyPopup");
+            _createLogoPopup = Scripts.UiUtils.FindChild<Transform>(transform.parent, "CreateLogoPopup");
+            _logoButton = Scripts.UiUtils.FindChild<Button>(transform, "LogoContainer");
             _levelCalculator = new LevelCalculator(_rewardsUser);
             SetInitialValues();
             _logoButton.onClick.AddListener(() => ShowPopup(_createLogoPopup));
-            _userWalletName = Scripts.Utils.FindChild<TextMeshProUGUI>(transform, "Wallet");
-            _userWalletBalance = Scripts.Utils.FindChild<TextMeshProUGUI>(transform, "Balance");
+            _userWalletName = Scripts.UiUtils.FindChild<TextMeshProUGUI>(transform, "Wallet");
+            _userWalletBalance = Scripts.UiUtils.FindChild<TextMeshProUGUI>(transform, "Balance");
             string path = Configurations.PrefabsFolderPath + "Profile/RewardView";
-            _rewardViewPrefab = Scripts.Utils.LoadResource<RewardView>(path);
-            _logoPrefab = Scripts.Utils.FindChild<LogoPrefab>(transform, "Logo");
+            _rewardViewPrefab = Scripts.UiUtils.LoadResource<RewardView>(path);
+            _logoPrefab = Scripts.UiUtils.FindChild<LogoPrefab>(transform, "Logo");
         }
         
         protected override async void OnAwake()

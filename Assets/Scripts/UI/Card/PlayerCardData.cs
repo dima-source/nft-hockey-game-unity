@@ -30,8 +30,8 @@ namespace UI.Scripts.Card
         private void InitializeDefaultValues()
         {
             isOnAuction = false;
-            background = Utils.LoadSprite(Configurations.SpritesFolderPath + "background");
-            avatar = Utils.LoadSprite(Configurations.SpritesFolderPath + "Transparent");
+            background = UiUtils.LoadSprite(Configurations.SpritesFolderPath + "background");
+            avatar = UiUtils.LoadSprite(Configurations.SpritesFolderPath + "Transparent");
             name = "Player Name";
             position = new("RW");
             number = new(99);

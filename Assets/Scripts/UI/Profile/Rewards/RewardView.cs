@@ -29,8 +29,8 @@ namespace UI.Profile.Rewards
 
         protected override void Initialize()
         {
-            _rewardImage = Scripts.Utils.FindChild<Image>(transform, "RewardImage");
-            _notObtainedForeground = Scripts.Utils.FindChild<Image>(transform, "NotObtainedForeground");
+            _rewardImage = Scripts.UiUtils.FindChild<Image>(transform, "RewardImage");
+            _notObtainedForeground = Scripts.UiUtils.FindChild<Image>(transform, "NotObtainedForeground");
             _showPopupButton = GetComponent<Button>();
             _showPopupButton.onClick.AddListener(ShowPopup);
         }
@@ -56,7 +56,7 @@ namespace UI.Profile.Rewards
         private Sprite GetRewardSprite()
         {
             string spritePath = SPRITES_PATH + SpriteName;
-            return Scripts.Utils.LoadSprite(spritePath);
+            return Scripts.UiUtils.LoadSprite(spritePath);
         }
 
     }

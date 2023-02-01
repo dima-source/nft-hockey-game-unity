@@ -14,11 +14,11 @@ namespace UI.Scripts
         protected override void Initialize()
         {
             _cards = new List<CardView>();
-            _animation = Utils.FindChild<Animation>(transform, "MainArea");
+            _animation = UiUtils.FindChild<Animation>(transform, "MainArea");
             
             for (int i = 1; i <= 3; i++)
             {
-                var card = Utils.FindChild<CardView>(transform, "Card" + i + "MP");
+                var card = UiUtils.FindChild<CardView>(transform, "Card" + i + "MP");
                 _cards.Add(card);
             }
         }

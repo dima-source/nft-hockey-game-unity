@@ -24,7 +24,7 @@ namespace UI.Main_menu.UIPopups
             _friendItems = new List<FriendItem>();
             ShowFriends();
             string path = Configurations.PrefabsFolderPath + "MainMenu/Friend";
-            _friendItemPrefab = Scripts.Utils.LoadResource<FriendItem>(path);
+            _friendItemPrefab = Scripts.UiUtils.LoadResource<FriendItem>(path);
         }
 
         public async void ShowFriends()

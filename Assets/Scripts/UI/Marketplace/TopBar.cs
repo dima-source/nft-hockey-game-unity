@@ -57,13 +57,13 @@ namespace UI.Scripts
         protected override void Initialize()
         {
             _buttons = new();
-            _buttons["GoBack"] = new Entry(Utils.FindChild<Button>(transform, "GoBack"));
-            _buttons["BuyPacks"] = new Entry(Utils.FindChild<Button>(transform, "BuyPacks"));
-            _buttons["BuyCards"] = new Entry(Utils.FindChild<Button>(transform, "BuyCards"));
-            _buttons["SellCards"] = new Entry(Utils.FindChild<Button>(transform, "SellCards"));
-            _buttons["OnSale"] = new Entry(Utils.FindChild<Button>(transform, "OnSale"));
-            _buttons["Draft"] = new Entry(Utils.FindChild<Button>(transform, "Draft"));
-            _buttons["Objects"] = new Entry(Utils.FindChild<Button>(transform, "Objects"));
+            _buttons["GoBack"] = new Entry(UiUtils.FindChild<Button>(transform, "GoBack"));
+            _buttons["BuyPacks"] = new Entry(UiUtils.FindChild<Button>(transform, "BuyPacks"));
+            _buttons["BuyCards"] = new Entry(UiUtils.FindChild<Button>(transform, "BuyCards"));
+            _buttons["SellCards"] = new Entry(UiUtils.FindChild<Button>(transform, "SellCards"));
+            _buttons["OnSale"] = new Entry(UiUtils.FindChild<Button>(transform, "OnSale"));
+            _buttons["Draft"] = new Entry(UiUtils.FindChild<Button>(transform, "Draft"));
+            _buttons["Objects"] = new Entry(UiUtils.FindChild<Button>(transform, "Objects"));
 
             NowPage = "BuyPacks";
             SetDefaultBackButton();
@@ -117,7 +117,7 @@ namespace UI.Scripts
             
             _selected = buttonId;
             string path = Configurations.MaterialsFolderPath + "PrimaryBackground";
-            _buttons[buttonId].button.GetComponent<Image>().material = Utils.LoadResource<Material>(path);
+            _buttons[buttonId].button.GetComponent<Image>().material = UiUtils.LoadResource<Material>(path);
         }
         
         public void SetBackButtonAction(UnityAction action)
