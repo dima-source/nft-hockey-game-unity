@@ -22,7 +22,7 @@ namespace UI.Scripts
     
     public class PackView: UiComponent
     {
-        private static readonly string SPRITES_PATH = Configurations.SpritesFolderPath + "Marketplace/";
+        private static readonly string SPRITES_PATH = Configurations.SpritesFolderPath + "Packs/";
         //[SerializeField]
         private PackTypes type;
         private Image _packImage;

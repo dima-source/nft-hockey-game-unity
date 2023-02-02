@@ -8,7 +8,7 @@ namespace UI.Profile.Rewards
 {
     public class RewardView: UiComponent, IRewardDataReceiver
     {
-        private static readonly string SPRITES_PATH = Configurations.SpritesFolderPath + "SpriteSheet/";
+        private static readonly string SPRITES_PATH = Configurations.SpritesFolderPath + "SpriteSheets/PlayerCardSpriteSheet/";
         public string SpriteName;
         public string RewardTitle;
         public string Description;

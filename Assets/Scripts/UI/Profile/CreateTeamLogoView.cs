@@ -11,8 +11,8 @@ namespace UI.Profile
         private string inputLayerColorNumber;
         private string inputGroundColorNumber;
         private LogoPrefab _logoPrefab;
-        private readonly string _pathForm = "/Assets/Sprites/Profile/Form/";
-        private readonly string _pathPattern = "/Assets/Sprites/Profile";
+        private readonly string _pathForm = "/Assets/Resources/Sprites/TeamLogo/Form/";
+        private readonly string _pathPattern = "/Assets/Resources/Sprites/TeamLogo/";
         private ILogoSaver _logoSaver = new ContractLogoSaver();
         private ILogoLoader _logoLoader = new IndexerLogoLoader();
         private Button _saveButton;

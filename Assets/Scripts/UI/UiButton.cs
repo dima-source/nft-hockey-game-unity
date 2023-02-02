@@ -1,12 +1,13 @@
 ﻿using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace UI.Scripts
 {
-    public class UiButton : UiComponent, IPointerClickHandler
+    public class UiButton : UiComponent
     {
         public enum ButtonType
         {
@@ -15,8 +16,9 @@ namespace UI.Scripts
             Negative
         }
 
-        [SerializeField] private ButtonType buttonType = ButtonType.Neutral;
-        [SerializeField] private TextMeshProUGUI text;
+        private ButtonType buttonType = ButtonType.Neutral;
+        private TextMeshProUGUI text;
+        private Button _button;
         private Image _stroke;
         private Image _background;
         private float _widthStroke = 5;
@@ -29,6 +31,7 @@ namespace UI.Scripts
         {
             _stroke = GetComponent<Image>();
             _background = UiUtils.FindChild<Image>(transform, "MainArea");
+            _button = GetComponent<Button>();
             text =  UiUtils.FindChild<TextMeshProUGUI>(transform, "Text");
             var strokeRect = GetComponent<RectTransform>();
             var backgroundRect = UiUtils.FindChild<RectTransform>(transform, "MainArea");
@@ -38,11 +41,11 @@ namespace UI.Scripts
             
             backgroundRect.sizeDelta = new Vector2(sizeDeltaStroke.x - _widthStroke,
                sizeDeltaStroke.y - _widthStroke);
-       
-            
+
+            backgroundRect.anchoredPosition = new Vector2(0, 0);
             ONClick = () => { };
             
-            SetButtonType(buttonType, text.text);
+            //SetButtonType(buttonType, text.text);
         }
         
         public void SetButtonType(ButtonType type, string textString)
@@ -72,11 +75,16 @@ namespace UI.Scripts
             _background.sprite= UiUtils.LoadResource<Sprite>(pathStroke);
         }
         
-        public void OnPointerClick(PointerEventData eventData)
+        public void AddListener(UnityAction action, string sound = DefaultSound)
         {
-            AudioController.LoadClip(Configurations.MusicFolderPath + DefaultSound);
+            AudioController.LoadClip(Configurations.MusicFolderPath + sound);
             AudioController.source.Play();
-            ONClick?.Invoke();
+            _button.onClick.AddListener(action);
+        }
+
+        public void RemoveAllListeners()
+        {
+            _button.onClick.RemoveAllListeners();
         }
     }
 }
