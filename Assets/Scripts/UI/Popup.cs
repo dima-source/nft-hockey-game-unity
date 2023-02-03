@@ -1,16 +1,15 @@
 using System;
 using System.Linq;
 using TMPro;
+using UI.Scripts;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace UI.Scripts
+namespace UI
 {
     public class Popup : UiComponent
     {
-
-
         [Serializable]
         public class ButtonView
         {

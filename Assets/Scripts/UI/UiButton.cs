@@ -1,11 +1,10 @@
-﻿using System;
-using TMPro;
+﻿using TMPro;
+using UI.Scripts;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace UI.Scripts
+namespace UI
 {
     public class UiButton : UiComponent
     {
@@ -15,64 +14,57 @@ namespace UI.Scripts
             Neutral,
             Negative
         }
-
-        private ButtonType buttonType = ButtonType.Neutral;
-        private TextMeshProUGUI text;
+        private const string DefaultSound = "click v1";
+        
+        private TextMeshProUGUI _text;
         private Button _button;
         private Image _stroke;
         private Image _background;
-        private float _widthStroke = 5;
-        
-        public Action ONClick { get; set; }
-         
-        private const string DefaultSound = "click v1";
+
+        private RectTransform _strokeRectTransform;
+        private RectTransform _backgroundRectTransform;
 
         protected override void Initialize()
         {
+            _button = GetComponent<Button>();
+            _text =  UiUtils.FindChild<TextMeshProUGUI>(transform, "Text");
+            
             _stroke = GetComponent<Image>();
             _background = UiUtils.FindChild<Image>(transform, "MainArea");
-            _button = GetComponent<Button>();
-            text =  UiUtils.FindChild<TextMeshProUGUI>(transform, "Text");
-            var strokeRect = GetComponent<RectTransform>();
-            var backgroundRect = UiUtils.FindChild<RectTransform>(transform, "MainArea");
-            var sizeDeltaStroke = strokeRect.sizeDelta;
-            var sizeDeltaBackground = backgroundRect.sizeDelta;
-            _widthStroke = sizeDeltaStroke.x / 40;
             
-            backgroundRect.sizeDelta = new Vector2(sizeDeltaStroke.x - _widthStroke,
-               sizeDeltaStroke.y - _widthStroke);
+            _strokeRectTransform = GetComponent<RectTransform>();
+            _backgroundRectTransform = UiUtils.FindChild<RectTransform>(transform, "MainArea");
+        }
 
-            backgroundRect.anchoredPosition = new Vector2(0, 0);
-            ONClick = () => { };
+        protected override void OnUpdate()
+        {
+            SetStroke();
+        }
+
+        private void SetStroke()
+        {
+            var sizeDeltaStroke = _strokeRectTransform.sizeDelta;
+            float widthStroke = sizeDeltaStroke.x / 30;
             
-            //SetButtonType(buttonType, text.text);
+            _backgroundRectTransform.sizeDelta = new Vector2(sizeDeltaStroke.x - widthStroke,
+               sizeDeltaStroke.y - widthStroke);
+
+            _backgroundRectTransform.anchoredPosition = new Vector2(0, 0);
         }
         
-        public void SetButtonType(ButtonType type, string textString)
+        private void SetBackgroundMaterial(string path)
         {
-            buttonType = type;
-            text.text = textString;
-            
-            SetMaterials();
-            SetSprites();
+            _background.material = UiUtils.LoadResource<Material>(path);
         }
 
-        private void SetMaterials()
+        private void SetStrokeMaterial(string path)
         {
-            string pathBackground = ButtonUtils.BackgroundMatPath[buttonType];
-            _background.material = UiUtils.LoadResource<Material>(pathBackground);
-
-            string pathStroke = ButtonUtils.StrokeMatPath[buttonType];
-            _background.material = UiUtils.LoadResource<Material>(pathStroke);
+            _stroke.material = UiUtils.LoadResource<Material>(path);
         }
 
-        private void SetSprites()
+        private void SetText(string text)
         {
-            string pathBackground = ButtonUtils.BackgroundSpritePath[buttonType];
-            _background.sprite = UiUtils.LoadResource<Sprite>(pathBackground);
-
-            string pathStroke = ButtonUtils.StrokeSpritePath[buttonType];
-            _background.sprite= UiUtils.LoadResource<Sprite>(pathStroke);
+            _text.text = text;
         }
         
         public void AddListener(UnityAction action, string sound = DefaultSound)

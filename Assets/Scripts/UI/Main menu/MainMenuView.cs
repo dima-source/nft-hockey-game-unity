@@ -2,13 +2,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Near;
 using Near.Models.Game;
-using NearClientUnity;
-using NearClientUnity.Utilities;
 using Runtime;
 using UI.Main_menu.UIPopups;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 namespace UI.Main_menu
 {
@@ -16,9 +13,6 @@ namespace UI.Main_menu
     {
         [SerializeField] private FirstEntryPopupAnimation firstEntryPopup;
         [SerializeField] private SignInView signInView;
-
-        [SerializeField] private Text accountId;
-        [SerializeField] private Text balance;
 
         [SerializeField] private List<Transform> popups;
         [SerializeField] private Transform loadingPopup;
@@ -28,15 +22,11 @@ namespace UI.Main_menu
             loadingPopup.gameObject.SetActive(true);
             string accountID = NearPersistentManager.Instance.GetAccountId();
 
-            accountId.text = "Welcome, " + accountID + " !";
-
-            AccountState accountState = await NearPersistentManager.Instance.GetAccountState();
             if (SceneManager.GetActiveScene().name != "MainMenu")
             {
                 loadingPopup.gameObject.SetActive(false);
                 return;
             }
-            balance.text = "Your balance: " + NearUtils.FormatNearAmount(UInt128.Parse(accountState.Amount)) + " NEAR";
 
             var isGameAccountRegistered = await CheckGameAccount(accountID);
             if (!isGameAccountRegistered)
@@ -97,10 +87,6 @@ namespace UI.Main_menu
             return true;
         }
 
-        private async void GetTrained()
-        {
-        }
-
         public void TradeCards()
         {
             Game.LoadMarketplace();
@@ -115,6 +101,7 @@ namespace UI.Main_menu
         {
             SceneManager.LoadScene("Profile"); 
         }
+        
         public void ShowPopup(Transform popupTransform)
         {
             foreach (Transform popup in popups)

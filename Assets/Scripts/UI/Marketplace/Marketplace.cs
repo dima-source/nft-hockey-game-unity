@@ -126,7 +126,6 @@ namespace UI.Scripts
                 for (int i = 0; i < 5; i++)
                 {
                     PackView pack = content[i];
-                    var packType = packTypes[i];
                     pack.SetData(
                         packTypes[i],
                         prices[i],

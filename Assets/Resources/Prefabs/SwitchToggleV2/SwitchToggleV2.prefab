@@ -208,7 +208,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5505193886795445688}
   - component: {fileID: 6936841598187289605}
-  - component: {fileID: 6034489629775129756}
+  - component: {fileID: 7067216042785993863}
   m_Layer: 5
   m_Name: SwitchToggleV2
   m_TagString: Untagged
@@ -254,7 +254,7 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
---- !u!114 &6034489629775129756
+--- !u!114 &7067216042785993863
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -263,7 +263,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5505193886795445689}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b85f999fe9047509bb4583662aca938, type: 3}
+  m_Script: {fileID: 11500000, guid: 3a552d856dfc605498099dcc3e5a561e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5505193887778909663
@@ -328,7 +328,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 0c7094862a8cd2b4eb99e822b0c28c02, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -336,8 +336,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a2447abc630cade4fb0ab133f27a917b, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 456f235bd66c08a48b7f8be0cc4724f7, type: 3}
+  m_Type: 1
   m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
@@ -345,7 +345,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 2.99
 --- !u!114 &893404546928800915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -465,7 +465,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4282859581
   m_fontColor: {r: 0.2392157, g: 0.2509804, b: 0.2784314, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -601,7 +601,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4282859581
+    rgba: 4294967295
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3

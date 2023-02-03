@@ -6,13 +6,13 @@ using UnityEngine.Video;
 
 public class SceneLoading : MonoBehaviour
 {
-    private RectTransform rectTransform;
+    private RectTransform _rectTransform;
     [SerializeField] private VideoPlayer videoPlayer;
     [SerializeField] private RawImage image;
     
     void Start()
     {
-        rectTransform = GetComponent<RectTransform>();
+        _rectTransform = GetComponent<RectTransform>();
         StartCoroutine(AnimationPlaying());
     }
 
@@ -20,11 +20,11 @@ public class SceneLoading : MonoBehaviour
     {
         float deltaScale = 0.02f;
         
-        while (rectTransform.localScale.x < 1)
+        while (_rectTransform.localScale.x < 1)
         {
-            float newScale = rectTransform.localScale.x + deltaScale;
+            float newScale = _rectTransform.localScale.x + deltaScale;
             
-            rectTransform.localScale = new Vector3(newScale, newScale, 1);
+            _rectTransform.localScale = new Vector3(newScale, newScale, 1);
 
             yield return new WaitForSeconds(0.01f);
         }
