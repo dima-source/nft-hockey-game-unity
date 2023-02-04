@@ -54,7 +54,7 @@ namespace UI.Scripts
             }
         }
 
-        private static readonly string Path = Configurations.PrefabsFolderPath + "InfoPopup";
+        private static readonly string Path = Configurations.PrefabsFolderPath + "Popups/InfoPopup";
         private PopupInfo _popupInfo;
         private Button[] _vertexButtons;
         private Transform _vertexButtonsContainer;

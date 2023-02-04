@@ -12,7 +12,7 @@ namespace UI.Scripts
 {
     public static class PopupManager
     {
-        private static readonly string PATH = Configurations.PrefabsFolderPath + "Popup";
+        private static readonly string PATH = Configurations.PrefabsFolderPath + "Popups/Popup";
         private static Popup _instance;
 
         public static Popup GetDefaultOk(this RectTransform parent, string title, string message, UnityAction onClose = null)
