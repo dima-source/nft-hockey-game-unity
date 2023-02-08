@@ -11,7 +11,8 @@ namespace GameScene.Puck
         private readonly int _numberOfVectors;
         private float _acceleration;
 
-        public ShotMovement(List<Vector3> destinationPoints, Vector3 startPoint, int numberOfVectors, float acceleration = 0.0116633698f)
+        public ShotMovement(List<Vector3> destinationPoints, Vector3 startPoint, 
+            int numberOfVectors = 1000, float acceleration = 0.0116633698f)
         {
             _destinationPoints = destinationPoints;
             _startPoint = startPoint;

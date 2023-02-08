@@ -88,60 +88,40 @@ namespace GameScene
             return lastActionType == "GameFinished";
         }
 
-        public async void MockPockCheck()
-        {
-            await MockPockCheckTest();
-        }
-
-        public async void MockShot()
-        {
-            await MockShotTest();
-        }
-
-        public async void MockPenaltyShot()
-        {
-            await MockPenaltyShotTest();
-        }
-
         public async void MockMove()
         {
-            await MockMoveTest();
+            //await MockMoveTest();
+            // await MockShot();
+            //await MockDumpTest();
+            //await MockPockCheck();
+            await MockPenaltyShot();
         }
 
-        public async void MockDump()
-        {
-            await MockDumpTest();
-        }
-
-        private async Task MockPenaltyShotTest()
+        private async Task MockPenaltyShot()
         {
             puck.transform.position = new Vector3(0f, 0.18f, 0f);
             var puckPosition = puck.transform.position;
-
-            var rndZ = Random.Range(-19f, -12.2f);
-            var rndX = Random.Range(-12f, -6f);
-            puckTest.transform.position = new Vector3(rndX, puckPosition.y, rndZ);
-            var shotCoordinates = puckTest.transform.position;
             
-            var drndX = Random.Range(-14f, -1f);
-            var drndZ = Random.Range(-7f, -5f);
-            var destination = new Vector3(drndX, puckPosition.y, drndZ);
-            const int numberOfVectors = 1000;
-            var dangleMovement = new PenaltyShotMovement(puckPosition, shotCoordinates, destination, numberOfVectors);
+            var rndX = Random.Range(-1.27f, 1.27f);
             
-            var coordinates = dangleMovement.GetTrajectory();
+            puckTest.transform.position = new Vector3(rndX, puckPosition.y, -27.3f);
+            var destination = new Vector3(rndX, puckPosition.y, -27.3f);
+            
+            var penaltyShotMovement = new PenaltyShotMovement(puckPosition, destination);
+            
+            var coordinates = penaltyShotMovement.GetTrajectory();
 
             var trajectory = new Trajectory()
             {
                 Coordinates = coordinates,
-                RenderingSpeed = 1000,
+                RenderingSpeed = 2000,
                 NumberOfPoints = 1000,
             };
             
             await puck.Move(trajectory);
         }
         
-        private async Task MockPockCheckTest()
+        private async Task MockPockCheck()
         {
             puck.transform.position = new Vector3(-10.5f, 0.18f, 6.1f);
             var puckPosition = puck.transform.position;
@@ -169,7 +149,7 @@ namespace GameScene
             await puck.Move(trajectory);
         }
         
-        private async Task MockShotTest()
+        private async Task MockShot()
         {
             //puck.transform.position = new Vector3(0, 0.18f, 13);
             var puckPosition = puck.transform.position;

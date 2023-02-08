@@ -12,7 +12,7 @@ namespace GameScene.Puck
         private readonly int _numberOfVectors;
 
         public Hit(Vector3 startCoordinates, Vector3 moveDestinationCoordinates,
-            Vector3 destinationCoordinates, int numberOfVectors)
+            Vector3 destinationCoordinates, int numberOfVectors = 1000)
         {
             _startCoordinates = startCoordinates;
             _moveDestinationCoordinates = moveDestinationCoordinates;
