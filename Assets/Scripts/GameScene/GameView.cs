@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using GameScene.UI;
+using UI.Scripts;
 using UnityEngine;
 using Event = Near.Models.Game.Event;
 
 namespace GameScene
 {
-    public class GameView : MonoBehaviour
+    public class GameView : UiComponent
     {
-        [SerializeField] private ActionMessages actionMessages;
+        private ActionMessages _actionMessages;
         [SerializeField] private Field field;
         
         private int _gameId;
@@ -17,8 +18,14 @@ namespace GameScene
         private int _numberOfRenderedEvents;
         private List<Event> _events;
 
-        private async void Awake()
+        protected override void Initialize()
         {
+            _actionMessages = UiUtils.FindChild<ActionMessages>(transform, "ActionMessages");
+        }
+
+        protected override async void OnAwake()
+        {
+            return;
             var user = await Near.GameContract.ContractMethods.Views.GetUserInGame();
             if (user != null && user.games[0].winner_index == null)
             {
@@ -88,9 +95,9 @@ namespace GameScene
 
         private void RenderEvents(List<Event> events)
         {
-            if (actionMessages.enabled)
+            if (_actionMessages.enabled)
             {
-                actionMessages.RenderMessages(events);
+                _actionMessages.RenderMessages(events);
             }
             
             field.UpdateEventsData(events);
