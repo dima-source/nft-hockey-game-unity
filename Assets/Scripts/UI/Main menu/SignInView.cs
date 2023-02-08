@@ -6,23 +6,35 @@ using dotnetstandard_bip39;
 using Near;
 using TMPro;
 using UI.Main_menu.UIPopups;
+using UI.Scripts;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace UI.Main_menu
 {
-    public class SignInView : MonoBehaviour
-    {
-        [SerializeField] private MainMenuView mainMenuView;
-        [SerializeField] private Text inputUri;
-        [SerializeField] private TMP_InputField accountIdInput;
+    public class SignInView : UiComponent
+    { 
+        [SerializeField] private MainMenu mainMenu;
+        [SerializeField] private Text inputUri; 
+        [SerializeField] private TMP_InputField accountIdInput; 
         [SerializeField] private TMP_Text inputDescription;
-        [SerializeField] private InputPopup inputPopup;
-        [SerializeField] private Transform infoPopup;
-        [SerializeField] private TMP_Dropdown accountsDropdown;
-
+        [SerializeField] private InputPopup inputPopup; 
+        [SerializeField] private Transform infoPopup; 
+        [SerializeField] private TMP_Dropdown accountsDropdown; 
         [SerializeField] private SeedPhraseView seedPhrase;
         
+        protected override void Initialize()
+        {
+            inputUri = UiUtils.FindChild<Text>(transform, "TextUri");
+            accountIdInput = UiUtils.FindChild<TMP_InputField>(transform, "AccountIdInput");
+            inputDescription = UiUtils.FindChild<TMP_Text>(transform, "DescriptionText");
+            inputPopup = UiUtils.FindChild<InputPopup>(transform, "InputPopup");
+            infoPopup = UiUtils.FindChild<Transform>(transform, "InfoPopup");
+            accountsDropdown = UiUtils.FindChild<TMP_Dropdown>(transform, "Dropdown");
+            seedPhrase = UiUtils.FindChild<SeedPhraseView>(transform, "SeedPhraseField");
+           //mainMenu = UiUtils.FindParent<MainMenu>(transform,"MainMenu");
+        }
         private void Start()
         {
             inputPopup.HideSpinner();
@@ -44,8 +56,8 @@ namespace UI.Main_menu
             if(NearPersistentManager.Instance.WalletAccount.IsSignedIn())
             {
                 gameObject.SetActive(false);
-                mainMenuView.gameObject.SetActive(true);
-                mainMenuView.LoadAccountId();
+                mainMenu.gameObject.SetActive(true);
+                mainMenu.LoadAccountId();
             }   
         }
         
@@ -102,9 +114,9 @@ namespace UI.Main_menu
             var accountId = (await NearPersistentManager.Instance.GetAvailableAccounts())[accountsDropdown.value];
             Debug.Log(accountId);
             await NearPersistentManager.Instance.LoadAccount(accountId);
-            mainMenuView.LoadAccountId();
+            mainMenu.LoadAccountId();
             gameObject.SetActive(false);
-            mainMenuView.gameObject.SetActive(true);
+            mainMenu.gameObject.SetActive(true);
         }
 
         public async void RegisterAccount()
@@ -120,7 +132,7 @@ namespace UI.Main_menu
             seedPhrase.SeedPhraseText.text = bip.GenerateMnemonic(128, BIP39Wordlist.English).Replace("\r", "");
             string accountId = accountIdInput.text.Trim();
             await NearPersistentManager.Instance.Register(accountId, seedPhrase.SeedPhraseText.text);
-            mainMenuView.LoadAccountId();
+            mainMenu.LoadAccountId();
             inputPopup.HideSpinner();
             
             inputPopup.gameObject.SetActive(false);

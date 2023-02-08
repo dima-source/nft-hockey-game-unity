@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using Near;
 using NearClientUnity.Utilities;
 using Runtime;
+using UI.Scripts;
 using UnityEngine;
+using UnityEngine.UI;
+using Object = UnityEngine.Object;
 
 namespace UI.Main_menu.UIPopups
 {
@@ -14,11 +17,24 @@ namespace UI.Main_menu.UIPopups
         [SerializeField] private Search searchView;
         [SerializeField] private List<BidButton> buttons;
         [SerializeField] private UIPopupError uiPopupError;
-
+        
+        private Button canselButton;
+        private Button confirmButton;
+        private RectTransform _instance;
         private string _bid;
         
-        public new async void Show()
+        
+        protected override void Initialize()
         {
+            canselButton = UiUtils.FindChild<Button>(transform, "CancelButton");
+            confirmButton = UiUtils.FindChild<Button>(transform, "ConfirmButton");
+            canselButton.onClick.AddListener(CancelBid);
+            confirmButton.onClick.AddListener(SetBid);
+        }
+        
+        public new async void Show(Transform parent)
+        {
+            
             try
             {
                 var user = await Near.GameContract.ContractMethods.Views.GetUser();
@@ -42,8 +58,9 @@ namespace UI.Main_menu.UIPopups
                 Console.WriteLine(e);
                 throw;
             }
-            
-            mainMenuView.ShowPopup(transform);
+
+            //GetDefaultSelectBid(parent);
+            //mainMenuView.ShowPopup(transform);
         }
         
         public async void SetBid()
@@ -106,5 +123,20 @@ namespace UI.Main_menu.UIPopups
                 bidButton.image.color = bidButton.defaultColor;
             } 
         }
+        
+        
+        public void GetDefaultSelectBid(Transform parent)
+        {
+            string PATH = Configurations.PrefabsFolderPath + "Popups/SelectBidPopup";
+            
+            if (_instance != null)
+            {
+                Destroy(_instance.gameObject);
+            }
+
+            GameObject prefab = UiUtils.LoadResource<GameObject>(PATH);
+            _instance = Instantiate(prefab, parent).GetComponent<RectTransform>();
+        }
+
     }
 }

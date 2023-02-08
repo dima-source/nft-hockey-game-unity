@@ -5,7 +5,9 @@ using NearClientUnity.Utilities;
 using Runtime;
 using TMPro;
 using UI.Main_menu.UIPopups.Requests;
+using UI.Scripts;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UI.Main_menu.UIPopups
 {
@@ -18,7 +20,13 @@ namespace UI.Main_menu.UIPopups
         private User _user;
         private List<FriendItem> _friendItems;
         private FriendItem _friendItemPrefab;
+        private Button Exit;
         
+        protected override void Initialize()
+        {
+            Exit = UiUtils.FindChild<Button>(transform, "Exit");
+        }
+
         private void Awake()
         {
             _friendItems = new List<FriendItem>();

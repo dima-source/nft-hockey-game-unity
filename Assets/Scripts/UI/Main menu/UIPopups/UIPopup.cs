@@ -1,14 +1,16 @@
+using UI.Scripts;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace UI.Main_menu.UIPopups
 {
-    public abstract class UIPopup : MonoBehaviour
+    public abstract class UIPopup : UiComponent
     {
-        [SerializeField] protected MainMenuView mainMenuView;
+        [FormerlySerializedAs("mainMenuView")] [SerializeField] protected MainMenu mainMenu;
 
         public void Show()
         {
-            mainMenuView.ShowPopup(transform);
+            mainMenu.ShowPopup(transform);
         }
 
         public void Close()

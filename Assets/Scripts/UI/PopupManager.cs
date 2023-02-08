@@ -214,7 +214,7 @@ namespace UI.Scripts
             _instance = GetInputNear(parent, "Sell card");
             InputNear input = UiUtils.FindChild<InputNear>(_instance.transform, "InputNear");
             
-            string path = Configurations.PrefabsFolderPath + "Toggle";
+            string path = Configurations.PrefabsFolderPath + "Buttons/Toggle";
             GameObject prefab = UiUtils.LoadResource<GameObject>(path);
             Transform obj = Object.Instantiate(prefab, parent).transform;
             _instance.AddAdditional(obj);

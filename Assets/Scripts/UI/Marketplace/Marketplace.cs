@@ -5,13 +5,13 @@ using Near.Models.Tokens;
 using NearClientUnity;
 using NearClientUnity.Utilities;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace UI.Scripts
 {
     public class Marketplace : UiComponent
     {
-        
         [Serializable]
         public class UserWallet
         {
@@ -20,42 +20,43 @@ namespace UI.Scripts
         }
 
         public UserWallet userWallet;
-        [Range(1, 5)]
-        [SerializeField]
-        private int balanceFractionalDisplay = 2;
+        [Range(1, 5)] [SerializeField] private int balanceFractionalDisplay = 2;
 
         [SerializeField] private Transform buyPacksScrollable;
         [SerializeField] private Transform buyPacksNonScrollable;
+        [SerializeField] private Transform marketPlaceParentArea;
 
         private Dictionary<string, Transform> _pages;
         private TopBar _topBar;
         private PackAnimation _packAnimation;
-        
+
         private TextMeshProUGUI _userWalletName;
         private TextMeshProUGUI _userWalletBalance;
         private TextMeshProUGUI _breadcrumbs;
+        private RectTransform _instance;
 
         public Transform popupLoading;
         public Transform popupAnimation;
+
         public TopBar TopBar => _topBar;
-        
+
         protected override void Initialize()
         {
             _topBar = UiUtils.FindChild<TopBar>(transform, "TopBar");
             _userWalletName = UiUtils.FindChild<TextMeshProUGUI>(transform, "Wallet");
             _userWalletBalance = UiUtils.FindChild<TextMeshProUGUI>(transform, "Balance");
             _breadcrumbs = UiUtils.FindChild<TextMeshProUGUI>(transform, "Breadcrumbs");
-            _packAnimation = UiUtils.FindChild<PackAnimation>(transform, "SoldPopupAnimation");
+            //_packAnimation = UiUtils.FindChild<PackAnimation>(transform, "SoldPopupAnimation");
             buyPacksNonScrollable = UiUtils.FindChild<Transform>(transform, "BuyPacksNonScrollable");
             buyPacksScrollable = UiUtils.FindChild<Transform>(transform, "BuyPacksScrollable");
-            
+
             InitializePages();
         }
 
         protected override void OnAwake()
         {
             SwitchPage(_topBar.NowPage);
-            
+
             _topBar.Bind("BuyPacks", () => SwitchPage("BuyPacks"));
             _topBar.Bind("BuyCards", () => SwitchPage("FilterCards"));
             _topBar.Bind("SellCards", () => SwitchPage("FilterCards"));
@@ -76,19 +77,19 @@ namespace UI.Scripts
             });
             popup.Show();
         }
-        
+
         public Transform SwitchPage(string pageId)
         {
             if (!_pages.ContainsKey(pageId))
             {
                 throw new ApplicationException($"Unknown key '{pageId}'");
             }
-            
+
             foreach (var page in _pages.Values)
             {
                 page.gameObject.SetActive(false);
             }
-            
+
             _pages[pageId].gameObject.SetActive(true);
             return _pages[pageId];
         }
@@ -132,8 +133,9 @@ namespace UI.Scripts
                         descriptions[i],
                         ShowBuyingPack,
                         ShowBoughtPack
-                        );
+                    );
                 }
+
                 container.gameObject.SetActive(previousVisibility);
             }
         }
@@ -162,14 +164,26 @@ namespace UI.Scripts
                 ShowBuyingPack(PackTypes.Brilliant);
             }
         }
-        
+
+        public void ShowPrefabPopup(string name)
+        {
+            string PATH = Configurations.PrefabsFolderPath + $"Popups/{name}";
+
+            if (_instance != null)
+            {
+                Destroy(_instance.gameObject);
+            }
+
+            GameObject prefab = UiUtils.LoadResource<GameObject>(PATH);
+            _instance = Instantiate(prefab, marketPlaceParentArea).GetComponent<RectTransform>();
+        }
+
         public async void ShowBuyingPack(PackTypes packType)
         {
-            // TODO @udovenkodima7@gmail.com enable loading popup
             popupLoading.gameObject.SetActive(true);
-            // todosomething
-            List<Token> tokens = await Near.MarketplaceContract.ContractMethods.Actions.BuyPack(((int)packType).ToString());
-            
+            List<Token> tokens =
+                await Near.MarketplaceContract.ContractMethods.Actions.BuyPack(((int) packType).ToString());
+
             ShowBoughtPack(tokens, packType);
             Debug.Log("Buying pack");
         }
@@ -178,9 +192,9 @@ namespace UI.Scripts
         {
             popupLoading.gameObject.SetActive(false);
             popupAnimation.gameObject.SetActive(true);
+            //ShowPrefabPopup("SoldPopupAnimation");
             _packAnimation.SetData(tokens);
             _packAnimation.Play();
-            // TODO @udovenkodima7@gmail.com disable loading popup and show popup with pack opening animation
             Debug.Log($"Bought {packType.ToString()} pack");
         }
 
@@ -196,10 +210,12 @@ namespace UI.Scripts
 
         private void ShowPacksContent()
         {
+            if (!buyPacksNonScrollable) return;
+
             if (Camera.main.aspect >= 1.5) // ratio 16:9 and 3:2
             {
                 buyPacksNonScrollable.gameObject.SetActive(true);
-                buyPacksScrollable.gameObject.SetActive(false);
+                buyPacksNonScrollable.gameObject.SetActive(true);
             }
             else // ratio ~4:3
             {
@@ -213,12 +229,12 @@ namespace UI.Scripts
             userWallet.name = NearPersistentManager.Instance.GetAccountId();
             AccountState accountState = await NearPersistentManager.Instance.GetAccountState();
             userWallet.balance = NearUtils.FormatNearAmount(UInt128.Parse(accountState.Amount));
-            
+
             _userWalletName.text = userWallet.name;
             string pattern = "{0:0." + new String('0', balanceFractionalDisplay) + "}";
             _userWalletBalance.text = String.Format(pattern, userWallet.balance) + " <sprite name=NearLogo>";
             _breadcrumbs.text = "Marketplace <sprite name=RightArrow> " + _topBar.SelectedFormatted;
-            
+
             ShowPacksContent();
         }
     }

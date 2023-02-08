@@ -45,7 +45,8 @@ namespace UI.Scripts
                 textMeshPro.fontSizeMin = minSize;
                 textMeshPro.fontSizeMax = maxSize;
                 textMeshPro.enableAutoSizing = autoSize;
-                textMeshPro.spriteAsset = UiUtils.LoadResource<TMP_SpriteAsset>(Configurations.SpritesFolderPath + "SpriteAsset");
+                textMeshPro.spriteAsset = UiUtils.LoadResource<TMP_SpriteAsset>(Configurations.SpritesFolderPath + 
+                    "SpriteSheets/UiKitSpriteAsset");
                 textMeshPro.alignment = alignmentOptions;
                 textMeshPro.fontStyle = fontStyle;
                 textMeshPro.enableWordWrapping = !oneLined;
