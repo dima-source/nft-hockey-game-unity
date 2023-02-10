@@ -40,7 +40,7 @@ namespace UI
         public UnityAction onClose;
 
         protected override void Initialize()
-        {
+        { 
             _title = UiUtils.FindChild<TextMeshProUGUI>(transform, "TitleText");
             _message = UiUtils.FindChild<TextMeshProUGUI>(transform, "MessageText");
             Button background = UiUtils.FindChild<Button>(transform, "Background");
@@ -57,7 +57,7 @@ namespace UI
 
             _sceneButtons = new Button[_buttonsContainer.childCount];
             for (int i = 0; i < _buttonsContainer.childCount; i++)
-            {
+            {             
                 _sceneButtons[i] = _buttonsContainer.GetChild(i).GetComponent<Button>();
             }
         }

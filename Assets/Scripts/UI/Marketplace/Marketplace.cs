@@ -34,6 +34,7 @@ namespace UI.Scripts
         private TextMeshProUGUI _userWalletBalance;
         private TextMeshProUGUI _breadcrumbs;
         private RectTransform _instance;
+        private PopupBread _devPopup;
 
         public Transform popupLoading;
         public Transform popupAnimation;
@@ -68,14 +69,33 @@ namespace UI.Scripts
 
         private void ShowOnDevelopmentPopup(string pageName)
         {
-            string message = $"The '{pageName}' is in development. We let you know when it will be available.";
-            Popup popup = GetComponent<RectTransform>().GetDefaultOk(pageName, message, () =>
+
+            string PATH = Configurations.PrefabsFolderPath + "Popups/Marketplace/Bread";
+
+            if (_devPopup != null)
             {
-                // Switch page to the default one 
-                _topBar.SetSelected("BuyPacks");
-                SwitchPage("BuyPacks");
-            });
-            popup.Show();
+                Destroy(_devPopup.gameObject);
+            }
+
+            GameObject prefab = UiUtils.LoadResource<GameObject>(PATH);
+            _devPopup = Instantiate(prefab, marketPlaceParentArea).GetComponent<PopupBread>();
+            _devPopup.Title = $"The '{pageName}' is in development.";
+            _devPopup.Message = "We let you know when it will be available.";
+        }
+        private void ShowInfoPopup(string title)
+        {
+            
+            string PATH = Configurations.PrefabsFolderPath + "Popups/Marketplace/Info";
+
+            if (_devPopup != null)
+            {
+                Destroy(_devPopup.gameObject);
+            }
+
+            GameObject prefab = UiUtils.LoadResource<GameObject>(PATH);
+            _devPopup = Instantiate(prefab, marketPlaceParentArea).GetComponent<PopupBread>();
+            _devPopup.Title = title;
+            _devPopup.Message = "";
         }
 
         public Transform SwitchPage(string pageId)

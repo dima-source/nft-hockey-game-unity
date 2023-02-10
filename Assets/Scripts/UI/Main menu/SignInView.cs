@@ -15,25 +15,25 @@ namespace UI.Main_menu
 {
     public class SignInView : UiComponent
     { 
-        [SerializeField] private MainMenu mainMenu;
-        [SerializeField] private Text inputUri; 
-        [SerializeField] private TMP_InputField accountIdInput; 
-        [SerializeField] private TMP_Text inputDescription;
-        [SerializeField] private InputPopup inputPopup; 
-        [SerializeField] private Transform infoPopup; 
-        [SerializeField] private TMP_Dropdown accountsDropdown; 
-        [SerializeField] private SeedPhraseView seedPhrase;
+        [SerializeField] private MainMenu mainMenu; 
+        private TMP_InputField inputUri; 
+        private TMP_InputField accountIdInput; 
+        private TMP_Text inputDescription;
+        private InputPopup inputPopup; 
+        private Transform infoPopup; 
+        private TMP_Dropdown accountsDropdown; 
+        private SeedPhraseView seedPhrase;
         
         protected override void Initialize()
         {
-            inputUri = UiUtils.FindChild<Text>(transform, "TextUri");
+            inputUri = UiUtils.FindChild<TMP_InputField>(transform, "InputUri");
             accountIdInput = UiUtils.FindChild<TMP_InputField>(transform, "AccountIdInput");
             inputDescription = UiUtils.FindChild<TMP_Text>(transform, "DescriptionText");
             inputPopup = UiUtils.FindChild<InputPopup>(transform, "InputPopup");
             infoPopup = UiUtils.FindChild<Transform>(transform, "InfoPopup");
             accountsDropdown = UiUtils.FindChild<TMP_Dropdown>(transform, "Dropdown");
             seedPhrase = UiUtils.FindChild<SeedPhraseView>(transform, "SeedPhraseField");
-           //mainMenu = UiUtils.FindParent<MainMenu>(transform,"MainMenu");
+            //mainMenu = UiUtils.FindParent<MainMenu>(transform,"MainMenu");
         }
         private void Start()
         {

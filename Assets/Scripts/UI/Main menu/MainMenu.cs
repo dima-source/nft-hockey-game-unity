@@ -15,9 +15,9 @@ namespace UI.Main_menu
     {
         
         [SerializeField] private List<Transform> popups;
-        [SerializeField] private Transform loadingPopup; 
-        [SerializeField] private Transform signInView;
+        [SerializeField] private Transform loadingPopup;
         
+        private Transform signInView;
         private RectTransform _instance;
         private Transform _mainMenuParent;
         private Button _playGame;
@@ -30,6 +30,7 @@ namespace UI.Main_menu
 
         protected override void Initialize()
         {
+            signInView = UiUtils.FindChild<Transform>(transform, "SignInMenu");
             _playGame = UiUtils.FindChild<Button>(transform, "PlayGame");
             _playGame.onClick.AddListener(() => ShowPrefabPopup("SelectBidPopup"));
             _exit = UiUtils.FindChild<Button>(transform, "Exit");

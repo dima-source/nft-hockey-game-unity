@@ -39,8 +39,9 @@ namespace UI.Profile
         [SerializeField] private Slider LevelSlider;
         [SerializeField] private Transform _rewardsParent;
         [SerializeField] private RewardInfoPopup _rewardsInfoPopup;
-        [SerializeField] private Transform _createLogoPopup;
+        //[SerializeField] private Transform _createLogoPopup;
         [SerializeField] private SignInView signInView;
+        [SerializeField] private Transform profilePlaceParentArea;
         
         private IRewardsRepository _repository = new IndexerRewardsRepository();
         private RewardsUser _rewardsUser;
@@ -48,7 +49,7 @@ namespace UI.Profile
         private List<BaseReward> _rewardsPrototypes;
         private Button _logoButton;
         private RewardView _rewardViewPrefab;
-
+        private RectTransform _instance;
         //public Button ClosePopup;
         private ILogoLoader _logoLoader = new IndexerLogoLoader();
         private LogoPrefab _logoPrefab;
@@ -67,11 +68,11 @@ namespace UI.Profile
             LevelSlider = UiUtils.FindChild<Slider>(transform, "Progress");
             _rewardsParent = UiUtils.FindChild<Transform>(transform, "RewardsContent");
             _rewardsInfoPopup = UiUtils.FindChild<RewardInfoPopup>(transform.parent, "TrophyPopup");
-            _createLogoPopup = UiUtils.FindChild<Transform>(transform.parent, "CreateLogoPopup");
+            //_createLogoPopup = UiUtils.FindChild<Transform>(transform.parent, "CreateLogoPopup");
             _logoButton = UiUtils.FindChild<Button>(transform, "LogoContainer");
             _levelCalculator = new LevelCalculator(_rewardsUser);
             SetInitialValues();
-            _logoButton.onClick.AddListener(() => ShowPopup(_createLogoPopup));
+            _logoButton.onClick.AddListener(() => ShowPrefabPopup("CreateLogoPopup"));
             _userWalletName = UiUtils.FindChild<TextMeshProUGUI>(transform, "Wallet");
             _userWalletBalance = UiUtils.FindChild<TextMeshProUGUI>(transform, "Balance");
             string path = Configurations.PrefabsFolderPath + "Profile/RewardView";
@@ -95,7 +96,18 @@ namespace UI.Profile
                 yield return new WaitForSeconds(1);
             }
         }
-        
+        public void ShowPrefabPopup(string name)
+        {
+            string PATH = Configurations.PrefabsFolderPath + $"Popups/Profile/{name}";
+
+            if (_instance != null)
+            {
+                Destroy(_instance.gameObject);
+            }
+
+            GameObject prefab = UiUtils.LoadResource<GameObject>(PATH);
+            _instance = Instantiate(prefab, profilePlaceParentArea).GetComponent<RectTransform>();
+        }
         protected override async void OnUpdate()
         {
             userWallet.name = NearPersistentManager.Instance.GetAccountId();
