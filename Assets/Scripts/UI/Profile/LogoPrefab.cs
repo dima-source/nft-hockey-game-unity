@@ -16,6 +16,7 @@ namespace UI.Profile
          private Image _textGround;
          private TextMeshProUGUI _textTeamName;
          private string _teamName;
+         private string _username;
          private string _pathForm;
          private string _pathPattern;
          private string _formName = "Square"; 
@@ -38,6 +39,7 @@ namespace UI.Profile
         {
             TeamLogo logoData = new TeamLogo()
             {
+                username = _username ?? "",
                 team_name = _teamName ?? "",
                 form_name = _formName,
                 pattern_name = _patternName,
@@ -89,6 +91,13 @@ namespace UI.Profile
         public void ChangeTeamName(string teamName)
         {
             _textTeamName.SetText(teamName);
+            _teamName = teamName;
+        }
+
+        public void ChangeUsername(string userName)
+        {
+            // TODO: change name on the scene
+            _username = userName;
         }
         
         public void ChangeFirstLayerColor(string number)

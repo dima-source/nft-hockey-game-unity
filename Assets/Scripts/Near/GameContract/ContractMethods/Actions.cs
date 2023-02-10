@@ -61,14 +61,7 @@ namespace Near.GameContract.ContractMethods
         {
             var gameContract = await NearPersistentManager.Instance.GetGameContract(); 
             dynamic args = new ExpandoObject();
-            // set_team_logo(&mut self, logo_json: String)
-            dynamic json = new ExpandoObject();
-            json.team_name = teamLogo.team_name;
-            json.form_name = teamLogo.form_name;
-            json.pattern_name = teamLogo.pattern_name;
-            json.first_layer_color_number = teamLogo.first_layer_color_number;
-            json.second_layer_color_number = teamLogo.second_layer_color_number;
-            args.logo_json = Newtonsoft.Json.JsonConvert.SerializeObject(json);
+            args.logo_json = Newtonsoft.Json.JsonConvert.SerializeObject(teamLogo);
             try
             {
                 await gameContract.Change("set_team_logo", args);
