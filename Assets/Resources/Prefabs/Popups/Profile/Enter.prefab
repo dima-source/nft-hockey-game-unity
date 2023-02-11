@@ -358,12 +358,12 @@ GameObject:
   - component: {fileID: 3904089920600603815}
   - component: {fileID: 3904089920600603813}
   m_Layer: 0
-  m_Name: EnterTeamName
+  m_Name: Enter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3904089920600603815
 RectTransform:
   m_ObjectHideFlags: 0
@@ -398,7 +398,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efd473d44ba1e3f47be3ea944d0ade28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _popup: {fileID: 3904089920600603814}
+  _popup: {fileID: 3904089920600603815}
+  _title: {fileID: 3904089921110202739}
 --- !u!1 &3904089920701961904
 GameObject:
   m_ObjectHideFlags: 0
@@ -647,7 +648,7 @@ GameObject:
   - component: {fileID: 3904089921110202736}
   - component: {fileID: 3904089921110202739}
   m_Layer: 5
-  m_Name: Text
+  m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -701,7 +702,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Enter your team name
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2ea76d2893a73db459f29ce7a893a77a, type: 2}
   m_sharedMaterial: {fileID: 8957896529459928798, guid: 2ea76d2893a73db459f29ce7a893a77a, type: 2}
@@ -728,7 +729,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 44.65
+  m_fontSize: 40
   m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -871,7 +872,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: 9b4e561a629c3cc42adbe7b16c702889, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.31132078, g: 0.19237275, b: 0.19237275, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1073,7 +1074,7 @@ GameObject:
   - component: {fileID: 3904089921993624200}
   - component: {fileID: 3904089921993624203}
   m_Layer: 0
-  m_Name: InputField (TMP)
+  m_Name: inputName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

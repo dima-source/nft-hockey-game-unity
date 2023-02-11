@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 namespace UI.Scripts
 {
+    
     public class PopupBread : UiComponent
     {
         public TextMeshProUGUI _title;
@@ -12,6 +13,7 @@ namespace UI.Scripts
         public string Message; 
         private Button GoBack;
         private Button Accept;
+        
         
         protected override void Initialize()
         {
@@ -34,6 +36,7 @@ namespace UI.Scripts
             _message.text = Message;
         }
 
+        
         public void Close()
         {
             gameObject.SetActive(false);

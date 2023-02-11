@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UI.Main_menu.UIPopups;
 using UI.Scripts;
@@ -12,11 +13,11 @@ namespace UI.Profile.Popups
         private string _title;
         private string _description;
         private bool _obtained;
-        public Image Image;
-        public TMP_Text Title;
-        public TMP_Text Description;
-        public Button ClosePopup;
-        public Button MainBackground;
+        [NonSerialized] public Image Image;
+        [NonSerialized] public TMP_Text Title;
+        [NonSerialized] public TMP_Text Description;
+        [NonSerialized] public Button ClosePopup;
+        [NonSerialized] public Button MainBackground;
 
         protected override void Initialize()
         {

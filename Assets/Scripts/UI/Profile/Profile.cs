@@ -37,12 +37,11 @@ namespace UI.Profile
         
         [SerializeField] private TMP_Text LevelNumber;
         [SerializeField] private Slider LevelSlider;
-        [SerializeField] private Transform _rewardsParent;
-        [SerializeField] private RewardInfoPopup _rewardsInfoPopup;
-        //[SerializeField] private Transform _createLogoPopup;
+        [SerializeField] private Transform _rewardsParent; 
+        private RewardInfoPopup _rewardsInfoPopup;
         [SerializeField] private SignInView signInView;
         [SerializeField] private Transform profilePlaceParentArea;
-        
+
         private IRewardsRepository _repository = new IndexerRewardsRepository();
         private RewardsUser _rewardsUser;
         private LevelCalculator _levelCalculator;
@@ -55,6 +54,8 @@ namespace UI.Profile
         private LogoPrefab _logoPrefab;
         private readonly string _pathForm = "/Assets/Resources/Sprites/TeamLogo/Form/";
         private readonly string _pathPattern = "/Assets/Resources/Sprites/TeamLogo/";
+        private Button _logout;
+        private Button _withdraw;
         
         private void SetInitialValues()
         {
@@ -67,9 +68,12 @@ namespace UI.Profile
             LevelNumber = UiUtils.FindChild<TMP_Text>(transform, "LevelNumber");
             LevelSlider = UiUtils.FindChild<Slider>(transform, "Progress");
             _rewardsParent = UiUtils.FindChild<Transform>(transform, "RewardsContent");
-            _rewardsInfoPopup = UiUtils.FindChild<RewardInfoPopup>(transform.parent, "TrophyPopup");
-            //_createLogoPopup = UiUtils.FindChild<Transform>(transform.parent, "CreateLogoPopup");
+            //_rewardsInfoPopup = UiUtils.FindChild<RewardInfoPopup>(transform.parent, "TrophyPopup");
             _logoButton = UiUtils.FindChild<Button>(transform, "LogoContainer");
+            _logout = UiUtils.FindChild<Button>(transform, "Logout");
+            _withdraw = UiUtils.FindChild<Button>(transform, "Withdraw");
+            _logout.onClick.AddListener(()=> ShowPrefabPopup("InfoPopup"));
+            _withdraw.onClick.AddListener(()=> ShowPrefabPopup("WithdrawPopup"));
             _levelCalculator = new LevelCalculator(_rewardsUser);
             SetInitialValues();
             _logoButton.onClick.AddListener(() => ShowPrefabPopup("CreateLogoPopup"));
@@ -96,18 +100,7 @@ namespace UI.Profile
                 yield return new WaitForSeconds(1);
             }
         }
-        public void ShowPrefabPopup(string name)
-        {
-            string PATH = Configurations.PrefabsFolderPath + $"Popups/Profile/{name}";
-
-            if (_instance != null)
-            {
-                Destroy(_instance.gameObject);
-            }
-
-            GameObject prefab = UiUtils.LoadResource<GameObject>(PATH);
-            _instance = Instantiate(prefab, profilePlaceParentArea).GetComponent<RectTransform>();
-        }
+        
         protected override async void OnUpdate()
         {
             userWallet.name = NearPersistentManager.Instance.GetAccountId();
@@ -165,10 +158,33 @@ namespace UI.Profile
 
         private RewardView CreateReward(BaseReward reward)
         {
+            string PATH = Configurations.PrefabsFolderPath + $"Popups/Profile/TrophyPopup";
+
+            if (_rewardViewPrefab != null)
+            {
+                Destroy(_rewardViewPrefab.gameObject);
+            }
+
+            GameObject prefab = UiUtils.LoadResource<GameObject>(PATH);
+            _rewardViewPrefab = Instantiate(prefab, profilePlaceParentArea).GetComponent<RewardView>();
+            
             RewardView rewardView = Instantiate(_rewardViewPrefab, _rewardsParent);
             rewardView.rewardInfoPopup = _rewardsInfoPopup;
             reward.SetForView(rewardView, _rewardsUser);
             return rewardView;
+        }
+        
+        public void ShowPrefabPopup(string name)
+        {
+            string PATH = Configurations.PrefabsFolderPath + $"Popups/Profile/{name}";
+
+            if (_instance != null)
+            {
+                Destroy(_instance.gameObject);
+            }
+
+            GameObject prefab = UiUtils.LoadResource<GameObject>(PATH);
+            _instance = Instantiate(prefab, profilePlaceParentArea).GetComponent<RectTransform>();
         }
         
         public void Close()
