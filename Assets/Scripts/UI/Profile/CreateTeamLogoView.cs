@@ -19,8 +19,6 @@ namespace UI.Profile
         private Button _resetButton;
         private Button _background;
         private Button _closePopupButton;
-
-       
         
         private void Awake()
         {
@@ -57,7 +55,6 @@ namespace UI.Profile
         {
             await _logoSaver.SaveLogo(_logoPrefab.GetTeamLogo());
             gameObject.SetActive(false);
-            
         }
         
         public void Close()

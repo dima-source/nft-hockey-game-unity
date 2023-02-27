@@ -28,11 +28,11 @@ namespace UI.Profile
          
         protected override void Initialize()
         {
-            _firstLayerImg = Scripts.UiUtils.FindChild<Image>(transform, "FirstLayer");
-            _secondLayerImg = Scripts.UiUtils.FindChild<Image>(transform, "SecondLayer");
-            _textArea = Scripts.UiUtils.FindChild<Image>(transform, "TextArea");
-            _textGround = Scripts.UiUtils.FindChild<Image>(transform, "TextGround");
-            _textTeamName = Scripts.UiUtils.FindChild<TextMeshProUGUI>(transform, "TeamName"); 
+            _firstLayerImg = UiUtils.FindChild<Image>(transform, "FirstLayer");
+            _secondLayerImg = UiUtils.FindChild<Image>(transform, "SecondLayer");
+            _textArea = UiUtils.FindChild<Image>(transform, "TextArea");
+            _textGround = UiUtils.FindChild<Image>(transform, "TextGround");
+            _textTeamName = UiUtils.FindChild<TextMeshProUGUI>(transform, "TeamName"); 
         }
         
         public TeamLogo GetTeamLogo()
@@ -188,6 +188,7 @@ namespace UI.Profile
             
             
         }
+        
         public void ChangeSecondLayerColor(string number)
         {
            secondLayerColorNumber = number;
