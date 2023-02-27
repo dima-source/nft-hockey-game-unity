@@ -9,7 +9,7 @@ namespace GameScene.Puck
         private readonly Vector3 _destinationCoordinates;
         private readonly int _numberOfVectors;
 
-        public DumpMovement(Vector3 startCoordinates, Vector3 destinationCoordinates, int numberOfVectors)
+        public DumpMovement(Vector3 startCoordinates, Vector3 destinationCoordinates, int numberOfVectors = 1000)
         {
             _startCoordinates = startCoordinates;
             _destinationCoordinates = destinationCoordinates;

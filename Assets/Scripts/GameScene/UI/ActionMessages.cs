@@ -15,14 +15,14 @@ namespace GameScene.UI
 
         protected override void Initialize()
         {
-            _scrollbar = global::UI.Scripts.UiUtils.FindChild<Scrollbar>(transform, "Scrollbar");
-            _content = global::UI.Scripts.UiUtils.FindChild<Transform>(transform, "Content");
+            _scrollbar = UiUtils.FindChild<Scrollbar>(transform, "Scrollbar Vertical");
+            _content = UiUtils.FindChild<Transform>(transform, "Content");
         }
 
         protected override void OnAwake()
         {
             _messages = new List<ActionMessage>();
-            _accountId = Near.NearPersistentManager.Instance.GetAccountId();
+            //_accountId = Near.NearPersistentManager.Instance.GetAccountId();
         }
 
         public void RenderMessages(List<Near.Models.Game.Event> events)
@@ -32,7 +32,7 @@ namespace GameScene.UI
                 foreach (var action in events[i].Actions)
                 {
                     string path = Configurations.PrefabsFolderPath + "Game/MessageText";
-                    ActionMessage prefab = global::UI.Scripts.UiUtils.LoadResource<ActionMessage>(path);
+                    ActionMessage prefab = UiUtils.LoadResource<ActionMessage>(path);
                     ActionMessage message = Instantiate(prefab, _content);
                     message.SetData(action, _accountId);
                 
