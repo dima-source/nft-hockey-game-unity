@@ -16,6 +16,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+
 namespace UI.Profile
 {
     public class Profile : UiComponent
@@ -158,16 +159,6 @@ namespace UI.Profile
 
         private RewardView CreateReward(BaseReward reward)
         {
-            string PATH = Configurations.PrefabsFolderPath + $"Popups/Profile/TrophyPopup";
-
-            if (_rewardViewPrefab != null)
-            {
-                Destroy(_rewardViewPrefab.gameObject);
-            }
-
-            GameObject prefab = UiUtils.LoadResource<GameObject>(PATH);
-            _rewardViewPrefab = Instantiate(prefab, profilePlaceParentArea).GetComponent<RewardView>();
-            
             RewardView rewardView = Instantiate(_rewardViewPrefab, _rewardsParent);
             rewardView.rewardInfoPopup = _rewardsInfoPopup;
             reward.SetForView(rewardView, _rewardsUser);

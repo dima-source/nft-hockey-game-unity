@@ -80,7 +80,7 @@ namespace UI.Main_menu
             if (!isMarketAccountRegistered)
             {
                 //firstEntryPopup.gameObject.SetActive(true);
-                //ShowPrefabPopup("FirstEntry");
+                ShowPrefabPopup("FirstEntry");
             }
             loadingPopup.gameObject.SetActive(false);
         }
