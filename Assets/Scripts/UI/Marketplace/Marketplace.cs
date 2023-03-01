@@ -47,7 +47,7 @@ namespace UI.Scripts
             _userWalletName = UiUtils.FindChild<TextMeshProUGUI>(transform, "Wallet");
             _userWalletBalance = UiUtils.FindChild<TextMeshProUGUI>(transform, "Balance");
             _breadcrumbs = UiUtils.FindChild<TextMeshProUGUI>(transform, "Breadcrumbs");
-            //_packAnimation = UiUtils.FindChild<PackAnimation>(transform, "SoldPopupAnimation");
+            _packAnimation = UiUtils.FindChild<PackAnimation>(transform, "SoldPopupAnimation");
             buyPacksNonScrollable = UiUtils.FindChild<Transform>(transform, "BuyPacksNonScrollable");
             buyPacksScrollable = UiUtils.FindChild<Transform>(transform, "BuyPacksScrollable");
 
@@ -212,7 +212,6 @@ namespace UI.Scripts
         {
             popupLoading.gameObject.SetActive(false);
             popupAnimation.gameObject.SetActive(true);
-            //ShowPrefabPopup("SoldPopupAnimation");
             _packAnimation.SetData(tokens);
             _packAnimation.Play();
             Debug.Log($"Bought {packType.ToString()} pack");
