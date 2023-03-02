@@ -12,7 +12,6 @@ namespace Analytics
             typeProperty,
             tutorialLevelNumberProperty,
             levelNumberProperty,
-            balanceProperty,
             currencyNameProperty,
             currencyAmountProperty,
             sourceProperty,
@@ -41,7 +40,6 @@ namespace Analytics
             typeProperty = new PropertyField(typeSerializedProperty);
             tutorialLevelNumberProperty = new PropertyField(property.FindPropertyRelative("tutorialLevelNumber"));
             levelNumberProperty = new PropertyField(property.FindPropertyRelative("levelNumber"));
-            balanceProperty = new PropertyField(property.FindPropertyRelative("balance"));
             currencyNameProperty = new PropertyField(property.FindPropertyRelative("currencyName"));
             currencyAmountProperty = new PropertyField(property.FindPropertyRelative("currencyAmount"));
             sourceProperty = new PropertyField(property.FindPropertyRelative("source"));
@@ -75,12 +73,10 @@ namespace Analytics
     
         private void OnShowChange(EventType eventType)
         {
-            Debug.Log("Hello");
             if (container.childCount > 1)
             {
                 container.Remove(tutorialLevelNumberProperty);
                 container.Remove(levelNumberProperty);
-                container.Remove(balanceProperty);
                 container.Remove(currencyNameProperty);
                 container.Remove(currencyAmountProperty);
                 container.Remove(sourceProperty);
@@ -105,10 +101,8 @@ namespace Analytics
                     break;
                 case EventType.LevelUp:
                     container.Add(levelNumberProperty);
-                    container.Add(balanceProperty);
                     break;
                 case EventType.CurrentBalance:
-                    container.Add(balanceProperty);
                     break;
                 case EventType.CurrencyAccrual:
                     container.Add(currencyNameProperty);

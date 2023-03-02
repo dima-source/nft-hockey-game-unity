@@ -451,19 +451,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   events:
-  - type: 3
+  - type: 2
     tutorialLevelNumber: 0
     levelNumber: 0
-    balance: []
+    balance:
+    - key: NEAR
+      value: 100
     currencyName: 
     currencyAmount: 0
     source: 
     accrualType: 0
-    purchaseId: 
     purchaseType: 
     purchaseAmount: 0
-    purchaseCurrency: 
-    purchasePrice: 0
     resources: []
     orderId: 
     currencyCode: 
