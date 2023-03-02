@@ -37,7 +37,7 @@ namespace UI.Scripts
         private PopupBread _devPopup;
 
         public Transform popupLoading;
-        public Transform popupAnimation;
+        //private Transform popupAnimation;
 
         public TopBar TopBar => _topBar;
 
@@ -47,9 +47,10 @@ namespace UI.Scripts
             _userWalletName = UiUtils.FindChild<TextMeshProUGUI>(transform, "Wallet");
             _userWalletBalance = UiUtils.FindChild<TextMeshProUGUI>(transform, "Balance");
             _breadcrumbs = UiUtils.FindChild<TextMeshProUGUI>(transform, "Breadcrumbs");
-            _packAnimation = UiUtils.FindChild<PackAnimation>(transform, "SoldPopupAnimation");
+            //_packAnimation = UiUtils.FindChild<PackAnimation>(transform, "SoldPopupAnimation");
             buyPacksNonScrollable = UiUtils.FindChild<Transform>(transform, "BuyPacksNonScrollable");
             buyPacksScrollable = UiUtils.FindChild<Transform>(transform, "BuyPacksScrollable");
+            
 
             InitializePages();
         }
@@ -210,8 +211,18 @@ namespace UI.Scripts
 
         public void ShowBoughtPack(List<Token> tokens, PackTypes packType)
         {
+            string PATH = Configurations.PrefabsFolderPath + "Popups/Marketplace/SoldPopupAnimation";
+
+            if (_packAnimation != null)
+            {
+                Destroy(_packAnimation.gameObject);
+            }
+
+            GameObject prefab = UiUtils.LoadResource<GameObject>(PATH);
+            _packAnimation = Instantiate(prefab, marketPlaceParentArea).GetComponent<PackAnimation>();
+            
             popupLoading.gameObject.SetActive(false);
-            popupAnimation.gameObject.SetActive(true);
+            _packAnimation.gameObject.SetActive(true);
             _packAnimation.SetData(tokens);
             _packAnimation.Play();
             Debug.Log($"Bought {packType.ToString()} pack");
