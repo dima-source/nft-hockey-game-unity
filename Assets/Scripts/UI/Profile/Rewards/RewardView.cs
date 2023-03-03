@@ -33,7 +33,7 @@ namespace UI.Profile.Rewards
             _notObtainedForeground = Scripts.UiUtils.FindChild<Image>(transform, "NotObtainedForeground");
             _showPopupButton = GetComponent<Button>();
             _showPopupButton.onClick.AddListener(ShowPopup);
-            profilePlaceParentArea = UiUtils.FindParent<RectTransform>(transform, "Profile");
+            profilePlaceParentArea = UiUtils.FindParent<RectTransform>(transform.parent.transform, "Canvas");
         }
 
         private void ShowPopup()

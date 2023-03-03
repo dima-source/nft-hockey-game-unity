@@ -10,21 +10,9 @@ namespace UI.Main_menu.UIPopups
 {
     public class FirstEntryPopupAnimation : UiComponent
     {
-        private Transform _loadingPopup;
         private List<CardView> _cards;
         public Animation Animation;
 
-        public new async void Awake()
-        {
-            string PATH = Configurations.PrefabsFolderPath + "MainMenu/LoadingPopup";
-
-            GameObject prefab = UiUtils.LoadResource<GameObject>(PATH);
-            _loadingPopup = Instantiate(prefab, transform).GetComponent<RectTransform>();
-            //_loadingPopup.gameObject.SetActive(true);
-            await LoadCardsFromPack();
-            Destroy(_loadingPopup);
-        }
-        
         protected override void Initialize()
         {
             _cards = new List<CardView>();
@@ -34,8 +22,21 @@ namespace UI.Main_menu.UIPopups
                 CardView card = UI.Scripts.UiUtils.FindChild<CardView>(transform, $"Card{i}");
                 _cards.Add(card);
             }
+
+            LoadCards();
         }
 
+        private async void LoadCards()
+        {
+            string PATH = Configurations.PrefabsFolderPath + "MainMenu/LoadingPopup";
+
+            GameObject prefab = UiUtils.LoadResource<GameObject>(PATH);
+            var loadingPopup = Instantiate(prefab, transform);
+            
+            await LoadCardsFromPack();
+            Destroy(loadingPopup);
+        }
+        
         private async Task LoadCardsFromPack()
         {
             List<Token> tokens = await Near.MarketplaceContract.ContractMethods.Actions.RegisterAccount();

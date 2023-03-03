@@ -68,7 +68,7 @@ namespace UI.Scripts
             Transform[] parents = current.GetComponentsInParent<Transform>(true)
                 .Where(t => t.name == parentName)
                 .ToArray();
-            
+
             if (parents == null || parents.Length == 0)
             {
                 throw new ApplicationException($"Parent with name '{parentName}' does not exist");
