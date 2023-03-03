@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using DevToDev.Analytics;
 using Near;
 using Near.Models.Game;
 using Runtime;
@@ -44,6 +45,7 @@ namespace UI.Main_menu
             {
                 firstEntryPopup.gameObject.SetActive(true);
             }
+            DTDAnalytics.SetUserId(accountID);
             loadingPopup.gameObject.SetActive(false);
         }
         
