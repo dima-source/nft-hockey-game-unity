@@ -8,7 +8,7 @@ namespace UI.Profile.Popups
 {
     public class RewardInfoPopup: UiComponent
     {
-        private static readonly string SPRITES_PATH = Configurations.SpritesFolderPath + "SpriteSheet/";
+        private static readonly string SPRITES_PATH = Configurations.SpritesFolderPath + "SpriteSheets/";
         private string _spriteName;
         private string _title;
         private string _description;

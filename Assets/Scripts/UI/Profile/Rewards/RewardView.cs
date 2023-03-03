@@ -14,10 +14,10 @@ namespace UI.Profile.Rewards
         public string Description;
         public bool Obtained;
         private Image _rewardImage;
-        private Image _notObtainedForeground;
-        public RewardInfoPopup rewardInfoPopup;
-        private Button _showPopupButton;
-        
+        private Image _notObtainedForeground; 
+        [NonSerialized]public RewardInfoPopup rewardInfoPopup;
+        private Button _showPopupButton; 
+        private RectTransform profilePlaceParentArea;
 
         public void SetData(string spriteName, string title, string description, bool obtained)
         {
@@ -33,12 +33,20 @@ namespace UI.Profile.Rewards
             _notObtainedForeground = Scripts.UiUtils.FindChild<Image>(transform, "NotObtainedForeground");
             _showPopupButton = GetComponent<Button>();
             _showPopupButton.onClick.AddListener(ShowPopup);
+            profilePlaceParentArea = UiUtils.FindParent<RectTransform>(transform, "Profile");
         }
 
         private void ShowPopup()
         {
-            if (rewardInfoPopup != null)
+            if (rewardInfoPopup == null)
             {
+                string PATH = Configurations.PrefabsFolderPath + "Popups/Profile/TrophyPopup";
+                GameObject prefab = UiUtils.LoadResource<GameObject>(PATH);
+                if (rewardInfoPopup != null)
+                {
+                    Destroy(rewardInfoPopup.gameObject);
+                }
+                rewardInfoPopup = Instantiate(prefab, profilePlaceParentArea).GetComponent<RewardInfoPopup>();
                 rewardInfoPopup.Show(SpriteName, RewardTitle, Description, Obtained);
             }
         }

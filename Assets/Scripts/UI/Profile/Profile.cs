@@ -153,10 +153,11 @@ namespace UI.Profile
 
         private void InitRewards()
         {
+            
             foreach (var reward in _rewardsPrototypes)
                 CreateReward(reward);
         }
-
+        
         private RewardView CreateReward(BaseReward reward)
         {
             RewardView rewardView = Instantiate(_rewardViewPrefab, _rewardsParent);

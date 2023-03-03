@@ -10,15 +10,19 @@ namespace UI.Main_menu.UIPopups
 {
     public class FirstEntryPopupAnimation : UiComponent
     {
-        public Transform LoadingPopup;
+        private Transform _loadingPopup;
         private List<CardView> _cards;
         public Animation Animation;
 
         public new async void Awake()
         {
-            LoadingPopup.gameObject.SetActive(true);
+            string PATH = Configurations.PrefabsFolderPath + "MainMenu/LoadingPopup";
+
+            GameObject prefab = UiUtils.LoadResource<GameObject>(PATH);
+            _loadingPopup = Instantiate(prefab, transform).GetComponent<RectTransform>();
+            //_loadingPopup.gameObject.SetActive(true);
             await LoadCardsFromPack();
-            LoadingPopup.gameObject.SetActive(false);
+            Destroy(_loadingPopup);
         }
         
         protected override void Initialize()
