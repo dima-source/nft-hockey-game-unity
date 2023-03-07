@@ -31,7 +31,7 @@ namespace UI.Main_menu.UIPopups
             string PATH = Configurations.PrefabsFolderPath + "MainMenu/LoadingPopup";
 
             GameObject prefab = UiUtils.LoadResource<GameObject>(PATH);
-            var loadingPopup = Instantiate(prefab, transform);
+            var loadingPopup = Instantiate(prefab, transform.parent);
             
             await LoadCardsFromPack();
             Destroy(loadingPopup);

@@ -34,7 +34,7 @@ namespace UI.Main_menu
         }
         private void Start()
         {
-            _inputPopup.HideSpinner();
+            //_inputPopup.HideSpinner();
         }
 
         private async void OnEnable()
@@ -61,8 +61,10 @@ namespace UI.Main_menu
 
         private void LoadMainMenu()
         {
-            var mainMenuPrefab = UiUtils.LoadResource<MainMenu>(MainMenuPath);
-            var mainMenu = Instantiate(mainMenuPrefab, transform.parent);
+            var mainMenuPrefab = UiUtils.LoadResource<GameObject>(MainMenuPath);
+            var mainMenuObj = Instantiate(mainMenuPrefab, transform.parent);
+            mainMenuObj.transform.SetAsFirstSibling();
+            var mainMenu = mainMenuObj.GetComponent<MainMenu>();
             mainMenu.LoadAccountId();
         }
         
