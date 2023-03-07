@@ -8,7 +8,7 @@ namespace UI.Profile.Rewards
 {
     public class RewardView: UiComponent, IRewardDataReceiver
     {
-        private static readonly string SPRITES_PATH = Configurations.SpritesFolderPath + "SpriteSheets/PlayerCardSpriteSheet/";
+        private static readonly string SpritesPath = Configurations.SpritesFolderPath + "SpriteSheets/PlayerCardSpriteSheet/";
         public string SpriteName;
         public string RewardTitle;
         public string Description;
@@ -17,7 +17,7 @@ namespace UI.Profile.Rewards
         private Image _notObtainedForeground; 
         [NonSerialized]public RewardInfoPopup rewardInfoPopup;
         private Button _showPopupButton; 
-        private RectTransform profilePlaceParentArea;
+        private RectTransform _profilePlaceParentArea;
 
         public void SetData(string spriteName, string title, string description, bool obtained)
         {
@@ -29,24 +29,28 @@ namespace UI.Profile.Rewards
 
         protected override void Initialize()
         {
-            _rewardImage = Scripts.UiUtils.FindChild<Image>(transform, "RewardImage");
-            _notObtainedForeground = Scripts.UiUtils.FindChild<Image>(transform, "NotObtainedForeground");
+            _rewardImage = UiUtils.FindChild<Image>(transform, "RewardImage");
+            _notObtainedForeground = UiUtils.FindChild<Image>(transform, "NotObtainedForeground");
             _showPopupButton = GetComponent<Button>();
             _showPopupButton.onClick.AddListener(ShowPopup);
-            profilePlaceParentArea = UiUtils.FindParent<RectTransform>(transform.parent.transform, "Canvas");
+            _profilePlaceParentArea = UiUtils.FindParent<RectTransform>(transform.parent.transform, "Canvas");
         }
 
         private void ShowPopup()
         {
             if (rewardInfoPopup == null)
             {
-                string PATH = Configurations.PrefabsFolderPath + "Popups/Profile/TrophyPopup";
-                GameObject prefab = UiUtils.LoadResource<GameObject>(PATH);
+                var path = Configurations.PrefabsFolderPath + "Popups/Profile/TrophyPopup";
+                var prefab = UiUtils.LoadResource<GameObject>(path);
                 if (rewardInfoPopup != null)
                 {
                     Destroy(rewardInfoPopup.gameObject);
                 }
-                rewardInfoPopup = Instantiate(prefab, profilePlaceParentArea).GetComponent<RewardInfoPopup>();
+                rewardInfoPopup = Instantiate(prefab, _profilePlaceParentArea).GetComponent<RewardInfoPopup>();
+                rewardInfoPopup.Show(SpriteName, RewardTitle, Description, Obtained);
+            }
+            else
+            {
                 rewardInfoPopup.Show(SpriteName, RewardTitle, Description, Obtained);
             }
         }
@@ -63,8 +67,8 @@ namespace UI.Profile.Rewards
         
         private Sprite GetRewardSprite()
         {
-            string spritePath = SPRITES_PATH + SpriteName;
-            return Scripts.UiUtils.LoadSprite(spritePath);
+            string spritePath = SpritesPath + SpriteName;
+            return UiUtils.LoadSprite(spritePath);
         }
 
     }

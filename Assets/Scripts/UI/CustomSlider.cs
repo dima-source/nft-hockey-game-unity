@@ -37,6 +37,8 @@ namespace UI
         {
             var emptyObject = new GameObject();
             var columns = Instantiate(emptyObject, transform);
+            DestroyImmediate(emptyObject);
+            columns.transform.SetAsFirstSibling();
             columns.name = "Columns";
             
             var position = _rectTransform.position;

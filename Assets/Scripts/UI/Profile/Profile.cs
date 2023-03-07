@@ -153,9 +153,18 @@ namespace UI.Profile
 
         private void InitRewards()
         {
+            RemoveAllRewards();
             
             foreach (var reward in _rewardsPrototypes)
                 CreateReward(reward);
+        }
+
+        private void RemoveAllRewards()
+        {
+            for (int i = 0; i < _rewardsParent.childCount; i++)
+            {
+                Destroy(_rewardsParent.GetChild(i));
+            }
         }
         
         private RewardView CreateReward(BaseReward reward)

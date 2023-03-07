@@ -21,11 +21,11 @@ namespace UI.Profile.Popups
 
         protected override void Initialize()
         {
-            Image = Scripts.UiUtils.FindChild<Image>(transform, "IMGArea");
-            Title = Scripts.UiUtils.FindChild<TMP_Text>(transform, "name");
-            Description = Scripts.UiUtils.FindChild<TMP_Text>(transform, "desc");
-            ClosePopup = Scripts.UiUtils.FindChild<Button>(transform, "ClosePopup");
-            MainBackground = Scripts.UiUtils.FindChild<Button>(transform, "MainBackground");
+            Image = UiUtils.FindChild<Image>(transform, "IMGArea");
+            Title = UiUtils.FindChild<TMP_Text>(transform, "name");
+            Description = UiUtils.FindChild<TMP_Text>(transform, "desc");
+            ClosePopup = UiUtils.FindChild<Button>(transform, "ClosePopup");
+            MainBackground = UiUtils.FindChild<Button>(transform, "MainBackground");
             
             ClosePopup.onClick.AddListener(Close);
             MainBackground.onClick.AddListener(Close);
@@ -58,7 +58,5 @@ namespace UI.Profile.Popups
         {
             gameObject.SetActive(false);
         }
-        
-        
     }
 }
