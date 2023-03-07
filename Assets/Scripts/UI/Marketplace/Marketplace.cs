@@ -161,7 +161,7 @@ namespace UI.Scripts
             }
         }
 
-        // -> PackAnimation
+        
         public void BuyButton(string packType)
         {
             if (packType == "Bronze")
