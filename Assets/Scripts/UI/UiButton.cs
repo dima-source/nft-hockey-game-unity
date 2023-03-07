@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UI.Scripts;
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
@@ -17,12 +18,15 @@ namespace UI
         
         private TextMeshProUGUI _text;
         private Button _button;
+        private Outline _outline;
         private Image _background;
 
         protected override void Initialize()
         {
             _button = GetComponent<Button>();
+            _outline = GetComponent<Outline>();
             _text =  UiUtils.FindChild<TextMeshProUGUI>(transform, "Text");
+            //_button.onClick.AddListener((() => _outline.effectColor = Color.white));
         }
 
         private void SetText(string text)
@@ -40,6 +44,11 @@ namespace UI
         public void RemoveAllListeners()
         {
             _button.onClick.RemoveAllListeners();
+        }
+
+        public void RemoveOutline()
+        {
+            _outline.effectColor = Color.clear;
         }
     }
 }
