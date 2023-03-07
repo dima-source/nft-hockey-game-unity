@@ -1,36 +1,35 @@
 using Near;
-using NearClientUnity.Utilities;
 using UI.Scripts;
 using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.UI;
 
 namespace UI.Main_menu
 {
-    public class Enter : UiComponent
-    { 
-        private MainMenu mainMenu; 
-        private SignInView signInView;
-
+    public class Enter : MonoBehaviour
+    {
         private void Start()
         {
+            RemoveChildren();
+            var path = "Prefabs/";
+            
             if (NearPersistentManager.Instance.WalletAccount.IsSignedIn())
             {
-                mainMenu.gameObject.SetActive(true);
-                mainMenu.LoadAccountId();
-                signInView.gameObject.SetActive(false);
+                path += "MainMenu";
             }
             else
             {
-                mainMenu.gameObject.SetActive(false);
-                signInView.gameObject.SetActive(true);
+                path += "SignInMenu";
             }
+            
+            var currentPage = UiUtils.LoadResource<GameObject>(path);
+            Instantiate(currentPage, transform);
         }
 
-        protected override void Initialize()
+        private void RemoveChildren()
         {
-            mainMenu = UiUtils.FindChild<MainMenu>(transform, "MainMenu");
-            signInView = UiUtils.FindChild<SignInView>(transform, "SignInMenu");
+            for (var i = 0; i < transform.childCount; i++)
+            {
+                Destroy(transform.GetChild(i));
+            }
         }
     }
 }
