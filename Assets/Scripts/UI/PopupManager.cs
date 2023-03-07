@@ -2,17 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using UI.Scripts;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
+using Toggle = UI.Scripts.Toggle;
 
-namespace UI.Scripts
+namespace UI
 {
     public static class PopupManager
     {
-        private static readonly string PATH = Configurations.PrefabsFolderPath + "Popups/Popup";
+        private static readonly string Path = Configurations.PrefabsFolderPath + "Popups/Popup";
         private static Popup _instance;
 
         public static Popup GetDefaultOk(this RectTransform parent, string title, string message, UnityAction onClose = null)
@@ -292,7 +294,7 @@ namespace UI.Scripts
                 Object.Destroy(_instance.gameObject);
             }
 
-            GameObject prefab = UiUtils.LoadResource<GameObject>(PATH);
+            GameObject prefab = UiUtils.LoadResource<GameObject>(Path);
             _instance = Object.Instantiate(prefab, parent).GetComponent<Popup>();
             return _instance;
         }

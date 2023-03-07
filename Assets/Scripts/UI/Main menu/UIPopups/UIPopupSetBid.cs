@@ -18,23 +18,22 @@ namespace UI.Main_menu.UIPopups
         [SerializeField] private List<BidButton> buttons;
         [SerializeField] private UIPopupError uiPopupError;
         
-        private Button canselButton;
-        private Button confirmButton;
+        private Button _cancelButton;
+        private Button _confirmButton;
         private RectTransform _instance;
         private string _bid;
         
         
         protected override void Initialize()
         {
-            canselButton = UiUtils.FindChild<Button>(transform, "CancelButton");
-            confirmButton = UiUtils.FindChild<Button>(transform, "ConfirmButton");
-            canselButton.onClick.AddListener(CancelBid);
-            confirmButton.onClick.AddListener(SetBid);
+            _cancelButton = UiUtils.FindChild<Button>(transform, "CancelButton");
+            _confirmButton = UiUtils.FindChild<Button>(transform, "ConfirmButton");
+            _cancelButton.onClick.AddListener(CancelBid);
+            _confirmButton.onClick.AddListener(SetBid);
         }
         
-        public new async void Show(Transform parent)
+        public async void Show(Transform parent)
         {
-            
             try
             {
                 var user = await Near.GameContract.ContractMethods.Views.GetUser();
