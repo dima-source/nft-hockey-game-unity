@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using TMPro;
 using UI.Scripts;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -34,18 +35,22 @@ namespace UI
         public ButtonView[] buttons;
         private Button[] _sceneButtons;
         
+        private TextMeshProUGUI _bidCount;
         private TextMeshProUGUI _title;
         private TextMeshProUGUI _message;
         private Transform _buttonsContainer;
         public UnityAction onClose;
+        public Transform bidContainer;
 
         protected override void Initialize()
         { 
             _title = UiUtils.FindChild<TextMeshProUGUI>(transform, "TitleText");
+            _bidCount = UiUtils.FindChild<TextMeshProUGUI>(transform, "BidCount");
             _message = UiUtils.FindChild<TextMeshProUGUI>(transform, "MessageText");
             Button background = UiUtils.FindChild<Button>(transform, "Background");
             background.onClick.RemoveAllListeners();
             background.onClick.AddListener(Close);
+            bidContainer = UiUtils.FindChild<Transform>(transform, "BidContainer");
             _buttonsContainer = UiUtils.FindChild<Transform>(transform, "ButtonsContainer");
             foreach (Transform child in _buttonsContainer)
             {
@@ -73,6 +78,11 @@ namespace UI
         {
             titleText = value;
         }
+        
+        public void SetTBidInfo(string value)
+        {
+            _bidCount.text = value;
+        }
 
         public void OnButtonClick(int buttonIndex, UnityAction action)
         {
@@ -93,9 +103,30 @@ namespace UI
             _message.gameObject.SetActive(false);
         }
 
+        public void ShowBidConainer(bool value)
+        {
+            if (value)
+            {
+                bidContainer.gameObject.SetActive(true);
+            }
+            else
+            {
+                bidContainer.gameObject.SetActive(false);
+            }
+        }
+
         public void AddAdditional(Transform go)
         {
             Transform additional = UiUtils.FindChild<Transform>(transform, "Additional");
+            /*
+            additional.GetComponent<Image>().color = new Color()
+            {
+                r = (float)56 / 255,
+                g = (float)56 / 255,
+                b = (float)56 / 255,
+                a = 1
+            };
+            */
             int position = additional.childCount - 1;
             go.SetParent(additional, false);
             go.SetSiblingIndex(Math.Max(0, position));
@@ -139,6 +170,7 @@ namespace UI
 
         private static void SetButtonBackground(Button button, UiButton.ButtonType type)
         {
+            /*
             string path = type switch
             {
                 UiButton.ButtonType.Positive => Configurations.MaterialsFolderPath + "AccentBackgroundCold",
@@ -148,6 +180,9 @@ namespace UI
             }; 
             
             Image image = button.GetComponentInChildren<Image>();
+            */
+            
+            //----------------
             //image.material = Utils.LoadResource<Material>(path);
         }
     }

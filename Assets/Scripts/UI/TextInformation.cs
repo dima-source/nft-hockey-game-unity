@@ -76,7 +76,7 @@ namespace UI.Scripts
             
             private static string ConvertToPath(BackgroundType type)
             {
-                return Configurations.SpritesFolderPath + "SpriteSheet/" + type;
+                return Configurations.SpritesFolderPath + "SpriteSheets/" + type;
             }
         }
         

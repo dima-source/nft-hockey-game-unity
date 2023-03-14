@@ -109,6 +109,7 @@ namespace UI
                 Popup success = parent.GetDefaultOk("Success", "You have successfully bought the card");
                 success.Show();
             });
+            
 
             return _instance;
         }
@@ -116,13 +117,14 @@ namespace UI
         public static Popup GetAcceptBet(this RectTransform parent, BetInfo[] betInfo, UnityAction onAcceptBet)
         {
             _instance = GetDefault(parent);
+            
             _instance.SetTitle($"Accept a bet on {betInfo.Select(x => x.bet).Max()} <sprite name=NearLogo> ?");
             _instance.DeleteMessageSlot();
-            
+            _instance.ShowBidConainer(true);
             _instance.buttons = new[]
             {
-                new Popup.ButtonView(UiButton.ButtonType.Neutral, "Go back"),
-                new Popup.ButtonView(UiButton.ButtonType.Positive, "Accept a bet")
+                new Popup.ButtonView(UiButton.ButtonType.Neutral, "Cancel"),
+                new Popup.ButtonView(UiButton.ButtonType.Positive, "Set")
             };
             
             _instance.OnButtonClick(0, _instance.Close);
@@ -133,13 +135,15 @@ namespace UI
                 success.Show();
             });
             
-            string path = Configurations.PrefabsFolderPath + "VerticalScrollView";
+            string path = "Prefabs/ScrollView/VerticalScrollView";
             GameObject prefab = UiUtils.LoadResource<GameObject>(path);
             Transform scrollText = Object.Instantiate(prefab, parent).transform;
             Transform content = UiUtils.FindChild<Transform>(scrollText, "Content");
             _instance.AddAdditional(scrollText);
 
-            TMP_SpriteAsset spriteAsset = UiUtils.LoadResource<TMP_SpriteAsset>(Configurations.SpritesFolderPath + "SpriteAsset");
+            /*
+            TMP_SpriteAsset spriteAsset =
+                UiUtils.LoadResource<TMP_SpriteAsset>(Configurations.SpritesFolderPath + "SpriteSheets/MarketplaceSpriteAsset");
             foreach (var info in betInfo)
             {
                 GameObject obj = new GameObject("Text");
@@ -150,8 +154,9 @@ namespace UI
                 text.fontSizeMax = 40;
                 text.spriteAsset = spriteAsset;
                 text.text = info.ToString();
+                
             }
-            
+            */
             return _instance;
         }
 
@@ -164,7 +169,9 @@ namespace UI
             string path = Configurations.PrefabsFolderPath + "Inputs/InputNear";
             GameObject prefab = UiUtils.LoadResource<GameObject>(path);
             Transform inputObj = Object.Instantiate(prefab, parent).transform;
-            inputObj.name = "InputNear"; 
+            inputObj.name = "InputNear";
+            inputObj.position += new Vector3(inputObj.position.x * 0, 100f, 0);
+            inputObj.localScale = new Vector3(inputObj.localScale.x * 2f, inputObj.localScale.y * 2f, 0);
             _instance.AddAdditional(inputObj);
             
             // Add new area for bid text and user account id.
@@ -172,7 +179,7 @@ namespace UI
             
             _instance.buttons = new[]
             {
-                new Popup.ButtonView(UiButton.ButtonType.Neutral, "Go back"),
+                new Popup.ButtonView(UiButton.ButtonType.Neutral, "Cancel"),
                 new Popup.ButtonView(UiButton.ButtonType.Positive, "Set"),
             };
             
