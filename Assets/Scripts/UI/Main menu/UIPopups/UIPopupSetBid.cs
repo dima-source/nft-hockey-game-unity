@@ -1,38 +1,33 @@
 using System;
-using System.Collections.Generic;
 using Near;
 using NearClientUnity.Utilities;
 using Runtime;
 using UI.Scripts;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
-using Object = UnityEngine.Object;
 
 namespace UI.Main_menu.UIPopups
 {
-    public class UIPopupSetBid : UIPopup
+    public class UIPopupSetBid : UiComponent 
     {
         [SerializeField] private Transform requestButtons;
         [SerializeField] private Loading loading;
         [SerializeField] private Search searchView;
-        [SerializeField] private List<BidButton> buttons;
         [SerializeField] private UIPopupError uiPopupError;
-        
-        private Button _cancelButton;
-        private Button _confirmButton;
-        private RectTransform _instance;
-        private string _bid;
-        
+
+        private Bids _bids;
         
         protected override void Initialize()
         {
-            _cancelButton = UiUtils.FindChild<Button>(transform, "CancelButton");
-            _confirmButton = UiUtils.FindChild<Button>(transform, "ConfirmButton");
-            _cancelButton.onClick.AddListener(CancelBid);
-            _confirmButton.onClick.AddListener(SetBid);
+            _bids = UiUtils.FindChild<Bids>(transform, "Bids");
+            
+            BidButton("ConfirmButton", SetBid);
+            BidButton("CancelButton", _bids.CancelBid);
+            BidButton("GoBack", GoBack);
         }
-        
-        public async void Show(Transform parent)
+
+        protected override async void OnAwake()
         {
             try
             {
@@ -43,6 +38,7 @@ namespace UI.Main_menu.UIPopups
                     var deposit = UInt128.Parse(user.deposit);
                     var formatDeposit = NearUtils.FormatNearAmount(deposit).ToString();
                     
+                    _bids.ChangeBid(formatDeposit);
                     searchView.SetBidText(formatDeposit);
                     requestButtons.gameObject.SetActive(false);
                     searchView.gameObject.SetActive(true);
@@ -57,14 +53,18 @@ namespace UI.Main_menu.UIPopups
                 Console.WriteLine(e);
                 throw;
             }
+        }
 
-            //GetDefaultSelectBid(parent);
-            //mainMenuView.ShowPopup(transform);
+        private void BidButton(string buttonName, UnityAction action)
+        {
+            var button = UiUtils.FindChild<Button>(transform, buttonName);
+            button.onClick.AddListener(action);
         }
         
-        public async void SetBid()
+        private async void SetBid()
         {
-            if (_bid == "")
+            var bid = _bids.Bid;
+            if (bid == "")
             {
                 return;
             }
@@ -74,7 +74,7 @@ namespace UI.Main_menu.UIPopups
                 loading.gameObject.SetActive(true);
                 uiPopupError.gameObject.SetActive(false); 
                 
-                await Near.GameContract.ContractMethods.Actions.MakeAvailable(_bid);
+                var res = await Near.GameContract.ContractMethods.Actions.MakeAvailable(bid);
             }
             catch (Exception e)
             {
@@ -96,46 +96,13 @@ namespace UI.Main_menu.UIPopups
 
             loading.gameObject.SetActive(false);
             searchView.gameObject.SetActive(true);
-            searchView.SetBidText(_bid);
+            searchView.SetBidText(bid);
             requestButtons.gameObject.SetActive(false);
         }
-        
-        public void ChangeActiveButton(BidButton newActiveButton)
+
+        private void GoBack()
         {
-            foreach (BidButton bidButton in buttons)
-            {
-                bidButton.image.sprite = bidButton.defaultSprite;
-                bidButton.image.color = bidButton.defaultColor;
-            }
-
-            newActiveButton.image.sprite = newActiveButton.activeSprite;
-            newActiveButton.image.color = newActiveButton.activeColor;
-            _bid = newActiveButton.bid;
+            Destroy(gameObject);
         }
-
-        public void CancelBid()
-        {
-            _bid = "";
-            foreach (BidButton bidButton in buttons)
-            {
-                bidButton.image.sprite = bidButton.defaultSprite;
-                bidButton.image.color = bidButton.defaultColor;
-            } 
-        }
-        
-        
-        public void GetDefaultSelectBid(Transform parent)
-        {
-            string PATH = Configurations.PrefabsFolderPath + "Popups/SelectBidPopup";
-            
-            if (_instance != null)
-            {
-                Destroy(_instance.gameObject);
-            }
-
-            GameObject prefab = UiUtils.LoadResource<GameObject>(PATH);
-            _instance = Instantiate(prefab, parent).GetComponent<RectTransform>();
-        }
-
     }
 }
