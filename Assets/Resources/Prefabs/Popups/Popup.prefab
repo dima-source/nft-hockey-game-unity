@@ -312,7 +312,10 @@ MonoBehaviour:
   buttons:
   - type: 0
     text: Some text
+  _bidCount: {fileID: 583687283838793369}
   bidContainer: {fileID: 8900603081453849706}
+  _bidInfo: {fileID: 1627031976865871611}
+  _popupInfo: {fileID: 0}
 --- !u!1 &3882721096617387182
 GameObject:
   m_ObjectHideFlags: 0
@@ -1545,7 +1548,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4230892263367789117, guid: 20e3e46765f7dc94a87e35e7fff2628d, type: 3}
       propertyPath: m_Name
-      value: Edit
+      value: BidInfo
       objectReference: {fileID: 0}
     - target: {fileID: 4509390054153179378, guid: 20e3e46765f7dc94a87e35e7fff2628d, type: 3}
       propertyPath: m_text
@@ -1594,6 +1597,17 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 20e3e46765f7dc94a87e35e7fff2628d, type: 3}
+--- !u!114 &1627031976865871611 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4087585668714962327, guid: 20e3e46765f7dc94a87e35e7fff2628d, type: 3}
+  m_PrefabInstance: {fileID: 3327708725039410028}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &4042659467706703717 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1599917140666102793, guid: 20e3e46765f7dc94a87e35e7fff2628d, type: 3}

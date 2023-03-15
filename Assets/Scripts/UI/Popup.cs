@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using Near.Models.Tokens;
 using TMPro;
 using UI.Scripts;
 using Unity.VisualScripting;
@@ -35,15 +38,19 @@ namespace UI
         public ButtonView[] buttons;
         private Button[] _sceneButtons;
         
-        private TextMeshProUGUI _bidCount;
+        public TextMeshProUGUI _bidCount;
         private TextMeshProUGUI _title;
         private TextMeshProUGUI _message;
         private Transform _buttonsContainer;
         public UnityAction onClose;
         public Transform bidContainer;
-
+        public Button _bidInfo;
+        public PopupInfo _popupInfo;
+        private static readonly string Path = Configurations.PrefabsFolderPath + "Popups/InfoPopup";
         protected override void Initialize()
         { 
+            _bidCount = UiUtils.FindChild<TextMeshProUGUI>(transform, "BidCount");
+            _bidInfo = UiUtils.FindChild<Button>(transform, "BidInfo");
             _title = UiUtils.FindChild<TextMeshProUGUI>(transform, "TitleText");
             _bidCount = UiUtils.FindChild<TextMeshProUGUI>(transform, "BidCount");
             _message = UiUtils.FindChild<TextMeshProUGUI>(transform, "MessageText");
@@ -79,11 +86,19 @@ namespace UI
             titleText = value;
         }
         
-        public void SetTBidInfo(string value)
+        public void ShowBidStory(string betInfo)
         {
-            _bidCount.text = value;
+            if (_popupInfo != null)
+            {
+                Destroy(_popupInfo.gameObject);
+            }
+            
+            GameObject prefab = UiUtils.LoadResource<GameObject>(Path);
+            _popupInfo = Instantiate(prefab, transform).GetComponent<PopupInfo>();
+            _popupInfo.SetTitle("Bid story");
+            _popupInfo.SetInfo(betInfo);
         }
-
+        
         public void OnButtonClick(int buttonIndex, UnityAction action)
         {
             if (buttonIndex < 0 || buttonIndex >= buttons.Length)

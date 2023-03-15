@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Near.Models.Tokens;
 using TMPro;
 using UI.Scripts;
 using Unity.VisualScripting;
@@ -50,6 +51,7 @@ namespace UI
             GameObject prefab = UiUtils.LoadResource<GameObject>(path);
             Transform inputObj = Object.Instantiate(prefab, parent).transform;
             inputObj.name = "InputNear"; 
+            inputObj.gameObject.SetActive(false);
             _instance.AddAdditional(inputObj);
             
             InputNear input = UiUtils.FindChild<InputNear>(_instance.transform, "InputNear");
@@ -121,6 +123,18 @@ namespace UI
             _instance.SetTitle($"Accept a bet on {betInfo.Select(x => x.bet).Max()} <sprite name=NearLogo> ?");
             _instance.DeleteMessageSlot();
             _instance.ShowBidConainer(true);
+            _instance._bidCount.text = $"Minimum bid: {betInfo.Select(x => x.bet).Max() + 1f} N";
+            _instance._bidInfo.onClick.AddListener(() =>
+            {
+                string betInfoStory = "";
+                foreach (var info in betInfo)
+                {
+                    betInfoStory += info.person + ": " + info.bet + "N" + "\n";
+                }   
+                _instance.ShowBidStory(betInfoStory);
+            });
+            
+                
             _instance.buttons = new[]
             {
                 new Popup.ButtonView(UiButton.ButtonType.Neutral, "Cancel"),
@@ -217,7 +231,7 @@ namespace UI
             return _instance;
         }
         
-        
+ 
         public static Popup GetSellCard(this RectTransform parent, string tokenId)
         {
             _instance = GetInputNear(parent, "Sell card");
