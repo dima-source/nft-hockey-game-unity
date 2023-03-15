@@ -46,9 +46,11 @@ namespace UI
         public Transform bidContainer;
         public Button _bidInfo;
         public PopupInfo _popupInfo;
+        public Transform _inputField;
         private static readonly string Path = Configurations.PrefabsFolderPath + "Popups/InfoPopup";
         protected override void Initialize()
         { 
+            //_inputField = UiUtils.FindChild<InputField>(transform, "InputField");
             _bidCount = UiUtils.FindChild<TextMeshProUGUI>(transform, "BidCount");
             _bidInfo = UiUtils.FindChild<Button>(transform, "BidInfo");
             _title = UiUtils.FindChild<TextMeshProUGUI>(transform, "TitleText");

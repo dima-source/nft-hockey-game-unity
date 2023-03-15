@@ -54,6 +54,7 @@ namespace UI
             inputObj.gameObject.SetActive(false);
             _instance.AddAdditional(inputObj);
             
+
             InputNear input = UiUtils.FindChild<InputNear>(_instance.transform, "InputNear");
             
             _instance.OnButtonClick(0, _instance.Close);
@@ -119,7 +120,8 @@ namespace UI
         public static Popup GetAcceptBet(this RectTransform parent, BetInfo[] betInfo, UnityAction onAcceptBet)
         {
             _instance = GetDefault(parent);
-            
+            _instance._inputField.gameObject.SetActive(true);
+            //string currBet = _instance._inputField.GetComponent<InputField>().text;
             _instance.SetTitle($"Accept a bet on {betInfo.Select(x => x.bet).Max()} <sprite name=NearLogo> ?");
             _instance.DeleteMessageSlot();
             _instance.ShowBidConainer(true);
