@@ -30,9 +30,16 @@ namespace Near.GameContract.ContractMethods
             dynamic args = new ExpandoObject();
             args.config = new object();
 
-            return await gameContract.Change("make_available", args, 
+            var result = await gameContract.Change("make_available", args, 
                 NearUtils.GasMakeAvailable,
                 NearUtils.ParseNearAmount(bid));
+
+            if (result == "null")
+            {
+                throw new Exception("ManageTeam");
+            }
+
+            return result;
         }
 
         public static async Task<bool> MakeUnavailable(string bid)

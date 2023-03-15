@@ -5,6 +5,7 @@ using Runtime;
 using UI.Scripts;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace UI.Main_menu.UIPopups
@@ -74,21 +75,26 @@ namespace UI.Main_menu.UIPopups
                 loading.gameObject.SetActive(true);
                 uiPopupError.gameObject.SetActive(false); 
                 
-                var res = await Near.GameContract.ContractMethods.Actions.MakeAvailable(bid);
+                await Near.GameContract.ContractMethods.Actions.MakeAvailable(bid);
             }
             catch (Exception e)
             {
                 if (e.Message.Contains("NotEnoughBalance"))
                 {
                     uiPopupError.SetTitle("Not enough money. \nFund deposit or select another bid");
-                    uiPopupError.Show();
+                } 
+                else if (e.Message.Contains("ManageTeam"))
+                {
+                    uiPopupError.SetTitle("You didn't set the team");
+                    uiPopupError.BidButton(() => SceneManager.LoadScene("ManageTeam"), "Go to the manage team");
                 }
                 else
                 {
                     uiPopupError.SetTitle("Something went wrong");
-                    uiPopupError.Show();
-                    Debug.Log(e.Message);
                 }
+                
+                Debug.Log(e.Message);
+                uiPopupError.Show();
                 loading.gameObject.SetActive(false);
                 
                 return;
