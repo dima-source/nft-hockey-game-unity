@@ -55,13 +55,14 @@ namespace UI
             _instance.AddAdditional(inputObj);
             
 
-            InputNear input = UiUtils.FindChild<InputNear>(_instance.transform, "InputNear");
+            InputNear input = UiUtils.FindChild<InputNear>(_instance.transform, "InputNearA");
             
             _instance.OnButtonClick(0, _instance.Close);
             _instance.OnButtonClick(1, () =>
             {
                 float value = input.Value;
-                
+                float currBet = float.Parse(_instance._currBet.text);
+
                 if (value <= 0.0f || (onValidate != null && onValidate.Invoke()))
                 {
                     Popup error = parent.GetDefaultOk("Error", $"Invalid price value");
@@ -69,7 +70,7 @@ namespace UI
                     return;
                 }
                     
-                onChange?.Invoke(value);
+                onChange?.Invoke(currBet);
                 // Popup success = parent.GetDefaultOk("Success", $"You have successfully changed sale conditions");
                 // success.Show();
             });
@@ -121,7 +122,7 @@ namespace UI
         {
             _instance = GetDefault(parent);
             _instance._inputField.gameObject.SetActive(true);
-            //string currBet = _instance._inputField.GetComponent<InputField>().text;
+            
             _instance.SetTitle($"Accept a bet on {betInfo.Select(x => x.bet).Max()} <sprite name=NearLogo> ?");
             _instance.DeleteMessageSlot();
             _instance.ShowBidConainer(true);
