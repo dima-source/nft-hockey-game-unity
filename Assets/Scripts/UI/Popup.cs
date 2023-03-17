@@ -37,7 +37,8 @@ namespace UI
         
         public ButtonView[] buttons;
         private Button[] _sceneButtons;
-        
+
+        public TextMeshProUGUI _currBet;
         public TextMeshProUGUI _bidCount;
         private TextMeshProUGUI _title;
         private TextMeshProUGUI _message;
