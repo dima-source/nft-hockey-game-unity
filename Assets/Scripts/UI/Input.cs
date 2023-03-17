@@ -8,6 +8,9 @@ namespace UI.Scripts
     public class Input : TextInformation
     {
         protected TMP_InputField _inputField;
+        
+        [SerializeField]
+        private Color textColor;
 
         [Serializable]
         public sealed class InputView
@@ -40,7 +43,7 @@ namespace UI.Scripts
         {
             base.OnUpdate();
             textView.CopyValues(_inputField.textComponent);
-            _inputField.textComponent.color = Color.white;
+            _inputField.textComponent.color = textColor;
             _inputField.characterLimit = _inputView.characterLimit;
             _inputField.caretWidth = _inputView.caretWidth;
             _inputField.contentType = _inputView.contentType;

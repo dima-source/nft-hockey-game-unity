@@ -186,7 +186,7 @@ namespace UI
             string path = Configurations.PrefabsFolderPath + "Inputs/InputNear";
             GameObject prefab = UiUtils.LoadResource<GameObject>(path);
             Transform inputObj = Object.Instantiate(prefab, parent).transform;
-            inputObj.name = "InputNear";
+            inputObj.name = "InputNearA";
             inputObj.position += new Vector3(inputObj.position.x * 0, 100f, 0);
             inputObj.localScale = new Vector3(inputObj.localScale.x * 2f, inputObj.localScale.y * 2f, 0);
             _instance.AddAdditional(inputObj);

@@ -1,8 +1,8 @@
 using System;
-using TMPro;
 using UnityEngine;
+using Input = UI.Scripts.Input;
 
-namespace UI.Scripts
+namespace UI
 {
     public sealed class InputNear : Input
     {
