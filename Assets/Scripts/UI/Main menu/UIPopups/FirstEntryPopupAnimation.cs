@@ -19,7 +19,7 @@ namespace UI.Main_menu.UIPopups
             
             for (int i = 1; i <= 6; i++)
             {
-                CardView card = UI.Scripts.UiUtils.FindChild<CardView>(transform, $"Card{i}");
+                CardView card = UiUtils.FindChild<CardView>(transform, $"Card{i}");
                 _cards.Add(card);
             }
 
@@ -28,9 +28,9 @@ namespace UI.Main_menu.UIPopups
 
         private async void LoadCards()
         {
-            string PATH = Configurations.PrefabsFolderPath + "MainMenu/LoadingPopup";
+            string path = Configurations.PrefabsFolderPath + "MainMenu/LoadingPopup";
 
-            GameObject prefab = UiUtils.LoadResource<GameObject>(PATH);
+            GameObject prefab = UiUtils.LoadResource<GameObject>(path);
             var loadingPopup = Instantiate(prefab, transform.parent);
             
             await LoadCardsFromPack();
