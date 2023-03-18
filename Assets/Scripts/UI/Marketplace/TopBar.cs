@@ -14,17 +14,15 @@ namespace UI.Scripts
         private class Entry
         {
             public readonly UiButton button;
-            private readonly Material _defaultMaterial;
-
+            private readonly Color _defaultOutline;
             public Entry(UiButton button)
             {
                 this.button = button;
-                _defaultMaterial = button.GetComponent<Image>().material;
             }
 
             public void SetDefault()
             {
-                button.GetComponent<Image>().material = _defaultMaterial;
+                button.GetComponent<Outline>().effectColor = _defaultOutline;
             }
         }
 
@@ -115,7 +113,7 @@ namespace UI.Scripts
             
             _selected = buttonId;
             string path = Configurations.MaterialsFolderPath + "PrimaryBackground";
-            _buttons[buttonId].button.GetComponent<Image>().material = UiUtils.LoadResource<Material>(path);
+            _buttons[buttonId].button.GetComponent<Outline>().effectColor = Color.white;
         }
         
         public void SetBackButtonAction(UnityAction action)

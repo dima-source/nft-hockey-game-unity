@@ -267,10 +267,11 @@ namespace UI.Scripts
                                 if (token.marketplace_data.isAuction)
                                 {
                                     List<PopupManager.BetInfo> betInfo = new List<PopupManager.BetInfo>();
-
+                                    float bet = (float) Near.NearUtils.FormatNearAmount(UInt128.Parse(token.marketplace_data.price));
+                                    betInfo.Add(new PopupManager.BetInfo(token.ownerId, bet));
                                     foreach (var offer in token.marketplace_data.offers)
-                                    {
-                                        float bet = (float) Near.NearUtils.FormatNearAmount(UInt128.Parse(offer.price));
+                                    { 
+                                        bet = (float) Near.NearUtils.FormatNearAmount(UInt128.Parse(offer.price));
                                         betInfo.Add(new PopupManager.BetInfo(offer.user.id, bet));
                                     }
                                     
