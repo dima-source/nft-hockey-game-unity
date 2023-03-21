@@ -37,7 +37,8 @@ namespace UI
         
         public ButtonView[] buttons;
         private Button[] _sceneButtons;
-
+        
+        private RectTransform _loadingPopup;
         public TextMeshProUGUI _currBet;
         public TextMeshProUGUI _bidCount;
         private TextMeshProUGUI _title;
@@ -48,15 +49,19 @@ namespace UI
         public Button _bidInfo;
         public PopupInfo _popupInfo;
         public Transform _inputField;
+       
+        
+        
         private static readonly string Path = Configurations.PrefabsFolderPath + "Popups/InfoPopup";
         protected override void Initialize()
-        { 
-            //_inputField = UiUtils.FindChild<InputField>(transform, "InputField");
+        {
+            
             _bidCount = UiUtils.FindChild<TextMeshProUGUI>(transform, "BidCount");
             _bidInfo = UiUtils.FindChild<Button>(transform, "BidInfo");
             _title = UiUtils.FindChild<TextMeshProUGUI>(transform, "TitleText");
             _bidCount = UiUtils.FindChild<TextMeshProUGUI>(transform, "BidCount");
             _message = UiUtils.FindChild<TextMeshProUGUI>(transform, "MessageText");
+            //_touggleV3 = UiUtils.FindChild<Transform>(transform, "SwitchToggleV3");
             Button background = UiUtils.FindChild<Button>(transform, "Background");
             background.onClick.RemoveAllListeners();
             background.onClick.AddListener(Close);
@@ -116,6 +121,26 @@ namespace UI
                 action?.Invoke();
             });
         }
+
+        public void ShowLoadingPopup()
+        {
+            string PATH = Configurations.PrefabsFolderPath + "MainMenu/LoadingPopup";
+
+            if (_loadingPopup != null)
+            {
+                Destroy(_loadingPopup.gameObject);
+            }
+                    
+            GameObject prefab = UiUtils.LoadResource<GameObject>(PATH);
+            _loadingPopup = Instantiate(prefab, transform.parent).GetComponent<RectTransform>();
+            _loadingPopup.gameObject.SetActive(true);
+        }
+
+        public void HideLoadingPopup()
+        {
+            Destroy(_loadingPopup.gameObject);
+        }
+        
         public void DeleteMessageSlot()
         {
             _message.gameObject.SetActive(false);
@@ -136,15 +161,7 @@ namespace UI
         public void AddAdditional(Transform go)
         {
             Transform additional = UiUtils.FindChild<Transform>(transform, "Additional");
-            /*
-            additional.GetComponent<Image>().color = new Color()
-            {
-                r = (float)56 / 255,
-                g = (float)56 / 255,
-                b = (float)56 / 255,
-                a = 1
-            };
-            */
+            
             int position = additional.childCount - 1;
             go.SetParent(additional, false);
             go.SetSiblingIndex(Math.Max(0, position));
