@@ -16,7 +16,6 @@ namespace UI.ManageTeam.DragAndDrop
         [SerializeField] private TMP_Text _statsPercentText;
         
         public Image playerImg;
-        public ManageTeamView ManageTeamView;
 
         private CanvasGroup _canvasGroup;
         private Canvas _mainCanvas;
@@ -29,6 +28,7 @@ namespace UI.ManageTeam.DragAndDrop
         protected void Start()
         {
             _mainCanvas = GetComponentInParent<Canvas>();
+            canvasContent = Scripts.Utils.FindParent<Transform>(transform, "Canvas");
             _canvasGroup = GetComponent<CanvasGroup>();
         }
 

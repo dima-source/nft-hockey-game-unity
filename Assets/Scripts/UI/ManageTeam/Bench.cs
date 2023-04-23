@@ -50,7 +50,6 @@ namespace UI.ManageTeam
                 player.transform.localPosition = Vector3.zero;
                 player.rectTransform.sizeDelta = new Vector2(150, 225);
                 player.rectTransform.localScale = benchSlot.RectTransform.localScale;
-                player.ManageTeamView = manageTeamView;
                 
                 benchSlot.draggableCard = player;
                 benchSlot.draggableCard.uiSlot = benchSlot;

@@ -2,19 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
-using System.Xml.Xsl;
 using Near;
-using Near.Models.Game.Team;
 using Near.Models.Game.TeamIds;
 using Near.Models.Tokens;
 using Near.Models.Tokens.Filters;
 using Near.Models.Tokens.Players;
 using Near.Models.Tokens.Players.FieldPlayer;
-using Near.Models.Tokens.Players.Goalie;
 using Runtime;
 using TMPro;
 using UI.ManageTeam.DragAndDrop;
+using UI.Scripts;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,44 +20,29 @@ namespace UI.ManageTeam
     
     public class ManageTeamView : MonoBehaviour
     {
-        public enum LineNumbers
-        {
-            First,
-            Second,
-            Third,
-            Fourth,
-            PowerPlay1,
-            PowerPlay2,
-            PenaltyKill1,
-            PenaltyKill2,
-            Goalie
-        }
+        
         private ManageTeamController _controller;
 
         public Transform forwardsCanvasContent;
-        public Transform defendersCanvasContent;
         
-        private Dictionary<LineNumbers, Dictionary<SlotPositionEnum, UISlot>> fives = new();
-        [SerializeField] private List<UISlot> goalies = new();
+        [SerializeField] private List<UISlot> Goalies = new();
 
-        private List<Token> _userNFTs;
+        public List<Token> UserNfts;
         
         [SerializeField] public Transform canvasContent;
         [SerializeField] public Bench fieldPlayersBenchContent;
         [SerializeField] public Bench goaliesBenchContent;
         [SerializeField] public Bench powerPlayersBenchContent;
         [SerializeField] public Bench penaltyKillBenchContent;
-        [SerializeField] public Transform goaliesContent;
-        [SerializeField] public Transform benchesContent;
 
         [SerializeField] private TMP_Dropdown tactictsDropdown;
         [SerializeField] private Text iceTimePriority;
         [SerializeField] private Slider iceTimePrioritySlider;
+        [SerializeField] public TeamView teamView;
 
         private Dictionary<LineNumbers, string> _fivesTactics = new();
         private Dictionary<LineNumbers, string> _fivesIceTimePriority = new();
 
-        [SerializeField] public Transform teamView;
         [SerializeField] private TMP_Text _teamworkText;
 
         public Bench CurrentBench
@@ -74,150 +56,26 @@ namespace UI.ManageTeam
             }
         }
 
-        private TeamIds _team;
+        public TeamIds Team;
         private LineNumbers _currentLineNumber;
-
-        private void InitTeamPlayer(LineNumbers line, SlotPositionEnum position)
+        
+        private void Awake()
         {
-            var slot = fives[line][position];
-            
-            FiveIds data;
-            if (_team.fives.Count == 0)
-            {
-                return;
-            }
-
-            _team.fives.TryGetValue(line.ToString(), out data);
-
-            string tokenId = data.field_players[position.ToString()];
-            var card = _userNFTs.Find(nft => nft.tokenId == tokenId);
-            DraggableCard player = Instantiate(Game.AssetRoot.manageTeamAsset.fieldCard, slot.transform);
-            player.CardData = card;
-            player.SetData(card);
-            player.canvasContent = canvasContent;
-            player.transform.SetParent(slot.transform);
-            player.transform.localPosition = Vector3.zero;
-            player.rectTransform.sizeDelta = slot.RectTransform.sizeDelta;
-            player.rectTransform.localScale = slot.RectTransform.localScale;
-            player.ManageTeamView = this;
-                
-            slot.draggableCard = player;
-            slot.draggableCard.uiSlot = slot;
-        }
-
-        private void InitGoalie(UISlot slot)
-        {
-            string goalieToken = null;
-            if (slot.slotPosition == SlotPositionEnum.MainGoalkeeper
-                || slot.slotPosition == SlotPositionEnum.SubstituteGoalkeeper)
-            {
-                _team.goalies.TryGetValue(slot.slotPosition.ToString(), out goalieToken);
-            }
-            else if (slot.slotPosition == SlotPositionEnum.GoalieSubstitution1
-                     || slot.slotPosition == SlotPositionEnum.GoalieSubstitution2)
-            {
-                _team.goalie_substitutions.TryGetValue(slot.slotPosition.ToString(), out goalieToken);
-            }
-
-            if (goalieToken == null)
-            {
-                return;
-            }
-            
-            var card = _userNFTs.Find(nft => nft.tokenId == goalieToken);
-            DraggableCard player = Instantiate(Game.AssetRoot.manageTeamAsset.fieldCard, slot.transform);
-            player.CardData = card;
-            player.SetData(card);
-            player.canvasContent = canvasContent;
-            player.transform.SetParent(slot.transform);
-            player.transform.localPosition = Vector3.zero;
-            player.rectTransform.sizeDelta = slot.RectTransform.sizeDelta;
-            player.rectTransform.localScale = slot.RectTransform.localScale;
-            player.ManageTeamView = this;
-                
-            slot.draggableCard = player;
-            slot.draggableCard.uiSlot = slot; 
-        }
-
-        private void CreateFiveSlots(LineNumbers line)
-        {
-            var five = new Dictionary<SlotPositionEnum, UISlot>();
-            fives.Add(line, five);
-            UISlot slot;
-            if (line != LineNumbers.PenaltyKill1 && line != LineNumbers.PenaltyKill2)
-            {
-                slot = CreateNewEmptySlot(forwardsCanvasContent, SlotPositionEnum.LeftWing);
-                five.Add(SlotPositionEnum.LeftWing, slot);
-                InitTeamPlayer(line, SlotPositionEnum.LeftWing);
-            }
-            
-            slot = CreateNewEmptySlot(forwardsCanvasContent, SlotPositionEnum.Center);
-            five.Add(SlotPositionEnum.Center, slot);
-            InitTeamPlayer(line, SlotPositionEnum.Center);
-            
-            slot = CreateNewEmptySlot(forwardsCanvasContent, SlotPositionEnum.RightWing);
-            five.Add(SlotPositionEnum.RightWing, slot);
-            InitTeamPlayer(line, SlotPositionEnum.RightWing);
-            
-            slot = CreateNewEmptySlot(defendersCanvasContent, SlotPositionEnum.LeftDefender);
-            five.Add(SlotPositionEnum.LeftDefender, slot);
-            InitTeamPlayer(line, SlotPositionEnum.LeftDefender);
-            
-            slot = CreateNewEmptySlot(defendersCanvasContent, SlotPositionEnum.RightDefender);
-            five.Add(SlotPositionEnum.RightDefender, slot);
-            InitTeamPlayer(line, SlotPositionEnum.RightDefender);
-            
-            five.Values.ToList().ForEach(slot => slot.gameObject.SetActive(false));
-        }
-
-        private void ClearFives()
-        {
-            fives.Values.ToList().
-                ForEach(
-                    dict => dict.Values.ToList().ForEach(slot => Destroy(slot.gameObject))
-                );
-            fives.Clear();
-        }
-
-        private void InitFives()
-        {
-            ClearFives();
-            CreateFiveSlots(LineNumbers.First);
-            CreateFiveSlots(LineNumbers.Second);
-            CreateFiveSlots(LineNumbers.Third);
-            CreateFiveSlots(LineNumbers.Fourth);
-            CreateFiveSlots(LineNumbers.PowerPlay1);
-            CreateFiveSlots(LineNumbers.PowerPlay2);
-            CreateFiveSlots(LineNumbers.PenaltyKill1);
-            CreateFiveSlots(LineNumbers.PenaltyKill2);
-        }
-
-        private void InitGoalies()
-        {
-            goaliesContent.gameObject.SetActive(true);
-            foreach (UISlot goalieSlot in goalies)
-            {
-                InitGoalie(goalieSlot);
-            }
-            goaliesContent.gameObject.SetActive(false);
+            teamView = Scripts.Utils.FindChild<TeamView>(transform, "Team");
+            _controller = new ManageTeamController();
         }
 
         private void InitTopPanels()
         {
-            if (_team.fives.Count == 0)
+            if (Team.fives.Count == 0)
             {
                 return;
             }
-            foreach (var five in _team.fives.Values)
+            foreach (var five in Team.fives.Values)
             {
-                _fivesTactics.Add(StringToLineNumber(five.number), five.tactic);
-                _fivesIceTimePriority.Add(StringToLineNumber(five.number), five.ice_time_priority);
+                _fivesTactics.Add(Utils.Utils.StringToLineNumber(five.number), five.tactic);
+                _fivesIceTimePriority.Add(Utils.Utils.StringToLineNumber(five.number), five.ice_time_priority);
             }
-        }
-
-        private void Awake()
-        {
-            _controller = new ManageTeamController();
         }
 
         private async void Start()
@@ -230,122 +88,86 @@ namespace UI.ManageTeam
             {
                 first = 100
             };
-            _userNFTs = await _controller.LoadUserNFTs(filter, pagination);
-            _team = await _controller.LoadUserTeam();
-            InitFives();
-            InitGoalies();
+            UserNfts = await _controller.LoadUserNFTs(filter, pagination);
+            Team = await _controller.LoadUserTeam();
+            teamView.InitFives();
+            teamView.InitGoalies();
             InitTopPanels();
 
             _currentLineNumber = LineNumbers.First;
-            ShowFive(_currentLineNumber.ToString());
+            teamView.ShowLine(_currentLineNumber);
             InitBenches();
             fieldPlayersBenchContent.gameObject.SetActive(true);
             
             UpdateTeamWork();
         }
 
-        public void HideCurrentFive()
-        {
-            Dictionary<SlotPositionEnum, UISlot> five = fives[_currentLineNumber];
-            five.Values.ToList().ForEach(slot => slot.gameObject.SetActive(false));
-            iceTimePrioritySlider.SetValueWithoutNotify(0f);
-            iceTimePriority.text = "Select ice time priority";
-            tactictsDropdown.SetValueWithoutNotify(0);
-        }
-
-        private LineNumbers StringToLineNumber(string line)
-        {
-            bool parsed = LineNumbers.TryParse(line, out LineNumbers parsedLine);
-            if (!parsed)
-            {
-                throw new ApplicationException($"Cannot parse value {line} to LineNumbers");
-            }
-            return parsedLine;
-        }
-        
-        public void ShowFive(string number)
-        {
-            if (number == "G")
-            {
-                _teamworkText.text = "";
-                return;
-            }
-            LineNumbers parsedLine = StringToLineNumber(number);
-            Dictionary<SlotPositionEnum, UISlot> five = fives[parsedLine];
-            five.Values.ToList().ForEach(slot => slot.gameObject.SetActive(true));
-            var forwardsHorizontalLayoutGroup = forwardsCanvasContent.GetComponent<HorizontalLayoutGroup>();
-            if (parsedLine == LineNumbers.PenaltyKill1 || parsedLine == LineNumbers.PenaltyKill2)
-            {
-                forwardsHorizontalLayoutGroup.padding.left = 150;
-                forwardsHorizontalLayoutGroup.padding.right = 150;
-            }
-            else
-            {
-                forwardsHorizontalLayoutGroup.padding.left = 0;
-                forwardsHorizontalLayoutGroup.padding.right = 0;
-            }
-
-            _currentLineNumber = parsedLine;
-
-            var alreadySet = _fivesTactics.TryGetValue(_currentLineNumber, out string tactic);
-            if (alreadySet)
-            {
-                var value = tactic switch
-                {
-                    "Safe" => 1,
-                    "Defensive" => 2,
-                    "Neutral" => 3,
-                    "Offensive" => 4,
-                    "Aggressive" => 5
-                };
-                tactictsDropdown.SetValueWithoutNotify(value);
-            }
-
-            alreadySet = _fivesIceTimePriority.TryGetValue(_currentLineNumber, out string priority);
-            if (alreadySet)
-            {
-                
-                int value = priority switch
-                {
-                    "SuperLowPriority" => 1,
-                    "LowPriority" => 2,
-                    "Normal" => 3,
-                    "HighPriority" => 4,
-                    "SuperHighPriority" => 5
-                };
-                iceTimePrioritySlider.SetValueWithoutNotify(value);
-                iceTimePriority.text = Utils.Utils.PascalToCapitalized(priority);
-            }
-            else
-            {
-                _fivesIceTimePriority.Add(_currentLineNumber, Utils.Utils.GetIceTimePriority(3));
-                iceTimePrioritySlider.SetValueWithoutNotify(3);
-                iceTimePriority.text = Utils.Utils.PascalToCapitalized(Utils.Utils.GetIceTimePriority(3)); 
-            }
-            UpdateTeamWork();
-        }
-
-        public UISlot CreateNewEmptySlot(Transform container, SlotPositionEnum position)
-        {
-            UISlot slot = Instantiate(Game.AssetRoot.manageTeamAsset.uiSlot, container);
-            slot.slotPosition = position;
-            slot.manageTeamView = this;
-            return slot;
-        }
+        // public void ShowLine(string number)
+        // {
+        //     if (number == "G")
+        //     {
+        //         _teamworkText.text = "";
+        //         return;
+        //     }
+        //     LineNumbers parsedLine = Utils.Utils.StringToLineNumber(number);
+        //     teamView.ShowLine(parsedLine);
+        //
+        //     _currentLineNumber = parsedLine;
+        //
+        //     // TODO: move working with tactics to another place
+        //     var alreadySet = _fivesTactics.TryGetValue(_currentLineNumber, out string tactic);
+        //     if (alreadySet)
+        //     {
+        //         var value = tactic switch
+        //         {
+        //             "Safe" => 1,
+        //             "Defensive" => 2,
+        //             "Neutral" => 3,
+        //             "Offensive" => 4,
+        //             "Aggressive" => 5
+        //         };
+        //         tactictsDropdown.SetValueWithoutNotify(value);
+        //     }
+        //
+        //     alreadySet = _fivesIceTimePriority.TryGetValue(_currentLineNumber, out string priority);
+        //     if (alreadySet)
+        //     {
+        //         
+        //         int value = priority switch
+        //         {
+        //             "SuperLowPriority" => 1,
+        //             "LowPriority" => 2,
+        //             "Normal" => 3,
+        //             "HighPriority" => 4,
+        //             "SuperHighPriority" => 5
+        //         };
+        //         iceTimePrioritySlider.SetValueWithoutNotify(value);
+        //         iceTimePriority.text = Utils.Utils.PascalToCapitalized(priority);
+        //     }
+        //     else
+        //     {
+        //         _fivesIceTimePriority.Add(_currentLineNumber, Utils.Utils.GetIceTimePriority(3));
+        //         iceTimePrioritySlider.SetValueWithoutNotify(3);
+        //         iceTimePriority.text = Utils.Utils.PascalToCapitalized(Utils.Utils.GetIceTimePriority(3)); 
+        //     }
+        //     
+        //     // TODO: move working with teamwork to another place
+        //     UpdateTeamWork();
+        // }
         
         private void InitBenches()
         {
-            if (_team.fives.Count == 0)
+            if (Team.fives.Count == 0)
             {
-                List<Token> fieldPlayers = _userNFTs.Where(x => x.player_type == "FieldPlayer").ToList();
-                List<Token> goalies = _userNFTs.Where(x => x.player_type == "Goalie").ToList();
+                List<Token> fieldPlayers = UserNfts.Where(x => x.player_type == "FieldPlayer").ToList();
+                List<Token> goalies = UserNfts.Where(x => x.player_type == "Goalie").ToList();
                 fieldPlayersBenchContent.Cards = fieldPlayers;
                 goaliesBenchContent.Cards = goalies;
                 return;
             }
             
             HashSet<string> fieldPlayersTokensInTeam = new();
-            foreach (var five in _team.fives.Values)
+            foreach (var five in Team.fives.Values)
             {
                 foreach (var tokenId in five.field_players.Values.ToList())
                 {
@@ -354,45 +176,45 @@ namespace UI.ManageTeam
             }
             
             List<string> goaliesTokensInTeam = new();
-            foreach (var tokenId in _team.goalies.Values)
+            foreach (var tokenId in Team.goalies.Values)
             {
                 goaliesTokensInTeam.Add(tokenId);
             }
-            foreach (var tokenId in _team.goalie_substitutions.Values)
+            foreach (var tokenId in Team.goalie_substitutions.Values)
             {
                 goaliesTokensInTeam.Add(tokenId);
             }
 
             List<string> powerPlayersTokensInTeam = new();
-            foreach (var tokenId in _team.fives[LineNumbers.PowerPlay1.ToString()].field_players.Values.ToList())
+            foreach (var tokenId in Team.fives[LineNumbers.PowerPlay1.ToString()].field_players.Values.ToList())
             {
                 powerPlayersTokensInTeam.Add(tokenId);
             }
-            foreach (var tokenId in _team.fives[LineNumbers.PowerPlay2.ToString()].field_players.Values.ToList())
+            foreach (var tokenId in Team.fives[LineNumbers.PowerPlay2.ToString()].field_players.Values.ToList())
             {
                 powerPlayersTokensInTeam.Add(tokenId);
             }
             
             List<string> penaltyKillTokensInTeam = new();
-            foreach (var tokenId in _team.fives[LineNumbers.PenaltyKill1.ToString()].field_players.Values.ToList())
+            foreach (var tokenId in Team.fives[LineNumbers.PenaltyKill1.ToString()].field_players.Values.ToList())
             {
                 penaltyKillTokensInTeam.Add(tokenId);
             }
-            foreach (var tokenId in _team.fives[LineNumbers.PenaltyKill2.ToString()].field_players.Values.ToList())
+            foreach (var tokenId in Team.fives[LineNumbers.PenaltyKill2.ToString()].field_players.Values.ToList())
             {
                 penaltyKillTokensInTeam.Add(tokenId);
             }
             
             
-            List<Token> fieldPlayersBench = _userNFTs.Where(x => x.player_type == "FieldPlayer" &&
+            List<Token> fieldPlayersBench = UserNfts.Where(x => x.player_type == "FieldPlayer" &&
                                                                  !fieldPlayersTokensInTeam.Contains(x.tokenId) ).ToList();
-            List<Token> goaliesBench = _userNFTs.Where(x => x.player_type == "Goalie" && !goaliesTokensInTeam.Contains(x.tokenId)).ToList();
-            goaliesBench.AddRange(_userNFTs.Where(x => fieldPlayersTokensInTeam.Contains(x.tokenId) && 
+            List<Token> goaliesBench = UserNfts.Where(x => x.player_type == "Goalie" && !goaliesTokensInTeam.Contains(x.tokenId)).ToList();
+            goaliesBench.AddRange(UserNfts.Where(x => fieldPlayersTokensInTeam.Contains(x.tokenId) && 
                                                        !goaliesTokensInTeam.Contains(x.tokenId)));
             
-            List<Token> powerPlayersBench = _userNFTs.Where(x => fieldPlayersTokensInTeam.Contains(x.tokenId))
+            List<Token> powerPlayersBench = UserNfts.Where(x => fieldPlayersTokensInTeam.Contains(x.tokenId))
                 .Where(x => !powerPlayersTokensInTeam.Contains(x.tokenId)).ToList();
-            List<Token> penaltyKillBench = _userNFTs.Where(x => fieldPlayersTokensInTeam.Contains(x.tokenId))
+            List<Token> penaltyKillBench = UserNfts.Where(x => fieldPlayersTokensInTeam.Contains(x.tokenId))
                 .Where(x => !penaltyKillTokensInTeam.Contains(x.tokenId)).ToList();
             
             fieldPlayersBenchContent.Cards = fieldPlayersBench;
@@ -411,6 +233,7 @@ namespace UI.ManageTeam
         }
 
         // updates benches
+        // TODO: move to TeamView
         public void RemoveFieldPlayerFromTeam(DraggableCard player)
         {
             try
@@ -424,7 +247,7 @@ namespace UI.ManageTeam
             }
             
             // removing player from goalie slot if it is in it
-            foreach (var goalieSlot in goalies)
+            foreach (var goalieSlot in Goalies)
             {
                 if (!goalieSlot.draggableCard)
                     continue;
@@ -451,7 +274,7 @@ namespace UI.ManageTeam
             var keys = new List<LineNumbers>{LineNumbers.PowerPlay1, LineNumbers.PowerPlay2};
             foreach (var key in keys)
             {
-                foreach (var slot in fives[key].Values.ToList())
+                foreach (var slot in teamView.Fives[key].Values.ToList())
                 {
                     if (!slot.draggableCard)
                         continue;
@@ -478,7 +301,7 @@ namespace UI.ManageTeam
             keys = new List<LineNumbers>{LineNumbers.PenaltyKill1, LineNumbers.PenaltyKill2};
             foreach (var key in keys)
             {
-                foreach (var slot in fives[key].Values.ToList())
+                foreach (var slot in teamView.Fives[key].Values.ToList())
                 {
                     if (!slot.draggableCard)
                         continue;
@@ -526,7 +349,7 @@ namespace UI.ManageTeam
 
         public void UpdateTeamWork()
         {
-            var playersSlots = fives[_currentLineNumber].Values;
+            var playersSlots = teamView.Fives[_currentLineNumber].Values;
             if (playersSlots.Any(x => !x.gameObject.activeSelf || !x.draggableCard)) 
             {
                 _teamworkText.text = "";
@@ -624,17 +447,17 @@ namespace UI.ManageTeam
         public void ShowStatsChanges(DraggableCard player, bool switched = false)
         {
             var slot = player.uiSlot;
-            if (goalies.Contains(slot))
+            if (Goalies.Contains(slot))
                 return;
             
-            var currentFive = fives[_currentLineNumber].Values.ToList().Where(x => x != slot);
+            var currentFive = teamView.Fives[_currentLineNumber].Values.ToList().Where(x => x != slot);
             var currentFiveFiltered = currentFive.Where(x => x.draggableCard);
 
             // if player moved to bench
             if (slot.slotPosition == SlotPositionEnum.Bench)
             {
                 List<DraggableCard> sameNationalityPlayers = new();
-                foreach (var uiSlot in fives[_currentLineNumber].Values.ToList().Where(x => x != slot))
+                foreach (var uiSlot in teamView.Fives[_currentLineNumber].Values.ToList().Where(x => x != slot))
                 {
                     if (!uiSlot.draggableCard)
                     {
@@ -836,14 +659,15 @@ namespace UI.ManageTeam
             }
         }
 
+        // TODO: move building teamIds object to TeamView
         public async void SaveTeam()
         {
             List<string> fieldPlayers = new();
             TeamIds teamIds = new();
-            foreach (var lineNumber in fives.Keys)
+            foreach (var lineNumber in teamView.Fives.Keys)
             {
                 FiveIds fiveIds = new();
-                var playersOnPositions = fives[lineNumber];
+                var playersOnPositions = teamView.Fives[lineNumber];
                 foreach (var position in playersOnPositions.Keys)
                 {
 
@@ -878,7 +702,7 @@ namespace UI.ManageTeam
                 teamIds.fives.Add(lineNumber.ToString(), fiveIds);
             }
             
-            foreach (var goalieSlot in goalies)
+            foreach (var goalieSlot in Goalies)
             {
                 if (!goalieSlot.draggableCard)
                 {
@@ -923,11 +747,6 @@ namespace UI.ManageTeam
         private void OnSaved()
         {
             Debug.Log("saved");
-        }
-        
-        public void Cancel()
-        {
-            Start();
         }
         
         public void Back()

@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using NearClientUnity.Utilities;
 using Newtonsoft.Json.Linq;
+using UI.ManageTeam;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
@@ -215,6 +216,21 @@ namespace Utils
         {
             var result = value.SelectMany((c, i) => i != 0 && char.IsUpper(c) && !char.IsUpper(value[i - 1]) ? new char[] { ' ', c } : new char[] { c });
             return new String(result.ToArray());
+        }
+        
+        
+        public static LineNumbers StringToLineNumber(string line)
+        {
+            if (line == "G")
+            {
+                return LineNumbers.Goalie;
+            }
+            bool parsed = LineNumbers.TryParse(line, out LineNumbers parsedLine);
+            if (!parsed)
+            {
+                throw new ApplicationException($"Cannot parse value {line} to LineNumbers");
+            }
+            return parsedLine;
         }
         
     }
