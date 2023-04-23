@@ -21,7 +21,7 @@ namespace UI.Scripts
             private int _columns;
             private Vector2 _cellSize;
             private Vector2 _spacing;
-
+            
             public LayoutSettings(int columns, Vector2 cellSize, Vector2 spacing)
             {
                 _columns = columns;
@@ -44,7 +44,7 @@ namespace UI.Scripts
         private int cardsValueToLoad;
 
         private int _currentLoad = 1;
-        
+        private RectTransform _loadingPopup;
         private RectTransform _layoutContainer, _togglesContainer;
         private GridLayoutGroup _layout;
 
@@ -285,7 +285,8 @@ namespace UI.Scripts
                                     popup = _marketplace.GetComponent<RectTransform>()
                                         .GetBuy(formattedPrice, async () =>
                                         {
-                                            await Offer(token.tokenId, token.marketplace_data.price);
+                                            ShowLoadingPopup(true);
+                                            await Offer(token.tokenId, formattedPrice.ToString());
                                             Popup success = _marketplace.GetComponent<RectTransform>().GetDefaultOk("Success", $"You have successfully bought nft");
                                             success.Show();
                                         });
@@ -337,8 +338,11 @@ namespace UI.Scripts
                                 popup.Show();
                             });
                             
+                            
                             cardDisplay.SetButton(1, "Take off the market", async () =>
                             {
+                                
+                                ShowLoadingPopup(true);
                                 try
                                 {
                                     await Near.MarketplaceContract.ContractMethods.Actions.RemoveSale(token.tokenId);
@@ -353,7 +357,7 @@ namespace UI.Scripts
                                     error.Show();
                                     return;
                                 }
-                    
+                                ShowLoadingPopup(false);
                                 Popup success = _marketplace.GetComponent<RectTransform>().GetDefaultOk("Success", $"You have successfully took off the market token ");
                                 success.Show(); 
                             });
@@ -412,12 +416,34 @@ namespace UI.Scripts
             }
         }
 
+        private void ShowLoadingPopup(bool active)
+        {
+            if (active)
+            {
+                string PATH = Configurations.PrefabsFolderPath + "MainMenu/LoadingPopup";
+
+                if (_loadingPopup != null)
+                {
+                    Destroy(_loadingPopup.gameObject);
+                }
+                    
+                GameObject prefab = UiUtils.LoadResource<GameObject>(PATH);
+                _loadingPopup = Instantiate(prefab, transform.parent).GetComponent<RectTransform>();
+                _loadingPopup.gameObject.SetActive(true);
+            }
+            else
+            {
+                Destroy(_loadingPopup.gameObject);
+            }
+        }
         private async Task Offer(string tokenId, string price)
         {
             try
             {
+                ShowLoadingPopup(true);
                 await Near.MarketplaceContract.ContractMethods.Actions.Offer(
                     tokenId,  price);
+                ShowLoadingPopup(false);
             }
             catch (Exception e)
             {

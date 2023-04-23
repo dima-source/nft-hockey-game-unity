@@ -37,8 +37,8 @@ namespace UI.Scripts
         private PopupBread _devPopup;
 
         public Transform popupLoading;
-        //private Transform popupAnimation;
 
+        
         public TopBar TopBar => _topBar;
 
         protected override void Initialize()
@@ -47,7 +47,7 @@ namespace UI.Scripts
             _userWalletName = UiUtils.FindChild<TextMeshProUGUI>(transform, "Wallet");
             _userWalletBalance = UiUtils.FindChild<TextMeshProUGUI>(transform, "Balance");
             _breadcrumbs = UiUtils.FindChild<TextMeshProUGUI>(transform, "Breadcrumbs");
-            //_packAnimation = UiUtils.FindChild<PackAnimation>(transform, "SoldPopupAnimation");
+            
             buyPacksNonScrollable = UiUtils.FindChild<Transform>(transform, "BuyPacksNonScrollable");
             buyPacksScrollable = UiUtils.FindChild<Transform>(transform, "BuyPacksScrollable");
             

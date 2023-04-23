@@ -17,12 +17,14 @@ namespace UI
     {
         private static readonly string Path = Configurations.PrefabsFolderPath + "Popups/Popup";
         private static Popup _instance;
-
+      
         public static Popup GetDefaultOk(this RectTransform parent, string title, string message, UnityAction onClose = null)
         {
             _instance = GetDefault(parent);
             _instance.SetTitle(title);
             _instance.SetMessage(message);
+            _instance._inputField.gameObject.SetActive(false);
+            //_instance._touggleV.gameObject.SetActive(false);
             
             _instance.buttons = new[]
             {
@@ -50,12 +52,12 @@ namespace UI
             string path = Configurations.PrefabsFolderPath + "Inputs/InputNear";
             GameObject prefab = UiUtils.LoadResource<GameObject>(path);
             Transform inputObj = Object.Instantiate(prefab, parent).transform;
-            inputObj.name = "InputNear"; 
+            inputObj.name = "InputNear1"; 
             inputObj.gameObject.SetActive(false);
             _instance.AddAdditional(inputObj);
             
 
-            InputNear input = UiUtils.FindChild<InputNear>(_instance.transform, "InputNearA");
+            InputNear input = UiUtils.FindChild<InputNear>(_instance.transform, "InputNear");
             
             _instance.OnButtonClick(0, _instance.Close);
             _instance.OnButtonClick(1, () =>
@@ -101,6 +103,8 @@ namespace UI
             _instance = GetDefault(parent);
             _instance.SetTitle("Buy a card");
             _instance.SetMessage($"Do you really want to buy this card for {value} <sprite name=NearLogo> ?");
+            _instance._inputField.gameObject.SetActive(false);
+            //_instance._touggleV.gameObject.SetActive(false);
             _instance.buttons = new[]
             {
                 new Popup.ButtonView(UiButton.ButtonType.Neutral, "Go back"),
@@ -112,6 +116,7 @@ namespace UI
                 onBuy?.Invoke();
                 Popup success = parent.GetDefaultOk("Success", "You have successfully bought the card");
                 success.Show();
+                success.gameObject.SetActive(false);
             });
             
 
@@ -190,6 +195,7 @@ namespace UI
             inputObj.position += new Vector3(inputObj.position.x * 0, 100f, 0);
             inputObj.localScale = new Vector3(inputObj.localScale.x * 2f, inputObj.localScale.y * 2f, 0);
             _instance.AddAdditional(inputObj);
+            //_instance._touggleV.gameObject.SetActive(false);
             
             // Add new area for bid text and user account id.
             InputNear input = UiUtils.FindChild<InputNear>(_instance.transform, "InputNear");
@@ -244,7 +250,7 @@ namespace UI
             GameObject prefab = UiUtils.LoadResource<GameObject>(path);
             Transform obj = Object.Instantiate(prefab, parent).transform;
             _instance.AddAdditional(obj);
-
+         
             Toggle toggle = obj.GetComponent<Toggle>();
             toggle.text = "Place on auction";
             toggle.isOn = false;
@@ -263,17 +269,23 @@ namespace UI
             _instance.OnButtonClick(0, _instance.Close);
             _instance.OnButtonClick(1, () =>
             {
+                
                 string message = toggle.isOn ? "on the auction" : "on the market";
-                Popup info = parent.GetDefaultOk("Confirm action", $"Do you really want to place this card {message}?");
+                 Popup info = parent.GetDefaultOk("Confirm action", $"Do you really want to place this card {message}?");
+                input.gameObject.SetActive(false);
+                //_instance._touggleV.gameObject.SetActive(false);
                 info.buttons = new[]
                 {
                     new Popup.ButtonView(UiButton.ButtonType.Neutral, "No"),
                     new Popup.ButtonView(UiButton.ButtonType.Positive, "Yes"),
                 };
+                
                 info.OnButtonClick(0, info.Close);
                 info.OnButtonClick(1, async () =>
                 {
+                   
                     float value = input.Value;
+                    _instance.ShowLoadingPopup();
                     
                     if (value <= 0.0f)
                     {
@@ -301,13 +313,15 @@ namespace UI
                         error.Show();
                         return;
                     }
-                    
+                    _instance.HideLoadingPopup();
                     Popup success = parent.GetDefaultOk("Success", $"You have successfully placed this card {message}");
                     success.Show();
+                   
                 });
+                
                 info.Show();
             });
-            
+           
             return _instance;
         }
 
