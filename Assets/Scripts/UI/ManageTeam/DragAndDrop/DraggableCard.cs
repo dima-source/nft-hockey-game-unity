@@ -28,7 +28,7 @@ namespace UI.ManageTeam.DragAndDrop
         protected void Start()
         {
             _mainCanvas = GetComponentInParent<Canvas>();
-            canvasContent = Scripts.Utils.FindParent<Transform>(transform, "Canvas");
+            //canvasContent = Scripts.Utils.FindParent<Transform>(transform, "Canvas");
             _canvasGroup = GetComponent<CanvasGroup>();
         }
 

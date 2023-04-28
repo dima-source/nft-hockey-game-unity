@@ -22,7 +22,7 @@ namespace UI.ManageTeam.DragAndDrop
         {
             RectTransform = GetComponent<RectTransform>();
             manageTeamView = GetComponentInParent<ManageTeamView>();
-            positionText = Scripts.Utils.FindChild<TMP_Text>(transform, "PositionText");
+            //positionText = Scripts.Utils.FindChild<TMP_Text>(transform, "PositionText");
         }
 
         protected override void OnUpdate()
@@ -150,6 +150,7 @@ namespace UI.ManageTeam.DragAndDrop
             
             // moving card from five to bench
             // if (draggableCardDropped.uiSlot.transform.parent.parent == manageTeamView.teamView &&
+            /*
             if (Scripts.Utils.HasChild(manageTeamView.teamView.transform, draggableCardDropped.uiSlot.transform.parent.name) &&
                 transform.parent == manageTeamView.CurrentBench.transform)
             {
@@ -168,7 +169,7 @@ namespace UI.ManageTeam.DragAndDrop
                 manageTeamView.UpdateTeamWork();
                 return;
             }
-
+*/
             // swap cards inside five or goalies
             if ((draggableCardDropped.uiSlot.transform.parent.parent == transform.parent.parent || 
                  draggableCardDropped.uiSlot.transform.parent.parent.parent == transform.parent.parent.parent) &&

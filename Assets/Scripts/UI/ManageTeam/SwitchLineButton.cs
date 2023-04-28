@@ -16,7 +16,7 @@ namespace UI.ManageTeam
         protected override void Initialize()
         {
             _buttonComponent = GetComponent<Button>();
-            buttonTextObject = Scripts.Utils.FindChild<TMP_Text>(transform, "ButtonText");
+            //buttonTextObject = Scripts.Utils.FindChild<TMP_Text>(transform, "ButtonText");
         }
 
         protected override void OnUpdate()

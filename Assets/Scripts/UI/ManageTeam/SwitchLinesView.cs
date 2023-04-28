@@ -13,7 +13,7 @@ namespace UI.ManageTeam
         protected override void Initialize()
         {
             buttons = GetComponentsInChildren<SwitchLineButton>(true).ToList();
-            teamView = Scripts.Utils.FindParent<TeamView>(transform, "Team");
+            //teamView = Scripts.Utils.FindParent<TeamView>(transform, "Team");
             SetButtonsCallbacks();
         }
 

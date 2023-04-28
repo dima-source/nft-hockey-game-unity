@@ -24,11 +24,11 @@ namespace UI.ManageTeam
         
         protected override void Initialize()
         {
-            mainGoalieSlot = Scripts.Utils.FindChild<UISlot>(transform, "MainGoalie");
-            backupGoalieSlot = Scripts.Utils.FindChild<UISlot>(transform, "BackupGoalie");
-            substitution1GoalieSlot = Scripts.Utils.FindChild<UISlot>(transform, "GoalieSubstitution1");
-            substitution2GoalieSlot = Scripts.Utils.FindChild<UISlot>(transform, "GoalieSubstitution2");
-            manageTeamView = Scripts.Utils.FindParent<ManageTeamView>(transform, "ManageTeam");
+            //mainGoalieSlot = Scripts.Utils.FindChild<UISlot>(transform, "MainGoalie");
+            //backupGoalieSlot = Scripts.Utils.FindChild<UISlot>(transform, "BackupGoalie");
+            //substitution1GoalieSlot = Scripts.Utils.FindChild<UISlot>(transform, "GoalieSubstitution1");
+            //substitution2GoalieSlot = Scripts.Utils.FindChild<UISlot>(transform, "GoalieSubstitution2");
+            //manageTeamView = Scripts.Utils.FindParent<ManageTeamView>(transform, "ManageTeam");
         }
         
         private void InitGoalie(UISlot slot)

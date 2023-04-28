@@ -21,8 +21,8 @@ namespace UI.ManageTeam
         {
             // switchBrigadesContent = Scripts.Utils.FindChild<Transform>(transform, "SwitchBrigades");
             // switchLinesContent = Scripts.Utils.FindChild<Transform>(transform, "SwitchLine");
-            teamFivesContent = Scripts.Utils.FindChild<TeamFivesView>(transform, "TeamFive");
-            goaliesView = Scripts.Utils.FindChild<GoaliesView>(transform, "Goalies");
+            //teamFivesContent = Scripts.Utils.FindChild<TeamFivesView>(transform, "TeamFive");
+            //goaliesView = Scripts.Utils.FindChild<GoaliesView>(transform, "Goalies");
         }
 
         public void InitFives()

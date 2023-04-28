@@ -19,10 +19,10 @@ namespace UI.ManageTeam
         
         protected override void Initialize()
         {
-            forwardsContent = Scripts.Utils.FindChild<Transform>(transform, "Forwards");
-            defendersContent = Scripts.Utils.FindChild<Transform>(transform, "Defenders");
-            manageTeamView = Scripts.Utils.FindParent<ManageTeamView>(transform, "ManageTeam");
-            teamView = Scripts.Utils.FindParent<TeamView>(transform, "Team");
+            //forwardsContent = Scripts.Utils.FindChild<Transform>(transform, "Forwards");
+            //defendersContent = Scripts.Utils.FindChild<Transform>(transform, "Defenders");
+            //manageTeamView = Scripts.Utils.FindParent<ManageTeamView>(transform, "ManageTeam");
+            //teamView = Scripts.Utils.FindParent<TeamView>(transform, "Team");
         }
         
         public UISlot CreateNewEmptyFiveSlot(SlotPositionEnum position)

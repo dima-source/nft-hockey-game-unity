@@ -61,7 +61,7 @@ namespace UI.ManageTeam
         
         private void Awake()
         {
-            teamView = Scripts.Utils.FindChild<TeamView>(transform, "Team");
+            //teamView = Scripts.Utils.FindChild<TeamView>(transform, "Team");
             _controller = new ManageTeamController();
         }
 
