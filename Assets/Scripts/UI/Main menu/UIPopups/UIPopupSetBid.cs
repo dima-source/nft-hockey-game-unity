@@ -12,7 +12,7 @@ namespace UI.Main_menu.UIPopups
 {
     public class UIPopupSetBid : UiComponent 
     {
-        [SerializeField] private Transform requestButtons;
+        //[SerializeField] private Transform requestButtons;
         [SerializeField] private Loading loading;
         [SerializeField] private Search searchView;
         [SerializeField] private UIPopupError uiPopupError;
@@ -28,6 +28,11 @@ namespace UI.Main_menu.UIPopups
             BidButton("GoBack", GoBack);
         }
 
+        public void LoadGame()
+        {
+            SceneManager.LoadScene("Game");
+        }
+
         protected override async void OnAwake()
         {
             try
@@ -41,7 +46,7 @@ namespace UI.Main_menu.UIPopups
                     
                     _bids.ChangeBid(formatDeposit);
                     searchView.SetBidText(formatDeposit);
-                    requestButtons.gameObject.SetActive(false);
+                    //requestButtons.gameObject.SetActive(false);
                     searchView.gameObject.SetActive(true);
                 } 
                 else if (user.games.Count != 0 && user.games[0].winner_index == null)
@@ -103,7 +108,7 @@ namespace UI.Main_menu.UIPopups
             loading.gameObject.SetActive(false);
             searchView.gameObject.SetActive(true);
             searchView.SetBidText(bid);
-            requestButtons.gameObject.SetActive(false);
+            //requestButtons.gameObject.SetActive(false);
         }
 
         private void GoBack()

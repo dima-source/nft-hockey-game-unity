@@ -20,19 +20,19 @@ namespace Near.GameContract.ContractMethods
     {
         private const string Url = "https://api.thegraph.com/subgraphs/name/nft-hockey/game";
 
-        private static async Task<string> GetJSONQuery(string json)
-        {
-            json = "{\"query\": \"{" + json.Replace("\"", "\\\"") + "}\"}";
+        //private static async Task<string> GetJSONQuery(string json)
+        //{
+         //   json = "{\"query\": \"{" + json.Replace("\"", "\\\"") + "}\"}";
 
-            using var client = new HttpClient();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+         //   using var client = new HttpClient();
+        //    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
-            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            var response = await client.PostAsync(Url, content);
+         //   HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
+         //   content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+         //   var response = await client.PostAsync(Url, content);
 
-            return await response.Content.ReadAsStringAsync();
-        }
+        //    return await response.Content.ReadAsStringAsync();
+        //}
 
 
         /// <returns>If user is not in the game returns null</returns>
@@ -127,11 +127,12 @@ namespace Near.GameContract.ContractMethods
                         .AddField(g => g.winner_index));
             }
 
-            var responseJson = await GetJSONQuery(query.Build());
+           // var responseJson = await GetJSONQuery(query.Build());
 
-            var getUsers = JsonConvert.DeserializeObject<List<User>>(responseJson, new UserGameContractConverter());
+            //var getUsers = JsonConvert.DeserializeObject<List<User>>(responseJson, new UserGameContractConverter());
 
-            return getUsers ?? new List<User>();
+            //return getUsers ?? new List<User>();
+            return null;
         }
 
         public static async Task<GameData> GetGame(GameDataFilter filter)
@@ -163,11 +164,12 @@ namespace Near.GameContract.ContractMethods
                 query.AddArguments(pagination);
             }
 
-            var responseJson = await GetJSONQuery(query.Build());
+           // var responseJson = await GetJSONQuery(query.Build());
 
-            var gameDatas = JsonConvert.DeserializeObject<List<GameData>>(responseJson, new GameDataConverter());
+            //var gameDatas = JsonConvert.DeserializeObject<List<GameData>>(responseJson, new GameDataConverter());
 
-            return gameDatas ?? new List<GameData>();
+            //return gameDatas ?? new List<GameData>();
+            return null;
         }
 
         public static async Task<List<Event>> GetGameEvents(int gameId, int numberOfRenderedEvents)
@@ -190,14 +192,14 @@ namespace Near.GameContract.ContractMethods
                 .AddArguments(new {where = filter})
             );
 
-            var response = await GetJSONQuery(query.Build());
+           // var response = await GetJSONQuery(query.Build());
 
-            var events = JsonConvert.DeserializeObject<List<Event>>(response, new EventConverter());
+           // var events = JsonConvert.DeserializeObject<List<Event>>(response, new EventConverter());
 
-            if (events != null)
-            {
-                return ParseActionData(events);
-            }
+           // if (events != null)
+            //{
+            //    return ParseActionData(events);
+            //}
 
             return new List<Event>();
         }

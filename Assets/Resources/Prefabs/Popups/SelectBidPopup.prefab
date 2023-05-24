@@ -1475,7 +1475,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f2f4142e9104fa5a1ffa792a8b0c1cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requestButtons: {fileID: 2206725724304714841}
   loading: {fileID: 2206725723412696345}
   searchView: {fileID: 2206725725308944612}
   uiPopupError: {fileID: 2206725724499708038}
@@ -2130,7 +2129,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2206725724560719256}
         m_TargetAssemblyTypeName: UI.Main_menu.UIPopups.UIPopupSetBid, Assembly-CSharp
-        m_MethodName: SetBid
+        m_MethodName: LoadGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
