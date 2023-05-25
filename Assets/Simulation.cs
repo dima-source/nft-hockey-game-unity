@@ -24,15 +24,27 @@ public class Simulation : MonoBehaviour
     public Transform WinPopup;
     public Transform DrawPopup;
     public Transform StartPopup;
+    public string first = "";
+    string second = "";
+    public Transform Mid;
+    public Transform BluePossesion;
+    public Transform RedPossesion;
+    public Transform RedAttack;
+    public Transform BlueAttack;
     
     public void ShowPrefabPopup(string name, string text)
-    {
-        string PATH = Configurations.PrefabsFolderPath + $"Popups/Profile/{name}";
+    { 
+        first = text;
+        if (first != second)
+        {
+            string PATH = Configurations.PrefabsFolderPath + $"Popups/Profile/{name}";
 
-        GameObject prefab = UiUtils.LoadResource<GameObject>(PATH);
-        _messege = Instantiate(prefab, profileMassegeParentArea).GetComponent<Messege>();
-        _messege.SetData(text);
-        
+            GameObject prefab = UiUtils.LoadResource<GameObject>(PATH);
+            _messege = Instantiate(prefab, profileMassegeParentArea).GetComponent<Messege>();
+            _messege.SetData(text);
+        }
+
+        second = text;
     }
     
     void Start()
@@ -63,53 +75,168 @@ public class Simulation : MonoBehaviour
     {
         int RedScore = 0;
         int BlueScore = 0;
+        int GoalPossible = 0;
         PeridScore.text = "1";
         for (int i = 0; i < 30; i++)
         {
+            if (GoalPossible == 0)
+            {
+                ShowPrefabPopup("Messege", "Mid game");
+                ChangeZone("mid");
+            }
+            else if(GoalPossible > 0)
+            {
+                ShowPrefabPopup("Messege", "Red team in possession");
+                ChangeZone("RP");
+            }
+            else if(GoalPossible < 0)
+            {
+                ShowPrefabPopup("Messege", "Blue team in possession");
+                ChangeZone("BP");
+            }
+
             int Count = Random.Range(0, 100);
             if(Count > 50)
             {
-                if(Count > 90)
+                if (Count > 80)
                 {
-                    RedScore += 1;
-                    ShowPrefabPopup("Messege", "Red team goal!");
+                    GoalPossible += 1;
+                }
+                else if (Count > 90)
+                {
+                    GoalPossible += 2;
+                }
+                if (Count > 95)
+                {
+                    GoalPossible += 1;
+                }
+                
+                if(GoalPossible >= 3)
+                {
+                    ShowPrefabPopup("Messege", "Red team in attack");
+                    ChangeZone("RA");
+                    int GoalFlag = Random.Range(0, 100);
+                    if (GoalFlag > 33)
+                    {
+                        RedScore += 1;
+                        ShowPrefabPopup("Messege", "Red team goal!");
+                        GoalPossible = 0;
+                    }
                 }
             }
             else
             {
-                if (Count < 10)
+                if (Count < 20)
                 {
-                    BlueScore += 1;
-                    ShowPrefabPopup("Messege","Blue team goal!");
+                    GoalPossible -= 1;
+                }
+                else if (Count < 10)
+                {
+                    GoalPossible -= 2;
+                }
+
+                if (Count < 5)
+                {
+                    GoalPossible -= 1;
+                }
+                
+                if(GoalPossible <= -3)
+                {
+                    ShowPrefabPopup("Messege", "Blue team in attack");
+                    ChangeZone("BA");
+                    int GoalFlag = Random.Range(0, 100);
+                    if (GoalFlag > 33)
+                    {
+                        BlueScore += 1;
+                        ShowPrefabPopup("Messege", "Blue team goal!");
+                        GoalPossible = 0;
+                    }
                 }
             }
-            yield return new WaitForSeconds(0.5f); 
+            yield return new WaitForSeconds(1f); 
             ScoreCount.text = $"{RedScore}-{BlueScore}";
             TimeScore.text = $"{30-i}";
         }
         
         PeridScore.text = "2";
         
-        for (int i = 0; i < 30; i++)
+       for (int i = 0; i < 30; i++)
         {
+            if (GoalPossible == 0)
+            {
+                ShowPrefabPopup("Messege", "Mid game");
+                ChangeZone("mid");
+            }
+            else if(GoalPossible > 0)
+            {
+                ShowPrefabPopup("Messege", "Red team in possession");
+                ChangeZone("RP");
+            }
+            else if(GoalPossible < 0)
+            {
+                ShowPrefabPopup("Messege", "Blue team in possession");
+                ChangeZone("BP");
+            }
+
             int Count = Random.Range(0, 100);
             if(Count > 50)
             {
-                if(Count > 90)
+                if (Count > 80)
                 {
-                    RedScore += 1;
-                    ShowPrefabPopup("Messege", "Red team goal!");
+                    GoalPossible += 1;
+                }
+                else if (Count > 90)
+                {
+                    GoalPossible += 2;
+                }
+                if (Count > 95)
+                {
+                    GoalPossible += 1;
+                }
+                
+                if(GoalPossible >= 3)
+                {
+                    ShowPrefabPopup("Messege", "Red team in attack");
+                    ChangeZone("RA");
+                    int GoalFlag = Random.Range(0, 100);
+                    if (GoalFlag > 33)
+                    {
+                        RedScore += 1;
+                        ShowPrefabPopup("Messege", "Red team goal!");
+                        GoalPossible = 0;
+                    }
                 }
             }
             else
             {
-                if (Count < 10)
+                if (Count < 20)
                 {
-                    BlueScore += 1;
-                    ShowPrefabPopup("Messege","Blue team goal!");
+                    GoalPossible -= 1;
+                }
+                else if (Count < 10)
+                {
+                    GoalPossible -= 2;
+                }
+
+                if (Count < 5)
+                {
+                    GoalPossible -= 1;
+                }
+                
+                if(GoalPossible <= -3)
+                {
+                    ShowPrefabPopup("Messege", "Blue team in attack");
+                    ChangeZone("BA");
+                    int GoalFlag = Random.Range(0, 100);
+                    if (GoalFlag > 33)
+                    {
+                        BlueScore += 1;
+                        ShowPrefabPopup("Messege", "Blue team goal!");
+                        GoalPossible = 0;
+                    }
                 }
             }
-            yield return new WaitForSeconds(0.5f); 
+            yield return new WaitForSeconds(1f); 
             ScoreCount.text = $"{RedScore}-{BlueScore}";
             TimeScore.text = $"{30-i}";
         }
@@ -118,28 +245,87 @@ public class Simulation : MonoBehaviour
         
         for (int i = 0; i < 30; i++)
         {
+            if (GoalPossible == 0)
+            {
+                ShowPrefabPopup("Messege", "Mid game");
+                ChangeZone("mid");
+            }
+            else if(GoalPossible > 0)
+            {
+                ShowPrefabPopup("Messege", "Red team in possession");
+                ChangeZone("RP");
+            }
+            else if(GoalPossible < 0)
+            {
+                ShowPrefabPopup("Messege", "Blue team in possession");
+                ChangeZone("BP");
+            }
+
             int Count = Random.Range(0, 100);
             if(Count > 50)
             {
-                if(Count > 90)
+                if (Count > 80)
                 {
-                    RedScore += 1;
-                    ShowPrefabPopup("Messege", "Red team goal!");
+                    GoalPossible += 1;
+                }
+                else if (Count > 90)
+                {
+                    GoalPossible += 2;
+                }
+                if (Count > 95)
+                {
+                    GoalPossible += 1;
+                }
+                
+                if(GoalPossible >= 3)
+                {
+                    ShowPrefabPopup("Messege", "Red team in attack");
+                    ChangeZone("RA");
+                    int GoalFlag = Random.Range(0, 100);
+                    if (GoalFlag > 33)
+                    {
+                        RedScore += 1;
+                        ShowPrefabPopup("Messege", "Red team goal!");
+                        GoalPossible = 0;
+                    }
                 }
             }
             else
             {
-                if (Count < 10)
+                if (Count < 20)
                 {
-                    BlueScore += 1;
-                    ShowPrefabPopup("Messege","Blue team goal!");
+                    GoalPossible -= 1;
+                }
+                else if (Count < 10)
+                {
+                    GoalPossible -= 2;
+                }
+
+                if (Count < 5)
+                {
+                    GoalPossible -= 1;
+                }
+                
+                if(GoalPossible <= -3)
+                {
+                    ShowPrefabPopup("Messege", "Blue team in attack");
+                    ChangeZone("BA");
+                    int GoalFlag = Random.Range(0, 100);
+                    if (GoalFlag > 33)
+                    {
+                        BlueScore += 1;
+                        ShowPrefabPopup("Messege", "Blue team goal!");
+                        GoalPossible = 0;
+                    }
                 }
             }
-            yield return new WaitForSeconds(0.5f); 
+            yield return new WaitForSeconds(1f); 
             ScoreCount.text = $"{RedScore}-{BlueScore}";
             TimeScore.text = $"{30-i}";
         }
-        
+
+        #region EndGame
+        ChangeZone(null);
         if (RedScore < BlueScore)
         {
             ShowPrefabPopup("Messege","Blue team win !");
@@ -155,7 +341,7 @@ public class Simulation : MonoBehaviour
             ShowPrefabPopup("Messege","Red team win !");
             WinPopup.gameObject.SetActive(true);
         }
-        
+        #endregion
     }
 
     public void GoToMainMenu()
@@ -166,5 +352,34 @@ public class Simulation : MonoBehaviour
     public void CloseStartPopup()
     {
         StartPopup.gameObject.SetActive(false);
+    }
+
+    public void ChangeZone(string name)
+    {
+        Mid.gameObject.SetActive(false);
+        RedPossesion.gameObject.SetActive(false);
+        RedAttack.gameObject.SetActive(false);
+        BlueAttack.gameObject.SetActive(false);
+        BluePossesion.gameObject.SetActive(false);
+        if (name == "mid")
+        {
+            Mid.gameObject.SetActive(true);
+        }
+        else if (name == "BP")
+        {
+            BluePossesion.gameObject.SetActive(true);
+        }
+        else if (name == "RP")
+        {
+            RedPossesion.gameObject.SetActive(true);
+        }
+        else if (name == "RA")
+        {
+            RedAttack.gameObject.SetActive(true);
+        }
+        else if (name == "BA")
+        {
+            BlueAttack.gameObject.SetActive(true);
+        }
     }
 }

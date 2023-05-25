@@ -202,8 +202,8 @@ namespace UI.Scripts
         public async void ShowBuyingPack(PackTypes packType)
         {
             popupLoading.gameObject.SetActive(true);
-            List<Token> tokens =
-                await Near.MarketplaceContract.ContractMethods.Actions.BuyPack(((int) packType).ToString());
+            List<Token> tokens = new List<Token>();
+                //await Near.MarketplaceContract.ContractMethods.Actions.BuyPack(((int) packType).ToString());
 
             ShowBoughtPack(tokens, packType);
             Debug.Log("Buying pack");
@@ -223,7 +223,7 @@ namespace UI.Scripts
             
             popupLoading.gameObject.SetActive(false);
             _packAnimation.gameObject.SetActive(true);
-            _packAnimation.SetData(tokens);
+            //_packAnimation.SetData(tokens);
             _packAnimation.Play();
             Debug.Log($"Bought {packType.ToString()} pack");
         }
