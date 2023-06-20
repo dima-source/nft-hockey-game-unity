@@ -19,7 +19,7 @@ namespace UI.Main_menu
             }
             else
             {
-                path += "SignInMenu";
+                path += "MainMenu";
             }
             
             var currentPage = UiUtils.LoadResource<GameObject>(path);
