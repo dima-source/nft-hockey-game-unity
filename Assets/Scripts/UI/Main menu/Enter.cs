@@ -6,6 +6,8 @@ namespace UI.Main_menu
 {
     public class Enter : MonoBehaviour
     {
+        public Transform IntroPopup;
+       
         private void Start()
         {
             RemoveChildren();
@@ -22,6 +24,17 @@ namespace UI.Main_menu
             
             var currentPage = UiUtils.LoadResource<GameObject>(path);
             Instantiate(currentPage, transform);
+            
+        }
+
+        public void StartIntro()
+        {
+            IntroPopup.gameObject.SetActive(true);
+        }
+
+        public void Close()
+        {
+            IntroPopup.gameObject.SetActive(false);
         }
 
         private void RemoveChildren()
